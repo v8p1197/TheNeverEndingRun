@@ -58,6 +58,7 @@ class HeroTest {
         var initialY = hero.getY();
 
         hero.getMoveState().onJump();
+        Assertions.assertTrue(hero.isJumping());
 
         while (true) {
             var previousY = hero.getY();
@@ -114,15 +115,19 @@ class HeroTest {
         var initialY = hero.getY();
 
         hero.getMoveState().onSlide();
+        Assertions.assertTrue(hero.isSliding());
 
-        while (true) {
+        while (hero.isSliding()) {
             hero.move();
 
-            if (!hero.isSliding()) break;
+            // if (!hero.isSliding()) break;
 
             assertEqualsDouble(initialX, hero.getX());
             assertEqualsDouble(initialY, hero.getY());
         }
+
+        assertEqualsDouble(initialX, hero.getX());
+        assertEqualsDouble(initialY, hero.getY());
     }
 
     @Test
@@ -156,12 +161,13 @@ class HeroTest {
 
     @Test
     void testStopJump() {
-        var initialX = hero.getX();
         var initialY = hero.getY();
+
+        // the hero can jump on an obstacle only on the descending branch of the parabola
         var stop = -(new Random().nextInt(hero.getJumpDuration()));
-        System.out.println(stop);
 
         hero.getMoveState().onJump();
+        Assertions.assertTrue(hero.isJumping());
 
         while (hero.isJumping()) {
             // Simulating the hero jumps on an obstacle
@@ -173,6 +179,26 @@ class HeroTest {
 
         Assertions.assertTrue(hero.getMoveState() instanceof IdleState);
         Assertions.assertNotEquals(initialY, hero.getY());
+    }
+
+    @Test
+    void testFall() {
+        var initialY = hero.getY();
+
+        // Simulating the hero is above the ground
+        hero.setY(2*initialY + 1);
+
+        // Simulating the hero starts falling
+        hero.getMoveState().onFall();
+        Assertions.assertTrue(hero.isFalling());
+
+        while (hero.isFalling()) {
+            Assertions.assertNotEquals(initialY, hero.getY());
+            hero.move();
+        }
+
+        Assertions.assertTrue(hero.getMoveState() instanceof IdleState);
+        Assertions.assertEquals(initialY, hero.getY());
     }
 
     private static class TestHero extends Hero {
