@@ -3,6 +3,8 @@ package it.unisa.theneverendingrun.models.hero;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.Random;
+
 class HeroTest {
 
     private Hero hero = new ForestHero(100, 100);
@@ -77,6 +79,35 @@ class HeroTest {
     }
 
     @Test
+    void testJumpLeft() {
+        var initialX = hero.getX();
+        var speed = new Random().nextInt(10);
+
+        hero.getFacingState().onLeft();
+        hero.setDx(speed);
+        hero.getMoveState().onJump();
+
+        while (hero.isJumping())
+            hero.move();
+
+        Assertions.assertEquals(initialX - hero.getMaxJumpRange()*speed - speed, hero.getX());
+    }
+
+    @Test
+    void testJumpRight() {
+        var initialX = hero.getX();
+        var speed = new Random().nextInt(10);
+
+        hero.setDx(speed);
+        hero.getMoveState().onJump();
+
+        while (hero.isJumping())
+            hero.move();
+
+        Assertions.assertEquals(initialX + hero.getMaxJumpRange()*speed + speed, hero.getX());
+    }
+
+    @Test
     void testSlide() {
         var initialX = hero.getX();
         var initialY = hero.getY();
@@ -91,5 +122,34 @@ class HeroTest {
             assertEqualsDouble(initialX, hero.getX());
             assertEqualsDouble(initialY, hero.getY());
         }
+    }
+
+    @Test
+    void testSlideLeft() {
+        var initialX = hero.getX();
+        var speed = new Random().nextInt(10);
+
+        hero.getFacingState().onLeft();
+        hero.setDx(speed);
+        hero.getMoveState().onSlide();
+
+        while (hero.isSliding())
+            hero.move();
+
+        Assertions.assertEquals(initialX - hero.getMaxSlideRange()*speed - speed, hero.getX());
+    }
+
+    @Test
+    void testSlideRight() {
+        var initialX = hero.getX();
+        var speed = new Random().nextInt(10);
+
+        hero.setDx(speed);
+        hero.getMoveState().onSlide();
+
+        while (hero.isSliding())
+            hero.move();
+
+        Assertions.assertEquals(initialX + hero.getMaxSlideRange()*speed + speed, hero.getX());
     }
 }

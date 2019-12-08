@@ -377,18 +377,22 @@ public abstract class Hero {
     }
 
     /**
-     * Computes how much the hero can move on the horizontal axis while he's jumping
+     * Computes how much the hero can move on the horizontal axis while he's jumping,
+     * supposing his horizontal velocity is 1
      *
      * @return the maximum number of pixels the hero can travel when he jumps while he's moving on the horizontal axis
+     * with a horizontal velocity value of 1
      */
     public double getMaxJumpRange() {
         return 2 * JUMP_DURATION + 1;
     }
 
     /**
-     * Computes how much the hero can move on the horizontal axis while he's sliding
+     * Computes how much the hero can move on the horizontal axis while he's sliding,
+     * supposing his horizontal velocity is 1
      *
      * @return the maximum number of pixels the hero can travel when he slides while he's moving on the horizontal axis
+     * with a horizontal velocity value of 1
      */
     public double getMaxSlideRange() {
         return SLIDE_DURATION;
