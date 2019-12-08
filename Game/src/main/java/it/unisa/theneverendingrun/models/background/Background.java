@@ -8,8 +8,15 @@ public class Background extends Sprite {
     private int originBackgroundWidth;
     private int originBackgroundHeight;
 
-    public Background(Texture texture, int srcWidth, int srcHeight) {
+    Background(Texture texture, int srcWidth, int srcHeight) {
         super(texture, srcWidth, srcHeight);
+        setOriginBackgroundWidth(texture.getWidth());
+        setOriginBackgroundHeight(texture.getHeight());
+    }
+
+    @Override
+    public void setTexture(Texture texture) {
+        super.setTexture(texture);
         setOriginBackgroundWidth(texture.getWidth());
         setOriginBackgroundHeight(texture.getHeight());
     }
@@ -18,7 +25,7 @@ public class Background extends Sprite {
         return originBackgroundWidth;
     }
 
-    public void setOriginBackgroundWidth(int originBackgroundWidth) {
+    private void setOriginBackgroundWidth(int originBackgroundWidth) {
         this.originBackgroundWidth = originBackgroundWidth;
     }
 
@@ -26,7 +33,7 @@ public class Background extends Sprite {
         return originBackgroundHeight;
     }
 
-    public void setOriginBackgroundHeight(int originBackgroundHeight) {
+    private void setOriginBackgroundHeight(int originBackgroundHeight) {
         this.originBackgroundHeight = originBackgroundHeight;
     }
 }
