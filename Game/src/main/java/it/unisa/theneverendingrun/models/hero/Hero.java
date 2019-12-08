@@ -46,7 +46,7 @@ public abstract class Hero {
     /**
      * The height of the hero
      */
-    private double standardHeight = 64;
+    private double standardHeight = 64; // fixme delete 64
 
     /**
      * A variable representing if the hero is jumping, sliding or none of them
@@ -83,7 +83,7 @@ public abstract class Hero {
         this.moveState = new IdleState(this);
         this.facingState = new RightState(this);
 
-        // TODO uncomment this line
+        // TODO uncomment this line when the image is computed
         // this.standardHeight = getHeight();
     }
 
@@ -374,5 +374,23 @@ public abstract class Hero {
      */
     double getJumpCoefficient() {
         return getJumpMaxElevation() / MathUtils.sumSquares(JUMP_DURATION);
+    }
+
+    /**
+     * Computes how much the hero can move on the horizontal axis while he's jumping
+     *
+     * @return the maximum number of pixels the hero can travel when he jumps while he's moving on the horizontal axis
+     */
+    public double getMaxJumpRange() {
+        return 2 * JUMP_DURATION + 1;
+    }
+
+    /**
+     * Computes how much the hero can move on the horizontal axis while he's sliding
+     *
+     * @return the maximum number of pixels the hero can travel when he slides while he's moving on the horizontal axis
+     */
+    public double getMaxSlideRange() {
+        return SLIDE_DURATION;
     }
 }
