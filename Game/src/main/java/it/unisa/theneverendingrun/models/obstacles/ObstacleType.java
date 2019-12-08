@@ -1,4 +1,4 @@
-package it.unisa.theneverendingrun.obstacle;
+package it.unisa.theneverendingrun.models.obstacles;
 
 public enum ObstacleType {
     Jumpable,

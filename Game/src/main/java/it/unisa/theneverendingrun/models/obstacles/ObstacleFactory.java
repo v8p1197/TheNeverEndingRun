@@ -1,4 +1,4 @@
-package it.unisa.theneverendingrun.obstacle;
+package it.unisa.theneverendingrun.models.obstacles;
 
 public class ObstacleFactory {
     private final int MAX_JUMP_HEIGHT;

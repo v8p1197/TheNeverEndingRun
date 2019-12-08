@@ -94,6 +94,12 @@ public class Sprite extends org.mini2Dx.core.graphics.Sprite {
         generateCollisionBox();
     }
 
+    @Override
+    public void setSize(float width, float height) {
+        super.setSize(width, height);
+        generateCollisionBox();
+    }
+
     /*private Rectangle collisionBoxRect;
 
      public boolean areColliding(CollisionBox b) { return collisionBox.intersects(b);}
