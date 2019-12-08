@@ -1,7 +1,13 @@
 package it.unisa.theneverendingrun.models.hero;
 
+/**
+ * In this state the hero is falling down
+ */
 public class FallState extends HeroMoveState {
 
+    /**
+     * A variable representing the fall step the hero actually is in
+     */
     private int gravity;
 
     /**
