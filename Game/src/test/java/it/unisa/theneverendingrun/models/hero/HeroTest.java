@@ -154,6 +154,27 @@ class HeroTest {
         Assertions.assertEquals(initialX + hero.getMaxSlideRange()*speed + speed, hero.getX());
     }
 
+    @Test
+    void testStopJump() {
+        var initialX = hero.getX();
+        var initialY = hero.getY();
+        var stop = -(new Random().nextInt(hero.getJumpDuration()));
+        System.out.println(stop);
+
+        hero.getMoveState().onJump();
+
+        while (hero.isJumping()) {
+            // Simulating the hero jumps on an obstacle
+            if (hero.getJumpCount() == stop)
+                hero.getMoveState().onIdle();
+
+            hero.move();
+        }
+
+        Assertions.assertTrue(hero.getMoveState() instanceof IdleState);
+        Assertions.assertNotEquals(initialY, hero.getY());
+    }
+
     private static class TestHero extends Hero {
 
         /**
