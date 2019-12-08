@@ -1,42 +1,60 @@
 package it.unisa.theneverendingrun.models.obstacles;
 
-import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.graphics.Texture;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-public class JumpableSlidableObstacle extends AbstractForestComponent {
+public class JumpableSlidableObstacle extends AbstractObstacle {
 
-    private final int MAX_JUMP_HEIGHT;
-    private final int MAX_SLIDE_DISTANCE;
-    private int width;
-    private int height;
-    private Rectangle rectBound;
+    private double maxJumpHeight;
 
-    public JumpableSlidableObstacle(int STANDARD_HEIGHT, int MAX_JUMP_HEIGHT, int MAX_SLIDE_DISTANCE, float posX, float posY) {
-        super(STANDARD_HEIGHT, posX, posY);
-        this.MAX_JUMP_HEIGHT = MAX_JUMP_HEIGHT;
-        this.MAX_SLIDE_DISTANCE = MAX_SLIDE_DISTANCE;
-        this.generateDimensions();
+    private double maxWidth;
+
+    private float maxSlideDistance;
+
+    public JumpableSlidableObstacle(Texture texture, int srcX, int srcY, double maxJumpHeight, double maxWidth, float maxSlideDistance) {
+        super(texture, srcX, srcY);
+        setMaxSlideDistance(maxSlideDistance);
+        setMaxJumpHeight(maxJumpHeight);
+        setMaxWidth(maxWidth);
+    }
+
+    private double getMaxJumpHeight() {
+        return maxJumpHeight;
+    }
+
+    private void setMaxJumpHeight(double maxJumpHeight) {
+        this.maxJumpHeight = maxJumpHeight;
+    }
+
+    private double getMaxWidth() {
+        return maxWidth;
+    }
+
+    private void setMaxWidth(double maxWidth) {
+        this.maxWidth = maxWidth;
+    }
+
+    private float getMaxSlideDistance() {
+        return maxSlideDistance;
+    }
+
+    private void setMaxSlideDistance(float maxSlideDistance) {
+        this.maxSlideDistance = maxSlideDistance;
     }
 
     @Override
     public void generateDimensions() {
-        int randomHeight = ThreadLocalRandom.current().nextInt(super.getSTANDARD_HEIGHT(), MAX_JUMP_HEIGHT + 1);
-        randomHeight = (randomHeight % super.getSTANDARD_HEIGHT()) * super.getSTANDARD_HEIGHT();
-        int randomDistance = ThreadLocalRandom.current().nextInt(super.getSTANDARD_HEIGHT(), MAX_SLIDE_DISTANCE + 1);
-        randomDistance = (randomDistance % super.getSTANDARD_HEIGHT()) * super.getSTANDARD_HEIGHT();
-        width = randomDistance;
-        height = randomHeight;
-    }
+        var maxGapHeight = getMaxJumpHeight() - 2 - getY();
+        var minGapHeight = maxGapHeight / 2;
 
-    @Override
-    public Rectangle getHitBox() {
-        rectBound = new Rectangle();
-        rectBound.setX((float) super.getComponentX());
-        rectBound.setY((float) super.getComponentY());
-        rectBound.height = (float) height;
-        rectBound.width = (float) width;
-        return rectBound;
+        var maxGapWidth = getMaxSlideDistance() - 2;
+        var minGapWidth = Math.min(getMaxWidth() / 2, (getMaxSlideDistance() / 2) - 2);
+
+        var randomHeight = (float) ThreadLocalRandom.current().nextDouble(minGapHeight, maxGapHeight);
+        var randomWidth = (float) ThreadLocalRandom.current().nextDouble(minGapWidth, maxGapWidth);
+
+        setSize(randomWidth, randomHeight);
     }
 
 
