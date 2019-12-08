@@ -3,7 +3,8 @@ package it.unisa.theneverendingrun.models.hero;
 import org.mini2Dx.core.graphics.Sprite;
 
 /**
- * The State representing if the hero is jumping, sliding or none of them: the states are called Idle, Jump, Slide.
+ * The State representing if the hero is jumping, sliding, falling or none of them:
+ * the states are called Idle, Jump, Slide and Fall.
  * Also is delegated to compute the sprite image
  */
 public abstract class HeroMoveState {
@@ -60,8 +61,6 @@ public abstract class HeroMoveState {
         } else if (hero.isLeft()) {
             moveLeft();
         }
-
-        if (!hero.isJumping() && hero.isAboveGround()) hero.changeMoveState(new FallState(hero));
     }
 
     /**
@@ -121,6 +120,11 @@ public abstract class HeroMoveState {
      * The reaction when the state tries to change to Slide
      */
     public abstract void onSlide();
+
+    /**
+     * The reaction when the state tries to change to Fall
+     */
+    public abstract void onFall();
 
     /**
      * Computes the proper sprite source path depending on the hero state

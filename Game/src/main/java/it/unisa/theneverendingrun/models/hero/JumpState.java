@@ -45,7 +45,7 @@ public class JumpState extends HeroMoveState {
     }
 
     /**
-     * The reaction when the state tries to change from Jump to Idle: the hero actually changes its state to Idle
+     * The reaction when the state tries to change from Jump to Idle: the hero does change its state to Idle
      */
     @Override
     public void onIdle() {
@@ -66,5 +66,13 @@ public class JumpState extends HeroMoveState {
     @Override
     public void onSlide() {
     }
+
+    /**
+     * The reaction when the state tries to change from Jump to Fall.
+     * Actually, the hero keeps jumping and doesn't change his state,
+     * because he has to fall only when the jump is completed but he's still above the ground
+     */
+    @Override
+    public void onFall() { }
 
 }
