@@ -46,7 +46,7 @@ public abstract class Hero {
     /**
      * The height of the hero
      */
-    private double standardHeight;
+    private double standardHeight = 64;
 
     /**
      * A variable representing if the hero is jumping, sliding or none of them
@@ -83,7 +83,8 @@ public abstract class Hero {
         this.moveState = new IdleState(this);
         this.facingState = new RightState(this);
 
-        this.standardHeight = getHeight();
+        // TODO uncomment this line
+        // this.standardHeight = getHeight();
     }
 
     /* ------------------------------------- GETTERS ------------------------------------- */
