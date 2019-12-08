@@ -7,7 +7,7 @@ import java.util.Random;
 
 class HeroTest {
 
-    private Hero hero = new ForestHero(100, 100);
+    private Hero hero = new TestHero(100, 100);
     private static final double delta = 1e-9;
 
     private static void assertEqualsDouble(double expected, double actual) {
@@ -151,5 +151,18 @@ class HeroTest {
             hero.move();
 
         Assertions.assertEquals(initialX + hero.getMaxSlideRange()*speed + speed, hero.getX());
+    }
+
+    private static class TestHero extends Hero {
+
+        /**
+         * Abstract Hero constructor. Sets its bottom-left coordinates and speed, while its horizontal velocity is set to 0
+         *
+         * @param x bottom-left x coordinate
+         * @param y bottom-left y coordinate
+         */
+        protected TestHero(double x, double y) {
+            super(x, y);
+        }
     }
 }
