@@ -26,9 +26,24 @@ public class JumpableObstacle extends AbstractObstacle {
      */
     public JumpableObstacle(Texture texture, int srcX, int srcY, double maxJumpHeight, double maxWidth) {
         super(texture, srcX, srcY);
+        setMaxJumpHeight(maxJumpHeight);
+        setMaxWidth(maxWidth);
+    }
+
+    public double getMaxJumpHeight() {
+        return maxJumpHeight;
+    }
+
+    public void setMaxJumpHeight(double maxJumpHeight) {
         this.maxJumpHeight = maxJumpHeight;
+    }
+
+    public double getMaxWidth() {
+        return maxWidth;
+    }
+
+    public void setMaxWidth(double maxWidth) {
         this.maxWidth = maxWidth;
-        generateDimensions();
     }
 
     /**
@@ -36,10 +51,10 @@ public class JumpableObstacle extends AbstractObstacle {
      */
     @Override
     public void generateDimensions() {
-        var maxGapHeight = maxJumpHeight - 2;
-        var minGapHeight = maxJumpHeight * 0.7;
-        var maxGapWidth = maxWidth - 1;
-        var minGapWidth = maxWidth / 2;
+        var maxGapHeight = getMaxJumpHeight() - 2;
+        var minGapHeight = getMaxJumpHeight() * 0.7;
+        var maxGapWidth = getMaxWidth() - 1;
+        var minGapWidth = getMaxWidth() / 2;
 
         var randomHeight = (float) ThreadLocalRandom.current().nextDouble(minGapHeight, maxGapHeight);
         var randomWidth = (float) ThreadLocalRandom.current().nextDouble(minGapWidth, maxGapWidth);
