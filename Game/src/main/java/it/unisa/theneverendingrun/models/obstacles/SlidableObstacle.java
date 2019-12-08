@@ -37,7 +37,7 @@ public class SlidableObstacle extends AbstractObstacle {
         var maxGap = getMaxSlideDistance() - 2;
         var minGap = (getMaxSlideDistance() / 2) - 2;
 
-        var dimension = (float)ThreadLocalRandom.current().nextDouble(maxGap - minGap);
+        var dimension = (float)ThreadLocalRandom.current().nextDouble(minGap, maxGap);
         setSize(dimension, getMaxJumpDistance());
     }
 
