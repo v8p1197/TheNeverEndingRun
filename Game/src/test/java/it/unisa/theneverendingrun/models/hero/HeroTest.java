@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 class HeroTest {
 
     private Hero hero = new ForestHero(100, 100);
-    private static final double delta = 1e-6;
+    private static final double delta = 1e-9;
 
     private static void assertEqualsDouble(double expected, double actual) {
         Assertions.assertEquals(expected, actual, delta);
@@ -59,10 +59,11 @@ class HeroTest {
 
         while (true) {
             var previousY = hero.getY();
-
             var i = hero.getJumpCount();
+
             hero.move();
             if (!hero.isJumping()) break;
+
             var up = i < 0 ? -1 : 1;
             var expectedY = previousY + (i*i) * hero.getJumpCoefficient() * up;
 
