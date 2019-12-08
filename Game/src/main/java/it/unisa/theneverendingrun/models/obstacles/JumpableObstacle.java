@@ -1,38 +1,31 @@
 package it.unisa.theneverendingrun.models.obstacles;
 
-import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.graphics.Texture;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-public class JumpableObstacle extends AbstractForestComponent {
+public class JumpableObstacle extends AbstractObstacle {
 
-    private final int MAX_JUMP_HEIGHT;
-    private int width;
-    private int height;
-    private Rectangle rectBound;
+    private double maxJumpHeight;
+    private double maxWidth;
 
-
-    public JumpableObstacle(int STANDARD_HEIGHT, int MAX_JUMP_HEIGHT, double posX, double posY) {
-        super(STANDARD_HEIGHT, posX, posY);
-        this.MAX_JUMP_HEIGHT = MAX_JUMP_HEIGHT;
-        this.generateDimensions();
+    public JumpableObstacle(Texture texture, int srcX, int srcY, double maxJumpHeight, double maxWidth) {
+        super(texture, srcX, srcY);
+        this.maxJumpHeight = maxJumpHeight;
+        this.maxWidth = maxWidth;
+        generateDimensions();
     }
 
     @Override
     public void generateDimensions() {
-        int randomHeight = ThreadLocalRandom.current().nextInt(super.getSTANDARD_HEIGHT(), MAX_JUMP_HEIGHT + 1);
-        randomHeight = (randomHeight % super.getSTANDARD_HEIGHT()) * super.getSTANDARD_HEIGHT();
-        width = super.getSTANDARD_HEIGHT();
-        height = randomHeight;
+        var maxGapHeight = maxJumpHeight - 2;
+        var minGapHeight = maxJumpHeight * 0.7;
+        var maxGapWidth = maxWidth - 1;
+        var minGapWidth = maxWidth / 2;
+
+        var randomHeight = (float) ThreadLocalRandom.current().nextDouble(minGapHeight, maxGapHeight);
+        var randomWidth = (float) ThreadLocalRandom.current().nextDouble(minGapWidth, maxGapWidth);
+        setSize(randomWidth, randomHeight);
     }
 
-    @Override
-    public Rectangle getHitBox() {
-        rectBound = new Rectangle();
-        rectBound.setX((float) super.getComponentX());
-        rectBound.setY((float) super.getComponentY());
-        rectBound.height = (float) height;
-        rectBound.width = (float) width;
-        return rectBound;
-    }
 }
