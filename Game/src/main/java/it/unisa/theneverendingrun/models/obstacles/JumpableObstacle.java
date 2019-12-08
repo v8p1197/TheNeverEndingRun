@@ -6,9 +6,24 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class JumpableObstacle extends AbstractObstacle {
 
+    /**
+     * Store the max jumpable height
+     */
     private double maxJumpHeight;
+
+    /**
+     * Store the max width (of the hero)
+     */
     private double maxWidth;
 
+    /**
+     * JumpableObstacle constructor. Set the texture, (x,y), max jumpable height, max width and generate the dimension.
+     *
+     * @param texture       texture of the object
+     * @param srcX          coordinate x
+     * @param srcY          coordinate y
+     * @param maxJumpHeight max jumpable height
+     */
     public JumpableObstacle(Texture texture, int srcX, int srcY, double maxJumpHeight, double maxWidth) {
         super(texture, srcX, srcY);
         this.maxJumpHeight = maxJumpHeight;
@@ -16,6 +31,9 @@ public class JumpableObstacle extends AbstractObstacle {
         generateDimensions();
     }
 
+    /**
+     * Generate randomly the dimension of the jumpable obstacles given min max gap
+     */
     @Override
     public void generateDimensions() {
         var maxGapHeight = maxJumpHeight - 2;
