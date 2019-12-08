@@ -74,6 +74,7 @@ class HeroTest {
             assertEqualsDouble(expectedY, hero.getY());
         }
 
+        Assertions.assertTrue(hero.getMoveState() instanceof IdleState);
         assertEqualsDouble(initialX, hero.getX());
         assertEqualsDouble(initialY, hero.getY());
     }

@@ -37,7 +37,6 @@ public abstract class HeroMoveState {
 
         // this.images = getSprites();
         this.spriteCount = 0;
-        this.fallCount = 0;
 
         // computeImage();
     }
@@ -62,10 +61,7 @@ public abstract class HeroMoveState {
             moveLeft();
         }
 
-        if (!hero.isJumping() && hero.isAboveGround()) {
-            hero.setY(hero.getY() - (fallCount * fallCount) * hero.getJumpCoefficient());
-            fallCount++;
-        }
+        if (!hero.isJumping() && hero.isAboveGround()) hero.changeMoveState(new FallState(hero));
     }
 
     /**

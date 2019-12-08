@@ -42,7 +42,7 @@ public class SlideState extends HeroMoveState {
     }
 
     /**
-     * The reaction when the state tries to change from Slide to Idle
+     * The reaction when the state tries to change from Slide to Idle: the hero actually changes its state to Idle
      */
     @Override
     public void onIdle() {
@@ -50,8 +50,7 @@ public class SlideState extends HeroMoveState {
     }
 
     /**
-     * The reaction when the state tries to change from Slide to Jump.
-     * The hero actually starts jumping, and his sliding variable is set to false
+     * The reaction when the state tries to change from Slide to Jump: the hero actually starts jumping
      */
     @Override
     public void onJump() {

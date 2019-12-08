@@ -34,17 +34,18 @@ public class JumpState extends HeroMoveState {
     private void jump() {
         int jumpCount = hero.getJumpCount();
 
-        if (jumpCount >= -hero.getJumpDuration() || hero.isAboveGround()) {
+        if (jumpCount >= -hero.getJumpDuration()) {
             int up = jumpCount < 0 ? -1 : 1;
             hero.setY(hero.getY() + (jumpCount * jumpCount) * hero.getJumpCoefficient() * up);
             hero.setJumpCount(jumpCount - 1);
         } else {
-            hero.changeMoveState(new IdleState(hero));
+            if (hero.isAboveGround()) hero.changeMoveState(new FallState(hero, Math.abs(jumpCount)));
+            else hero.changeMoveState(new IdleState(hero));
         }
     }
 
     /**
-     * The reaction when the state tries to change from Jump to Idle
+     * The reaction when the state tries to change from Jump to Idle: the hero actually changes its state to Idle
      */
     @Override
     public void onIdle() {
