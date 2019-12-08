@@ -7,12 +7,12 @@ import java.util.concurrent.ThreadLocalRandom;
 public class SlidableObstacle extends AbstractObstacle {
 
     private float maxSlideDistance;
-    private float maxJumpDistance;
+    private float maxJumpHeight;
 
     public SlidableObstacle(Texture texture, int srcX, int srcY, float maxSlideDistance, float maxJumpHeight) {
         super(texture, srcX, srcY);
         setMaxSlideDistance(maxSlideDistance);
-        setMaxJumpDistance(maxJumpHeight);
+        setMaxJumpHeight(maxJumpHeight);
     }
 
     public float getMaxSlideDistance() {
@@ -23,12 +23,12 @@ public class SlidableObstacle extends AbstractObstacle {
         this.maxSlideDistance = maxSlideDistance;
     }
 
-    public float getMaxJumpDistance() {
-        return maxJumpDistance;
+    public float getMaxJumpHeight() {
+        return maxJumpHeight;
     }
 
-    public void setMaxJumpDistance(float maxJumpDistance) {
-        this.maxJumpDistance = maxJumpDistance;
+    public void setMaxJumpHeight(float maxJumpHeight) {
+        this.maxJumpHeight = maxJumpHeight;
     }
 
     @Override
@@ -37,7 +37,7 @@ public class SlidableObstacle extends AbstractObstacle {
         var minGap = (getMaxSlideDistance() / 2) - 2;
 
         var dimension = (float)ThreadLocalRandom.current().nextDouble(minGap, maxGap);
-        setSize(dimension, getMaxJumpDistance());
+        setSize(dimension, getMaxJumpHeight());
     }
 
 }
