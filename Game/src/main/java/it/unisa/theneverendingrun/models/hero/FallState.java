@@ -39,10 +39,9 @@ public class FallState extends HeroMoveState {
      * Performs a fall step, updating the hero bottom-left y coordinate according to a parabola-like formula
      */
     private void fall() {
-        if (!hero.isAboveGround()) {
-            hero.setY(hero.getY() - (gravity * gravity) * hero.getJumpCoefficient());
-            gravity++;
-        } else hero.changeMoveState(new IdleState(hero));
+        hero.setY(Math.max(hero.getGroundY(), hero.getY() - (gravity * gravity) * hero.getJumpCoefficient()));
+        gravity++;
+        if (!hero.isAboveGround()) hero.changeMoveState(new IdleState(hero));
     }
 
     /**

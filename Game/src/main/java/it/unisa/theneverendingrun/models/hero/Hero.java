@@ -103,7 +103,7 @@ public abstract class Hero {
      *
      * @return the hero bottom-left original y coordinate
      */
-    private double getGroundY() {
+    double getGroundY() {
         return groundY;
     }
 
@@ -208,6 +208,14 @@ public abstract class Hero {
     public boolean isSliding() {
         return this.getMoveState() instanceof SlideState;
     }
+
+    /**
+     * falling getter
+     *
+     * @return true if the hero is falling, false otherwise
+     */
+    public boolean isFalling() { return this.getMoveState() instanceof FallState; }
+
 
     /**
      * jumpCount getter
