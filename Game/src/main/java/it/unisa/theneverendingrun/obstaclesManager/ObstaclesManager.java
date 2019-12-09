@@ -112,6 +112,15 @@ public class ObstaclesManager {
         return null;
     }
 
+    /**
+     * This method will fix the position of the given obstacle. This will take into account the dimensions of the
+     * obstacles, allowing to vary the position, keeping it avoidable by the user. If the position was already fixed,
+     * it will change randomly, but always in a range that allows to avoid it.
+     * The position on the x axis is always at the rightmost edge, while on the y-axis depends on the dimension of the
+     * obstacle and on the parameters passed to the constructor.
+     *
+     * @param obstacle the obstacle which needs the position fixed
+     */
     void setPosition(AbstractObstacle obstacle) {
         int yPosition;
         if (obstacle instanceof JumpableObstacle) {
@@ -128,12 +137,17 @@ public class ObstaclesManager {
         obstacle.setPosition(Gdx.graphics.getWidth(), yPosition);
     }
 
+    /**
+     * This method will remove from memory the obstacles which are not visible anymore.
+     */
     public void clearOldObstacles() {
         if (obstacles.isEmpty())
             return;
         for (AbstractObstacle obs : obstacles) {
-            if (!obs.isXAxisVisible()) {//fixme: is this method available in the Sprite class?
+            if (!obs.isXAxisVisible()) {//fixme: how to remove from the view too?
                 obstacles.remove(obs);
+            } else {
+                break;
             }
         }
     }
