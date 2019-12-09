@@ -1,4 +1,4 @@
-package it.unisa.theneverendingrun.models.services;
+package it.unisa.theneverendingrun.services;
 
 import it.unisa.theneverendingrun.models.background.AbstractScrollingBackground;
 
