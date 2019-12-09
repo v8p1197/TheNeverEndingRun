@@ -71,12 +71,4 @@ public class SlideState extends HeroMoveState {
     public void onFall() {
         hero.changeMoveState(new FallState(hero));
     }
-
-    /**
-     * Computes the proper sprite source path depending on the current hero horizontal velocity
-     *
-     * @return the sprite source path
-     */
-    @Override
-    protected String getSpritePath() { return "sprites/hero/hero_slide.png";}
 }

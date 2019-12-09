@@ -1,7 +1,5 @@
 package it.unisa.theneverendingrun.models.hero;
 
-
-import it.unisa.theneverendingrun.models.SpriteHandler;
 import org.mini2Dx.core.graphics.Sprite;
 
 /**
@@ -22,10 +20,9 @@ public abstract class HeroMoveState {
     private int fallCount;
 
     /**
-     * The Animator array (need to compute this as a circular queue)
+     * The sprite circular array representing the animation. Each time the hero moves, the next image is chosen
      */
-    private Sprite[] sprites;
-
+    // private Sprite[] images;
     /**
      * The sprite circular array pointer. It it reaches the end of the array, it starts from the beginning
      */
@@ -39,10 +36,10 @@ public abstract class HeroMoveState {
     public HeroMoveState(Hero hero) {
         this.hero = hero;
 
+        // this.images = getSprites();
         this.spriteCount = 0;
-        this.sprites = SpriteHandler.getSprites(getSpritePath(), 51);
 
-        computeImage();
+        // computeImage();
     }
 
     /**
@@ -50,7 +47,7 @@ public abstract class HeroMoveState {
      */
     public void move() {
         updateCoordinates();
-        computeImage();
+        // computeImage();
     }
 
     /**
@@ -84,29 +81,29 @@ public abstract class HeroMoveState {
      * Updates the hero sprite image, iterating on the images circular array.
      * If the hero is facing left, it flips the image horizontally
      */
-
+    /*
     private void computeImage() {
-        Sprite image = sprites[spriteCount];
-        spriteCount = (spriteCount + 1) % sprites.length;
+        Sprite image = images[spriteCount];
+        spriteCount = (spriteCount + 1) % images.length;
 
         if (hero.isLeft()) {
             image = flipImage(image);
         }
 
-        hero.setSprite(image);
+        hero.setImage(image);
     }
-
+     */
 
     /**
-     * Flips a sprite horizontally
+     * Flips an image horizontally
      *
-     * @return a new sprite flipped on x axe
+     * @param image the image to flip
+     * @return a new Sprite that contains the flipped image
      */
     private Sprite flipImage(Sprite image) {
-        System.out.println("flipping");
-        var flipped = new org.mini2Dx.core.graphics.Sprite(image);
-        flipped.flip(true, false);
-        return flipped;
+        Sprite sprite = new Sprite(image);
+        sprite.flip(true, false);
+        return sprite;
     }
 
     /**
@@ -130,12 +127,9 @@ public abstract class HeroMoveState {
     public abstract void onFall();
 
     /**
-     * Computes the proper sprite source path depending on the current hero horizontal velocity
+     * Computes the proper sprite source path depending on the hero state
      *
      * @return the sprite source path
      */
-    protected abstract String getSpritePath();
-
-    public int getSpriteCount(){ return spriteCount;}
+    // protected abstract Sprite[] getSprites();
 }
-

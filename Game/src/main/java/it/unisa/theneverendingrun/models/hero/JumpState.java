@@ -75,11 +75,4 @@ public class JumpState extends HeroMoveState {
     @Override
     public void onFall() { }
 
-    /**
-     * Computes the proper sprite source path depending on the current hero horizontal velocity
-     *
-     * @return the sprite source path
-     */
-    @Override
-    protected String getSpritePath() { return "sprites/hero/hero_jump.png";}
 }

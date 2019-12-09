@@ -45,20 +45,4 @@ public class IdleState extends HeroMoveState {
     public void onFall() {
         hero.changeMoveState(new FallState(hero));
     }
-
-    /**
-     * Computes the proper sprite source path depending on the current hero horizontal velocity
-     *
-     * @return the sprite source path
-     */
-    @Override
-    protected String getSpritePath() {
-        String spritePath;
-        if (hero.isRunning()) {
-            spritePath = "sprites/hero/hero_run.png";
-        } else {
-            spritePath = "sprites/hero/hero_stand.png";
-        }
-        return spritePath;
-    }
 }
