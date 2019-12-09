@@ -101,7 +101,7 @@ public class Sprite extends org.mini2Dx.core.graphics.Sprite {
     @Override
     public void setPosition(float x, float y) {
         super.setPosition(x, y);
-        generateCollisionBox();
+        collisionBox.set(x, y);
     }
 
     /**
@@ -112,7 +112,7 @@ public class Sprite extends org.mini2Dx.core.graphics.Sprite {
     @Override
     public void setX(float x) {
         super.setX(x);
-        generateCollisionBox();
+        collisionBox.set(x, getY());
     }
 
     /**
@@ -123,7 +123,7 @@ public class Sprite extends org.mini2Dx.core.graphics.Sprite {
     @Override
     public void setY(float y) {
         super.setY(y);
-        generateCollisionBox();
+        collisionBox.set(getX(), y);
     }
 
     /*private Rectangle collisionBoxRect;
