@@ -1,9 +1,9 @@
 package it.unisa.theneverendingrun.models.hero;
 
+import it.unisa.theneverendingrun.models.Component;
 import it.unisa.theneverendingrun.utilities.MathUtils;
-import org.mini2Dx.core.graphics.Sprite;
 
-public abstract class Hero {
+public abstract class Hero extends Component {
 
     /**
      * The number of steps the hero takes to jump
@@ -26,23 +26,10 @@ public abstract class Hero {
     private double groundY;
 
     /**
-     * Bottom-left x coordinate
-     */
-    private double x;
-    /**
-     * Bottom-left y coordinate
-     */
-    private double y;
-
-    /**
      * The current speed the hero is moving
      */
     private double dx;
 
-    /**
-     * The hero sprite image
-     */
-    private Sprite image;
     /**
      * The height of the hero
      */
@@ -74,10 +61,9 @@ public abstract class Hero {
      * @param y     bottom-left y coordinate
      */
     protected Hero(double x, double y) {
+        super(x, y);
         this.groundX = x;
         this.groundY = y;
-        this.x = x;
-        this.y = y;
         this.dx = 0;
 
         this.moveState = new IdleState(this);
@@ -117,57 +103,12 @@ public abstract class Hero {
     }
 
     /**
-     * x getter
-     *
-     * @return the hero bottom-left x coordinate
-     */
-    public double getX() {
-        return this.x;
-    }
-
-    /**
-     * y getter
-     *
-     * @return the hero bottom-left y coordinate
-     */
-    public double getY() {
-        return this.y;
-    }
-
-    /**
-     * width getter
-     *
-     * @return the width of the image
-     */
-    public int getWidth() {
-        return (int) image.getWidth();
-    }
-
-    /**
-     * height getter
-     *
-     * @return the height of the image
-     */
-    public int getHeight() {
-        return (int) image.getHeight();
-    }
-
-    /**
      * dx getter
      *
      * @return the hero horizontal velocity
      */
     public double getDx() {
         return this.dx;
-    }
-
-    /**
-     * image getter
-     *
-     * @return the hero sprite image
-     */
-    public Sprite getImage() {
-        return this.image;
     }
 
     /**
@@ -285,39 +226,12 @@ public abstract class Hero {
     /* ------------------------------------- SETTERS ------------------------------------- */
 
     /**
-     * x setter
-     *
-     * @param x the x bottom-left coordinate to set
-     */
-    void setX(double x) {
-        this.x = x;
-    }
-
-    /**
-     * y setter
-     *
-     * @param y the y bottom-left coordinate to set
-     */
-    void setY(double y) {
-        this.y = y;
-    }
-
-    /**
      * dx setter
      *
      * @param dx the horizontal velocity value to set
      */
     public void setDx(double dx) {
         this.dx = dx;
-    }
-
-    /**
-     * image setter
-     *
-     * @param image the sprite image to set
-     */
-    public void setImage(Sprite image) {
-        this.image = image;
     }
 
     /**
