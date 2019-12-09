@@ -51,11 +51,12 @@ public class ObstaclesManager {
      */
     public AbstractObstacle getObstacle() {
         ObstacleType newObstacleType = getAppropriateObstacleType();
-        AbstractObstacle newObstacle = obstacleFactory.getObstacle(newObstacleType, 0, 0);
-        if (newObstacle != null) {
-            setPosition(newObstacle);
-            obstacles.add(newObstacle);
+        if (newObstacleType == null) {
+            return null;
         }
+        AbstractObstacle newObstacle = obstacleFactory.getObstacle(newObstacleType, 0, 0);
+        setPosition(newObstacle);
+        obstacles.add(newObstacle);
         return newObstacle;
     }
 
@@ -64,6 +65,7 @@ public class ObstaclesManager {
      * For example, if the last obstacle was a slidable one, we cannot put another right after it,
      * otherwise the player might not be able to pass.
      * Please, note that this method randomly decides to add or not an obstacle, even if it can added.
+     *
      * @return The type of obstacle that can be added, null if none. //fixme maybe raise an exception?
      */
     ObstacleType getAppropriateObstacleType() {
