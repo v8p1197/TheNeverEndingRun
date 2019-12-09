@@ -1,38 +1,31 @@
 package it.unisa.theneverendingrun.models.obstacles;
 
-public class ObstacleFactory {
-    private final int MAX_JUMP_HEIGHT;
-    private final int MAX_SLIDE_DISTANCE;
-    private final int STANDARD_HEIGHT;
-    private float posX;
-    private float posY;
-    private ObstacleType t;
+import com.badlogic.gdx.graphics.Texture;
 
-    public ObstacleFactory(int max_jump_height, int max_slide_distance, int standard_height) {
-        MAX_JUMP_HEIGHT = max_jump_height;
-        MAX_SLIDE_DISTANCE = max_slide_distance;
-        STANDARD_HEIGHT = standard_height;
-        this.t = null;
+public class ObstacleFactory {
+
+    private final float MAX_JUMP_HEIGHT;
+    private final float MAX_SLIDE_DISTANCE;
+    private final float MAX_WIDTH;
+
+    public ObstacleFactory(float maxJumpHeight, float maxSlideDistance, float maxWidth) {
+        MAX_JUMP_HEIGHT = maxJumpHeight;
+        MAX_SLIDE_DISTANCE = maxSlideDistance;
+        MAX_WIDTH = maxWidth;
     }
 
-    public AbstractForestComponent getObstacle(ObstacleType type) throws TypeNotPresentException {
+    public AbstractObstacle getObstacle(ObstacleType type, int srcX, int srcY) throws TypeNotPresentException {
+        Texture texture = null;
+        //todo assign a texture based on the type and dimension
         switch (type) {
             case Jumpable:
-                this.t = ObstacleType.Jumpable;
-                return new JumpableObstacle(STANDARD_HEIGHT, MAX_JUMP_HEIGHT, posX, posY);
+                return new JumpableObstacle(texture, srcX, srcY, MAX_JUMP_HEIGHT, MAX_WIDTH);
             case Slidable:
-                this.t = ObstacleType.Slidable;
-                return new SlidableObstacle(STANDARD_HEIGHT, MAX_SLIDE_DISTANCE, posX, posY);
+                return new SlidableObstacle(texture, srcX, srcY, MAX_SLIDE_DISTANCE, MAX_JUMP_HEIGHT);
             case JumpableSlidable:
-                this.t = ObstacleType.JumpableSlidable;
-                return new JumpableSlidableObstacle(STANDARD_HEIGHT, MAX_JUMP_HEIGHT, MAX_SLIDE_DISTANCE, posX, posY);
+                return new JumpableSlidableObstacle(texture, srcX, srcY, MAX_JUMP_HEIGHT, MAX_WIDTH, MAX_SLIDE_DISTANCE);
+            default:
+                throw new IllegalArgumentException("The obstacle type requested is not correct");
         }
-        throw new IllegalArgumentException("The obstacle type requested is not correct");
     }
-
-    public ObstacleType getType() {
-        return t;
-    }
-
-
 }

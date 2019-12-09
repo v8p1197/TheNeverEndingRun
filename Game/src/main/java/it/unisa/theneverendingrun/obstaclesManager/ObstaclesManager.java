@@ -32,12 +32,12 @@ public class ObstaclesManager {
     /**
      * Private constructor. Only one obstacle manager must be present at a given time.
      */
-    public ObstaclesManager(float maxJumpingHeight, float standingHeight, float slidingHeight, float standingWidth) {
+    public ObstaclesManager(float maxJumpingHeight, float standingHeight, float maxSlidingDistance, float slidingHeight, float standingWidth) {
         this.maxJumpingHeight = maxJumpingHeight;
         this.standingHeight = standingHeight;
         this.slidingHeight = slidingHeight;
         this.standingWidth = standingWidth;
-        //obstacleFactory = new ObstacleFactory(maxJumpingHeight,slidingDistance,0);//fixme
+        obstacleFactory = new ObstacleFactory(maxJumpingHeight, maxSlidingDistance, standingWidth * 5);//fixme
     }
 
     /**
@@ -51,7 +51,7 @@ public class ObstaclesManager {
      */
     public AbstractObstacle getObstacle() {
         ObstacleType newObstacleType = getAppropriateObstacleType();
-        AbstractObstacle newObstacle = obstacleFactory.getObstacle(newObstacleType);
+        AbstractObstacle newObstacle = obstacleFactory.getObstacle(newObstacleType, 0, 0);
         if (newObstacle != null) {
             setPosition(newObstacle);
             obstacles.add(newObstacle);
@@ -59,14 +59,14 @@ public class ObstaclesManager {
         return newObstacle;
     }
 
-    /***
+    /**
      * This method is used to get the right type of obstacle that can be added to the path, following the conditions.
      * For example, if the last obstacle was a slidable one, we cannot put another right after it,
      * otherwise the player might not be able to pass.
      * Please, note that this method randomly decides to add or not an obstacle, even if it can added.
      * @return The type of obstacle that can be added, null if none. //fixme maybe raise an exception?
      */
-    public ObstacleType getAppropriateObstacleType() {
+    ObstacleType getAppropriateObstacleType() {
         //If there isn't any obstacle on the screen, add one at random
         if (obstacles.isEmpty()) {
             int random = ThreadLocalRandom.current().nextInt(ObstacleType.values().length);
@@ -112,17 +112,19 @@ public class ObstaclesManager {
         return null;
     }
 
-    public void setPosition(AbstractObstacle obstacle) {
+    void setPosition(AbstractObstacle obstacle) {
         int yPosition;
         if (obstacle instanceof JumpableObstacle) {
-            yPosition = ThreadLocalRandom.current().nextInt(OFFSET, (int) (maxJumpingHeight - obstacle.getHeight()) + OFFSET);
+            yPosition = ThreadLocalRandom.current().nextInt(0, (int) (maxJumpingHeight - obstacle.getHeight()));
         } else if (obstacle instanceof SlidableObstacle) {
-            yPosition = ThreadLocalRandom.current().nextInt(OFFSET + (int) (slidingHeight / 2), OFFSET + (int) standingHeight);
+            yPosition = ThreadLocalRandom.current().nextInt((int) slidingHeight + 1, (int) standingHeight + 1);
         } else if (obstacle instanceof JumpableSlidableObstacle) {
-            yPosition = ThreadLocalRandom.current().nextInt(OFFSET, (int) maxJumpingHeight + OFFSET);
+            yPosition = ThreadLocalRandom.current().nextInt((int) (slidingHeight) + 1, (int) (maxJumpingHeight - obstacle.getWidth()));
         } else {
             yPosition = 0;
         }
+        // Accounting for the lower part of the background
+        yPosition += OFFSET;
         obstacle.setPosition(Gdx.graphics.getWidth(), yPosition);
     }
 
@@ -130,7 +132,7 @@ public class ObstaclesManager {
         if (obstacles.isEmpty())
             return;
         for (AbstractObstacle obs : obstacles) {
-            if (!obs.isVisible()) {//fixme: is this method available in the Sprite class?
+            if (!obs.isXAxisVisible()) {//fixme: is this method available in the Sprite class?
                 obstacles.remove(obs);
             }
         }
