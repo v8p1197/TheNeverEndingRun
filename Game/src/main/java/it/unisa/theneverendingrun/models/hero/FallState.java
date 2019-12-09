@@ -39,7 +39,8 @@ public class FallState extends HeroMoveState {
      * Performs a fall step, updating the hero bottom-left y coordinate according to a parabola-like formula
      */
     private void fall() {
-        hero.setY(Math.max(hero.getGroundY(), hero.getY() - (gravity * gravity) * hero.getJumpCoefficient()));
+        var newY = (float) Math.max(hero.getGroundY(), hero.getY() - (gravity * gravity) * hero.getJumpCoefficient());
+        hero.setY(newY);
         gravity++;
         if (!hero.isAboveGround()) hero.changeMoveState(new IdleState(hero));
     }
@@ -71,4 +72,5 @@ public class FallState extends HeroMoveState {
       */
     @Override
     public void onFall() { }
+
 }

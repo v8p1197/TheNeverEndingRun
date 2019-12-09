@@ -16,8 +16,8 @@ public class ForestFactory implements RunFactory {
     }
 
     private Hero setHero() {
-        var baseX = 0.2 * Gdx.graphics.getWidth();
-        var baseY = 0.0625 * Gdx.graphics.getHeight();
+        float baseX = 0.2f * Gdx.graphics.getWidth();
+        float baseY = 0.0625f * Gdx.graphics.getHeight();
         hero = new ForestHero(baseX, baseY);
 
         return hero;

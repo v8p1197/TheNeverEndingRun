@@ -1,9 +1,10 @@
 package it.unisa.theneverendingrun.models.hero;
 
-import it.unisa.theneverendingrun.models.Component;
+import com.badlogic.gdx.graphics.Texture;
+import it.unisa.theneverendingrun.models.Sprite;
 import it.unisa.theneverendingrun.utilities.MathUtils;
 
-public abstract class Hero extends Component {
+public abstract class Hero extends Sprite {
 
     /**
      * The number of steps the hero takes to jump
@@ -18,22 +19,22 @@ public abstract class Hero extends Component {
     /**
      * Bottom-left original x coordinate, i.e. where the hero appears when it's created
      */
-    private double groundX;
+    private float groundX;
 
     /**
      * Bottom-left original y coordinate, i.e. where the hero appears when it's created
      */
-    private double groundY;
+    private float groundY;
 
     /**
      * The current speed the hero is moving
      */
-    private double dx;
+    private float dx;
 
     /**
      * The height of the hero
      */
-    private double standardHeight = 64; // fixme delete 64
+    private float standardHeight;
 
     /**
      * A variable representing if the hero is jumping, sliding or none of them
@@ -60,8 +61,10 @@ public abstract class Hero extends Component {
      * @param x     bottom-left x coordinate
      * @param y     bottom-left y coordinate
      */
-    protected Hero(double x, double y) {
-        super(x, y);
+    protected Hero(Texture texture, float x, float y) {
+        super(texture);
+        setX(x);
+        setY(y);
         this.groundX = x;
         this.groundY = y;
         this.dx = 0;
@@ -69,8 +72,7 @@ public abstract class Hero extends Component {
         this.moveState = new IdleState(this);
         this.facingState = new RightState(this);
 
-        // TODO uncomment this line when the image is computed
-        // this.standardHeight = getHeight();
+        this.standardHeight = getHeight();
     }
 
     /* ------------------------------------- GETTERS ------------------------------------- */
@@ -80,7 +82,7 @@ public abstract class Hero extends Component {
      *
      * @return the hero bottom-left original x coordinate
      */
-    public double getGroundX() {
+    public float getGroundX() {
         return groundX;
     }
 
@@ -89,7 +91,7 @@ public abstract class Hero extends Component {
      *
      * @return the hero bottom-left original y coordinate
      */
-    double getGroundY() {
+    float getGroundY() {
         return groundY;
     }
 
@@ -99,7 +101,7 @@ public abstract class Hero extends Component {
      * @return true if the hero is above the ground, false otherwise
      */
     boolean isAboveGround() {
-        return getY() > getGroundY();
+        return getY() - getGroundY() > MathUtils.DELTA;
     }
 
     /**
@@ -107,7 +109,7 @@ public abstract class Hero extends Component {
      *
      * @return the hero horizontal velocity
      */
-    public double getDx() {
+    public float getDx() {
         return this.dx;
     }
 
@@ -230,7 +232,7 @@ public abstract class Hero extends Component {
      *
      * @param dx the horizontal velocity value to set
      */
-    public void setDx(double dx) {
+    public void setDx(float dx) {
         this.dx = dx;
     }
 

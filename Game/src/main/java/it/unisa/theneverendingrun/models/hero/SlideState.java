@@ -71,4 +71,5 @@ public class SlideState extends HeroMoveState {
     public void onFall() {
         hero.changeMoveState(new FallState(hero));
     }
+
 }

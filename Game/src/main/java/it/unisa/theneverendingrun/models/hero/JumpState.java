@@ -36,7 +36,8 @@ public class JumpState extends HeroMoveState {
 
         if (jumpCount >= -hero.getJumpDuration()) {
             int up = jumpCount < 0 ? -1 : 1;
-            hero.setY(hero.getY() + (jumpCount * jumpCount) * hero.getJumpCoefficient() * up);
+            var newY = (float) (hero.getY() + (jumpCount * jumpCount) * hero.getJumpCoefficient() * up);
+            hero.setY(newY);
             hero.setJumpCount(jumpCount - 1);
         } else {
             if (hero.isAboveGround()) hero.changeMoveState(new FallState(hero, Math.abs(jumpCount)));
