@@ -1,43 +1,30 @@
 package it.unisa.theneverendingrun;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.Texture;
 import it.unisa.theneverendingrun.factory.ForestFactory;
 import it.unisa.theneverendingrun.factory.RunFactory;
 import it.unisa.theneverendingrun.models.hero.Hero;
 import org.mini2Dx.core.game.BasicGame;
 import org.mini2Dx.core.graphics.Graphics;
+import org.mini2Dx.core.graphics.Sprite;
 
 
 public class GameEngine extends BasicGame {
 
-	public static final String GAME_IDENTIFIER = "it.unisa.theneverendingrun";
-	private static final int PG_VELOCITY = 3;
-    private SpriteBatch spriteBatch;
-	private RunFactory factory;
-	private Hero hero;
-	private int changeFrame;
+    public static final String GAME_IDENTIFIER = "it.unisa.theneverendingrun";
+    private HandlingInput input;
+
+    private Hero hero;
+
 
     @Override
     public void initialise() {
-        spriteBatch = new SpriteBatch();
-        factory = new ForestFactory();
-        hero = factory.createHero();
-        changeFrame = 0;
+        input = new HandlingInput();
     }
 
     @Override
     public void update(float delta) {
-        if(changeFrame == PG_VELOCITY) {
-            hero.move();
-            changeFrame = 0;
-        }
-
-        if (hero.isLeft())
-            System.out.println("left");
-        if (hero.isRight())
-            System.out.println("right");
-        changeFrame++;
-        System.out.println(changeFrame);
+        input.getKeyWASD(hero);
     }
 
     @Override
@@ -46,12 +33,5 @@ public class GameEngine extends BasicGame {
 
     @Override
     public void render(Graphics g) {
-        spriteBatch.begin();
-        drawHero();
-        spriteBatch.end();
-    }
-
-    private void drawHero() {
-        hero.getSprite().draw(spriteBatch);
     }
 }
