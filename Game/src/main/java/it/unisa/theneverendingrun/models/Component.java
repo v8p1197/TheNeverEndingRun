@@ -1,10 +1,8 @@
 package it.unisa.theneverendingrun.models;
 
-import org.mini2Dx.core.graphics.Sprite;
-
 public abstract class Component {
 
-    private org.mini2Dx.core.graphics.Sprite sprite;
+    private Sprite sprite;
 
     private double x;
     private double y;
@@ -17,7 +15,7 @@ public abstract class Component {
         this.y = y;
     }
 
-    public org.mini2Dx.core.graphics.Sprite getSprite() {
+    public Sprite getSprite() {
         return sprite;
     }
 
