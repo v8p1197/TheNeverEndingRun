@@ -33,8 +33,8 @@ public class GameEngine extends BasicGame {
     }
 
     private void initObstacle() {
-        obstacle = new Sprite(new Texture("images/pape.png"), 64 * 2, 64);
-        obstacle.setPosition(hero.getGroundX() * 2, hero.getGroundY() * 2);
+        obstacle = new Sprite(new Texture("images/pape.png"), 64 * 5, 64);
+        obstacle.setPosition(hero.getGroundX() * 2, hero.getGroundY() * 3);
     }
 
     @Override

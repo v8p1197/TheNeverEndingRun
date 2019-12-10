@@ -16,26 +16,32 @@ public class CollisionManager {
     public static void checkCollision(Hero hero, CollisionBox obstacle) {
         var heroCollisionBox = hero.getCollisionBox();
 
-        var collision = collisionSide(hero, obstacle);
+        if (heroCollisionBox.intersects(obstacle)) {
+            var collision = collisionSide(hero, obstacle);
 
-        if (collision == right) {
-            hero.setX(obstacle.getX() + obstacle.getWidth());
-        } else if (collision == left) {
-            hero.setX(obstacle.getX() - hero.getWidth());
-        } else if (collision == bottom) {
-            wasOnObstacle = true;
-            hero.getMoveState().onIdle();
-            hero.setY(obstacle.getY() + obstacle.getHeight());
-        } else if (collision == top) {
+            if (collision == right) {
+                hero.setX(obstacle.getX() + obstacle.getWidth());
+            } else if (collision == left) {
+                hero.setX(obstacle.getX() - hero.getWidth());
+            } else if (collision == bottom) {
+                wasOnObstacle = true;
+                hero.getMoveState().onIdle();
+                hero.setY(obstacle.getY() + obstacle.getHeight());
+            } else if (collision == top) {
+                hero.getMoveState().onFall();
+            }
         } else {
-            if (wasOnObstacle)
+            if (wasOnObstacle && !hero.isJumping())
                 hero.getMoveState().onFall();
             wasOnObstacle = false;
         }
 
+        System.out.println(wasOnObstacle);
+
+
     }
 
-    public static int collisionSide(Hero hero, CollisionBox obstacle) {
+    private static int collisionSide(Hero hero, CollisionBox obstacle) {
 
         var heroCollisionBox = hero.getCollisionBox();
 
@@ -49,16 +55,14 @@ public class CollisionManager {
         int greatest = -1;
 
         for (int i = 0; i < boxes.length; i++) {
-            if (obstacle.intersects(boxes[i])) {
-                var intersection = obstacle.intersection(boxes[i]);
+            var intersection = obstacle.intersection(boxes[i]);
 
-                var rectangle = new Rectangle(intersection.getX(), intersection.getY(), intersection.getWidth(), intersection.getHeight());
+            var rectangle = new Rectangle(intersection.getX(), intersection.getY(), intersection.getWidth(), intersection.getHeight());
 
-                var area = rectangle.area();
-                if (area > greatestArea) {
-                    greatestArea = area;
-                    greatest = i;
-                }
+            var area = rectangle.area();
+            if (area > greatestArea) {
+                greatestArea = area;
+                greatest = i;
             }
         }
 
