@@ -9,7 +9,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class ObstaclesManager {
 
     private static final int OFFSET = 60;//(int) (0.0625 * Gdx.graphics.getHeight());
-    private static final float MULTIPLIER = 3;
+    static final float MULTIPLIER = 3;
 
     /**
      * Values which are needed to set the correct position of the new obstacle.

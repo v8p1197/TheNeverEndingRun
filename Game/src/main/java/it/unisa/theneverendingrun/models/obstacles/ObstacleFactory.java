@@ -7,6 +7,7 @@ public class ObstacleFactory {
     private final float MAX_JUMP_HEIGHT;
     private final float MAX_SLIDE_DISTANCE;
     private final float MAX_WIDTH;
+    Texture texture = new Texture("images/test.png");
 
     public ObstacleFactory(float maxJumpHeight, float maxSlideDistance, float maxWidth) {
         MAX_JUMP_HEIGHT = maxJumpHeight;
@@ -15,7 +16,6 @@ public class ObstacleFactory {
     }
 
     public AbstractObstacle getObstacle(ObstacleType type, int srcX, int srcY) throws TypeNotPresentException {
-        Texture texture = new Texture("images/test.png");
         //todo assign a texture based on the type and dimension
         switch (type) {
             case Jumpable:
