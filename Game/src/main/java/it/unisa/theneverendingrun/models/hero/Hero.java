@@ -91,7 +91,7 @@ public abstract class Hero extends Sprite {
      *
      * @return the hero bottom-left original y coordinate
      */
-    float getGroundY() {
+    public float getGroundY() {
         return groundY;
     }
 
