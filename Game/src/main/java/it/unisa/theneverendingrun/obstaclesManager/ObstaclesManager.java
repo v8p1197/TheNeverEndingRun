@@ -1,7 +1,6 @@
 package it.unisa.theneverendingrun.obstaclesManager;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import it.unisa.theneverendingrun.models.obstacles.*;
 
 import java.util.LinkedList;
@@ -11,7 +10,7 @@ public class ObstaclesManager {
 
     //TODO: Togliere
     static final int OFFSET = (int) (0.0625 * Gdx.graphics.getHeight());
-    static final float MULTIPLIER = 3;
+    static final float MULTIPLIER = 2;
 
     /**
      * Values which are needed to set the correct position of the new obstacle.
@@ -136,12 +135,15 @@ public class ObstaclesManager {
             yPosition = ThreadLocalRandom.current().nextInt(0, (int) (maxJumpingHeight - obstacle.getHeight()));
         } else if (obstacle instanceof SlidableObstacle) {
             yPosition = ThreadLocalRandom.current().nextInt((int) slidingHeight + 1, (int) standingHeight - 1);
-            if (!obstacles.isEmpty() && obstacles.getLast() instanceof JumpableObstacle &&
-                    (obstacles.getLast().getX() + obstacles.getLast().getWidth()) >= Gdx.graphics.getWidth() - 1) {
-                yPosition += obstacles.getLast().getHeight() + obstacles.getLast().getY();
+            if (!obstacles.isEmpty()) {
+                AbstractObstacle lastObstacle = obstacles.getLast();
+                if (lastObstacle instanceof JumpableObstacle && lastObstacle.getX() + lastObstacle.getWidth() >= Gdx.graphics.getWidth() - 1) {
+                    yPosition += lastObstacle.getHeight() + lastObstacle.getY();
+                }
             }
+            yPosition += slidingHeight;
         } else if (obstacle instanceof JumpableSlidableObstacle) {
-            yPosition = ThreadLocalRandom.current().nextInt((int) slidingHeight, (int) slidingHeight + (int) (maxJumpingHeight - obstacle.getWidth()));
+            yPosition = ThreadLocalRandom.current().nextInt((int) slidingHeight + 1, (int) slidingHeight + (int) (maxJumpingHeight - obstacle.getWidth()));
         } else {
 
         }
@@ -153,7 +155,7 @@ public class ObstaclesManager {
     /**
      * This method will remove from memory the obstacles which are not visible anymore.
      */
-    public void clearOldObstacles() {
+    public synchronized void clearOldObstacles() {
         if (obstacles.isEmpty())
             return;
         for (AbstractObstacle obs : obstacles) {
@@ -169,11 +171,10 @@ public class ObstaclesManager {
         return obstacles;
     }
 
-    public void update(SpriteBatch spriteBatch) {
+    public void update() {
         for (AbstractObstacle obs : obstacles
         ) {
-            obs.setX(obs.getX() - 2);
-            spriteBatch.draw(obs, obs.getX(), obs.getY(), obs.getWidth(), obs.getHeight());
+            obs.setX(obs.getX() - 4);
         }
     }
 }
