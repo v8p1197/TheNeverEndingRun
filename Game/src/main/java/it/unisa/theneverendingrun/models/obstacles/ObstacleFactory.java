@@ -15,7 +15,7 @@ public class ObstacleFactory {
     }
 
     public AbstractObstacle getObstacle(ObstacleType type, int srcX, int srcY) throws TypeNotPresentException {
-        Texture texture = null;
+        Texture texture = new Texture("images/test.png");
         //todo assign a texture based on the type and dimension
         switch (type) {
             case Jumpable:

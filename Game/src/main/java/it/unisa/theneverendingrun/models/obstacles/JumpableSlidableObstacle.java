@@ -17,6 +17,7 @@ public class JumpableSlidableObstacle extends AbstractObstacle {
         setMaxSlideDistance(maxSlideDistance);
         setMaxJumpHeight(maxJumpHeight);
         setMaxWidth(maxWidth);
+        generateDimensions();
     }
 
     private double getMaxJumpHeight() {
@@ -45,8 +46,10 @@ public class JumpableSlidableObstacle extends AbstractObstacle {
 
     @Override
     public void generateDimensions() {
-        var maxGapHeight = getMaxJumpHeight() - 2 - getY();
+        var maxGapHeight = getMaxJumpHeight();
         var minGapHeight = maxGapHeight / 2;
+
+        System.out.println(maxGapHeight);
 
         var maxGapWidth = getMaxSlideDistance() - 2;
         var minGapWidth = Math.min(getMaxWidth() / 2, (getMaxSlideDistance() / 2) - 2);

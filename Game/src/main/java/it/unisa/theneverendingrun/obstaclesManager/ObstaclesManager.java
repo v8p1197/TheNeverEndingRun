@@ -8,7 +8,8 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class ObstaclesManager {
 
-    private static final int OFFSET = (int) (0.0625 * Gdx.graphics.getHeight());
+    private static final int OFFSET = 60;//(int) (0.0625 * Gdx.graphics.getHeight());
+    private static final float MULTIPLIER = 3;
 
     /**
      * Values which are needed to set the correct position of the new obstacle.
@@ -37,7 +38,7 @@ public class ObstaclesManager {
         this.standingHeight = standingHeight;
         this.slidingHeight = slidingHeight;
         this.standingWidth = standingWidth;
-        obstacleFactory = new ObstacleFactory(maxJumpingHeight, maxSlidingDistance, standingWidth * 5);//fixme
+        obstacleFactory = new ObstacleFactory(maxJumpingHeight, maxSlidingDistance, standingWidth * MULTIPLIER);//fixme
     }
 
     /**
@@ -49,7 +50,7 @@ public class ObstaclesManager {
      * @return A new AbstractObstacle, with the correct position, null if the obstacle cannot be generated
      * //fixme, maybe let the user fix the position?
      */
-    public AbstractObstacle getObstacle() {
+    public AbstractObstacle getNewAppropriateObstacle() {
         ObstacleType newObstacleType = getAppropriateObstacleType();
         if (newObstacleType == null) {
             return null;
@@ -100,12 +101,12 @@ public class ObstaclesManager {
         }
 
         //If the space is not sufficient for the hero to pass, wait.
-        if (distance > 0 && distance < standingWidth * 2) {//fixme tune the distance
+        if (distance < standingWidth * MULTIPLIER) {//fixme tune the distance
             return null;
         }
 
         // If the obstacle is distant enough, it is possible to add every type of obstacle
-        if (distance >= standingWidth * 5) {//fixme tune the probability and the distance
+        if (distance >= standingWidth * MULTIPLIER) {//fixme tune the probability and the distance
             if (ThreadLocalRandom.current().nextInt() % 50 == 0) {
                 int random = ThreadLocalRandom.current().nextInt(0, ObstacleType.values().length);
                 return ObstacleType.values()[random];
@@ -128,7 +129,7 @@ public class ObstaclesManager {
         if (obstacle instanceof JumpableObstacle) {
             yPosition = ThreadLocalRandom.current().nextInt(0, (int) (maxJumpingHeight - obstacle.getHeight()));
         } else if (obstacle instanceof SlidableObstacle) {
-            yPosition = ThreadLocalRandom.current().nextInt((int) slidingHeight + 1, (int) standingHeight + 1);
+            yPosition = ThreadLocalRandom.current().nextInt((int) slidingHeight + 1, (int) standingHeight - 1);
         } else if (obstacle instanceof JumpableSlidableObstacle) {
             yPosition = ThreadLocalRandom.current().nextInt((int) (slidingHeight) + 1, (int) (maxJumpingHeight - obstacle.getWidth()));
         } else {
@@ -152,5 +153,9 @@ public class ObstaclesManager {
                 break;
             }
         }
+    }
+
+    public LinkedList<AbstractObstacle> getObstacles() {
+        return obstacles;
     }
 }

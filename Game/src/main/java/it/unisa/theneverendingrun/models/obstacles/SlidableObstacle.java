@@ -13,6 +13,7 @@ public class SlidableObstacle extends AbstractObstacle {
         super(texture, srcX, srcY);
         setMaxSlideDistance(maxSlideDistance);
         setMaxJumpHeight(maxJumpHeight);
+        generateDimensions();
     }
 
     public float getMaxSlideDistance() {

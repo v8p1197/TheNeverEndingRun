@@ -28,6 +28,7 @@ public class JumpableObstacle extends AbstractObstacle {
         super(texture, srcX, srcY);
         setMaxJumpHeight(maxJumpHeight);
         setMaxWidth(maxWidth);
+        generateDimensions();
     }
 
     public double getMaxJumpHeight() {

@@ -11,7 +11,6 @@ public abstract class AbstractObstacle extends Sprite {
         super(texture);
         setX(srcX);
         setY(srcY);
-        generateDimensions();
         isDimensionGenerated = true;
     }
 
