@@ -1,44 +1,45 @@
 package it.unisa.theneverendingrun;
 
 import com.badlogic.gdx.math.Rectangle;
+import it.unisa.theneverendingrun.models.Sprite;
 import it.unisa.theneverendingrun.models.hero.Hero;
 import org.mini2Dx.core.engine.geom.CollisionBox;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class CollisionManager {
 
     /**
      * A boolean variable true when the hero is on on obstacle in the previous move step
      */
-    private static boolean wasOnObstacle = false;
+    private static Map<Sprite, Boolean> wasOnObstacle = new HashMap<>();
 
     public static int left = 2, top = 3, right = 0, bottom = 1;
 
-    public static void checkCollision(Hero hero, CollisionBox obstacle) {
+    public static void checkCollision(Hero hero, Sprite obstacle) {
+        var obstacleCollisionBox = obstacle.getCollisionBox();
         var heroCollisionBox = hero.getCollisionBox();
 
-        if (heroCollisionBox.intersects(obstacle)) {
-            var collision = collisionSide(hero, obstacle);
+        if (heroCollisionBox.intersects(obstacleCollisionBox)) {
+            var collision = collisionSide(hero, obstacleCollisionBox);
 
             if (collision == right) {
                 hero.setX(obstacle.getX() + obstacle.getWidth());
             } else if (collision == left) {
                 hero.setX(obstacle.getX() - hero.getWidth());
             } else if (collision == bottom) {
-                wasOnObstacle = true;
+                wasOnObstacle.put(obstacle, true);
                 hero.getMoveState().onIdle();
                 hero.setY(obstacle.getY() + obstacle.getHeight());
             } else if (collision == top) {
                 hero.getMoveState().onFall();
             }
         } else {
-            if (wasOnObstacle && !hero.isJumping())
+            if (!wasOnObstacle.containsKey(obstacle) || wasOnObstacle.get(obstacle) && !hero.isJumping())
                 hero.getMoveState().onFall();
-            wasOnObstacle = false;
+            wasOnObstacle.put(obstacle, false);
         }
-
-        System.out.println(wasOnObstacle);
-
-
     }
 
     private static int collisionSide(Hero hero, CollisionBox obstacle) {

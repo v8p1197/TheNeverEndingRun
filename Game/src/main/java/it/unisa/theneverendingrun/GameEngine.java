@@ -18,7 +18,7 @@ public class GameEngine extends BasicGame {
     private RunFactory runFactory;
     private Hero hero;
 
-    private Sprite obstacle;
+    private Sprite[] obstacles;
 
 
     @Override
@@ -28,13 +28,18 @@ public class GameEngine extends BasicGame {
         hero = runFactory.createHero();
         input = new HandlingInput();
 
-        initObstacle();
+        initObstacles();
 
     }
 
-    private void initObstacle() {
-        obstacle = new Sprite(new Texture("images/pape.png"), 64 * 5, 64);
-        obstacle.setPosition(hero.getGroundX() * 2, hero.getGroundY() * 3);
+    private void initObstacles() {
+        obstacles = new Sprite[2];
+
+        obstacles[0] = new Sprite(new Texture("images/pape.png"), 64 * 5, 64);
+        obstacles[0].setPosition(hero.getGroundX() * 2, hero.getGroundY() * 3);
+
+        obstacles[1] = new Sprite(new Texture("images/cane.png"), 64 * 3, 64);
+        obstacles[1].setPosition(hero.getGroundX() * 4, hero.getGroundY() * 2);
     }
 
     @Override
@@ -43,7 +48,8 @@ public class GameEngine extends BasicGame {
 
         hero.move();
 
-        CollisionManager.checkCollision(hero, obstacle.getCollisionBox());
+        for (Sprite obstacle : obstacles)
+            CollisionManager.checkCollision(hero, obstacle);
     }
 
     @Override
@@ -54,12 +60,13 @@ public class GameEngine extends BasicGame {
     public void render(Graphics g) {
         spriteBatch.begin();
         drawHero();
-        drawObstacle();
+        drawObstacles();
         spriteBatch.end();
     }
 
-    private void drawObstacle() {
-        obstacle.draw(spriteBatch);
+    private void drawObstacles() {
+        for (Sprite obstacle : obstacles)
+            obstacle.draw(spriteBatch);
     }
 
     private void drawHero() {
