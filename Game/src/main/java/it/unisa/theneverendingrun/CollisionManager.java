@@ -30,7 +30,8 @@ public class CollisionManager {
                 hero.setX(obstacle.getX() - hero.getWidth());
             } else if (collision == bottom) {
                 wasOnObstacle.put(obstacle, true);
-                hero.getMoveState().onIdle();
+                if (hero.isJumping() || hero.isFalling())
+                    hero.getMoveState().onIdle();
                 hero.setY(obstacle.getY() + obstacle.getHeight());
             } else if (collision == top) {
                 hero.getMoveState().onFall();
