@@ -1,6 +1,7 @@
 package it.unisa.theneverendingrun.obstaclesManager;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import it.unisa.theneverendingrun.models.obstacles.*;
 
 import java.util.LinkedList;
@@ -8,7 +9,8 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class ObstaclesManager {
 
-    private static final int OFFSET = 60;//(int) (0.0625 * Gdx.graphics.getHeight());
+    //TODO: Togliere
+    static final int OFFSET = (int) (0.0625 * Gdx.graphics.getHeight());
     static final float MULTIPLIER = 3;
 
     /**
@@ -28,7 +30,7 @@ public class ObstaclesManager {
      * List with all the obstacles actually present on the screen. The linked list keeps the order of insertion,
      * so only the first element is checked to be actually visible.
      */
-    private static LinkedList<AbstractObstacle> obstacles = new LinkedList<AbstractObstacle>();
+    private LinkedList<AbstractObstacle> obstacles;
 
     /**
      * Private constructor. Only one obstacle manager must be present at a given time.
@@ -38,6 +40,7 @@ public class ObstaclesManager {
         this.standingHeight = standingHeight;
         this.slidingHeight = slidingHeight;
         this.standingWidth = standingWidth;
+        this.obstacles = new LinkedList<AbstractObstacle>();
         obstacleFactory = new ObstacleFactory(maxJumpingHeight, maxSlidingDistance, standingWidth * MULTIPLIER);//fixme
     }
 
@@ -79,7 +82,7 @@ public class ObstaclesManager {
         // Calculate the distance from the last obstacle. This distance is defined as the distance from the right
         // side of an obstacle to the left side of the view.
         AbstractObstacle lastObstacle = obstacles.getLast();
-        double distance = Gdx.graphics.getWidth() - lastObstacle.getX() - lastObstacle.getWidth();
+        int distance = (int) (Gdx.graphics.getWidth() - lastObstacle.getX() - lastObstacle.getWidth());
 
         // If distance is less than zero, the obstacle is still not completely visible, so wait
         if (distance < 0)
@@ -88,9 +91,12 @@ public class ObstaclesManager {
         // If distance is zero, then we could add a jumpable obstacle, but only if the previous was of this type
         if (distance == 0) {
             if (lastObstacle instanceof JumpableObstacle) {
-                if (ThreadLocalRandom.current().nextBoolean()) { //fixme tune the probability
+                //fixme tune the probability
+                if (ThreadLocalRandom.current().nextBoolean())
+                    return ObstacleType.Slidable;
+                if (ThreadLocalRandom.current().nextBoolean())
                     return ObstacleType.Jumpable;
-                }
+
             }
             if (lastObstacle instanceof JumpableSlidableObstacle) {
                 return null;
@@ -107,7 +113,7 @@ public class ObstaclesManager {
 
         // If the obstacle is distant enough, it is possible to add every type of obstacle
         if (distance >= standingWidth * MULTIPLIER) {//fixme tune the probability and the distance
-            if (ThreadLocalRandom.current().nextInt() % 50 == 0) {
+            if (ThreadLocalRandom.current().nextInt() % 70 == 0) {
                 int random = ThreadLocalRandom.current().nextInt(0, ObstacleType.values().length);
                 return ObstacleType.values()[random];
             }
@@ -125,15 +131,19 @@ public class ObstaclesManager {
      * @param obstacle the obstacle which needs the position fixed
      */
     void setPosition(AbstractObstacle obstacle) {
-        int yPosition;
+        int yPosition = 0;
         if (obstacle instanceof JumpableObstacle) {
             yPosition = ThreadLocalRandom.current().nextInt(0, (int) (maxJumpingHeight - obstacle.getHeight()));
         } else if (obstacle instanceof SlidableObstacle) {
             yPosition = ThreadLocalRandom.current().nextInt((int) slidingHeight + 1, (int) standingHeight - 1);
+            if (!obstacles.isEmpty() && obstacles.getLast() instanceof JumpableObstacle &&
+                    (obstacles.getLast().getX() + obstacles.getLast().getWidth()) >= Gdx.graphics.getWidth() - 1) {
+                yPosition += obstacles.getLast().getHeight() + obstacles.getLast().getY();
+            }
         } else if (obstacle instanceof JumpableSlidableObstacle) {
-            yPosition = ThreadLocalRandom.current().nextInt((int) (slidingHeight) + 1, (int) (maxJumpingHeight - obstacle.getWidth()));
+            yPosition = ThreadLocalRandom.current().nextInt((int) slidingHeight, (int) slidingHeight + (int) (maxJumpingHeight - obstacle.getWidth()));
         } else {
-            yPosition = 0;
+
         }
         // Accounting for the lower part of the background
         yPosition += OFFSET;
@@ -157,5 +167,13 @@ public class ObstaclesManager {
 
     public LinkedList<AbstractObstacle> getObstacles() {
         return obstacles;
+    }
+
+    public void update(SpriteBatch spriteBatch) {
+        for (AbstractObstacle obs : obstacles
+        ) {
+            obs.setX(obs.getX() - 2);
+            spriteBatch.draw(obs, obs.getX(), obs.getY(), obs.getWidth(), obs.getHeight());
+        }
     }
 }
