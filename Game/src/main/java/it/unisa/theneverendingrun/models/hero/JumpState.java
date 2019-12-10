@@ -40,8 +40,10 @@ public class JumpState extends HeroMoveState {
             hero.setY(newY);
             hero.setJumpCount(jumpCount - 1);
         } else {
-            if (hero.isAboveGround()) hero.changeMoveState(new FallState(hero, Math.abs(jumpCount)));
-            else hero.changeMoveState(new IdleState(hero));
+            if (hero.isAboveGround())
+                hero.changeMoveState(new FallState(hero, Math.abs(jumpCount)));
+            else
+                hero.changeMoveState(new IdleState(hero));
         }
     }
 
@@ -70,10 +72,11 @@ public class JumpState extends HeroMoveState {
 
     /**
      * The reaction when the state tries to change from Jump to Fall.
-     * Actually, the hero keeps jumping and doesn't change his state,
-     * because he has to fall only when the jump is completed but he's still above the ground
+     * Actually, the hero does start falling.
      */
     @Override
-    public void onFall() { }
+    public void onFall() {
+        hero.changeMoveState(new FallState(hero));
+    }
 
 }

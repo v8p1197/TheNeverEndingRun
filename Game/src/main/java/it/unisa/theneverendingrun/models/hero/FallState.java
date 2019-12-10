@@ -16,7 +16,7 @@ public class FallState extends HeroMoveState {
      * @param hero the hero which move state is held
      */
     public FallState(Hero hero) {
-        this(hero, 0);
+        this(hero, 1);
     }
 
     public FallState(Hero hero, int gravity) {
