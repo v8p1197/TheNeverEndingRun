@@ -100,6 +100,10 @@ public class Sprite extends org.mini2Dx.core.graphics.Sprite {
         generateCollisionBox();
     }
 
+    public boolean isXAxisVisible() {
+        return true;
+    }
+
     /*private Rectangle collisionBoxRect;
 
      public boolean areColliding(CollisionBox b) { return collisionBox.intersects(b);}

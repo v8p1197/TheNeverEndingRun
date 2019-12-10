@@ -1,5 +1,6 @@
 package it.unisa.theneverendingrun.models.obstacles;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 
 import java.util.concurrent.ThreadLocalRandom;
@@ -38,7 +39,7 @@ public class SlidableObstacle extends AbstractObstacle {
         var minGap = (getMaxSlideDistance() / 2) - 2;
 
         var dimension = (float)ThreadLocalRandom.current().nextDouble(minGap, maxGap);
-        setSize(dimension, getMaxJumpHeight());
+        setSize(dimension, Gdx.graphics.getHeight());
     }
 
 }
