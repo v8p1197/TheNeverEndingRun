@@ -72,4 +72,8 @@ public class SlideState extends HeroMoveState {
         hero.changeMoveState(new FallState(hero));
     }
 
+    @Override
+    public String toString() {
+        return "sliding " + hero.getFacingState().toString();
+    }
 }

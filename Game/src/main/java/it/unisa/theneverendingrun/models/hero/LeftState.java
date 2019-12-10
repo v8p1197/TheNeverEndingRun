@@ -29,4 +29,9 @@ public class LeftState extends HeroFacingState {
     public void onRight() {
         hero.changeFacingState(new RightState(hero));
     }
+
+    @Override
+    public String toString() {
+        return "left";
+    }
 }

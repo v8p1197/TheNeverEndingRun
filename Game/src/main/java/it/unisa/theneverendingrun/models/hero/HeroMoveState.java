@@ -76,5 +76,7 @@ public abstract class HeroMoveState {
      */
     public abstract void onFall();
 
+    public abstract String toString();
+
 }
 

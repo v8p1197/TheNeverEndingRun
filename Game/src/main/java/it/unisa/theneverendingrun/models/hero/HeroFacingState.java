@@ -28,4 +28,6 @@ public abstract class HeroFacingState {
      * The reaction when the state tries to change to Right
      */
     public abstract void onRight();
+
+    public abstract String toString();
 }

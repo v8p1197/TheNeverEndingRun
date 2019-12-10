@@ -45,4 +45,9 @@ public class IdleState extends HeroMoveState {
     public void onFall() {
         hero.changeMoveState(new FallState(hero));
     }
+
+    @Override
+    public String toString() {
+        return (hero.isRunning() ? "running " : "standing ");
+    }
 }

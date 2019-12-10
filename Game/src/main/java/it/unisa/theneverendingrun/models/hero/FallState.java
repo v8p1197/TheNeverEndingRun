@@ -65,12 +65,18 @@ public class FallState extends HeroMoveState {
      * Actually, the hero keeps falling and doesn't change his state
      */
     @Override
-    public void onSlide() { }
+    public void onSlide() {
+    }
 
     /**
      * The reaction when the state tries to change from Fall to Fall: the reaction is null
-      */
+     */
     @Override
-    public void onFall() { }
+    public void onFall() {
+    }
 
+    @Override
+    public String toString() {
+        return "falling " + hero.getFacingState().toString();
+    }
 }

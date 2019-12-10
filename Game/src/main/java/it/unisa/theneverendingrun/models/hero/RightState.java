@@ -29,4 +29,9 @@ public class RightState extends HeroFacingState {
     @Override
     public void onRight() {
     }
+
+    @Override
+    public String toString() {
+        return "right";
+    }
 }

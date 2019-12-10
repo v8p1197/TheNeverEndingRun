@@ -79,4 +79,8 @@ public class JumpState extends HeroMoveState {
         hero.changeMoveState(new FallState(hero));
     }
 
+    @Override
+    public String toString() {
+        return "jumping " + hero.getFacingState().toString();
+    }
 }
