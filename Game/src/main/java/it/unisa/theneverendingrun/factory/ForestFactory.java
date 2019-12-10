@@ -19,7 +19,7 @@ public class ForestFactory implements RunFactory {
         float baseX = 0.2f * Gdx.graphics.getWidth();
         float baseY = 0.0625f * Gdx.graphics.getHeight();
         hero = new ForestHero(baseX, baseY);
-
+        hero.flip(false, true);
         return hero;
     }
 
