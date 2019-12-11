@@ -36,7 +36,8 @@ public class GameEngine extends BasicGame {
     private float slidingHeight = standingHeight / 2;
     private float standingWidth = (float) OFFSET_MEASURE / 2;
     private float maxSlidingDistance = maxJumpingHeight;
-    ObstaclesManager obstaclesManager;
+    private ObstaclesManager obstaclesManager;
+    private AbstractObstacle newObstacle;
 
     Sprite sprite;
 
@@ -45,25 +46,14 @@ public class GameEngine extends BasicGame {
         spriteBatch = new SpriteBatch();
         runFactory = new it.unisa.theneverendingrun.factory.ForestFactory();
         hero = runFactory.createHero();
-        obstaclesManager = new ObstaclesManager((float) hero.getJumpMaxElevation(), hero.getHeight(), (float) hero.getMaxSlideRange(), hero.getHeight() / 2, hero.getWidth());
+        obstaclesManager = new ObstaclesManager((float) hero.getJumpMaxElevation() * 0.8f, hero.getHeight() * 0.8f, (float) hero.getMaxSlideRange(), hero.getHeight() / 2, hero.getWidth());
+        obstacles = new LinkedList<>();
         input = new HandlingInput();
         var factory = new ForestFactory();
         background = factory.createBackground();
-
-        obstacles = new LinkedList<AbstractObstacle>();
-
+        CollisionManager.clear();
     }
 
-    private void initObstacles() {
-        /*
-        obstacles = new Sprite[2];
-
-        obstacles[0] = new Sprite(new Texture("images/pape.png"), 64 * 5, 64);
-        obstacles[0].setPosition(hero.getGroundX() * 2, hero.getGroundY() * 3);
-
-        obstacles[1] = new Sprite(new Texture("images/pape.png"), 64 * 3, 64);
-        obstacles[1].setPosition(hero.getGroundX() * 4, hero.getGroundY() * 2);*/
-    }
 
     @Override
     public void update(float delta) {
@@ -77,6 +67,11 @@ public class GameEngine extends BasicGame {
 
         hero.move();
 
+        newObstacle = obstaclesManager.generateNewObstacle();
+        if (newObstacle != null)
+            obstacles.add(newObstacle);
+        obstaclesManager.clearOldObstacles(obstacles);
+
         for (Sprite obstacle : obstacles)
             CollisionManager.checkCollision(hero, obstacle);
     }
@@ -87,10 +82,6 @@ public class GameEngine extends BasicGame {
 
     @Override
     public void render(Graphics g) {
-        obstacle = obstaclesManager.getNewAppropriateObstacle();
-        if (obstacle != null)
-            obstacles.add(obstacle);
-        obstaclesManager.updateObstaclesPosition(obstacles);
         spriteBatch.begin();
         spriteBatch.draw(background, 0, 0);
         drawHero();
@@ -99,14 +90,12 @@ public class GameEngine extends BasicGame {
     }
 
     private void drawObstacles() {
-        Sprite toRemove = null;
+        if (obstacles.isEmpty()) {
+            return;
+        }
         for (Sprite obstacle : obstacles)
             if (obstacle.isXAxisVisible())
                 obstacle.draw(spriteBatch);
-            else {
-                toRemove = obstacle;
-            }
-        obstacles.remove(toRemove);
 
     }
 
