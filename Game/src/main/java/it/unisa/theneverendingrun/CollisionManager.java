@@ -25,15 +25,19 @@ public class CollisionManager {
             var collision = collisionSide(hero, obstacleCollisionBox);
 
             if (collision == right) {
+                System.out.println("right");
                 hero.setX(obstacle.getX() + obstacle.getWidth());
             } else if (collision == left) {
+                System.out.println("left");
                 hero.setX(obstacle.getX() - hero.getWidth());
             } else if (collision == bottom) {
+                System.out.println("bottom");
                 wasOnObstacle.put(obstacle, true);
                 if (hero.isJumping() || hero.isFalling())
                     hero.getMoveState().onIdle();
                 hero.setY(obstacle.getY() + obstacle.getHeight());
             } else if (collision == top) {
+                System.out.println("top");
                 hero.getMoveState().onFall();
             }
         } else {

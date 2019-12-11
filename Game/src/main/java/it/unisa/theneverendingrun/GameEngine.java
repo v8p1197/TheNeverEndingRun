@@ -2,13 +2,13 @@ package it.unisa.theneverendingrun;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import it.unisa.theneverendingrun.factory.RunFactory;
 import it.unisa.theneverendingrun.models.Sprite;
 import it.unisa.theneverendingrun.models.background.AbstractScrollingBackground;
 import it.unisa.theneverendingrun.models.hero.Hero;
 import it.unisa.theneverendingrun.models.obstacles.AbstractObstacle;
 import it.unisa.theneverendingrun.obstaclesManager.ObstaclesManager;
 import it.unisa.theneverendingrun.services.ForestFactory;
+import it.unisa.theneverendingrun.services.GameFactory;
 import org.mini2Dx.core.game.BasicGame;
 import org.mini2Dx.core.graphics.Graphics;
 
@@ -20,7 +20,7 @@ public class GameEngine extends BasicGame {
     static final String GAME_IDENTIFIER = "it.unisa.theneverendingrun";
     private HandlingInput input;
     private SpriteBatch spriteBatch;
-    private RunFactory runFactory;
+    private GameFactory gameFactory;
     private Hero hero;
     private AbstractScrollingBackground background;
 
@@ -33,36 +33,19 @@ public class GameEngine extends BasicGame {
     //random distances
     private float maxJumpingHeight = OFFSET_MEASURE * 3;
     private float standingHeight = OFFSET_MEASURE;
-    private float slidingHeight = standingHeight / 2;
-    private float standingWidth = (float) OFFSET_MEASURE / 2;
-    private float maxSlidingDistance = maxJumpingHeight;
     ObstaclesManager obstaclesManager;
 
-    Sprite sprite;
 
     @Override
     public void initialise() {
         spriteBatch = new SpriteBatch();
-        runFactory = new it.unisa.theneverendingrun.factory.ForestFactory();
-        hero = runFactory.createHero();
+        gameFactory = new ForestFactory();
+        background = gameFactory.createBackground();
+        hero = gameFactory.createHero();
         obstaclesManager = new ObstaclesManager((float) hero.getJumpMaxElevation(), hero.getHeight(), (float) hero.getMaxSlideRange(), hero.getHeight() / 2, hero.getWidth());
         input = new HandlingInput();
-        var factory = new ForestFactory();
-        background = factory.createBackground();
 
         obstacles = new LinkedList<AbstractObstacle>();
-
-    }
-
-    private void initObstacles() {
-        /*
-        obstacles = new Sprite[2];
-
-        obstacles[0] = new Sprite(new Texture("images/pape.png"), 64 * 5, 64);
-        obstacles[0].setPosition(hero.getGroundX() * 2, hero.getGroundY() * 3);
-
-        obstacles[1] = new Sprite(new Texture("images/pape.png"), 64 * 3, 64);
-        obstacles[1].setPosition(hero.getGroundX() * 4, hero.getGroundY() * 2);*/
     }
 
     @Override
