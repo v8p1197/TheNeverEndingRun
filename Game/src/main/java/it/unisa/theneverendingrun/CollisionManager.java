@@ -24,6 +24,8 @@ public class CollisionManager {
         if (heroCollisionBox.intersects(obstacleCollisionBox)) {
             var collision = collisionSide(hero, obstacleCollisionBox);
 
+            var intersection = heroCollisionBox.intersection(obstacleCollisionBox);
+
             if (collision == right) {
                 hero.setX(obstacle.getX() + obstacle.getWidth());
             } else if (collision == left) {
@@ -34,13 +36,17 @@ public class CollisionManager {
                     hero.getMoveState().onIdle();
                 hero.setY(obstacle.getY() + obstacle.getHeight());
             } else if (collision == top) {
-                hero.setY(obstacle.getY() - hero.getHeight());
+                hero.setY(hero.getY() - intersection.getHeight());
                 hero.getMoveState().onFall();
             }
         } else {
-            if ((!wasOnObstacle.containsKey(obstacle) || wasOnObstacle.get(obstacle)) && !hero.isJumping())
-                hero.getMoveState().onFall();
-            wasOnObstacle.put(obstacle, false);
+            if (!wasOnObstacle.containsKey(obstacle))
+                wasOnObstacle.put(obstacle, false);
+            else {
+                if (wasOnObstacle.get(obstacle) && !hero.isJumping()) {
+                    hero.getMoveState().onFall();
+                }
+            }
         }
     }
 

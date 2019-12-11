@@ -10,7 +10,7 @@ public class ObstaclesManager {
 
     //TODO: Togliere
     static final int OFFSET = (int) (0.0625 * Gdx.graphics.getHeight());
-    static final float MULTIPLIER = 2;
+    static final float MULTIPLIER = 5;
 
     /**
      * Values which are needed to set the correct position of the new obstacle.
@@ -107,14 +107,15 @@ public class ObstaclesManager {
             return null;
         }
 
+        return ObstacleType.Slidable;/*
         // If the obstacle is distant enough, it is possible to add every type of obstacle
         if (distance >= standingWidth * MULTIPLIER) {//fixme tune the probability and the distance
-            if (ThreadLocalRandom.current().nextInt() % 50 == 0) {
+            if (ThreadLocalRandom.current().nextInt() % 20 == 0) {
                 int random = ThreadLocalRandom.current().nextInt(0, ObstacleType.values().length);
                 return ObstacleType.values()[random];
             }
         }
-        return null;
+        return null;*/
     }
 
     /**
@@ -131,16 +132,15 @@ public class ObstaclesManager {
         if (obstacle instanceof JumpableObstacle) {
             yPosition = 0;
         } else if (obstacle instanceof SlidableObstacle) {
-            yPosition = ThreadLocalRandom.current().nextInt((int) slidingHeight + 1, (int) standingHeight - 1);
+            yPosition = ThreadLocalRandom.current().nextInt((int) slidingHeight + 2, (int) standingHeight - 1);
             if (lastObstacle != null) {
                 if (lastObstacle instanceof JumpableObstacle && lastObstacle.getX() + lastObstacle.getWidth() >= Gdx.graphics.getWidth() - 1) {
                     yPosition += lastObstacle.getHeight() + lastObstacle.getY();
                 }
             }
-            yPosition += slidingHeight;//fixme this has been added to allow player to pass even if it cannot slide
         } else if (obstacle instanceof JumpableSlidableObstacle) {
-            yPosition = ThreadLocalRandom.current().nextInt((int) slidingHeight + 1, (int) slidingHeight + (int) (maxJumpingHeight - obstacle.getWidth()));
-            yPosition += slidingHeight;//fixme this has been added to allow player to pass even if it cannot slide
+            yPosition = ThreadLocalRandom.current().nextInt((int) slidingHeight + 1,
+                    1 + (int) slidingHeight + (int) maxJumpingHeight - (int) obstacle.getHeight());
         }
         // Accounting for the lower part of the background
         yPosition += OFFSET;

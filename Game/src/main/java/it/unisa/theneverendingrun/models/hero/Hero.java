@@ -1,11 +1,9 @@
 package it.unisa.theneverendingrun.models.hero;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import it.unisa.theneverendingrun.models.Sprite;
-import it.unisa.theneverendingrun.services.animations.TextureSheets;
 import it.unisa.theneverendingrun.utilities.MathUtils;
 
 import java.util.HashMap;
@@ -80,9 +78,6 @@ public abstract class Hero extends Sprite {
 
         this.moveState = new IdleState(this);
         this.facingState = new RightState(this);
-
-        this.standardHeight = getHeight();
-
     }
 
 
@@ -100,13 +95,20 @@ public abstract class Hero extends Sprite {
         animations = new HashMap<>();
         deltaTime = new HashMap<>();
 
+        var tVect = new TextureRegion[8];
+        for (int i = 1; i <= 8; i++) {
+            TextureRegion t = new TextureRegion(new Texture("images/hero/run/hero_run_" + i + ".png"));
+            tVect[i - 1] = t;
+        }
+
+        /*
         var run = new Texture(Gdx.files.internal("runSheet.png"));
-        var runTextures = TextureSheets.split(run, 1,8);
-        var runAnimation = new Animation<TextureRegion>(0.05f, runTextures);
+        var runTextures = TextureSheets.split(run, 1,8);*/
+        var runAnimation = new Animation<>(0.05f, tVect);
         animations.put(IdleState.class, runAnimation);
         deltaTime.put(IdleState.class, 0F);
 
-       // animations.put(2)
+        // animations.put(2)
     }
 
     public void updateDelta(float delta) {
@@ -115,47 +117,67 @@ public abstract class Hero extends Sprite {
 
     public void changeState() {
 
+        Texture texture = null;
+
+        if (isSliding()) {
+            texture = new Texture("slide.png");
+            var region = new TextureRegion(texture);
+            if (isLeft())
+                region.flip(true, false);
+            setRegion(region);
+
+            setSize(texture.getWidth() * ForestHero.SCALE_FACTOR, texture.getHeight() * ForestHero.SCALE_FACTOR);
+
+            return;
+        } else {
+            texture = new Texture("jump.png");
+            setSize(texture.getWidth() * ForestHero.SCALE_FACTOR, texture.getHeight() * ForestHero.SCALE_FACTOR);
+
+        }
+
         var animation = animations.get(getMoveState().getClass());
         if (animation != null) {
             var delta = deltaTime.get(getMoveState().getClass());
             var frame = animation.getKeyFrame(delta, true);
             var newFrame = new TextureRegion(frame);
-            if(isLeft()) {
+            if (isLeft()) {
                 int pixels = pixelWidth(newFrame);
-               // newFrame.setRegionWidth(pixels);
+                // newFrame.setRegionWidth(pixels);
                 //newFrame.set
                 newFrame.flip(true, false);
                 System.out.println(getX());
-                setX(getX()-pixels);
+                setX(getX() - pixels);
                 System.out.println(getX());
 
             }
             setRegion(newFrame);
+
             return;
         }
 
         if (isJumping()) {
-            var region = new TextureRegion(new Texture("jump.png"));
+            texture = new Texture("jump.png");
+            var region = new TextureRegion(texture);
             if (isLeft())
                 region.flip(true, false);
             setRegion(region);
+
+            setSize(texture.getWidth() * ForestHero.SCALE_FACTOR, texture.getHeight() * ForestHero.SCALE_FACTOR);
+
             return;
         }
 
-        if (isSliding()) {
-            var region = new TextureRegion(new Texture("slide.png"));
-            if (isLeft())
-                region.flip(true, false);
-            setRegion(region);
-            return;
-        }
 
+
+
+        /*
         if (isFalling()) {
             var region = new TextureRegion(new Texture("fall.png"));
             if (isLeft())
                 region.flip(true, false);
             setRegion(region);
         }
+        */
     }
 
     public void updateImageFrame() {
@@ -385,6 +407,10 @@ public abstract class Hero extends Sprite {
      */
     void changeFacingState(HeroFacingState facingState) {
         this.facingState = facingState;
+    }
+
+    void setStandardHeight(float standardHeight) {
+        this.standardHeight = standardHeight;
     }
 
     /* ------------------------------------- MOVEMENT METHODS ------------------------------------- */
