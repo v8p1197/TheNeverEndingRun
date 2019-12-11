@@ -21,7 +21,7 @@ public class Sprite extends org.mini2Dx.core.graphics.Sprite {
         super(texture);
         generateCollisionBox();
     }
-
+    
     /**
      * Sprite constructor. It will set the texture, width and height and generate an initial collisionBox
      *

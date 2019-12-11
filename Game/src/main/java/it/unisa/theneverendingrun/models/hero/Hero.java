@@ -1,8 +1,15 @@
 package it.unisa.theneverendingrun.models.hero;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import it.unisa.theneverendingrun.models.Sprite;
+import it.unisa.theneverendingrun.services.animations.TextureSheets;
 import it.unisa.theneverendingrun.utilities.MathUtils;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class Hero extends Sprite {
 
@@ -69,10 +76,116 @@ public abstract class Hero extends Sprite {
         this.groundY = y;
         this.dx = 0;
 
+        initAnimations();
+
         this.moveState = new IdleState(this);
         this.facingState = new RightState(this);
 
         this.standardHeight = getHeight();
+
+    }
+
+
+
+
+
+
+
+
+    private Map<Class<?>, Animation<TextureRegion>> animations;
+    private Map<Class<?>, Float> deltaTime;
+
+
+    public void initAnimations() {
+        animations = new HashMap<>();
+        deltaTime = new HashMap<>();
+
+        var run = new Texture(Gdx.files.internal("runSheet.png"));
+        var runTextures = TextureSheets.split(run, 1,8);
+        var runAnimation = new Animation<TextureRegion>(0.05f, runTextures);
+        animations.put(IdleState.class, runAnimation);
+        deltaTime.put(IdleState.class, 0F);
+
+       // animations.put(2)
+    }
+
+    public void updateDelta(float delta) {
+        deltaTime.entrySet().forEach((map) -> map.setValue(map.getValue()+delta));
+    }
+
+    public void changeState() {
+
+        var animation = animations.get(getMoveState().getClass());
+        if (animation != null) {
+            var delta = deltaTime.get(getMoveState().getClass());
+            var frame = animation.getKeyFrame(delta, true);
+            var newFrame = new TextureRegion(frame);
+            if(isLeft()) {
+                int pixels = pixelWidth(newFrame);
+               // newFrame.setRegionWidth(pixels);
+                //newFrame.set
+                newFrame.flip(true, false);
+                System.out.println(getX());
+                setX(getX()-pixels);
+                System.out.println(getX());
+
+            }
+            setRegion(newFrame);
+            return;
+        }
+
+        if (isJumping()) {
+            var region = new TextureRegion(new Texture("jump.png"));
+            if (isLeft())
+                region.flip(true, false);
+            setRegion(region);
+            return;
+        }
+
+        if (isSliding()) {
+            var region = new TextureRegion(new Texture("slide.png"));
+            if (isLeft())
+                region.flip(true, false);
+            setRegion(region);
+            return;
+        }
+
+        if (isFalling()) {
+            var region = new TextureRegion(new Texture("fall.png"));
+            if (isLeft())
+                region.flip(true, false);
+            setRegion(region);
+        }
+    }
+
+    public void updateImageFrame() {
+
+        var animation = animations.get(getMoveState().getClass());
+        if (animation != null) {
+            var delta = deltaTime.get(getMoveState().getClass());
+            var frame = animation.getKeyFrame(delta, true);
+            var newFrame = new TextureRegion(frame);
+            if(isLeft()) {
+                int pixels = pixelWidth(newFrame);
+                // newFrame.setRegionWidth(pixels);
+                //newFrame.set
+                //System.out.println(getX());
+                //setX(getX()-pixels);
+               // System.out.println(pixels);
+                //translateX(-27);
+                System.out.println(getWidth());
+               // setX(getX() - (getWidth() - (pixels*getWidth())));
+               setX(getX() - (pixels/getWidth()) - getDx());
+                newFrame.flip(true, false);
+            }
+            setRegion(newFrame);
+            return;
+        }
+      /*  var animation = animations.get(1);
+        stateTime += Gdx.graphics.getDeltaTime();
+        var region = animation.getKeyFrame(stateTime, true);
+        setRegion(region);
+        region.flip(true, false);*/
     }
 
     /* ------------------------------------- GETTERS ------------------------------------- */
@@ -233,6 +346,7 @@ public abstract class Hero extends Sprite {
      * @param dx the horizontal velocity value to set
      */
     public void setDx(float dx) {
+        if (dx != 0) updateImageFrame();
         this.dx = dx;
     }
 
@@ -243,6 +357,7 @@ public abstract class Hero extends Sprite {
      */
     void changeMoveState(HeroMoveState moveState) {
         this.moveState = moveState;
+        changeState();
     }
 
     /**
@@ -320,5 +435,32 @@ public abstract class Hero extends Sprite {
      */
     public double getMaxSlideRange() {
         return SLIDE_DURATION;
+    }
+
+    /* ------------------------------------- SERVICE METHODS ------------------------------------- */
+
+    /**
+     * flip method for textures that have more than one image (ex. runSheet.png)
+     * @param newFrame is the texture region to flip correctly
+     */
+    public int pixelWidth(TextureRegion newFrame){
+        //newFrame.flip(true, false);
+        //setRegion(newFrame);
+        var texture = newFrame.getTexture();
+        var textureData = texture.getTextureData();
+        if (!textureData.isPrepared())
+            textureData.prepare();
+        var pixMap = textureData.consumePixmap();
+        int start = 0;
+        for (int i = newFrame.getRegionWidth(); i > 0; i--) {
+            for (int j = newFrame.getRegionHeight(); j > 0; j--)
+                if (pixMap.getPixel(i, j) != 0x00000000) {
+                    start = newFrame.getRegionWidth() - i;
+                    break;
+                }
+            if (start != 0)
+                break;
+        }
+        return start;
     }
 }
