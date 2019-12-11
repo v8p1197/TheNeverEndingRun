@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 
 public class ForestHero extends Hero {
 
-    private final static Texture texture = new Texture("images/pape.png");
+    private final static Texture texture = new Texture("images/cane.png");
 
     public ForestHero(float baseX, float baseY) {
         super(texture, baseX, baseY);

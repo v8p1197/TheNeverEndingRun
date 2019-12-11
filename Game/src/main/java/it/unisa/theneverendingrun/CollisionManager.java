@@ -34,6 +34,7 @@ public class CollisionManager {
                     hero.getMoveState().onIdle();
                 hero.setY(obstacle.getY() + obstacle.getHeight());
             } else if (collision == top) {
+                hero.setY(obstacle.getY() - hero.getHeight());
                 hero.getMoveState().onFall();
             }
         } else {
