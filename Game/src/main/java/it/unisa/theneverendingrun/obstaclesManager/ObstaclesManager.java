@@ -59,7 +59,9 @@ public class ObstaclesManager {
         }
         AbstractObstacle newObstacle = obstacleFactory.getObstacle(newObstacleType, 0, 0);
         setPosition(newObstacle);
+        //todo, dato che ci interessa l'ultimo e che la  lista se la gestisce il caller, togliere la lista
         obstacles.add(newObstacle);
+        clearOldObstacles();
         return newObstacle;
     }
 
@@ -112,7 +114,7 @@ public class ObstaclesManager {
 
         // If the obstacle is distant enough, it is possible to add every type of obstacle
         if (distance >= standingWidth * MULTIPLIER) {//fixme tune the probability and the distance
-            if (ThreadLocalRandom.current().nextInt() % 70 == 0) {
+            if (ThreadLocalRandom.current().nextInt() % 50 == 0) {
                 int random = ThreadLocalRandom.current().nextInt(0, ObstacleType.values().length);
                 return ObstacleType.values()[random];
             }
@@ -132,7 +134,7 @@ public class ObstaclesManager {
     void setPosition(AbstractObstacle obstacle) {
         int yPosition = 0;
         if (obstacle instanceof JumpableObstacle) {
-            yPosition = ThreadLocalRandom.current().nextInt(0, (int) (maxJumpingHeight - obstacle.getHeight()));
+            yPosition = 0;
         } else if (obstacle instanceof SlidableObstacle) {
             yPosition = ThreadLocalRandom.current().nextInt((int) slidingHeight + 1, (int) standingHeight - 1);
             if (!obstacles.isEmpty()) {
@@ -144,6 +146,7 @@ public class ObstaclesManager {
             yPosition += slidingHeight;
         } else if (obstacle instanceof JumpableSlidableObstacle) {
             yPosition = ThreadLocalRandom.current().nextInt((int) slidingHeight + 1, (int) slidingHeight + (int) (maxJumpingHeight - obstacle.getWidth()));
+            yPosition += slidingHeight;
         } else {
 
         }
@@ -155,26 +158,27 @@ public class ObstaclesManager {
     /**
      * This method will remove from memory the obstacles which are not visible anymore.
      */
-    public synchronized void clearOldObstacles() {
+    public void clearOldObstacles() {
         if (obstacles.isEmpty())
             return;
-        for (AbstractObstacle obs : obstacles) {
-            if (!obs.isXAxisVisible()) {//fixme: how to remove from the view too?
-                obstacles.remove(obs);
-            } else {
+        AbstractObstacle toRemove = null;
+        for (AbstractObstacle obstacle : obstacles)
+            if (!obstacle.isXAxisVisible()) {
+                toRemove = obstacle;
                 break;
             }
-        }
+        obstacles.remove(toRemove);
     }
+
 
     public LinkedList<AbstractObstacle> getObstacles() {
         return obstacles;
     }
 
-    public void update() {
+    public void updateObstaclesPosition(LinkedList<AbstractObstacle> obstacles) {
         for (AbstractObstacle obs : obstacles
         ) {
-            obs.setX(obs.getX() - 4);
+            obs.setX(obs.getX() - 8);
         }
     }
 }
