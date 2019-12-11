@@ -120,8 +120,16 @@ public abstract class Hero extends Sprite {
             var delta = deltaTime.get(getMoveState().getClass());
             var frame = animation.getKeyFrame(delta, true);
             var newFrame = new TextureRegion(frame);
-            if(isLeft())
+            if(isLeft()) {
+                int pixels = pixelWidth(newFrame);
+               // newFrame.setRegionWidth(pixels);
+                //newFrame.set
                 newFrame.flip(true, false);
+                System.out.println(getX());
+                setX(getX()-pixels);
+                System.out.println(getX());
+
+            }
             setRegion(newFrame);
             return;
         }
@@ -157,8 +165,19 @@ public abstract class Hero extends Sprite {
             var delta = deltaTime.get(getMoveState().getClass());
             var frame = animation.getKeyFrame(delta, true);
             var newFrame = new TextureRegion(frame);
-            if(isLeft())
+            if(isLeft()) {
+                int pixels = pixelWidth(newFrame);
+                // newFrame.setRegionWidth(pixels);
+                //newFrame.set
+                //System.out.println(getX());
+                //setX(getX()-pixels);
+               // System.out.println(pixels);
+                //translateX(-27);
+                System.out.println(getWidth());
+               // setX(getX() - (getWidth() - (pixels*getWidth())));
+               setX(getX() - (pixels/getWidth()) - getDx());
                 newFrame.flip(true, false);
+            }
             setRegion(newFrame);
             return;
         }
@@ -416,5 +435,32 @@ public abstract class Hero extends Sprite {
      */
     public double getMaxSlideRange() {
         return SLIDE_DURATION;
+    }
+
+    /* ------------------------------------- SERVICE METHODS ------------------------------------- */
+
+    /**
+     * flip method for textures that have more than one image (ex. runSheet.png)
+     * @param newFrame is the texture region to flip correctly
+     */
+    public int pixelWidth(TextureRegion newFrame){
+        //newFrame.flip(true, false);
+        //setRegion(newFrame);
+        var texture = newFrame.getTexture();
+        var textureData = texture.getTextureData();
+        if (!textureData.isPrepared())
+            textureData.prepare();
+        var pixMap = textureData.consumePixmap();
+        int start = 0;
+        for (int i = newFrame.getRegionWidth(); i > 0; i--) {
+            for (int j = newFrame.getRegionHeight(); j > 0; j--)
+                if (pixMap.getPixel(i, j) != 0x00000000) {
+                    start = newFrame.getRegionWidth() - i;
+                    break;
+                }
+            if (start != 0)
+                break;
+        }
+        return start;
     }
 }
