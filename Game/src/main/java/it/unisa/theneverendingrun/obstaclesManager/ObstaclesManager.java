@@ -107,7 +107,7 @@ public class ObstaclesManager {
             return null;
         }
 
-        return ObstacleType.Slidable;/*
+
         // If the obstacle is distant enough, it is possible to add every type of obstacle
         if (distance >= standingWidth * MULTIPLIER) {//fixme tune the probability and the distance
             if (ThreadLocalRandom.current().nextInt() % 20 == 0) {
@@ -115,7 +115,7 @@ public class ObstaclesManager {
                 return ObstacleType.values()[random];
             }
         }
-        return null;*/
+        return null;
     }
 
     /**

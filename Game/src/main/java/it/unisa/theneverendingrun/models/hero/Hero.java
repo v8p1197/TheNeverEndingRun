@@ -19,7 +19,7 @@ public abstract class Hero extends Sprite {
     /**
      * The number of steps the hero takes to slide
      */
-    private static final int SLIDE_DURATION = 60;
+    private static final int SLIDE_DURATION = 45;
 
     /**
      * Bottom-left original x coordinate, i.e. where the hero appears when it's created
@@ -167,17 +167,15 @@ public abstract class Hero extends Sprite {
             return;
         }
 
-
-
-
-        /*
         if (isFalling()) {
-            var region = new TextureRegion(new Texture("fall.png"));
+            texture = new Texture("fall.png");
+            var region = new TextureRegion(texture);
             if (isLeft())
                 region.flip(true, false);
             setRegion(region);
+
+            setSize(texture.getWidth() * ForestHero.SCALE_FACTOR, texture.getHeight() * ForestHero.SCALE_FACTOR);
         }
-        */
     }
 
     public void updateImageFrame() {
@@ -380,6 +378,7 @@ public abstract class Hero extends Sprite {
     void changeMoveState(HeroMoveState moveState) {
         this.moveState = moveState;
         changeState();
+        System.out.println(getMoveState());
     }
 
     /**

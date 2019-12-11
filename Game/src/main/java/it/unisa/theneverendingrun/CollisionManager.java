@@ -45,6 +45,7 @@ public class CollisionManager {
             else {
                 if (wasOnObstacle.get(obstacle) && !hero.isJumping()) {
                     hero.getMoveState().onFall();
+                    wasOnObstacle.put(obstacle, false);
                 }
             }
         }
