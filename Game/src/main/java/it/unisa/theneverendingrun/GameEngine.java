@@ -77,7 +77,7 @@ public class GameEngine extends BasicGame {
         //TextureRegion currentFrame = walkAnimation.getKeyFrame(stateTime, true);
       //  hero.setTexture(currentFrame.getTexture());
        // hero.setRegion(currentFrame);
-        hero.setSize(128,128);
+    //    hero.setSize(128,128);
         spriteBatch.begin();
         hero.draw(spriteBatch);
       //  sspriteBatch.draw(hero); // Draw current frame at (50, 50)
