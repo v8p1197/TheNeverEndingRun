@@ -18,7 +18,7 @@ public class GameEngine extends BasicGame {
 
     static final String GAME_IDENTIFIER = "it.unisa.theneverendingrun";
 
-    public static final int SPEED = 1;
+    public static final int SPEED = 3;
 
     private HandlingInput input;
     private SpriteBatch spriteBatch;
@@ -28,7 +28,6 @@ public class GameEngine extends BasicGame {
 
     private LinkedList<AbstractObstacle> obstacles;
     private ObstaclesManager obstaclesManager;
-    private AbstractObstacle newObstacle;
 
 
     @Override
@@ -41,7 +40,8 @@ public class GameEngine extends BasicGame {
         hero = gameFactory.createHero();
 
         obstaclesManager = new ObstaclesManager(
-                (float) hero.getJumpMaxElevation(), hero.getHeight(), (float) hero.getMaxSlideRange() * 3,
+                (float) hero.getJumpMaxElevation(), hero.getHeight(),
+                (float) hero.getMaxSlideRange() * SPEED,
                 hero.getHeight() / 2, hero.getWidth());
         obstacles = new LinkedList<>();
     }
@@ -57,7 +57,7 @@ public class GameEngine extends BasicGame {
         input.getKeyWASD(hero);
         hero.move();
 
-        newObstacle = obstaclesManager.generateNewObstacle();
+        AbstractObstacle newObstacle = obstaclesManager.generateNewObstacle();
         if (newObstacle != null)
             obstacles.add(newObstacle);
         obstaclesManager.clearOldObstacles(obstacles);
