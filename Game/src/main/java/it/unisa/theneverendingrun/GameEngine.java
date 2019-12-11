@@ -25,6 +25,8 @@ public class GameEngine extends BasicGame {
     private AbstractScrollingBackground background;
 
     private LinkedList<AbstractObstacle> obstacles;
+    AbstractObstacle obstacle;
+
 
     private static int OFFSET_MEASURE = 72 / 2;
 
@@ -48,19 +50,18 @@ public class GameEngine extends BasicGame {
         var factory = new ForestFactory();
         background = factory.createBackground();
 
-        initObstacles();
+        obstacles = new LinkedList<AbstractObstacle>();
 
     }
 
     private void initObstacles() {
-        obstacles = obstaclesManager.getObstacles();
         /*
         obstacles = new Sprite[2];
 
         obstacles[0] = new Sprite(new Texture("images/pape.png"), 64 * 5, 64);
         obstacles[0].setPosition(hero.getGroundX() * 2, hero.getGroundY() * 3);
 
-        obstacles[1] = new Sprite(new Texture("images/cane.png"), 64 * 3, 64);
+        obstacles[1] = new Sprite(new Texture("images/pape.png"), 64 * 3, 64);
         obstacles[1].setPosition(hero.getGroundX() * 4, hero.getGroundY() * 2);*/
     }
 
@@ -86,8 +87,10 @@ public class GameEngine extends BasicGame {
 
     @Override
     public void render(Graphics g) {
-        AbstractObstacle obs = obstaclesManager.getNewAppropriateObstacle();
-        obstaclesManager.update();
+        obstacle = obstaclesManager.getNewAppropriateObstacle();
+        if (obstacle != null)
+            obstacles.add(obstacle);
+        obstaclesManager.updateObstaclesPosition(obstacles);
         spriteBatch.begin();
         spriteBatch.draw(background, 0, 0);
         drawHero();
@@ -96,8 +99,15 @@ public class GameEngine extends BasicGame {
     }
 
     private void drawObstacles() {
+        Sprite toRemove = null;
         for (Sprite obstacle : obstacles)
-            obstacle.draw(spriteBatch);
+            if (obstacle.isXAxisVisible())
+                obstacle.draw(spriteBatch);
+            else {
+                toRemove = obstacle;
+            }
+        obstacles.remove(toRemove);
+
     }
 
     private void drawHero() {
