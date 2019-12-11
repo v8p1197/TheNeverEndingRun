@@ -127,7 +127,7 @@ public class ObstaclesManager {
      * @param obstacle the obstacle which needs the position fixed
      */
     private void setPosition(AbstractObstacle obstacle) {
-        int yPosition;
+        int yPosition = 0;
         if (obstacle instanceof JumpableObstacle) {
             yPosition = 0;
         } else if (obstacle instanceof SlidableObstacle) {
@@ -141,10 +141,10 @@ public class ObstaclesManager {
         } else if (obstacle instanceof JumpableSlidableObstacle) {
             yPosition = ThreadLocalRandom.current().nextInt((int) slidingHeight + 1, (int) slidingHeight + (int) (maxJumpingHeight - obstacle.getWidth()));
             yPosition += slidingHeight;//fixme this has been added to allow player to pass even if it cannot slide
-            // Accounting for the lower part of the background
-            yPosition += OFFSET;
-            obstacle.setPosition(Gdx.graphics.getWidth(), yPosition);
         }
+        // Accounting for the lower part of the background
+        yPosition += OFFSET;
+        obstacle.setPosition(Gdx.graphics.getWidth(), yPosition);
     }
 
     /**

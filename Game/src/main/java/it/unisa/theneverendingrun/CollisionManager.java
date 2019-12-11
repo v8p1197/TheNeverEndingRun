@@ -38,7 +38,7 @@ public class CollisionManager {
                 hero.getMoveState().onFall();
             }
         } else {
-            if (!wasOnObstacle.containsKey(obstacle) || wasOnObstacle.get(obstacle) && !hero.isJumping())
+            if ((!wasOnObstacle.containsKey(obstacle) || wasOnObstacle.get(obstacle)) && !hero.isJumping())
                 hero.getMoveState().onFall();
             wasOnObstacle.put(obstacle, false);
         }
