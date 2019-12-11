@@ -2,13 +2,13 @@ package it.unisa.theneverendingrun;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import it.unisa.theneverendingrun.factory.RunFactory;
 import it.unisa.theneverendingrun.models.Sprite;
 import it.unisa.theneverendingrun.models.background.AbstractScrollingBackground;
 import it.unisa.theneverendingrun.models.hero.Hero;
 import it.unisa.theneverendingrun.models.obstacles.AbstractObstacle;
 import it.unisa.theneverendingrun.obstaclesManager.ObstaclesManager;
 import it.unisa.theneverendingrun.services.ForestFactory;
+import it.unisa.theneverendingrun.services.GameFactory;
 import org.mini2Dx.core.game.BasicGame;
 import org.mini2Dx.core.graphics.Graphics;
 
@@ -20,7 +20,7 @@ public class GameEngine extends BasicGame {
     static final String GAME_IDENTIFIER = "it.unisa.theneverendingrun";
     private HandlingInput input;
     private SpriteBatch spriteBatch;
-    private RunFactory runFactory;
+    private GameFactory gameFactory;
     private Hero hero;
     private AbstractScrollingBackground background;
 
@@ -44,14 +44,14 @@ public class GameEngine extends BasicGame {
     @Override
     public void initialise() {
         spriteBatch = new SpriteBatch();
-        runFactory = new it.unisa.theneverendingrun.factory.ForestFactory();
-        hero = runFactory.createHero();
-        obstaclesManager = new ObstaclesManager((float) hero.getJumpMaxElevation() * 0.8f, hero.getHeight() * 0.8f, (float) hero.getMaxSlideRange(), hero.getHeight() / 2, hero.getWidth());
-        obstacles = new LinkedList<>();
+        gameFactory = new ForestFactory();
+        background = gameFactory.createBackground();
+        hero = gameFactory.createHero();
+        obstaclesManager = new ObstaclesManager((float) hero.getJumpMaxElevation(), hero.getHeight(), (float) hero.getMaxSlideRange(), hero.getHeight() / 2, hero.getWidth());
         input = new HandlingInput();
         var factory = new ForestFactory();
         background = factory.createBackground();
-        CollisionManager.clear();
+        obstacles = new LinkedList<AbstractObstacle>();
     }
 
 
@@ -82,6 +82,10 @@ public class GameEngine extends BasicGame {
 
     @Override
     public void render(Graphics g) {
+        obstacle = obstaclesManager.getNewAppropriateObstacle();
+        if (obstacle != null)
+            obstacles.add(obstacle);
+        obstaclesManager.updateObstaclesPosition(obstacles);
         spriteBatch.begin();
         spriteBatch.draw(background, 0, 0);
         drawHero();

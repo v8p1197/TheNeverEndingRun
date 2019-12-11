@@ -109,7 +109,7 @@ public class ObstaclesManager {
 
         // If the obstacle is distant enough, it is possible to add every type of obstacle
         if (distance >= standingWidth * MULTIPLIER) {//fixme tune the probability and the distance
-            if (ThreadLocalRandom.current().nextInt() % 2 == 0) {
+            if (ThreadLocalRandom.current().nextInt() % 50 == 0) {
                 int random = ThreadLocalRandom.current().nextInt(0, ObstacleType.values().length);
                 return ObstacleType.values()[random];
             }
