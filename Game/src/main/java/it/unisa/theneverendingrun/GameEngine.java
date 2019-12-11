@@ -1,11 +1,11 @@
 package it.unisa.theneverendingrun;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import it.unisa.theneverendingrun.models.Sprite;
 import it.unisa.theneverendingrun.models.background.AbstractScrollingBackground;
 import it.unisa.theneverendingrun.models.hero.Hero;
-import it.unisa.theneverendingrun.models.obstacles.AbstractObstacle;
 import it.unisa.theneverendingrun.obstaclesManager.ObstaclesManager;
 import it.unisa.theneverendingrun.services.ForestFactory;
 import it.unisa.theneverendingrun.services.GameFactory;
@@ -19,13 +19,15 @@ public class GameEngine extends BasicGame {
 
     static final String GAME_IDENTIFIER = "it.unisa.theneverendingrun";
 
+    public static final int SPEED = 1;
+
     private HandlingInput input;
     private SpriteBatch spriteBatch;
 
     private GameFactory gameFactory;
     private Hero hero;
     private AbstractScrollingBackground background;
-    private LinkedList<AbstractObstacle> obstacles;
+    private LinkedList<Sprite> obstacles;
 
     private static int OFFSET_MEASURE = 72 / 2;
 
@@ -51,8 +53,15 @@ public class GameEngine extends BasicGame {
         initObstacles();
     }
 
+    private Sprite generateNewSprite() {
+        var sprite = new Sprite(new Texture("images/pape.png"), 64*3, 64*2);
+        sprite.setPosition(Gdx.graphics.getWidth(), hero.getGroundY());
+        return sprite;
+    }
+
     private void initObstacles() {
-        obstacles = obstaclesManager.getObstacles();
+        obstacles = new LinkedList<>();
+        obstacles.add(generateNewSprite());
     }
 
     @Override
@@ -66,19 +75,38 @@ public class GameEngine extends BasicGame {
 
         hero.move();
 
-        for (Sprite obstacle : obstacles)
+        moveAllObjects();
+
+
+        hero.getCollisionBox().preUpdate();
+        for (var obstacle : obstacles)
+            obstacle.getCollisionBox().preUpdate();
+
+        checkCollisions();
+    }
+
+    private void moveAllObjects() {
+        hero.setX(hero.getX() - SPEED);
+
+        for (var obstacle : obstacles)
+            obstacle.setX(obstacle.getX() - 3 * SPEED);
+    }
+
+    private void checkCollisions() {
+        for (var obstacle : obstacles)
             CollisionManager.checkCollision(hero, obstacle);
     }
 
     @Override
     public void interpolate(float alpha) {
+        hero.getCollisionBox().interpolate(null, 1.0f);
+
+        for (var obstacle : obstacles)
+            obstacle.getCollisionBox().interpolate(null, 1.0f);
     }
 
     @Override
     public void render(Graphics g) {
-        AbstractObstacle obs = obstaclesManager.getNewAppropriateObstacle();
-        obstaclesManager.update();
-
         spriteBatch.begin();
         spriteBatch.draw(background, 0, 0);
         drawHero();
@@ -87,8 +115,7 @@ public class GameEngine extends BasicGame {
     }
 
     private void drawObstacles() {
-
-        for (Sprite obstacle : obstacles)
+        for (var obstacle : obstacles)
             obstacle.draw(spriteBatch);
     }
 

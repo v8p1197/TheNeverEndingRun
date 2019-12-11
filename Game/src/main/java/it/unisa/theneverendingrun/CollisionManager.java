@@ -13,7 +13,7 @@ public class CollisionManager {
     /**
      * A boolean variable true when the hero is on on obstacle in the previous move step
      */
-    private static Map<Sprite, Boolean> wasOnObstacle = new HashMap<>();
+    public static Map<Sprite, Boolean> wasOnObstacle = new HashMap<>();
 
     public static int left = 2, top = 3, right = 0, bottom = 1;
 
