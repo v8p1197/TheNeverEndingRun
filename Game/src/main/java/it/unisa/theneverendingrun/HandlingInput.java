@@ -10,7 +10,11 @@ public class HandlingInput {
 
         if (Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             hero.getFacingState().onRight();
-            hero.setDx(5);
+
+            if (hero.getX() < hero.getGroundX())
+                hero.setDx(GameEngine.SPEED * 2f);
+            else
+                hero.setDx(GameEngine.SPEED);
         } else
             hero.setDx(0);
 
@@ -20,7 +24,7 @@ public class HandlingInput {
 
         if (Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
             hero.getFacingState().onLeft();
-            hero.setDx(5);
+            hero.setDx(GameEngine.SPEED);
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.S) || Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
