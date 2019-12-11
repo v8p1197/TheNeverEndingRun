@@ -82,10 +82,6 @@ public class GameEngine extends BasicGame {
 
     @Override
     public void render(Graphics g) {
-        obstacle = obstaclesManager.getNewAppropriateObstacle();
-        if (obstacle != null)
-            obstacles.add(obstacle);
-        obstaclesManager.updateObstaclesPosition(obstacles);
         spriteBatch.begin();
         spriteBatch.draw(background, 0, 0);
         drawHero();
