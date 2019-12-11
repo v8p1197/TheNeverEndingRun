@@ -26,20 +26,19 @@ public class ObstaclesManager {
     private static ObstacleFactory obstacleFactory;
 
     /**
-     * List with all the obstacles actually present on the screen. The linked list keeps the order of insertion,
-     * so only the first element is checked to be actually visible.
+     * Reference to the last obstacle generated.
      */
-    private LinkedList<AbstractObstacle> obstacles;
+    private AbstractObstacle lastObstacle;
 
     /**
-     * Private constructor. Only one obstacle manager must be present at a given time.
+     * Constructor of the obstaclesManager. parameters are self explanatory
+     * todo update and complete this javadoc
      */
     public ObstaclesManager(float maxJumpingHeight, float standingHeight, float maxSlidingDistance, float slidingHeight, float standingWidth) {
         this.maxJumpingHeight = maxJumpingHeight;
         this.standingHeight = standingHeight;
         this.slidingHeight = slidingHeight;
         this.standingWidth = standingWidth;
-        this.obstacles = new LinkedList<AbstractObstacle>();
         obstacleFactory = new ObstacleFactory(maxJumpingHeight, maxSlidingDistance, standingWidth * MULTIPLIER);//fixme
     }
 
@@ -50,18 +49,15 @@ public class ObstaclesManager {
      * during the creation of the obstaclesManager.
      *
      * @return A new AbstractObstacle, with the correct position, null if the obstacle cannot be generated
-     * //fixme, maybe let the user fix the position?
      */
-    public AbstractObstacle getNewAppropriateObstacle() {
+    public AbstractObstacle generateNewObstacle() {
         ObstacleType newObstacleType = getAppropriateObstacleType();
         if (newObstacleType == null) {
             return null;
         }
         AbstractObstacle newObstacle = obstacleFactory.getObstacle(newObstacleType, 0, 0);
         setPosition(newObstacle);
-        //todo, dato che ci interessa l'ultimo e che la  lista se la gestisce il caller, togliere la lista
-        obstacles.add(newObstacle);
-        clearOldObstacles();
+        lastObstacle = newObstacle;
         return newObstacle;
     }
 
@@ -73,16 +69,15 @@ public class ObstaclesManager {
      *
      * @return The type of obstacle that can be added, null if none. //fixme maybe raise an exception?
      */
-    ObstacleType getAppropriateObstacleType() {
+    private ObstacleType getAppropriateObstacleType() {
         //If there isn't any obstacle on the screen, add one at random
-        if (obstacles.isEmpty()) {
+        if (lastObstacle == null) {
             int random = ThreadLocalRandom.current().nextInt(ObstacleType.values().length);
             return ObstacleType.values()[random];
         }
 
         // Calculate the distance from the last obstacle. This distance is defined as the distance from the right
         // side of an obstacle to the left side of the view.
-        AbstractObstacle lastObstacle = obstacles.getLast();
         int distance = (int) (Gdx.graphics.getWidth() - lastObstacle.getX() - lastObstacle.getWidth());
 
         // If distance is less than zero, the obstacle is still not completely visible, so wait
@@ -131,50 +126,48 @@ public class ObstaclesManager {
      *
      * @param obstacle the obstacle which needs the position fixed
      */
-    void setPosition(AbstractObstacle obstacle) {
-        int yPosition = 0;
+    private void setPosition(AbstractObstacle obstacle) {
+        int yPosition;
         if (obstacle instanceof JumpableObstacle) {
             yPosition = 0;
         } else if (obstacle instanceof SlidableObstacle) {
             yPosition = ThreadLocalRandom.current().nextInt((int) slidingHeight + 1, (int) standingHeight - 1);
-            if (!obstacles.isEmpty()) {
-                AbstractObstacle lastObstacle = obstacles.getLast();
+            if (lastObstacle != null) {
                 if (lastObstacle instanceof JumpableObstacle && lastObstacle.getX() + lastObstacle.getWidth() >= Gdx.graphics.getWidth() - 1) {
                     yPosition += lastObstacle.getHeight() + lastObstacle.getY();
                 }
             }
-            yPosition += slidingHeight;
+            yPosition += slidingHeight;//fixme this has been added to allow player to pass even if it cannot slide
         } else if (obstacle instanceof JumpableSlidableObstacle) {
             yPosition = ThreadLocalRandom.current().nextInt((int) slidingHeight + 1, (int) slidingHeight + (int) (maxJumpingHeight - obstacle.getWidth()));
-            yPosition += slidingHeight;
-        } else {
-
+            yPosition += slidingHeight;//fixme this has been added to allow player to pass even if it cannot slide
+            // Accounting for the lower part of the background
+            yPosition += OFFSET;
+            obstacle.setPosition(Gdx.graphics.getWidth(), yPosition);
         }
-        // Accounting for the lower part of the background
-        yPosition += OFFSET;
-        obstacle.setPosition(Gdx.graphics.getWidth(), yPosition);
     }
 
     /**
      * This method will remove from memory the obstacles which are not visible anymore.
+     *
+     * @param obstacles the LinkedList which contains all the obstacles.
      */
-    public void clearOldObstacles() {
+    public void clearOldObstacles(LinkedList<AbstractObstacle> obstacles) {
         if (obstacles.isEmpty())
             return;
-        AbstractObstacle toRemove = null;
+
+        LinkedList<AbstractObstacle> toRemoveList = new LinkedList<>();
         for (AbstractObstacle obstacle : obstacles)
             if (!obstacle.isXAxisVisible()) {
-                toRemove = obstacle;
-                break;
+                toRemoveList.add(obstacle);
             }
-        obstacles.remove(toRemove);
+        for (AbstractObstacle toRemove : toRemoveList) {
+            obstacles.remove(toRemove);
+        }
     }
 
 
-    public LinkedList<AbstractObstacle> getObstacles() {
-        return obstacles;
-    }
-
+    @Deprecated
     public void updateObstaclesPosition(LinkedList<AbstractObstacle> obstacles) {
         for (AbstractObstacle obs : obstacles
         ) {

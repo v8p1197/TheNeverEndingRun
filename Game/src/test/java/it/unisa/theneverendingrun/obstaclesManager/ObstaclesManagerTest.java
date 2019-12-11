@@ -32,7 +32,7 @@ public class ObstaclesManagerTest {
         //Now i have the obstacle manager. By calling two times the method getNewAppropriateObstacle, it will add a
         // new obstacle on the right edge, but it will not be visible. So, the second call should return null, since
         // we cannot add anything.
-        assertNotNull(obstaclesManager.getNewAppropriateObstacle());
+        assertNotNull(obstaclesManager.generateNewObstacle());
         assertNull(obstaclesManager.getAppropriateObstacleType());
     }
 
@@ -43,12 +43,12 @@ public class ObstaclesManagerTest {
 
         //add a first obstacle. since we want to test the case in which the last obstacle is jumpable,
         // get new obstacle until the one returned is jumpable
-        AbstractObstacle firstObstacle = obstaclesManager.getNewAppropriateObstacle();
-        firstObstacle = obstaclesManager.getNewAppropriateObstacle();
+        AbstractObstacle firstObstacle = obstaclesManager.generateNewObstacle();
+        firstObstacle = obstaclesManager.generateNewObstacle();
         while (!(firstObstacle instanceof JumpableObstacle)) {
             //remove the last obstacle
             obstaclesManager.getObstacles().removeLast();
-            firstObstacle = obstaclesManager.getNewAppropriateObstacle();
+            firstObstacle = obstaclesManager.generateNewObstacle();
         }
 
         //move the rigth edge of the obstacle to the right edge of the window
@@ -68,12 +68,12 @@ public class ObstaclesManagerTest {
 
         //add a first obstacle. since we want to test the case in which the last obstacle is jumpable,
         // get new obstacle until the one returned is jumpable
-        AbstractObstacle firstObstacle = obstaclesManager.getNewAppropriateObstacle();
-        firstObstacle = obstaclesManager.getNewAppropriateObstacle();
+        AbstractObstacle firstObstacle = obstaclesManager.generateNewObstacle();
+        firstObstacle = obstaclesManager.generateNewObstacle();
         while (!(firstObstacle instanceof JumpableObstacle)) {
             //remove the last obstacle
             obstaclesManager.getObstacles().removeLast();
-            firstObstacle = obstaclesManager.getNewAppropriateObstacle();
+            firstObstacle = obstaclesManager.generateNewObstacle();
         }
 
         //move the rigth edge of the obstacle to the right edge of the window
@@ -83,11 +83,11 @@ public class ObstaclesManagerTest {
         ObstacleType newType = obstaclesManager.getAppropriateObstacleType();
         assertTrue(newType == null || newType == ObstacleType.Slidable);
 
-        AbstractObstacle secondObstacle = obstaclesManager.getNewAppropriateObstacle();
+        AbstractObstacle secondObstacle = obstaclesManager.generateNewObstacle();
         while (!(secondObstacle instanceof SlidableObstacle)) {
             //remove the last obstacle
             obstaclesManager.getObstacles().removeLast();
-            secondObstacle = obstaclesManager.getNewAppropriateObstacle();
+            secondObstacle = obstaclesManager.generateNewObstacle();
         }
         assertTrue(secondObstacle.getY() >= firstObstacle.getY() + firstObstacle.getHeight() + slidingHeight);
 
@@ -99,7 +99,7 @@ public class ObstaclesManagerTest {
         ObstaclesManager obstaclesManager = new ObstaclesManager(maxJumpingHeight, standingHeight, maxSlidingDistance, slidingHeight, standingWidth);
         //add a first obstacle. since we want to test the case in which the last obstacle is jumpable,
         // get new obstacle until the one returned is jumpable
-        AbstractObstacle firstObstacle = obstaclesManager.getNewAppropriateObstacle();
+        AbstractObstacle firstObstacle = obstaclesManager.generateNewObstacle();
 
         //translating the new obstacle to a distance such that the hero cannot pass between
         firstObstacle.translate(-(firstObstacle.getWidth() + standingWidth - 1), 0f);
@@ -114,7 +114,7 @@ public class ObstaclesManagerTest {
         ObstaclesManager obstaclesManager = new ObstaclesManager(maxJumpingHeight, standingHeight, maxSlidingDistance, slidingHeight, standingWidth);
         //add a first obstacle. since we want to test the case in which the last obstacle is jumpable,
         // get new obstacle until the one returned is jumpable
-        AbstractObstacle firstObstacle = obstaclesManager.getNewAppropriateObstacle();
+        AbstractObstacle firstObstacle = obstaclesManager.generateNewObstacle();
 
         //translating the new obstacle to a distance such that the hero can pass between
         firstObstacle.translate(-(firstObstacle.getWidth() + standingWidth * ObstaclesManager.MULTIPLIER + 1), 0f);
