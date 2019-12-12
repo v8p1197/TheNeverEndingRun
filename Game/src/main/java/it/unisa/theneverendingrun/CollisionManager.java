@@ -31,7 +31,7 @@ public class CollisionManager {
                 hero.setX(hero.getX() - intersection.getWidth());
             } else if (collision == bottom) {
                 wasOnObstacle.put(obstacle, true);
-                if (hero.isJumping() || hero.isFalling())
+                if (hero.isJumping() && hero.getJumpCompletion() >= 0.5 || hero.isFalling())
                     hero.getMoveState().onIdle();
                 hero.setY(hero.getY() + intersection.getHeight());
             } else if (collision == top) {
