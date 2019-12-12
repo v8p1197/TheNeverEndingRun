@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Main-Class: it.unisa.theneverendingrun.Launcher
+Class-Path: gdx-controllers-platform-1.9.8-natives-desktop.jar lwjgl_uti
+ l-2.9.2.jar jinput-2.0.5.jar commons-lang3-3.1.jar gdx-1.9.10.jar jinpu
+ t-platform-2.0.5-natives-linux.jar gdx-backend-headless-1.9.10.jar gdx-
+ controllers-desktop-1.9.8.jar lwjgl-platform-2.9.2-natives-windows.jar 
+ lwjgl-platform-2.9.2-natives-osx.jar lwjgl-2.9.2.jar javassist-3.19.0-G
+ A.jar jlayer-1.0.1-gdx.jar gdx-controllers-1.9.8.jar annotations-2.0.1.
+ jar gdx-freetype-1.9.8.jar lwjgl-platform-2.9.2-natives-linux.jar guava
+ -15.0.jar reflections-0.9.10.jar jorbis-0.0.17.jar mini2Dx-desktop-1.9.
+ 10.jar gdx-freetype-platform-1.9.8-natives-desktop.jar mini2Dx-core-1.9
+ .10.jar jinput-platform-2.0.5-natives-osx.jar gdx-backend-lwjgl-1.9.8.j
+ ar jutils-1.0.0.jar jinput-platform-2.0.5-natives-windows.jar gdx-platf
+ orm-1.9.8-natives-desktop.jar natives-loader-1.0.0.jar
+
