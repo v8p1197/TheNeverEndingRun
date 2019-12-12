@@ -1,11 +1,14 @@
 package it.unisa.theneverendingrun.metersManager;
 
+/**
+ * The class that is delegate to properly update the meter counter
+ */
 class MeterEditor {
 
     static MetersEventManager events;
 
     /**
-     * meters fields increases by 1 each time counters is equal to METERS_FACTOR
+     * meters fields increases by 1 each time counter is equal to METERS_FACTOR
      */
     private final static int METERS_FACTOR = 5;
 
@@ -29,19 +32,17 @@ class MeterEditor {
     }
 
     /**
-     * meters setter: updates the meters field and notifies all the {@link MetersListener} listeners
+     * meters setter: updates the meters field and notifies all the {@link MetersListener} observers
      *
      * @param meters the new meters value
      */
     private static void setMeters(int meters) {
         MeterEditor.meters = meters;
-
         events.notify(MetersEventType.METERS_CHANGED, getMeters());
     }
 
     /**
-     * Updates the counter and meters fields depending on METERS_FACTOR,
-     * notifying all the {@link MetersListener} listeners
+     * Updates the counter and meters fields depending on METERS_FACTOR
      */
     static void update() {
         counter++;

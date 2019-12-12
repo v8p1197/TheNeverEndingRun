@@ -5,19 +5,22 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ *
+ */
 class MetersEventManager {
 
     /**
      * A Map containing all the {@link MetersEventType} topics related to {@link MeterEditor} events as keys,
-     * and all the {@link MetersListener} listeners subscribed to the key topic as value.
+     * and all the {@link MetersListener} observers subscribed to the key topic as values
      */
     private Map<MetersEventType, List<MetersListener>> listeners = new HashMap<>();
 
     /**
-     * Instantiates an empty list of {@link MetersListener} listeners for each topic in {@code topics}.
+     * Instantiates an empty list of {@link MetersListener} observers for each topic in {@code topics}.
      *
-     * @param topics the {@link MetersEventType} topics related to {@link MeterEditor} events the {@link MetersEventManager}
-     *               manages
+     * @param topics the {@link MetersEventType} topics related to the {@link MeterEditor} events
+     *               the {@link MetersEventManager} manages
      */
     public MetersEventManager(MetersEventType... topics) {
         for (var topic : topics) {

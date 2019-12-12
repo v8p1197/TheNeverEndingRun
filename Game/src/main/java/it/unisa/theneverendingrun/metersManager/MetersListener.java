@@ -1,5 +1,8 @@
 package it.unisa.theneverendingrun.metersManager;
 
+/**
+ * A common interface for all the subscribers interested in observing the {@link MeterEditor} meters variable
+ */
 interface MetersListener {
 
     /**
