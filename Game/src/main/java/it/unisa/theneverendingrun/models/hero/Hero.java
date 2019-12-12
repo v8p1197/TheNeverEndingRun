@@ -145,9 +145,9 @@ public abstract class Hero extends Sprite {
                 // newFrame.setRegionWidth(pixels);
                 //newFrame.set
                 newFrame.flip(true, false);
-                System.out.println(getX());
+                //System.out.println(getX());
                 setX(getX() - pixels);
-                System.out.println(getX());
+                //System.out.println(getX());
 
             }
             setRegion(newFrame);
@@ -193,7 +193,7 @@ public abstract class Hero extends Sprite {
                 //setX(getX()-pixels);
                // System.out.println(pixels);
                 //translateX(-27);
-                System.out.println(getWidth());
+                //System.out.println(getWidth());
                // setX(getX() - (getWidth() - (pixels*getWidth())));
                setX(getX() - (pixels/getWidth()) - getDx());
                 newFrame.flip(true, false);

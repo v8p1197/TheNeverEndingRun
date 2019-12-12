@@ -135,7 +135,7 @@ public class ObstaclesManager {
             yPosition = ThreadLocalRandom.current().nextInt((int) slidingHeight + 2, (int) standingHeight - 1);
             if (lastObstacle != null) {
                 if (lastObstacle instanceof JumpableObstacle && lastObstacle.getX() + lastObstacle.getWidth() >= Gdx.graphics.getWidth() - 1) {
-                    yPosition += lastObstacle.getHeight() + lastObstacle.getY();
+                    yPosition += lastObstacle.getHeight() + lastObstacle.getY() - OFFSET;
                 }
             }
         } else if (obstacle instanceof JumpableSlidableObstacle) {
