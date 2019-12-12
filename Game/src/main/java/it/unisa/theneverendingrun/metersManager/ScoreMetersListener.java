@@ -22,6 +22,10 @@ class ScoreMetersListener implements MetersListener {
         score = 0;
     }
 
+    static int getScoreFactor() {
+        return SCORE_FACTOR;
+    }
+
     /**
      * score getter
      *

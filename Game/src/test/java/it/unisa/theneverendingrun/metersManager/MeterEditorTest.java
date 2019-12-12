@@ -14,17 +14,17 @@ public class MeterEditorTest {
 
     @Test
     public void testInitialise() {
-        Assert.assertEquals(0, MeterEditor.getMeters());
+        Assert.assertEquals(0, factory.getMeters());
     }
 
     @Test
     public void update() {
-        var metersTravelled = new Random().nextInt(1000);
+        var steps = new Random().nextInt(10000);
 
-        for (int i = 1; i <= metersTravelled; i++) {
-            var previousMetersCounter = MeterEditor.getMeters();
+        for (int i = 1; i <= steps; i++) {
+            var previousMetersCounter = factory.getMeters();
             MeterEditor.update();
-            var currentMetersCounter = MeterEditor.getMeters();
+            var currentMetersCounter = factory.getMeters();
 
             if (i % MeterEditor.getMetersFactor() == 0) {
                 Assert.assertEquals(previousMetersCounter + 1, currentMetersCounter);
