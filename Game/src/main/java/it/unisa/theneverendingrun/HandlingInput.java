@@ -18,7 +18,7 @@ public class HandlingInput {
         } else
             hero.setDx(0);
 
-        if (Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.UP)) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.W) || Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
             hero.getMoveState().onJump();
         }
 
