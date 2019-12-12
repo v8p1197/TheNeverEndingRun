@@ -358,6 +358,10 @@ public abstract class Hero extends Sprite {
         return facingState instanceof LeftState;
     }
 
+    public float getStandardHeight() {
+        return standardHeight;
+    }
+
     /* ------------------------------------- SETTERS ------------------------------------- */
 
     /**
@@ -378,7 +382,6 @@ public abstract class Hero extends Sprite {
     void changeMoveState(HeroMoveState moveState) {
         this.moveState = moveState;
         changeState();
-        System.out.println(getMoveState());
     }
 
     /**
