@@ -2,6 +2,8 @@ package it.unisa.theneverendingrun.metersManager;
 
 class ScoreMetersListener implements MetersListener {
 
+    private static final int SCORE_FACTOR = 10;
+
     private int score;
 
     public ScoreMetersListener() {
@@ -24,6 +26,6 @@ class ScoreMetersListener implements MetersListener {
      */
     @Override
     public void update(int meters) {
-        setScore(10 * meters);
+        setScore(SCORE_FACTOR * meters);
     }
 }
