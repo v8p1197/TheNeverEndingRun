@@ -18,7 +18,7 @@ public class GameEngine extends BasicGame {
 
     static final String GAME_IDENTIFIER = "it.unisa.theneverendingrun";
 
-    public static final float SPEED = 2.5f;
+    public static final float SPEED = 2f;
 
     private HandlingInput input;
     private SpriteBatch spriteBatch;
