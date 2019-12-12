@@ -465,13 +465,28 @@ public abstract class Hero extends Sprite {
         return SLIDE_DURATION;
     }
 
+    /**
+     * Computes how much of the jump parabola (in percentage) is completed.
+     *
+     * @return A value of type double in range [0, 1] depending on how much of the jump parabola is completed:
+     * 0 when the jump has just started or has not started yet
+     * 0.5 when the hero is on the top of the jump parabola
+     * 1 when the jump has finished
+     */
+    public double getJumpCompletion() {
+        if (!isJumping())
+            return 0;
+        return 0.5 - 1.0 * getJumpCount() / 2 / getJumpDuration();
+    }
+
     /* ------------------------------------- SERVICE METHODS ------------------------------------- */
 
     /**
      * flip method for textures that have more than one image (ex. runSheet.png)
+     *
      * @param newFrame is the texture region to flip correctly
      */
-    public int pixelWidth(TextureRegion newFrame){
+    public int pixelWidth(TextureRegion newFrame) {
         //newFrame.flip(true, false);
         //setRegion(newFrame);
         var texture = newFrame.getTexture();
