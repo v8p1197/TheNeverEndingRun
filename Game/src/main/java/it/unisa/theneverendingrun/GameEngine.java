@@ -39,6 +39,8 @@ public class GameEngine extends BasicGame {
         background = gameFactory.createBackground();
         hero = gameFactory.createHero();
 
+        CollisionManager.wasOnObstacle.clear();
+
         obstaclesManager = new ObstaclesManager(
                 (float) hero.getJumpMaxElevation(), hero.getHeight(),
                 (float) hero.getMaxSlideRange() * SPEED,
@@ -51,6 +53,7 @@ public class GameEngine extends BasicGame {
         background.scroll();
 
         if (!hero.isXAxisVisible(Gdx.graphics.getWidth())) {
+            spriteBatch.dispose();
             initialise();
         }
 

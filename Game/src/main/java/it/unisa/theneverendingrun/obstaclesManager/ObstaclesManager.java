@@ -1,6 +1,7 @@
 package it.unisa.theneverendingrun.obstaclesManager;
 
 import com.badlogic.gdx.Gdx;
+import it.unisa.theneverendingrun.CollisionManager;
 import it.unisa.theneverendingrun.models.obstacles.*;
 
 import java.util.LinkedList;
@@ -163,6 +164,7 @@ public class ObstaclesManager {
             }
         for (AbstractObstacle toRemove : toRemoveList) {
             obstacles.remove(toRemove);
+            CollisionManager.wasOnObstacle.remove(toRemove);
         }
     }
 
