@@ -23,21 +23,32 @@ public class CollisionManager {
 
         if (heroCollisionBox.intersects(obstacleCollisionBox)) {
             var collision = collisionSide(hero, obstacleCollisionBox);
-
             var intersection = heroCollisionBox.intersection(obstacleCollisionBox);
 
             if (collision == right) {
-                hero.setX(obstacle.getX() + obstacle.getWidth());
+                hero.setX(hero.getX() + intersection.getWidth());
             } else if (collision == left) {
-                hero.setX(obstacle.getX() - hero.getWidth());
+                hero.setX(hero.getX() - intersection.getWidth());
             } else if (collision == bottom) {
                 wasOnObstacle.put(obstacle, true);
                 if (hero.isJumping() || hero.isFalling())
                     hero.getMoveState().onIdle();
-                hero.setY(obstacle.getY() + obstacle.getHeight());
+                hero.setY(hero.getY() + intersection.getHeight());
             } else if (collision == top) {
-                hero.setY(hero.getY() - intersection.getHeight());
-                hero.getMoveState().onFall();
+
+                if (hero.getX() < obstacle.getX()) // if the hero is left with respect to the obstacle
+                    hero.setX(hero.getX() - intersection.getWidth());
+
+                else if (hero.getX() > obstacle.getX() + obstacle.getWidth()) // if the hero is right with respect to the obstacle
+                    hero.setX(hero.getX() + intersection.getWidth());
+
+                    // if the hero is under the obstacle and was sliding, but there is not enough space to stand
+                else if (obstacle.getY() - hero.getGroundY() < hero.getStandardHeight()) {
+                    hero.getMoveState().onSlide();
+                } else {
+                    hero.setY(hero.getY() - intersection.getHeight());
+                    hero.getMoveState().onFall();
+                }
             }
         } else {
             if (!wasOnObstacle.containsKey(obstacle))
