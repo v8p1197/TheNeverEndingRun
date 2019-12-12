@@ -22,6 +22,10 @@ class MeterEditor {
      */
     static int meters;
 
+    static int getMetersFactor() {
+        return METERS_FACTOR;
+    }
+
     /**
      * meters getter
      *
