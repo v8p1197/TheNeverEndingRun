@@ -2,6 +2,7 @@ package it.unisa.theneverendingrun;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import it.unisa.theneverendingrun.metersManager.MetersManagerFactory;
 import it.unisa.theneverendingrun.models.background.AbstractScrollingBackground;
 import it.unisa.theneverendingrun.models.hero.Hero;
 import it.unisa.theneverendingrun.models.obstacles.AbstractObstacle;
@@ -29,6 +30,7 @@ public class GameEngine extends BasicGame {
     private LinkedList<AbstractObstacle> obstacles;
     private ObstaclesManager obstaclesManager;
 
+    private MetersManagerFactory metersManagerFactory;
 
     @Override
     public void initialise() {
@@ -40,12 +42,13 @@ public class GameEngine extends BasicGame {
         hero = gameFactory.createHero();
 
         CollisionManager.wasOnObstacle.clear();
-
         obstaclesManager = new ObstaclesManager(
                 (float) hero.getJumpMaxElevation(), hero.getHeight(),
                 (float) hero.getMaxSlideRange() * SPEED,
                 hero.getHeight() / 2, hero.getWidth());
         obstacles = new LinkedList<>();
+
+        metersManagerFactory = new MetersManagerFactory();
     }
 
     @Override
@@ -72,6 +75,9 @@ public class GameEngine extends BasicGame {
         preUpdateCollisionBoxes();
 
         checkCollisions();
+
+        metersManagerFactory.updateMeters();
+        System.out.println("Meters: " + metersManagerFactory.getMeters() + " - Score: " + metersManagerFactory.getScore());
     }
 
     private void preUpdateCollisionBoxes() {
