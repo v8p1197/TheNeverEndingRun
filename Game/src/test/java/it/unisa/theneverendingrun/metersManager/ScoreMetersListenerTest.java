@@ -14,6 +14,11 @@ public class ScoreMetersListenerTest {
     private MetersManagerFactory factory = new MetersManagerFactory();
 
     @Test
+    public void testInitialise() {
+        Assert.assertEquals(ScoreMetersListener.getInitialScore(), factory.getScore());
+    }
+
+    @Test
     public void testUpdate() {
         var steps = new Random().nextInt(10000);
 
