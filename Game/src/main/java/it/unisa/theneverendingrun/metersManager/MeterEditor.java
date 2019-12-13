@@ -1,19 +1,28 @@
 package it.unisa.theneverendingrun.metersManager;
 
 /**
- * The class that is delegate to properly update the meter counter
+ * The class that is delegated to properly updating the meter counter
  */
 class MeterEditor {
 
-    static MetersEventManager events;
-
     /**
-     * meters fields increases by 1 each time counter is equal to METERS_FACTOR
+     * {@code meters} field increases by 1 each time counter is equal to METERS_FACTOR
      */
     private final static int METERS_FACTOR = 5;
 
     /**
-     * counter increases by 1 each time the update() method is called. If it reaches METERS_FACTOR, it's set back to 0
+     * The meters travelled when the game begins
+     */
+    private final static int INITIAL_METERS = 0;
+
+    /**
+     * The handler for all the {@link MetersEventType} topics related to this class
+     */
+    static MetersEventManager events;
+
+    /**
+     * {@code counter} increases by 1 each time the update() method is called.
+     * If it reaches {@code METERS_FACTOR}, it's set back to {@code INITIAL_METERS}
      */
     private static int counter;
 
@@ -27,7 +36,7 @@ class MeterEditor {
     }
 
     /**
-     * meters getter
+     * {@code meters} getter
      *
      * @return the total travelled meters
      */
@@ -36,7 +45,7 @@ class MeterEditor {
     }
 
     /**
-     * meters setter: updates the meters field and notifies all the {@link MetersListener} observers
+     * {@code meters} setter: updates the {@code meters} field and notifies all the {@link MetersListener} observers
      *
      * @param meters the new meters value
      */
@@ -46,7 +55,7 @@ class MeterEditor {
     }
 
     /**
-     * Updates the counter and meters fields depending on METERS_FACTOR
+     * Updates the {@code counter} and {@code meters} fields depending on {@code METERS_FACTOR}
      */
     static void update() {
         counter++;
@@ -57,10 +66,10 @@ class MeterEditor {
     }
 
     /**
-     * Set the counter and meters fields back to 0
+     * Set the {@code counter} and {@code meters} fields back to their initial values
      */
     static void initialise() {
         counter = 0;
-        setMeters(0);
+        setMeters(INITIAL_METERS);
     }
 }

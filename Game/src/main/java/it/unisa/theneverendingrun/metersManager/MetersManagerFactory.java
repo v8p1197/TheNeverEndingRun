@@ -1,7 +1,7 @@
 package it.unisa.theneverendingrun.metersManager;
 
 /**
- * A class that is delegated for initialising the {@link MeterEditor} and all its {@link MetersListener}
+ * A class that is delegated to initialise the {@link MeterEditor} and all its {@link MetersListener}
  * observers subscriptions
  */
 public class MetersManagerFactory {

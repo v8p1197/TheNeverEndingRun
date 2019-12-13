@@ -23,7 +23,7 @@ public class ForestFactory implements GameFactory {
     }
 
     private Hero setHero() {
-        float baseX = 0.2f * Gdx.graphics.getWidth();
+        float baseX = 0.3f * Gdx.graphics.getWidth();
         float baseY = 0.0625f * Gdx.graphics.getHeight();
         hero = new ForestHero(baseX, baseY);
         hero.flip(false, true);

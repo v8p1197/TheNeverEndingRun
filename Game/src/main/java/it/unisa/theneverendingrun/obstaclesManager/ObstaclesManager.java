@@ -12,6 +12,7 @@ public class ObstaclesManager {
     //TODO: Togliere
     static final int OFFSET = (int) (0.0625 * Gdx.graphics.getHeight());
     static final float MULTIPLIER = 3;
+    private static final int SPAWN_PROBABILITY = 50;
 
     /**
      * Values which are needed to set the correct position of the new obstacle.
@@ -111,7 +112,7 @@ public class ObstaclesManager {
 
         // If the obstacle is distant enough, it is possible to add every type of obstacle
         if (distance >= standingWidth * MULTIPLIER) {//fixme tune the probability and the distance
-            if (ThreadLocalRandom.current().nextInt() % 5 == 0) {
+            if (ThreadLocalRandom.current().nextInt() % SPAWN_PROBABILITY == 0) {
                 int random = ThreadLocalRandom.current().nextInt(0, ObstacleType.values().length);
                 return ObstacleType.values()[random];
             }

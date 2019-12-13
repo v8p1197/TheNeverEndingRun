@@ -19,7 +19,8 @@ public class GameEngine extends BasicGame {
 
     static final String GAME_IDENTIFIER = "it.unisa.theneverendingrun";
 
-    public static final float SPEED = 2f;
+    public static final float SPEED = 3.5f;
+    public static final float OBSTACLE_SPEED = 2 * SPEED;
 
     private HandlingInput input;
     private SpriteBatch spriteBatch;
@@ -44,7 +45,7 @@ public class GameEngine extends BasicGame {
         CollisionManager.wasOnObstacle.clear();
         obstaclesManager = new ObstaclesManager(
                 (float) hero.getJumpMaxElevation(), hero.getHeight(),
-                (float) hero.getMaxSlideRange() * SPEED,
+                (float) hero.getMaxSlideRange() * OBSTACLE_SPEED,
                 hero.getHeight() / 2, hero.getWidth());
         obstacles = new LinkedList<>();
 
@@ -90,7 +91,7 @@ public class GameEngine extends BasicGame {
         hero.setX(hero.getX() - SPEED);
 
         for (var obstacle : obstacles)
-            obstacle.setX(obstacle.getX() - 3 * SPEED);
+            obstacle.setX(obstacle.getX() - OBSTACLE_SPEED);
     }
 
     private void checkCollisions() {
