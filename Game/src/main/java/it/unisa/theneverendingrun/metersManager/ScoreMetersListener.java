@@ -1,7 +1,7 @@
 package it.unisa.theneverendingrun.metersManager;
 
 /**
- * A concrete {@link MetersListener} that computes the score depending on the {@link MeterEditor} meters variable value
+ * A {@link MetersListener} that computes the store depending on the {@link MeterEditor} meters variable value
  */
 class ScoreMetersListener implements MetersListener {
 
@@ -23,8 +23,7 @@ class ScoreMetersListener implements MetersListener {
     /**
      * Initialises the score variable
      */
-    ScoreMetersListener() {
-        score = 0;
+    public ScoreMetersListener() {
     }
 
     /**

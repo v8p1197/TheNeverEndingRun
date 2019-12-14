@@ -6,15 +6,15 @@ import it.unisa.theneverendingrun.models.hero.Hero;
 
 public class HandlingInput {
 
-    public void getKeyWASD(Hero hero) {
+    public void getKeyWASD(Hero hero, float speed) {
 
         if (Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             hero.getFacingState().onRight();
 
             if (hero.getX() < hero.getGroundX())
-                hero.setDx(GameEngine.SPEED * 2f);
+                hero.setDx(speed * 2f);
             else
-                hero.setDx(GameEngine.SPEED);
+                hero.setDx(speed);
         } else
             hero.setDx(0);
 
@@ -24,7 +24,7 @@ public class HandlingInput {
 
         if (Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
             hero.getFacingState().onLeft();
-            hero.setDx(GameEngine.SPEED);
+            hero.setDx(speed);
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.S) || Gdx.input.isKeyPressed(Input.Keys.DOWN)) {

@@ -1,7 +1,11 @@
 package it.unisa.theneverendingrun;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Scaling;
+import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import it.unisa.theneverendingrun.metersManager.MetersManagerFactory;
 import it.unisa.theneverendingrun.models.background.AbstractScrollingBackground;
 import it.unisa.theneverendingrun.models.hero.Hero;
@@ -19,8 +23,7 @@ public class GameEngine extends BasicGame {
 
     static final String GAME_IDENTIFIER = "it.unisa.theneverendingrun";
 
-    public static final float SPEED = 3.5f;
-    public static final float OBSTACLE_SPEED = 2 * SPEED;
+    private Stage stage;
 
     private HandlingInput input;
     private SpriteBatch spriteBatch;
@@ -35,6 +38,9 @@ public class GameEngine extends BasicGame {
 
     @Override
     public void initialise() {
+        stage = new Stage(new ScalingViewport(Scaling.fit, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+        Gdx.input.setInputProcessor(stage);
+
         input = new HandlingInput();
         spriteBatch = new SpriteBatch();
 
@@ -42,14 +48,15 @@ public class GameEngine extends BasicGame {
         background = gameFactory.createBackground();
         hero = gameFactory.createHero();
 
+        metersManagerFactory = new MetersManagerFactory();
+
         CollisionManager.wasOnObstacle.clear();
         obstaclesManager = new ObstaclesManager(
                 (float) hero.getJumpMaxElevation(), hero.getHeight(),
-                (float) hero.getMaxSlideRange() * OBSTACLE_SPEED,
+                (float) hero.getMaxSlideRange() * 3,
                 hero.getHeight() / 2, hero.getWidth());
         obstacles = new LinkedList<>();
 
-        metersManagerFactory = new MetersManagerFactory();
     }
 
     @Override
@@ -63,7 +70,7 @@ public class GameEngine extends BasicGame {
 
         //stateTime += Gdx.graphics.getDeltaTime(); // Accumulate elapsed animation time
         hero.updateDelta(Gdx.graphics.getDeltaTime());
-        input.getKeyWASD(hero);
+        input.getKeyWASD(hero, metersManagerFactory.getSpeed());
         hero.move();
 
         AbstractObstacle newObstacle = obstaclesManager.generateNewObstacle();
@@ -78,7 +85,13 @@ public class GameEngine extends BasicGame {
         checkCollisions();
 
         metersManagerFactory.updateMeters();
-        System.out.println("Meters: " + metersManagerFactory.getMeters() + " - Score: " + metersManagerFactory.getScore());
+        obstaclesManager.setSpawnProbability(metersManagerFactory.getSpawnProbability());
+
+        System.out.println("Difficulty: " + metersManagerFactory.getDifficulty() +
+                " - Meters: " + metersManagerFactory.getMeters() +
+                " - Score: " + metersManagerFactory.getScore() +
+                " - Speed: " + metersManagerFactory.getSpeed() +
+                " - Spawn: " + metersManagerFactory.getSpawnProbability());
     }
 
     private void preUpdateCollisionBoxes() {
@@ -88,10 +101,10 @@ public class GameEngine extends BasicGame {
     }
 
     private void moveAllObjects() {
-        hero.setX(hero.getX() - SPEED);
+        hero.setX(hero.getX() - metersManagerFactory.getSpeed());
 
         for (var obstacle : obstacles)
-            obstacle.setX(obstacle.getX() - OBSTACLE_SPEED);
+            obstacle.setX(obstacle.getX() - 3 * metersManagerFactory.getSpeed());
     }
 
     private void checkCollisions() {
@@ -109,6 +122,11 @@ public class GameEngine extends BasicGame {
 
     @Override
     public void render(Graphics g) {
+        float delta = Gdx.graphics.getDeltaTime();
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        stage.act(delta);
+        stage.draw();
+
         spriteBatch.begin();
 
         spriteBatch.draw(background, 0, 0);

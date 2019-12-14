@@ -6,7 +6,6 @@ import org.mini2Dx.core.engine.geom.CollisionBox;
 import java.security.InvalidParameterException;
 
 public class Sprite extends org.mini2Dx.core.graphics.Sprite {
-
     /**
      * Store the collision box of the sprite
      */
@@ -21,7 +20,7 @@ public class Sprite extends org.mini2Dx.core.graphics.Sprite {
         super(texture);
         generateCollisionBox();
     }
-    
+
     /**
      * Sprite constructor. It will set the texture, width and height and generate an initial collisionBox
      *
@@ -131,21 +130,5 @@ public class Sprite extends org.mini2Dx.core.graphics.Sprite {
         super.setSize(width, height);
         generateCollisionBox();
     }
-
-    /*private Rectangle collisionBoxRect;
-
-     public boolean areColliding(CollisionBox b) { return collisionBox.intersects(b);}
-
-     public Rectangle getHitBox() {
-        return collisionBoxRect;
-    }
-
-    private generateCollisionBoxRect() {
-     collisionBox = componentSprite.getBoundingRectangle();
-    }
-
-    public boolean areColliding(Rectangle b){
-        return collisionBoxRect.overlaps(b);
-    }*/
 }
 
