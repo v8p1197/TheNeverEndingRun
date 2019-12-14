@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="gdx-freetype-natives">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/Desktop/libgdx-nightly-20191127/extensions/gdx-freetype/gdx-freetype-natives.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

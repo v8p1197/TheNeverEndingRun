@@ -65,6 +65,18 @@
             <artifactId>mini2Dx-desktop</artifactId>
             <version>1.9.10</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.badlogicgames.gdx</groupId>
+            <artifactId>gdx-freetype</artifactId>
+            <version>1.9.10</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.badlogicgames.gdx</groupId>
+            <artifactId>gdx-freetype-platform</artifactId>
+            <version>1.9.10</version>
+        </dependency>
     </dependencies>
 
 </project>

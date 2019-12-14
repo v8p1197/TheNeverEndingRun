@@ -32,8 +32,8 @@ public class MetersManagerFactory {
     /**
      * Updates the meter counter
      */
-    public void updateMeters() {
-        MeterEditor.update();
+    public void computeMeters() {
+        MeterEditor.compute();
     }
 
     /**

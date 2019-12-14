@@ -77,7 +77,7 @@ public class GameEngine extends BasicGame {
 
         checkCollisions();
 
-        metersManagerFactory.updateMeters();
+        metersManagerFactory.computeMeters();
         System.out.println("Meters: " + metersManagerFactory.getMeters() + " - Score: " + metersManagerFactory.getScore());
     }
 

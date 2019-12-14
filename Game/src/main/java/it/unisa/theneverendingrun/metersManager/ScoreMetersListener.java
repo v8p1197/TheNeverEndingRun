@@ -21,13 +21,6 @@ class ScoreMetersListener implements MetersListener {
     private int score;
 
     /**
-     * Initialises the score variable
-     */
-    ScoreMetersListener() {
-        score = 0;
-    }
-
-    /**
      * {@code SCORE_FACTOR} getter
      *
      * @return the factor the meters are multiplied with in order to compute the score
