@@ -4,19 +4,29 @@ import com.badlogic.gdx.graphics.Texture;
 import it.unisa.theneverendingrun.models.obstacles.*;
 
 public class EnemyFactory {
-    private final float MAX_JUMP_HEIGHT;
-    private final float MAX_WIDTH;
+    private final float STANDARD_HEIGHT;
+    private final float STANDARD_WIDTH;
 
-    private Texture textureEnemy;
 
-    public EnemyFactory(float maxJumpHeight, float maxWidth) {
-        MAX_JUMP_HEIGHT = maxJumpHeight;
-        MAX_WIDTH = maxWidth;
-        textureEnemy = new Texture("images/canepazzo.png");
+    private Texture textureGolem;
+    private Texture textureWolf;
+
+    public EnemyFactory(float standardHeight, float standardWidth) {
+        STANDARD_HEIGHT = standardHeight;
+        STANDARD_WIDTH = standardWidth;
+        textureGolem = new Texture("images/enemies/Golem.png");
+        textureWolf = new Texture("images/enemies/Wolf.png");
     }
 
-    public Enemy getEnemy(ObstacleType type, int srcX, int srcY) throws TypeNotPresentException {
-        return new EnemyJumpable(textureEnemy, srcX, srcY, MAX_JUMP_HEIGHT, MAX_WIDTH);
+    public AbstractEnemy getEnemy(EnemyType type, int srcX, int srcY) throws TypeNotPresentException {
+        switch (type) {
+            case Golem:
+                return new EnemyJumpable(textureGolem, srcX, srcY, (float) (this.STANDARD_WIDTH * 1.5), (float) (this.STANDARD_HEIGHT * 1.5));
+            case Wolf:
+                return new EnemyJumpable(textureWolf, srcX, srcY, this.STANDARD_HEIGHT, this.STANDARD_WIDTH);
+            default:
+                throw new IllegalArgumentException("The enemy type requested is not correct");
+        }
     }
 
 }
