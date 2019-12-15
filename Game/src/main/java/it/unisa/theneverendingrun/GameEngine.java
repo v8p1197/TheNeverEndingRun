@@ -89,7 +89,14 @@ public class GameEngine extends BasicGame {
 
     private void checkCollisions() {
         for (var obstacle : obstacles)
-            CollisionManager.checkCollision(hero, obstacle);
+            CollisionManager.checkCollisionObstacle(hero, obstacle);
+        /*
+            for (var enemy : enemies)
+                if (CollisionManager.checkCollisionEnemy(hero, enemy)){
+                    spriteBatch.dispose();
+                    initialise();
+                }
+        */
     }
 
     @Override

@@ -3,6 +3,7 @@ package it.unisa.theneverendingrun;
 import com.badlogic.gdx.math.Rectangle;
 import it.unisa.theneverendingrun.models.Sprite;
 import it.unisa.theneverendingrun.models.hero.Hero;
+import it.unisa.theneverendingrun.models.obstacles.AbstractObstacle;
 import org.mini2Dx.core.engine.geom.CollisionBox;
 
 import java.util.HashMap;
@@ -17,7 +18,21 @@ public class CollisionManager {
 
     public static int left = 2, top = 3, right = 0, bottom = 1;
 
-    public static void checkCollision(Hero hero, Sprite obstacle) {
+
+    public static boolean checkCollisionEnemy(Hero hero, Sprite enemy) {
+
+        var enemyCollisionBox = enemy.getCollisionBox();
+        var heroCollisionBox = hero.getCollisionBox();
+
+        if (heroCollisionBox.intersects(enemyCollisionBox)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    public static void checkCollisionObstacle(Hero hero, Sprite obstacle) {
         var obstacleCollisionBox = obstacle.getCollisionBox();
         var heroCollisionBox = hero.getCollisionBox();
 
