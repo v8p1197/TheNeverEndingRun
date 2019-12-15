@@ -38,9 +38,9 @@ public class EnemyJumpable extends Enemy {
      */
     @Override
     public void generateDimensions() {
-        var maxGapHeight = getMaxJumpHeight() - 4;
-        var minGapHeight = getMaxJumpHeight() * 0.5;
-        var maxGapWidth = getMaxWidth() - 2;
+        var maxGapHeight = getMaxJumpHeight() - 2;
+        var minGapHeight = getMaxJumpHeight() * 0.7;
+        var maxGapWidth = getMaxWidth() - 1;
         var minGapWidth = getMaxWidth() / 2;
 
         var randomHeight = (float) ThreadLocalRandom.current().nextDouble(minGapHeight, maxGapHeight);
