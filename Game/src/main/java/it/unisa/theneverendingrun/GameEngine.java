@@ -1,7 +1,9 @@
 package it.unisa.theneverendingrun;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Scaling;
@@ -15,6 +17,7 @@ import it.unisa.theneverendingrun.services.ForestFactory;
 import it.unisa.theneverendingrun.services.GameFactory;
 import org.mini2Dx.core.game.BasicGame;
 import org.mini2Dx.core.graphics.Graphics;
+
 
 import java.util.LinkedList;
 
@@ -36,6 +39,10 @@ public class GameEngine extends BasicGame {
 
     private MetersManagerFactory metersManagerFactory;
 
+    private int score;
+    private String yourScoreName;
+    BitmapFont yourBitmapFontName;
+
     @Override
     public void initialise() {
         stage = new Stage(new ScalingViewport(Scaling.fit, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
@@ -49,6 +56,11 @@ public class GameEngine extends BasicGame {
         hero = gameFactory.createHero();
 
         metersManagerFactory = new MetersManagerFactory();
+
+        score = 0;
+        yourScoreName = "";
+        yourBitmapFontName = new BitmapFont();
+
 
         CollisionManager.wasOnObstacle.clear();
         obstaclesManager = new ObstaclesManager(
@@ -86,6 +98,8 @@ public class GameEngine extends BasicGame {
 
         metersManagerFactory.updateMeters();
         obstaclesManager.setSpawnProbability(metersManagerFactory.getSpawnProbability());
+
+        yourScoreName = "SCORE: " + metersManagerFactory.getScore();
 
         System.out.println("Difficulty: " + metersManagerFactory.getDifficulty() +
                 " - Meters: " + metersManagerFactory.getMeters() +
@@ -133,6 +147,9 @@ public class GameEngine extends BasicGame {
         drawHero();
         drawObstacles();
 
+        yourBitmapFontName.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+        yourBitmapFontName.draw(spriteBatch, yourScoreName, Gdx.graphics.getWidth() - 150, Gdx.graphics.getHeight() - 50);
+
         spriteBatch.end();
     }
 
@@ -148,4 +165,6 @@ public class GameEngine extends BasicGame {
     private void drawHero() {
         hero.draw(spriteBatch);
     }
+
+
 }
