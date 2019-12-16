@@ -1,7 +1,6 @@
 package it.unisa.theneverendingrun;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -59,7 +58,7 @@ public class GameEngine extends BasicGame {
 
         score = 0;
         yourScoreName = "";
-        yourBitmapFontName = new BitmapFont();
+        yourBitmapFontName = new BitmapFont(Gdx.files.internal("ARCADECLASSIC.fnt"));
 
 
         CollisionManager.wasOnObstacle.clear();
@@ -148,7 +147,7 @@ public class GameEngine extends BasicGame {
         drawObstacles();
 
         yourBitmapFontName.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-        yourBitmapFontName.draw(spriteBatch, yourScoreName, Gdx.graphics.getWidth() - 150, Gdx.graphics.getHeight() - 50);
+        yourBitmapFontName.draw(spriteBatch, yourScoreName, Gdx.graphics.getWidth() - 250, Gdx.graphics.getHeight() - 50);
 
         spriteBatch.end();
     }
