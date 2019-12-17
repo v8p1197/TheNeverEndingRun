@@ -9,6 +9,9 @@ import it.unisa.theneverendingrun.models.obstacles.AbstractObstacle;
 import it.unisa.theneverendingrun.obstaclesManager.ObstaclesManager;
 import it.unisa.theneverendingrun.services.ForestFactory;
 import it.unisa.theneverendingrun.services.GameFactory;
+import it.unisa.theneverendingrun.streamManager.BestScores;
+import it.unisa.theneverendingrun.streamManager.FileStreamFactory;
+import it.unisa.theneverendingrun.streamManager.StreamManager;
 import org.mini2Dx.core.game.BasicGame;
 import org.mini2Dx.core.graphics.Graphics;
 
@@ -18,6 +21,7 @@ import java.util.LinkedList;
 public class GameEngine extends BasicGame {
 
     static final String GAME_IDENTIFIER = "it.unisa.theneverendingrun";
+    private static final String FILENAME = "best_scores.dat";
 
     public static final float SPEED = 3.5f;
     public static final float OBSTACLE_SPEED = 2 * SPEED;
@@ -32,6 +36,8 @@ public class GameEngine extends BasicGame {
     private ObstaclesManager obstaclesManager;
 
     private MetersManagerFactory metersManagerFactory;
+    private StreamManager streamManager;
+    private BestScores bestScores;
 
     @Override
     public void initialise() {
@@ -50,6 +56,9 @@ public class GameEngine extends BasicGame {
         obstacles = new LinkedList<>();
 
         metersManagerFactory = new MetersManagerFactory();
+
+        streamManager = new StreamManager(new FileStreamFactory(FILENAME));
+        bestScores = streamManager.loadBestScores();
     }
 
     @Override
@@ -58,6 +67,13 @@ public class GameEngine extends BasicGame {
 
         if (!hero.isXAxisVisible(Gdx.graphics.getWidth())) {
             spriteBatch.dispose();
+            computeBestScores();
+            System.out.println("Best score: " + bestScores.getHighScore() +
+                    " - Longest run: " + bestScores.getLongestRun());
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException ignored) {
+            }
             initialise();
         }
 
@@ -79,6 +95,17 @@ public class GameEngine extends BasicGame {
 
         metersManagerFactory.computeMeters();
         System.out.println("Meters: " + metersManagerFactory.getMeters() + " - Score: " + metersManagerFactory.getScore());
+    }
+
+    private void computeBestScores() {
+        var currentFinalScore = metersManagerFactory.getScore();
+        var currentFinalMeters = metersManagerFactory.getMeters();
+
+        var highScore = Math.max(bestScores.getHighScore(), currentFinalScore);
+        var longestRun = Math.max(bestScores.getLongestRun(), currentFinalMeters);
+
+        bestScores = new BestScores(highScore, longestRun);
+        streamManager.saveBestScores(bestScores);
     }
 
     private void preUpdateCollisionBoxes() {

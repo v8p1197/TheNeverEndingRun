@@ -21,6 +21,13 @@ class ScoreMetersListener implements MetersListener {
     private int score;
 
     /**
+     * Initializes the {@code score} field to {@code INITIAL_SCORE}
+     */
+    public ScoreMetersListener() {
+        this.score = INITIAL_SCORE;
+    }
+
+    /**
      * {@code SCORE_FACTOR} getter
      *
      * @return the factor the meters are multiplied with in order to compute the score
