@@ -9,9 +9,6 @@ import it.unisa.theneverendingrun.models.obstacles.AbstractObstacle;
 import it.unisa.theneverendingrun.obstaclesManager.ObstaclesManager;
 import it.unisa.theneverendingrun.services.ForestFactory;
 import it.unisa.theneverendingrun.services.GameFactory;
-import it.unisa.theneverendingrun.streamManager.BestScores;
-import it.unisa.theneverendingrun.streamManager.FileStreamFactory;
-import it.unisa.theneverendingrun.streamManager.StreamManager;
 import org.mini2Dx.core.game.BasicGame;
 import org.mini2Dx.core.graphics.Graphics;
 
@@ -23,8 +20,7 @@ public class GameEngine extends BasicGame {
     static final String GAME_IDENTIFIER = "it.unisa.theneverendingrun";
     private static final String FILENAME = "best_scores.dat";
 
-    public static final float SPEED = 3.5f;
-    public static final float OBSTACLE_SPEED = 2 * SPEED;
+    private Stage stage;
 
     private HandlingInput input;
     private SpriteBatch spriteBatch;
@@ -48,14 +44,14 @@ public class GameEngine extends BasicGame {
         background = gameFactory.createBackground();
         hero = gameFactory.createHero();
 
+        metersManagerFactory = new MetersManagerFactory();
+
         CollisionManager.wasOnObstacle.clear();
         obstaclesManager = new ObstaclesManager(
                 (float) hero.getJumpMaxElevation(), hero.getHeight(),
-                (float) hero.getMaxSlideRange() * OBSTACLE_SPEED,
+                (float) hero.getMaxSlideRange() * 3,
                 hero.getHeight() / 2, hero.getWidth());
         obstacles = new LinkedList<>();
-
-        metersManagerFactory = new MetersManagerFactory();
 
         streamManager = new StreamManager(new FileStreamFactory(FILENAME));
         bestScores = streamManager.loadBestScores();
@@ -71,7 +67,7 @@ public class GameEngine extends BasicGame {
 
         //stateTime += Gdx.graphics.getDeltaTime(); // Accumulate elapsed animation time
         hero.updateDelta(Gdx.graphics.getDeltaTime());
-        input.getKeyWASD(hero);
+        input.getKeyWASD(hero, metersManagerFactory.getSpeed());
         hero.move();
 
         AbstractObstacle newObstacle = obstaclesManager.generateNewObstacle();
@@ -110,6 +106,14 @@ public class GameEngine extends BasicGame {
 
         bestScores = new BestScores(highScore, longestRun);
         streamManager.saveBestScores(bestScores);
+        metersManagerFactory.updateMeters();
+        obstaclesManager.setSpawnProbability(metersManagerFactory.getSpawnProbability());
+
+        System.out.println("Difficulty: " + metersManagerFactory.getDifficulty() +
+                " - Meters: " + metersManagerFactory.getMeters() +
+                " - Score: " + metersManagerFactory.getScore() +
+                " - Speed: " + metersManagerFactory.getSpeed() +
+                " - Spawn: " + metersManagerFactory.getSpawnProbability());
     }
 
     private void preUpdateCollisionBoxes() {
@@ -119,10 +123,10 @@ public class GameEngine extends BasicGame {
     }
 
     private void moveAllObjects() {
-        hero.setX(hero.getX() - SPEED);
+        hero.setX(hero.getX() - metersManagerFactory.getSpeed());
 
         for (var obstacle : obstacles)
-            obstacle.setX(obstacle.getX() - OBSTACLE_SPEED);
+            obstacle.setX(obstacle.getX() - 3 * metersManagerFactory.getSpeed());
     }
 
     private void checkCollisions() {
