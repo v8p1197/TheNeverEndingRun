@@ -2,6 +2,7 @@ package it.unisa.theneverendingrun;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import it.unisa.theneverendingrun.metersManager.MetersManagerFactory;
 import it.unisa.theneverendingrun.models.background.AbstractScrollingBackground;
 import it.unisa.theneverendingrun.models.hero.Hero;
@@ -9,12 +10,15 @@ import it.unisa.theneverendingrun.models.obstacles.AbstractObstacle;
 import it.unisa.theneverendingrun.obstaclesManager.ObstaclesManager;
 import it.unisa.theneverendingrun.services.ForestFactory;
 import it.unisa.theneverendingrun.services.GameFactory;
+import it.unisa.theneverendingrun.streamManager.BestScores;
+import it.unisa.theneverendingrun.streamManager.FileStreamFactory;
+import it.unisa.theneverendingrun.streamManager.StreamManager;
 import org.mini2Dx.core.game.BasicGame;
 import org.mini2Dx.core.graphics.Graphics;
 
 import java.util.LinkedList;
 
-
+// TODO implements ScoreListener and MetersListener
 public class GameEngine extends BasicGame {
 
     static final String GAME_IDENTIFIER = "it.unisa.theneverendingrun";
@@ -47,6 +51,7 @@ public class GameEngine extends BasicGame {
         metersManagerFactory = new MetersManagerFactory();
 
         CollisionManager.wasOnObstacle.clear();
+        // TODO obstacle manager has to implement difficultyListener and SpawnProbabilityListener
         obstaclesManager = new ObstaclesManager(
                 (float) hero.getJumpMaxElevation(), hero.getHeight(),
                 (float) hero.getMaxSlideRange() * 3,
@@ -82,7 +87,16 @@ public class GameEngine extends BasicGame {
         checkCollisions();
 
         metersManagerFactory.computeMeters();
-        System.out.println("Meters: " + metersManagerFactory.getMeters() + " - Score: " + metersManagerFactory.getScore());
+
+        // TODO delete
+        obstaclesManager.setSpawnProbability(metersManagerFactory.getSpawnProbability());
+
+        // TODO delete
+        System.out.println("Difficulty: " + metersManagerFactory.getDifficulty() +
+                " - Meters: " + metersManagerFactory.getMeters() +
+                " - Score: " + metersManagerFactory.getScore() +
+                " - Speed: " + metersManagerFactory.getSpeed() +
+                " - Spawn: " + metersManagerFactory.getSpawnProbability());
 
         if (hero.isDead()) {
             spriteBatch.dispose();
@@ -106,14 +120,6 @@ public class GameEngine extends BasicGame {
 
         bestScores = new BestScores(highScore, longestRun);
         streamManager.saveBestScores(bestScores);
-        metersManagerFactory.updateMeters();
-        obstaclesManager.setSpawnProbability(metersManagerFactory.getSpawnProbability());
-
-        System.out.println("Difficulty: " + metersManagerFactory.getDifficulty() +
-                " - Meters: " + metersManagerFactory.getMeters() +
-                " - Score: " + metersManagerFactory.getScore() +
-                " - Speed: " + metersManagerFactory.getSpeed() +
-                " - Spawn: " + metersManagerFactory.getSpawnProbability());
     }
 
     private void preUpdateCollisionBoxes() {

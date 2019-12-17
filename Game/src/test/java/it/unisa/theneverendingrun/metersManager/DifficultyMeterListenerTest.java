@@ -17,7 +17,7 @@ public class DifficultyMeterListenerTest {
         var steps = new Random().nextInt(10000);
 
         for (int i = 0; i < steps; i++) {
-            factory.updateMeters();
+            factory.computeMeters();
             Assert.assertEquals((int) (factory.getMeters() / factory.getMetersDelta()) + factory.getDifficultyFactor(), factory.getDifficulty());
         }
     }
