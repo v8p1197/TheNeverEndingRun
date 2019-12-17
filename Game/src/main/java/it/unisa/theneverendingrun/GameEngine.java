@@ -66,15 +66,7 @@ public class GameEngine extends BasicGame {
         background.scroll();
 
         if (!hero.isXAxisVisible(Gdx.graphics.getWidth())) {
-            spriteBatch.dispose();
-            computeBestScores();
-            System.out.println("Best score: " + bestScores.getHighScore() +
-                    " - Longest run: " + bestScores.getLongestRun());
-            try {
-                Thread.sleep(3000);
-            } catch (InterruptedException ignored) {
-            }
-            initialise();
+            hero.die();
         }
 
         //stateTime += Gdx.graphics.getDeltaTime(); // Accumulate elapsed animation time
@@ -95,6 +87,18 @@ public class GameEngine extends BasicGame {
 
         metersManagerFactory.computeMeters();
         System.out.println("Meters: " + metersManagerFactory.getMeters() + " - Score: " + metersManagerFactory.getScore());
+
+        if (hero.isDead()) {
+            spriteBatch.dispose();
+            computeBestScores();
+            System.out.println("Best score: " + bestScores.getHighScore() +
+                    " - Longest run: " + bestScores.getLongestRun());
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException ignored) {
+            }
+            initialise();
+        }
     }
 
     private void computeBestScores() {
