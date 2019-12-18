@@ -1,6 +1,7 @@
 package it.unisa.theneverendingrun;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
@@ -20,6 +21,11 @@ public class Fonts {
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 35;
         parameter.flip = false;
+        parameter.borderColor = Color.BLACK;
+        parameter.borderWidth = 2;
+        parameter.shadowOffsetX = 2;
+        parameter.shadowOffsetY = 2;
+        parameter.shadowColor = Color.BLACK;
 
         //The following settings allow the font to scale smoothly
         parameter.magFilter = Texture.TextureFilter.Linear;
@@ -38,6 +44,12 @@ public class Fonts {
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 25;
         parameter.flip = false;
+        parameter.borderColor = Color.BLACK;
+        parameter.borderWidth = 1;
+        parameter.shadowOffsetX = 1;
+        parameter.shadowOffsetY = 1;
+        parameter.shadowColor = Color.BLACK;
+
 
         //The following settings allow the font to scale smoothly
         parameter.magFilter = Texture.TextureFilter.Linear;

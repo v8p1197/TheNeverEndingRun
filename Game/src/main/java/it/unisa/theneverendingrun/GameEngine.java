@@ -179,13 +179,13 @@ public class GameEngine extends BasicGame {
         var meter_offset = Fonts.meterFont.draw(spriteBatch, "METERS: " + metersManagerFactory.getMeters(),
                 xPosMeter, yPos);
         Fonts.meterFont.draw(spriteBatch, "LONGEST RUN: " + bestScores.getLongestRun(),
-                xPosMeter, yPos - (meter_offset.height * 1.25f));
+                xPosMeter, yPos - (meter_offset.height * 1.5f));
 
 
         var score_offset = Fonts.scoreFont.draw(spriteBatch, "SCORE: " + metersManagerFactory.getScore(),
                 xPosScore, yPos);
         Fonts.scoreFont.draw(spriteBatch, "BEST SCORE: " + bestScores.getHighScore(),
-                xPosScore, yPos - (score_offset.height * 1.25f));
+                xPosScore, yPos - (score_offset.height * 1.5f));
     }
 
 }
