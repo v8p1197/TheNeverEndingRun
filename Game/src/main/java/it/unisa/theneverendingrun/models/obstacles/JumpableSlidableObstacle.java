@@ -6,51 +6,20 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class JumpableSlidableObstacle extends AbstractObstacle {
 
-    private double maxJumpHeight;
+    private static Texture textureJumpableSlidable = new Texture("images/jumpableSlidable.png");
 
-    private double maxWidth;
-
-    private float maxSlideDistance;
-
-    public JumpableSlidableObstacle(Texture texture, int srcX, int srcY, double maxJumpHeight, double maxWidth, float maxSlideDistance) {
-        super(texture, srcX, srcY);
-        setMaxSlideDistance(maxSlideDistance);
-        setMaxJumpHeight(maxJumpHeight);
-        setMaxWidth(maxWidth);
-        generateDimensions();
+    public JumpableSlidableObstacle(float maxJumpHeight, float maxSlideDistance) {
+        super(textureJumpableSlidable);
+        generateDimensions(maxJumpHeight, maxSlideDistance);
     }
 
-    private double getMaxJumpHeight() {
-        return maxJumpHeight;
-    }
+    private void generateDimensions(double maxJumpHeight, float maxSlideDistance) {
 
-    private void setMaxJumpHeight(double maxJumpHeight) {
-        this.maxJumpHeight = maxJumpHeight;
-    }
+        var minGapHeight = maxJumpHeight * 0.4;
+        var maxGapHeight = maxJumpHeight * 0.6;
 
-    private double getMaxWidth() {
-        return maxWidth;
-    }
-
-    private void setMaxWidth(double maxWidth) {
-        this.maxWidth = maxWidth;
-    }
-
-    private float getMaxSlideDistance() {
-        return maxSlideDistance;
-    }
-
-    private void setMaxSlideDistance(float maxSlideDistance) {
-        this.maxSlideDistance = maxSlideDistance;
-    }
-
-    @Override
-    public void generateDimensions() {
-        var maxGapHeight = getMaxJumpHeight();
-        var minGapHeight = maxGapHeight / 2;
-
-        var maxGapWidth = getMaxSlideDistance() - 2;
-        var minGapWidth = Math.min(getMaxWidth() / 2, (getMaxSlideDistance() / 2) - 2);
+        var minGapWidth = maxSlideDistance * 0.5;
+        var maxGapWidth = maxSlideDistance - 2;
 
         var randomHeight = (float) ThreadLocalRandom.current().nextDouble(minGapHeight, maxGapHeight);
         var randomWidth = (float) ThreadLocalRandom.current().nextDouble(minGapWidth, maxGapWidth);
