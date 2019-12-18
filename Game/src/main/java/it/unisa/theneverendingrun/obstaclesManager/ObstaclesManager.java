@@ -2,45 +2,51 @@ package it.unisa.theneverendingrun.obstaclesManager;
 
 import com.badlogic.gdx.Gdx;
 import it.unisa.theneverendingrun.CollisionManager;
-import it.unisa.theneverendingrun.models.obstacles.*;
+import it.unisa.theneverendingrun.models.Spawnable;
+import it.unisa.theneverendingrun.models.SpawnableTypes;
+import it.unisa.theneverendingrun.models.hero.Hero;
+import it.unisa.theneverendingrun.services.ForestFactory;
 
 import java.util.LinkedList;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class ObstaclesManager {
 
-    //TODO: Togliere
-    static final int OFFSET = (int) (0.0625 * Gdx.graphics.getHeight());
-    static final float MULTIPLIER = 3;
-
     /**
      * Values which are needed to set the correct position of the new obstacle.
      */
-    private float maxJumpingHeight;
-    private float standingHeight;
-    private float slidingHeight;
-    private float standingWidth;
+    private int spawnProbability = 50;
+    private int minimumDistanceMultiplier = 3;
+    private float offset;
 
     /**
-     * Reference to the obstacleFactory.
+     * Reference to the forestFactory.
      */
-    private static ObstacleFactory obstacleFactory;
+    private ForestFactory forestFactory;
 
     /**
      * Reference to the last obstacle generated.
      */
-    private AbstractObstacle lastObstacle;
+    private Spawnable lastObstacle;
+
+    /**
+     * The type of the last obstacle added to the game
+     */
+    private SpawnableTypes lastObstacleType;
+
+    /**
+     * Reference to the hero which the measures will be based on.
+     */
+    private Hero hero;
 
     /**
      * Constructor of the obstaclesManager. parameters are self explanatory
      * todo update and complete this javadoc
      */
-    public ObstaclesManager(float maxJumpingHeight, float standingHeight, float maxSlidingDistance, float slidingHeight, float standingWidth) {
-        this.maxJumpingHeight = maxJumpingHeight;
-        this.standingHeight = standingHeight;
-        this.slidingHeight = slidingHeight;
-        this.standingWidth = standingWidth;
-        obstacleFactory = new ObstacleFactory(maxJumpingHeight, maxSlidingDistance, standingWidth * MULTIPLIER);//fixme
+    public ObstaclesManager() {
+        forestFactory = new ForestFactory();
+        hero = forestFactory.createHero();
+        offset = forestFactory.createHero().getGroundY();
     }
 
     /**
@@ -49,17 +55,33 @@ public class ObstaclesManager {
      * In addition, to the obstacle will be assigned the correct position, based on the reference measures given
      * during the creation of the obstaclesManager.
      *
-     * @return A new AbstractObstacle, with the correct position, null if the obstacle cannot be generated
+     * @return A new Spawnable, with the correct position, null if the obstacle cannot be generated
      */
-    public AbstractObstacle generateNewObstacle() {
-        ObstacleType newObstacleType = getAppropriateObstacleType();
+    public Spawnable generateNewObstacle() {
+        SpawnableTypes newObstacleType = getAppropriateSpawnableType();
         if (newObstacleType == null) {
             return null;
         }
-        AbstractObstacle newObstacle = obstacleFactory.getObstacle(newObstacleType, 0, 0);
-        setPosition(newObstacle);
+        Spawnable newObstacle = getObstacle(newObstacleType);
+        setPosition(newObstacle, newObstacleType);
         lastObstacle = newObstacle;
+        lastObstacleType = newObstacleType;
         return newObstacle;
+    }
+
+    private Spawnable getObstacle(SpawnableTypes newObstacleType) {
+        switch (newObstacleType) {
+            case Wolf:
+                return forestFactory.createWolf();
+            case Jumpable:
+                return forestFactory.createJumpableObstacle();
+            case JumpableSlidable:
+                return forestFactory.createJumpableSlidableObstacle();
+            case Slidable:
+                return forestFactory.createSlidableObstacle();
+            default:
+                return null;
+        }
     }
 
     /**
@@ -68,13 +90,13 @@ public class ObstaclesManager {
      * otherwise the player might not be able to pass.
      * Please, note that this method randomly decides to add or not an obstacle, even if it can added.
      *
-     * @return The type of obstacle that can be added, null if none. //fixme maybe raise an exception?
+     * @return The type of obstacle that can be added, null if none.
      */
-    private ObstacleType getAppropriateObstacleType() {
+    private SpawnableTypes getAppropriateSpawnableType() {
         //If there isn't any obstacle on the screen, add one at random
         if (lastObstacle == null) {
-            int random = ThreadLocalRandom.current().nextInt(ObstacleType.values().length);
-            return ObstacleType.values()[random];
+            int random = ThreadLocalRandom.current().nextInt(SpawnableTypes.values().length);
+            return SpawnableTypes.values()[random];
         }
 
         // Calculate the distance from the last obstacle. This distance is defined as the distance from the right
@@ -85,35 +107,42 @@ public class ObstaclesManager {
         if (distance < 0)
             return null;
 
-        // If distance is zero, then we could add a jumpable obstacle, but only if the previous was of this type
+        // If distance is zero, then we could add a jumpable or slidable obstacle, but only if the previous was jumpable
         if (distance == 0) {
-            if (lastObstacle instanceof JumpableObstacle) {
-                //fixme tune the probability
-                if (ThreadLocalRandom.current().nextBoolean())
-                    return ObstacleType.Slidable;
-                if (ThreadLocalRandom.current().nextBoolean())
-                    return ObstacleType.Jumpable;
-
+            if (lastObstacleType == SpawnableTypes.Jumpable) {
+                //generating a value between -1 and 1, deciding what to add according to it
+                int r = ThreadLocalRandom.current().nextInt(-1, 2);
+                if (r == 0)
+                    return null;
+                if (r > 0)
+                    return SpawnableTypes.Jumpable;
+                if (r < 0)
+                    return SpawnableTypes.Slidable;
             }
-            if (lastObstacle instanceof JumpableSlidableObstacle) {
+            if (lastObstacleType == SpawnableTypes.JumpableSlidable) {
                 return null;
             }
-            if (lastObstacle instanceof SlidableObstacle) {
+            if (lastObstacleType == SpawnableTypes.Slidable) {
                 return null;
+            }
+            if (lastObstacleType == SpawnableTypes.Wolf) {
+                //fixme, is this always jumpable?
+                if (ThreadLocalRandom.current().nextBoolean())
+                    return SpawnableTypes.Jumpable;
             }
         }
 
         //If the space is not sufficient for the hero to pass, wait.
-        if (distance < standingWidth * MULTIPLIER) {//fixme tune the distance
+        if (distance < hero.getStandardWidth() * minimumDistanceMultiplier) {
             return null;
         }
 
 
         // If the obstacle is distant enough, it is possible to add every type of obstacle
-        if (distance >= standingWidth * MULTIPLIER) {//fixme tune the probability and the distance
-            if (ThreadLocalRandom.current().nextInt() % 5 == 0) {
-                int random = ThreadLocalRandom.current().nextInt(0, ObstacleType.values().length);
-                return ObstacleType.values()[random];
+        if (distance >= hero.getStandardWidth() * minimumDistanceMultiplier) {
+            if (ThreadLocalRandom.current().nextInt() % spawnProbability == 0) {
+                int random = ThreadLocalRandom.current().nextInt(0, SpawnableTypes.values().length);
+                return SpawnableTypes.values()[random];
             }
         }
         return null;
@@ -127,24 +156,37 @@ public class ObstaclesManager {
      * obstacle and on the parameters passed to the constructor.
      *
      * @param obstacle the obstacle which needs the position fixed
+     * @param newObstacleType
      */
-    private void setPosition(AbstractObstacle obstacle) {
+    private void setPosition(Spawnable obstacle, SpawnableTypes newObstacleType) {
         int yPosition = 0;
-        if (obstacle instanceof JumpableObstacle) {
+
+        if (newObstacleType == SpawnableTypes.Jumpable) {
             yPosition = 0;
-        } else if (obstacle instanceof SlidableObstacle) {
-            yPosition = ThreadLocalRandom.current().nextInt((int) slidingHeight + 2, (int) standingHeight - 1);
-            if (lastObstacle != null) {
-                if (lastObstacle instanceof JumpableObstacle && lastObstacle.getX() + lastObstacle.getWidth() >= Gdx.graphics.getWidth() - 1) {
-                    yPosition += lastObstacle.getHeight() + lastObstacle.getY() - OFFSET;
+        }
+
+        if (newObstacleType == SpawnableTypes.Wolf) {
+            yPosition = 0;
+        }
+
+        if (newObstacleType == SpawnableTypes.Slidable) {
+            yPosition = ThreadLocalRandom.current().nextInt(
+                    (int) hero.getStandardHeight() / 2,
+                    (int) hero.getStandardHeight() - 1
+            );
+            if (lastObstacleType == SpawnableTypes.Jumpable && lastObstacle.getX() + lastObstacle.getWidth() >= Gdx.graphics.getWidth() - 1) {
+                yPosition += lastObstacle.getHeight() + lastObstacle.getY() - offset;
                 }
             }
-        } else if (obstacle instanceof JumpableSlidableObstacle) {
-            yPosition = ThreadLocalRandom.current().nextInt((int) slidingHeight + 1,
-                    1 + (int) slidingHeight + (int) maxJumpingHeight - (int) obstacle.getHeight());
+
+
+        if (newObstacleType == SpawnableTypes.JumpableSlidable) {
+            yPosition = ThreadLocalRandom.current().nextInt(
+                    (int) hero.getStandardHeight() / 2,
+                    (int) hero.getStandardHeight() / 2 + (int) hero.getJumpMaxElevation() - (int) obstacle.getHeight());
         }
         // Accounting for the lower part of the background
-        yPosition += OFFSET;
+        yPosition += offset;
         obstacle.setPosition(Gdx.graphics.getWidth(), yPosition);
     }
 
@@ -153,25 +195,53 @@ public class ObstaclesManager {
      *
      * @param obstacles the LinkedList which contains all the obstacles.
      */
-    public void clearOldObstacles(LinkedList<AbstractObstacle> obstacles) {
+    public void clearOldObstacles(LinkedList<Spawnable> obstacles) {
         if (obstacles.isEmpty())
             return;
 
-        LinkedList<AbstractObstacle> toRemoveList = new LinkedList<>();
-        for (AbstractObstacle obstacle : obstacles)
+        LinkedList<Spawnable> toRemoveList = new LinkedList<>();
+        for (Spawnable obstacle : obstacles)
             if (!obstacle.isXAxisVisible()) {
                 toRemoveList.add(obstacle);
             }
-        for (AbstractObstacle toRemove : toRemoveList) {
+        for (Spawnable toRemove : toRemoveList) {
             obstacles.remove(toRemove);
             CollisionManager.wasOnObstacle.remove(toRemove);
         }
     }
 
+    /**
+     * Set the spawn probability of an obstacle, when anyone can be generated. This value is inversely proportional to
+     * the probability of spawning. This means that if it is equal to 1, every time the minimum distance is
+     * exceeded, than an obstacle is generated.
+     *
+     * @param spawnProbability the spawn probability of an obstacle when any can be generated
+     */
+    public void setSpawnProbability(int spawnProbability) {
+        if (spawnProbability < 1)
+            throw new IllegalArgumentException("SpawnProbability must be greater or equal than 1.");
+
+        this.spawnProbability = spawnProbability;
+    }
+
+    /**
+     * Set the minimum distance that must occur between two obstacles. This number is a multiplier of the hero's width.
+     * This means that a multiplier of one, allows the hero to pass between two obstacles leaving zero pixel on its left
+     * or on its right. Obviously, the multiplier cannot be less than one, since the distance must be greater than the
+     * hero width.
+     *
+     * @param minimumDistanceMultiplier the multiplier
+     * @throws IllegalArgumentException if the argument is less than 1
+     */
+    public void setMinimumDistanceMultiplier(int minimumDistanceMultiplier) {
+        if (minimumDistanceMultiplier < 1)
+            throw new IllegalArgumentException("MinimumDistanceMultiplier must be greater or equal than 1.");
+        this.minimumDistanceMultiplier = minimumDistanceMultiplier;
+    }
 
     @Deprecated
-    public void updateObstaclesPosition(LinkedList<AbstractObstacle> obstacles) {
-        for (AbstractObstacle obs : obstacles
+    public void updateObstaclesPosition(LinkedList<Spawnable> obstacles) {
+        for (Spawnable obs : obstacles
         ) {
             obs.setX(obs.getX() - 8);
         }
