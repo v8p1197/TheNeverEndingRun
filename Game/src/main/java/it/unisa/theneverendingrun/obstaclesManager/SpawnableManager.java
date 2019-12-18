@@ -10,7 +10,7 @@ import it.unisa.theneverendingrun.services.ForestFactory;
 import java.util.LinkedList;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class ObstaclesManager {
+public class SpawnableManager {
 
     /**
      * Values which are needed to set the correct position of the new obstacle.
@@ -43,7 +43,7 @@ public class ObstaclesManager {
      * Constructor of the obstaclesManager. parameters are self explanatory
      * todo update and complete this javadoc
      */
-    public ObstaclesManager() {
+    public SpawnableManager() {
         forestFactory = new ForestFactory();
         hero = forestFactory.createHero();
         offset = forestFactory.createHero().getGroundY();
