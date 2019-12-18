@@ -3,7 +3,9 @@ package it.unisa.theneverendingrun.models.enemy;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.FileTextureData;
 import it.unisa.theneverendingrun.models.Spawnable;
+import it.unisa.theneverendingrun.models.SpawnableTypes;
 import it.unisa.theneverendingrun.models.hero.Hero;
 import it.unisa.theneverendingrun.services.EnemyAnimation;
 
@@ -28,12 +30,17 @@ public abstract class AbstractEnemy extends Spawnable {
     private Animation animation;
     private float deltaTime;
 
+    private String path;
+
     public AbstractEnemy(Texture texture) {
         super(texture);
+        String texturePath = ((FileTextureData) texture.getTextureData()).getFileHandle().path();
+        this.path = texturePath.substring(0, texturePath.length() - 10);
+        setEnemyAnimation(new EnemyIdle());
     }
 
     public void setAnimations() {
-        animation = enemyAnimation.setAnimation();
+        animation = enemyAnimation.setAnimation(path);
     }
 
     @Override

@@ -7,13 +7,13 @@ import it.unisa.theneverendingrun.services.EnemyAnimation;
 
 public class EnemyIdle implements EnemyAnimation {
 
-    private static TextureRegion[] tVect = new TextureRegion[12];
+    private TextureRegion[] tVect = new TextureRegion[13];
 
     @Override
-    public Animation setAnimation() {
-        if (tVect[0] == null)
-        for (int i = 1; i <= 12; i++) {
-            TextureRegion t = new TextureRegion(new Texture("images/enemy/wolf/idle/wolf_idle_" + i + ".png"));
+    public Animation setAnimation(String commonPath) {
+        //if (tVect[0] == null)
+        for (int i = 1; i <= 13; i++) {
+            TextureRegion t = new TextureRegion(new Texture(commonPath + "idle_" + i + ".png"));
             tVect[i - 1] = t;
         }
         return new Animation(0.05f, tVect);
