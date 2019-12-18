@@ -2,8 +2,10 @@ package it.unisa.theneverendingrun;
 
 import com.badlogic.gdx.math.Rectangle;
 import it.unisa.theneverendingrun.models.Sprite;
+import it.unisa.theneverendingrun.models.enemy.AbstractEnemy;
+import it.unisa.theneverendingrun.models.enemy.EnemyAttack;
+import it.unisa.theneverendingrun.models.enemy.EnemyIdle;
 import it.unisa.theneverendingrun.models.hero.Hero;
-import it.unisa.theneverendingrun.models.obstacles.AbstractObstacle;
 import org.mini2Dx.core.engine.geom.CollisionBox;
 
 import java.util.HashMap;
@@ -19,14 +21,17 @@ public class CollisionManager {
     public static int left = 2, top = 3, right = 0, bottom = 1;
 
 
-    public static boolean checkCollisionEnemy(Hero hero, Sprite enemy) {
+    public static boolean checkCollisionEnemy(Hero hero, AbstractEnemy abstractEnemy) {
 
-        var enemyCollisionBox = enemy.getCollisionBox();
+        var enemyCollisionBox = abstractEnemy.getCollisionBox();
         var heroCollisionBox = hero.getCollisionBox();
 
         if (heroCollisionBox.intersects(enemyCollisionBox)) {
+            abstractEnemy.setEnemyAnimation(new EnemyAttack());
             return true;
         } else {
+            if (!(abstractEnemy.getEnemyAnimation() instanceof EnemyIdle))
+                abstractEnemy.setEnemyAnimation(new EnemyIdle());
             return false;
         }
     }
