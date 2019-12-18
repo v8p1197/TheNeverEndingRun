@@ -19,19 +19,19 @@ public class Fonts {
     private static void loadScoreFont() {
         //Generate a font object for font.ttf at size 40px
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 35;
+        parameter.size = 17;
         parameter.flip = false;
         parameter.borderColor = Color.BLACK;
-        parameter.borderWidth = 2;
-        parameter.shadowOffsetX = 2;
-        parameter.shadowOffsetY = 2;
+        parameter.borderWidth = 1;
+        parameter.shadowOffsetX = 1;
+        parameter.shadowOffsetY = 1;
         parameter.shadowColor = Color.BLACK;
 
         //The following settings allow the font to scale smoothly
         parameter.magFilter = Texture.TextureFilter.Linear;
         parameter.minFilter = Texture.TextureFilter.Linear;
 
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Arcadepix.ttf"));
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("ARCADE_R.ttf"));
 
         scoreFont = generator.generateFont(parameter);
         scoreFont.setUseIntegerPositions(false);
@@ -42,7 +42,7 @@ public class Fonts {
     private static void loadMeterFont() {
         //Generate a font object for font.ttf at size 40px
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 25;
+        parameter.size = 13;
         parameter.flip = false;
         parameter.borderColor = Color.BLACK;
         parameter.borderWidth = 1;
@@ -55,7 +55,7 @@ public class Fonts {
         parameter.magFilter = Texture.TextureFilter.Linear;
         parameter.minFilter = Texture.TextureFilter.Linear;
 
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Arcadepix.ttf"));
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("ARCADE_R.ttf"));
 
         meterFont = generator.generateFont(parameter);
         meterFont.setUseIntegerPositions(false);
