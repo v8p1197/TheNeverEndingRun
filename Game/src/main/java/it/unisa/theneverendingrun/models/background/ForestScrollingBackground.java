@@ -8,7 +8,7 @@ import static com.badlogic.gdx.graphics.Texture.TextureWrap.Repeat;
 
 public class ForestScrollingBackground extends AbstractScrollingBackground {
 
-    private static final Texture texture = new Texture("images/backgrounds/forest.png");
+    private static final Texture texture = new Texture("images/forest/backgrounds/forest.png");
 
     public ForestScrollingBackground(float scrollingSpeed, float scrollWidth) {
         super(texture, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), scrollingSpeed, scrollWidth);
