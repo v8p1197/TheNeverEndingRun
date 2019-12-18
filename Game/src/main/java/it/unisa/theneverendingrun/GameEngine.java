@@ -2,9 +2,9 @@ package it.unisa.theneverendingrun;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import it.unisa.theneverendingrun.models.Spawnable;
 import it.unisa.theneverendingrun.models.background.AbstractScrollingBackground;
 import it.unisa.theneverendingrun.models.hero.Hero;
-import it.unisa.theneverendingrun.models.obstacles.AbstractObstacle;
 import it.unisa.theneverendingrun.obstaclesManager.ObstaclesManager;
 import it.unisa.theneverendingrun.services.ForestFactory;
 import it.unisa.theneverendingrun.services.GameFactory;
@@ -26,7 +26,7 @@ public class GameEngine extends BasicGame {
     private Hero hero;
     private AbstractScrollingBackground background;
 
-    private LinkedList<AbstractObstacle> obstacles;
+    private LinkedList<Spawnable> obstacles;
     private ObstaclesManager obstaclesManager;
 
 
@@ -41,10 +41,7 @@ public class GameEngine extends BasicGame {
 
         CollisionManager.wasOnObstacle.clear();
 
-        obstaclesManager = new ObstaclesManager(
-                (float) hero.getJumpMaxElevation(), hero.getHeight(),
-                (float) hero.getMaxSlideRange() * SPEED,
-                hero.getHeight() / 2, hero.getWidth());
+        obstaclesManager = new ObstaclesManager();
         obstacles = new LinkedList<>();
     }
 
@@ -62,7 +59,8 @@ public class GameEngine extends BasicGame {
         input.getKeyWASD(hero);
         hero.move();
 
-        AbstractObstacle newObstacle = obstaclesManager.generateNewObstacle();
+        Spawnable newObstacle = obstaclesManager.generateNewObstacle();
+
         if (newObstacle != null)
             obstacles.add(newObstacle);
         obstaclesManager.clearOldObstacles(obstacles);
@@ -89,14 +87,7 @@ public class GameEngine extends BasicGame {
 
     private void checkCollisions() {
         for (var obstacle : obstacles)
-            CollisionManager.checkCollisionObstacle(hero, obstacle);
-        /*
-            for (var enemy : enemies)
-                if (CollisionManager.checkCollisionEnemy(hero, enemy)){
-                    spriteBatch.dispose();
-                    initialise();
-                }
-        */
+            CollisionManager.checkCollision(hero, obstacle);
     }
 
     @Override
