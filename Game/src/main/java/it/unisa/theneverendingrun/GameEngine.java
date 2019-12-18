@@ -52,6 +52,8 @@ public class GameEngine extends BasicGame {
         input = new HandlingInput();
         spriteBatch = new SpriteBatch();
 
+        Fonts.load();
+
         gameFactory = new ForestFactory();
         background = gameFactory.createBackground();
         hero = gameFactory.createHero();
@@ -172,15 +174,15 @@ public class GameEngine extends BasicGame {
     }
 
     private void drawScore() {
-        var xPosMeter = Gdx.graphics.getWidth() * 0.05f;
-        var xPosScore = Gdx.graphics.getWidth() * 0.35f;
-        var yPos = Gdx.graphics.getHeight() * 0.9f;
+        var xPosMeter = Gdx.graphics.getWidth() * 0.03f;
+        var yPos = Gdx.graphics.getHeight() * 0.95f;
 
         var meter_offset = Fonts.meterFont.draw(spriteBatch, "METERS: " + metersManagerFactory.getMeters(),
                 xPosMeter, yPos);
-        Fonts.meterFont.draw(spriteBatch, "LONGEST RUN: " + bestScores.getLongestRun(),
+        var longestRunOffset = Fonts.meterFont.draw(spriteBatch, "LONGEST RUN: " + bestScores.getLongestRun(),
                 xPosMeter, yPos - (meter_offset.height * 1.5f));
 
+        var xPosScore = Math.max(hero.getGroundX(), xPosMeter + longestRunOffset.width + 50);
 
         var score_offset = Fonts.scoreFont.draw(spriteBatch, "SCORE: " + metersManagerFactory.getScore(),
                 xPosScore, yPos);

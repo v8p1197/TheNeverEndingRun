@@ -19,12 +19,12 @@ public class Fonts {
     private static void loadScoreFont() {
         //Generate a font object for font.ttf at size 40px
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 17;
+        parameter.size = 24;
         parameter.flip = false;
         parameter.borderColor = Color.BLACK;
-        parameter.borderWidth = 1;
-        parameter.shadowOffsetX = 1;
-        parameter.shadowOffsetY = 1;
+        parameter.borderWidth = 2;
+        parameter.shadowOffsetX = 2;
+        parameter.shadowOffsetY = 2;
         parameter.shadowColor = Color.BLACK;
 
         //The following settings allow the font to scale smoothly
@@ -42,10 +42,10 @@ public class Fonts {
     private static void loadMeterFont() {
         //Generate a font object for font.ttf at size 40px
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 13;
+        parameter.size = 18;
         parameter.flip = false;
         parameter.borderColor = Color.BLACK;
-        parameter.borderWidth = 1;
+        parameter.borderWidth = 2;
         parameter.shadowOffsetX = 1;
         parameter.shadowOffsetY = 1;
         parameter.shadowColor = Color.BLACK;
