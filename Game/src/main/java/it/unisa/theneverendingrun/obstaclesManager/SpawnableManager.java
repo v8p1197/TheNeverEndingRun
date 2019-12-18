@@ -73,6 +73,8 @@ public class SpawnableManager {
         switch (newObstacleType) {
             case Wolf:
                 return forestFactory.createWolf();
+            case Golem:
+                return forestFactory.createGolem();
             case Jumpable:
                 return forestFactory.createJumpableObstacle();
             case JumpableSlidable:
@@ -125,7 +127,7 @@ public class SpawnableManager {
             if (lastObstacleType == SpawnableTypes.Slidable) {
                 return null;
             }
-            if (lastObstacleType == SpawnableTypes.Wolf) {
+            if (lastObstacleType == SpawnableTypes.Wolf || lastObstacleType == SpawnableTypes.Golem) {
                 //fixme, is this always jumpable?
                 if (ThreadLocalRandom.current().nextBoolean())
                     return SpawnableTypes.Jumpable;
@@ -165,7 +167,7 @@ public class SpawnableManager {
             yPosition = 0;
         }
 
-        if (newObstacleType == SpawnableTypes.Wolf) {
+        if (newObstacleType == SpawnableTypes.Wolf || newObstacleType == SpawnableTypes.Golem) {
             yPosition = 0;
         }
 

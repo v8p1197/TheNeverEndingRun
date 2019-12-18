@@ -5,5 +5,5 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 
 public interface EnemyAnimation {
 
-    Animation setAnimation();
+    Animation setAnimation(String commonPath);
 }

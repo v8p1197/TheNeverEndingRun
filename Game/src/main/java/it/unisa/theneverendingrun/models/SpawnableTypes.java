@@ -5,4 +5,5 @@ public enum SpawnableTypes {
     Slidable,
     JumpableSlidable,
     Wolf,
+    Golem,
 }
