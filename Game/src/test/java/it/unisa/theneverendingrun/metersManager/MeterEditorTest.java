@@ -23,7 +23,7 @@ public class MeterEditorTest {
 
         for (int i = 1; i <= steps; i++) {
             var previousMetersCounter = factory.getMeters();
-            MeterEditor.update();
+            MeterEditor.compute();
             var currentMetersCounter = factory.getMeters();
 
             if (i % MeterEditor.getMetersFactor() == 0) {

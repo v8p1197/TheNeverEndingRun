@@ -22,7 +22,7 @@ class MeterEditor {
 
     /**
      * {@code counter} increases by 1 each time the update() method is called.
-     * If it reaches {@code METERS_FACTOR}, it's set back to {@code INITIAL_METERS}
+     * If it reaches {@code METERS_FACTOR}, it's set back to 0
      */
     private static int counter;
 
@@ -57,7 +57,7 @@ class MeterEditor {
     /**
      * Updates the {@code counter} and {@code meters} fields depending on {@code METERS_FACTOR}
      */
-    static void update() {
+    static void compute() {
         counter++;
         if (counter == METERS_FACTOR) {
             counter = 0;

@@ -3,7 +3,7 @@ package it.unisa.theneverendingrun.models.hero;
 
 /**
  * The State representing if the hero is jumping, sliding, falling or none of them:
- * the states are called Idle, Jump, Slide and Fall.
+ * the states are called Idle, Jump, Slide, Fall and Dead.
  * Also is delegated to compute the sprite image
  */
 public abstract class HeroMoveState {
@@ -75,6 +75,11 @@ public abstract class HeroMoveState {
      * The reaction when the state tries to change to Fall
      */
     public abstract void onFall();
+
+    /**
+     * The reaction when the state tries to change to Dead
+     */
+    public abstract void onDie();
 
     public abstract String toString();
 

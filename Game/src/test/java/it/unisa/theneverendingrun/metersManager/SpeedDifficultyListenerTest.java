@@ -16,7 +16,7 @@ public class SpeedDifficultyListenerTest {
         var steps = new Random().nextInt(10000);
 
         for (int i = 0; i < steps; i++) {
-            factory.updateMeters();
+            factory.computeMeters();
             Assert.assertEquals(factory.getInitialSpeed() +
                     factory.getSpeedFactor() *
                             (factory.getDifficulty() - factory.getInitialDifficulty()), factory.getSpeed(), 0.0);

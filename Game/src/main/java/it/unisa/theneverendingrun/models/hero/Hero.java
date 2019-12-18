@@ -290,8 +290,18 @@ public abstract class Hero extends Sprite {
      *
      * @return true if the hero is falling, false otherwise
      */
-    public boolean isFalling() { return this.getMoveState() instanceof FallState; }
+    public boolean isFalling() {
+        return this.getMoveState() instanceof FallState;
+    }
 
+    /**
+     * dead getter
+     *
+     * @return true if the hero is dead, false otherwise
+     */
+    public boolean isDead() {
+        return this.getMoveState() instanceof DeadState;
+    }
 
     /**
      * jumpCount getter
@@ -477,6 +487,13 @@ public abstract class Hero extends Sprite {
         if (!isJumping())
             return 0;
         return 0.5 - 1.0 * getJumpCount() / 2 / getJumpDuration();
+    }
+
+    /**
+     * Asks the hero to die
+     */
+    public void die() {
+        getMoveState().onDie();
     }
 
     /* ------------------------------------- SERVICE METHODS ------------------------------------- */

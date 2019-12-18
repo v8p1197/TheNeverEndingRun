@@ -46,7 +46,7 @@ public class FallState extends HeroMoveState {
     }
 
     /**
-     * The reaction when the state tries to change from Fall to Idle: the hero do changes its state to Idle
+     * The reaction when the state tries to change from Fall to Idle: the hero does change its state to Idle
      */
     @Override
     public void onIdle() {
@@ -73,6 +73,14 @@ public class FallState extends HeroMoveState {
      */
     @Override
     public void onFall() {
+    }
+
+    /**
+     * The reaction when the state tries to change from Fall to Dead: the hero does die
+     */
+    @Override
+    public void onDie() {
+        hero.changeMoveState(new DeadState(hero));
     }
 
     @Override

@@ -46,6 +46,14 @@ public class IdleState extends HeroMoveState {
         hero.changeMoveState(new FallState(hero));
     }
 
+    /**
+     * The reaction when the state tries to change from Idle to Dead: the hero does die
+     */
+    @Override
+    public void onDie() {
+        hero.changeMoveState(new DeadState(hero));
+    }
+
     @Override
     public String toString() {
         return (hero.isRunning() ? "running " : "standing ");

@@ -18,7 +18,7 @@ import org.mini2Dx.core.graphics.Graphics;
 
 import java.util.LinkedList;
 
-
+// TODO implements ScoreListener and MetersListener
 public class GameEngine extends BasicGame {
 
     static final String GAME_IDENTIFIER = "it.unisa.theneverendingrun";
@@ -35,6 +35,8 @@ public class GameEngine extends BasicGame {
     private ObstaclesManager obstaclesManager;
 
     private MetersManagerFactory metersManagerFactory;
+    private StreamManager streamManager;
+    private BestScores bestScores;
 
     @Override
     public void initialise() {
@@ -53,12 +55,15 @@ public class GameEngine extends BasicGame {
         metersManagerFactory = new MetersManagerFactory();
 
         CollisionManager.wasOnObstacle.clear();
+        // TODO obstacle manager has to implement difficultyListener and SpawnProbabilityListener
         obstaclesManager = new ObstaclesManager(
                 (float) hero.getJumpMaxElevation(), hero.getHeight(),
                 (float) hero.getMaxSlideRange() * 3,
                 hero.getHeight() / 2, hero.getWidth());
         obstacles = new LinkedList<>();
 
+        streamManager = new StreamManager(new FileStreamFactory(FILENAME));
+        bestScores = streamManager.loadBestScores();
     }
 
     @Override
@@ -86,8 +91,16 @@ public class GameEngine extends BasicGame {
 
         checkCollisions();
 
-        metersManagerFactory.updateMeters();
+        metersManagerFactory.computeMeters();
+
+        // TODO delete
         obstaclesManager.setSpawnProbability(metersManagerFactory.getSpawnProbability());
+
+        System.out.println("Difficulty: " + metersManagerFactory.getDifficulty() +
+                " - Meters: " + metersManagerFactory.getMeters() +
+                " - Score: " + metersManagerFactory.getScore() +
+                " - Speed: " + metersManagerFactory.getSpeed() +
+                " - Spawn: " + metersManagerFactory.getSpawnProbability());
     }
 
     private void preUpdateCollisionBoxes() {
@@ -128,7 +141,6 @@ public class GameEngine extends BasicGame {
         spriteBatch.draw(background, 0, 0);
         drawHero();
         drawObstacles();
-        drawScore();
 
         spriteBatch.end();
     }
@@ -145,10 +157,4 @@ public class GameEngine extends BasicGame {
     private void drawHero() {
         hero.draw(spriteBatch);
     }
-
-    private void drawScore() {
-        Fonts.scoreFont.draw(spriteBatch, "SCORE: " + metersManagerFactory.getScore(),
-                Gdx.graphics.getWidth() - 250, Gdx.graphics.getHeight() - 50);
-    }
-
 }

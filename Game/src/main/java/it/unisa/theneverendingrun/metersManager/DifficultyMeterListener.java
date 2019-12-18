@@ -34,6 +34,7 @@ class DifficultyMeterListener implements MetersListener {
     private int difficultyLevel;
 
     DifficultyMeterListener() {
+        this.difficultyLevel = INITIAL_DIFFICULTY;
     }
 
     /**
@@ -89,6 +90,6 @@ class DifficultyMeterListener implements MetersListener {
      */
     @Override
     public void update(int meters) {
-        setDifficultyLevel((int) (meters / METERS_DELTA) + DIFFICULTY_FACTOR);
+        setDifficultyLevel((int) (DIFFICULTY_FACTOR * meters / METERS_DELTA) + INITIAL_DIFFICULTY);
     }
 }

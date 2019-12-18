@@ -16,7 +16,7 @@ public class ObstacleSpawnProbabilityListenerTest {
         var steps = new Random().nextInt(10000);
 
         for (int i = 0; i < steps; i++) {
-            factory.updateMeters();
+            factory.computeMeters();
             Assert.assertEquals(factory.getInitialSpawnProbability() -
                     factory.getSpawnFactorProbability() *
                             (factory.getDifficulty() - factory.getInitialDifficulty()), factory.getSpawnProbability());

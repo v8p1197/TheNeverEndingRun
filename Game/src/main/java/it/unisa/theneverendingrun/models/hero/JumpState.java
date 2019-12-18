@@ -79,6 +79,14 @@ public class JumpState extends HeroMoveState {
         hero.changeMoveState(new FallState(hero));
     }
 
+    /**
+     * The reaction when the state tries to change from Jump to Dead: the hero does die
+     */
+    @Override
+    public void onDie() {
+        hero.changeMoveState(new DeadState(hero));
+    }
+
     @Override
     public String toString() {
         return "jumping " + hero.getFacingState().toString();
