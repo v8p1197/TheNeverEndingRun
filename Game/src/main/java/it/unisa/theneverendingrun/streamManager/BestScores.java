@@ -43,4 +43,12 @@ public class BestScores {
     public int getLongestRun() {
         return longestRun;
     }
+
+    public void setHighScore(int highScore) {
+        this.highScore = highScore;
+    }
+
+    public void setLongestRun(int longestRun) {
+        this.longestRun = longestRun;
+    }
 }

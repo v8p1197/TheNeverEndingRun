@@ -13,6 +13,9 @@ import it.unisa.theneverendingrun.models.obstacles.AbstractObstacle;
 import it.unisa.theneverendingrun.obstaclesManager.ObstaclesManager;
 import it.unisa.theneverendingrun.services.ForestFactory;
 import it.unisa.theneverendingrun.services.GameFactory;
+import it.unisa.theneverendingrun.streamManager.BestScores;
+import it.unisa.theneverendingrun.streamManager.FileStreamFactory;
+import it.unisa.theneverendingrun.streamManager.StreamManager;
 import org.mini2Dx.core.game.BasicGame;
 import org.mini2Dx.core.graphics.Graphics;
 
@@ -22,6 +25,7 @@ import java.util.LinkedList;
 public class GameEngine extends BasicGame {
 
     static final String GAME_IDENTIFIER = "it.unisa.theneverendingrun";
+    private static final String FILENAME = "best_scores.dat";
 
     private Stage stage;
 
@@ -72,6 +76,9 @@ public class GameEngine extends BasicGame {
 
         if (!hero.isXAxisVisible(Gdx.graphics.getWidth())) {
             spriteBatch.dispose();
+
+            computeBestScores();
+
             initialise();
         }
 
@@ -96,11 +103,16 @@ public class GameEngine extends BasicGame {
         // TODO delete
         obstaclesManager.setSpawnProbability(metersManagerFactory.getSpawnProbability());
 
-        System.out.println("Difficulty: " + metersManagerFactory.getDifficulty() +
-                " - Meters: " + metersManagerFactory.getMeters() +
-                " - Score: " + metersManagerFactory.getScore() +
-                " - Speed: " + metersManagerFactory.getSpeed() +
-                " - Spawn: " + metersManagerFactory.getSpawnProbability());
+    }
+
+    private void computeBestScores() {
+        var currentFinalScore = metersManagerFactory.getScore();
+        var currentFinalMeters = metersManagerFactory.getMeters();
+
+        bestScores.setHighScore(Math.max(bestScores.getHighScore(), currentFinalScore));
+        bestScores.setLongestRun(Math.max(bestScores.getLongestRun(), currentFinalMeters));
+
+        streamManager.saveBestScores(bestScores);
     }
 
     private void preUpdateCollisionBoxes() {
@@ -141,6 +153,7 @@ public class GameEngine extends BasicGame {
         spriteBatch.draw(background, 0, 0);
         drawHero();
         drawObstacles();
+        drawScore();
 
         spriteBatch.end();
     }
@@ -157,4 +170,22 @@ public class GameEngine extends BasicGame {
     private void drawHero() {
         hero.draw(spriteBatch);
     }
+
+    private void drawScore() {
+        var xPosMeter = Gdx.graphics.getWidth() * 0.05f;
+        var xPosScore = Gdx.graphics.getWidth() * 0.35f;
+        var yPos = Gdx.graphics.getHeight() * 0.9f;
+
+        var meter_offset = Fonts.meterFont.draw(spriteBatch, "METERS: " + metersManagerFactory.getMeters(),
+                xPosMeter, yPos);
+        Fonts.meterFont.draw(spriteBatch, "LONGEST RUN: " + bestScores.getLongestRun(),
+                xPosMeter, yPos - (meter_offset.height * 1.25f));
+
+
+        var score_offset = Fonts.scoreFont.draw(spriteBatch, "SCORE: " + metersManagerFactory.getScore(),
+                xPosScore, yPos);
+        Fonts.scoreFont.draw(spriteBatch, "BEST SCORE: " + bestScores.getHighScore(),
+                xPosScore, yPos - (score_offset.height * 1.25f));
+    }
+
 }
