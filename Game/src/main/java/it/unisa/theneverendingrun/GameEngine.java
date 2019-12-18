@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import it.unisa.theneverendingrun.models.Spawnable;
 import it.unisa.theneverendingrun.models.background.AbstractScrollingBackground;
+import it.unisa.theneverendingrun.models.enemy.AbstractEnemy;
 import it.unisa.theneverendingrun.models.hero.Hero;
 import it.unisa.theneverendingrun.obstaclesManager.SpawnableManager;
 import it.unisa.theneverendingrun.services.ForestFactory;
@@ -66,6 +67,14 @@ public class GameEngine extends BasicGame {
         spawnableManager.clearOldObstacles(spawnableLinkedList);
 
         moveAllObjects();
+
+        for (Spawnable enemy : spawnableLinkedList) {
+            if (enemy instanceof AbstractEnemy) {
+                ((AbstractEnemy) enemy).updateImageFrame();
+                ((AbstractEnemy) enemy).updateDelta(Gdx.graphics.getDeltaTime());
+            }
+
+        }
 
         preUpdateCollisionBoxes();
 

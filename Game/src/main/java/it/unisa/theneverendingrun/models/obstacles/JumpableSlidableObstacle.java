@@ -6,10 +6,9 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class JumpableSlidableObstacle extends AbstractObstacle {
 
-    private static Texture textureJumpableSlidable = new Texture("images/jumpableSlidable.png");
 
-    public JumpableSlidableObstacle(float maxJumpHeight, float maxSlideDistance) {
-        super(textureJumpableSlidable);
+    public JumpableSlidableObstacle(Texture texture, float maxJumpHeight, float maxSlideDistance) {
+        super(texture);
         generateDimensions(maxJumpHeight, maxSlideDistance);
     }
 
