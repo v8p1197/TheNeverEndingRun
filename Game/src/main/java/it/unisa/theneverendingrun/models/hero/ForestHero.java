@@ -11,6 +11,7 @@ public class ForestHero extends Hero {
     public ForestHero(Texture texture, float x, float y) {
         super(texture, x, y);
         setSize(getWidth() * SCALE_FACTOR, getHeight() * SCALE_FACTOR);
+        setStandardWidth(getWidth());
         setStandardHeight(getHeight());
     }
 
