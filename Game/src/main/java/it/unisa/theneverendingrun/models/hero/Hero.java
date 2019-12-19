@@ -102,7 +102,7 @@ public abstract class Hero extends Sprite {
 
         var tVect = new TextureRegion[8];
         for (int i = 1; i <= 8; i++) {
-            TextureRegion t = new TextureRegion(new Texture("images/hero/run/hero_run_" + i + ".png"));
+            TextureRegion t = new TextureRegion(new Texture("images/forest/hero/run/hero_run_" + i + ".png"));
             tVect[i - 1] = t;
         }
 

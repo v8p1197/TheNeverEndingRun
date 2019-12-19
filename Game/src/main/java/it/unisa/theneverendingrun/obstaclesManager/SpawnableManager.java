@@ -73,6 +73,8 @@ public class SpawnableManager {
         switch (newObstacleType) {
             case Wolf:
                 return forestFactory.createWolf();
+            case Golem:
+                return forestFactory.createGolem();
             case Jumpable:
                 return forestFactory.createJumpableObstacle();
             case JumpableSlidable:
@@ -94,7 +96,7 @@ public class SpawnableManager {
      */
     private SpawnableTypes getAppropriateSpawnableType() {
         //If there isn't any obstacle on the screen, add one at random
-        if (lastObstacle == null) {
+        if (lastObstacle == null || !lastObstacle.isXAxisVisible()) {
             int random = ThreadLocalRandom.current().nextInt(SpawnableTypes.values().length);
             return SpawnableTypes.values()[random];
         }
@@ -125,7 +127,7 @@ public class SpawnableManager {
             if (lastObstacleType == SpawnableTypes.Slidable) {
                 return null;
             }
-            if (lastObstacleType == SpawnableTypes.Wolf) {
+            if (lastObstacleType == SpawnableTypes.Wolf || lastObstacleType == SpawnableTypes.Golem) {
                 //fixme, is this always jumpable?
                 if (ThreadLocalRandom.current().nextBoolean())
                     return SpawnableTypes.Jumpable;
@@ -165,7 +167,7 @@ public class SpawnableManager {
             yPosition = 0;
         }
 
-        if (newObstacleType == SpawnableTypes.Wolf) {
+        if (newObstacleType == SpawnableTypes.Wolf || newObstacleType == SpawnableTypes.Golem) {
             yPosition = 0;
         }
 
@@ -201,7 +203,7 @@ public class SpawnableManager {
 
         LinkedList<Spawnable> toRemoveList = new LinkedList<>();
         for (Spawnable obstacle : obstacles)
-            if (!obstacle.isXAxisVisible()) {
+            if (lastObstacle.getX() + lastObstacle.getWidth() + hero.getWidth() < 0) {
                 toRemoveList.add(obstacle);
             }
         for (Spawnable toRemove : toRemoveList) {

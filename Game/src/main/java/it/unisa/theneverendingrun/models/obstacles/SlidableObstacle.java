@@ -7,10 +7,9 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class SlidableObstacle extends AbstractObstacle {
 
-    private static Texture textureSlidable = new Texture("images/slidable.png");
 
-    public SlidableObstacle(float maxSlideDistance) {
-        super(textureSlidable);
+    public SlidableObstacle(Texture texture, float maxSlideDistance) {
+        super(texture);
         generateDimensions(maxSlideDistance);
     }
 
