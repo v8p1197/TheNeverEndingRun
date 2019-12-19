@@ -7,13 +7,12 @@ import it.unisa.theneverendingrun.models.hero.Hero;
 
 public abstract class AbstractObstacle extends Spawnable {
 
-
     AbstractObstacle(Texture texture) {
         super(texture);
     }
 
     @Override
-    public void reactToCollision(Hero hero) {
+    public void beginCollision(Hero hero) {
         var obstacleCollisionBox = this.getCollisionBox();
         var heroCollisionBox = hero.getCollisionBox();
 
@@ -43,6 +42,18 @@ public abstract class AbstractObstacle extends Spawnable {
             } else {
                 hero.setY(hero.getY() - intersection.getHeight());
                 hero.getMoveState().onFall();
+            }
+        }
+    }
+
+    @Override
+    public void endCollision(Hero hero) {
+        if (!CollisionManager.wasOnObstacle.containsKey(this))
+            CollisionManager.wasOnObstacle.put(this, false);
+        else {
+            if (CollisionManager.wasOnObstacle.get(this) && !hero.isJumping()) {
+                hero.getMoveState().onFall();
+                CollisionManager.wasOnObstacle.put(this, false);
             }
         }
     }

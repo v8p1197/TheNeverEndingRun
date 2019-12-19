@@ -9,5 +9,9 @@ public abstract class Spawnable extends Sprite {
         super(texture);
     }
 
-    public abstract void reactToCollision(Hero hero);
+    public abstract void beginCollision(Hero hero);
+
+    public abstract void endCollision(Hero hero);
+
+
 }

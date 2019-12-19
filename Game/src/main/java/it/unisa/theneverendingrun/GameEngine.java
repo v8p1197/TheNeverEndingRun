@@ -70,10 +70,10 @@ public class GameEngine extends BasicGame {
 
         for (Spawnable enemy : spawnableLinkedList) {
             if (enemy instanceof AbstractEnemy) {
-                ((AbstractEnemy) enemy).updateImageFrame();
-                ((AbstractEnemy) enemy).updateDelta(Gdx.graphics.getDeltaTime());
+                var animator = ((AbstractEnemy) enemy).getAnimator();
+                animator.updateImageFrame((AbstractEnemy) enemy);
+                animator.updateStateTime(Gdx.graphics.getDeltaTime());
             }
-
         }
 
         preUpdateCollisionBoxes();

@@ -3,6 +3,7 @@ package it.unisa.theneverendingrun;
 import com.badlogic.gdx.math.Rectangle;
 import it.unisa.theneverendingrun.models.Spawnable;
 import it.unisa.theneverendingrun.models.hero.Hero;
+import it.unisa.theneverendingrun.models.obstacles.AbstractObstacle;
 import org.mini2Dx.core.engine.geom.CollisionBox;
 
 import java.util.HashMap;
@@ -13,7 +14,7 @@ public class CollisionManager {
     /**
      * A boolean variable true when the hero is on on obstacle in the previous move step
      */
-    public static Map<Spawnable, Boolean> wasOnObstacle = new HashMap<>();
+    public static Map<AbstractObstacle, Boolean> wasOnObstacle = new HashMap<>();
 
     public static int left = 2, top = 3, right = 0, bottom = 1;
 
@@ -22,16 +23,9 @@ public class CollisionManager {
         var heroCollisionBox = hero.getCollisionBox();
 
         if (heroCollisionBox.intersects(spawnableCollisionBox)) {
-            spawnable.reactToCollision(hero);
+            spawnable.beginCollision(hero);
         } else {
-            if (!CollisionManager.wasOnObstacle.containsKey(spawnable))
-                CollisionManager.wasOnObstacle.put(spawnable, false);
-            else {
-                if (CollisionManager.wasOnObstacle.get(spawnable) && !hero.isJumping()) {
-                    hero.getMoveState().onFall();
-                    CollisionManager.wasOnObstacle.put(spawnable, false);
-                }
-            }
+            spawnable.endCollision(hero);
         }
     }
 
