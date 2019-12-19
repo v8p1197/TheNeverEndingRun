@@ -1,22 +1,67 @@
-package it.unisa.theneverendingrun.models.obstacles;
+package it.unisa.theneverendingrun.models.obstacle;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import it.unisa.theneverendingrun.CollisionManager;
 import it.unisa.theneverendingrun.models.Spawnable;
+import it.unisa.theneverendingrun.models.Sprite;
 import it.unisa.theneverendingrun.models.hero.Hero;
 import org.mini2Dx.core.engine.geom.CollisionBox;
 
-public abstract class AbstractObstacle extends Spawnable {
+public class Obstacle extends Sprite implements Spawnable {
 
     private static final int left = 2, top = 3, right = 0, bottom = 1;
 
-    AbstractObstacle(Texture texture) {
+
+    private final float jumpHeight;
+    private final float slideDistance;
+
+    public Obstacle(Texture texture, float jumpHeight, float slideDistance) {
         super(texture);
+        this.jumpHeight = jumpHeight;
+        this.slideDistance = slideDistance;
+    }
+
+
+    //***************************** getters *****************************//
+
+    @Override
+    public float getJumpHeight() {
+        return jumpHeight;
     }
 
     @Override
+    public float getSlideDistance() {
+        return slideDistance;
+    }
+
+
+
+
+    //***************************** check *****************************//
+
+    @Override
+    public boolean isJumpable() {
+        return getHeight() < jumpHeight;
+    }
+
+    @Override
+    public boolean isSlideable() {
+        return getWidth() < slideDistance;
+    }
+
+    @Override
+    public boolean isMultipleSlideable() {
+        return getWidth() < slideDistance / 2;
+    }
+
+
+
+    //***************************** helpers *****************************//
+
+    @Override
     public void beginCollision(Hero hero) {
+
         var obstacleCollisionBox = this.getCollisionBox();
         var heroCollisionBox = hero.getCollisionBox();
 
@@ -48,6 +93,7 @@ public abstract class AbstractObstacle extends Spawnable {
                 hero.getMoveState().onFall();
             }
         }
+
     }
 
     @Override
@@ -61,6 +107,11 @@ public abstract class AbstractObstacle extends Spawnable {
             }
         }
     }
+
+
+
+
+    //***************************** private helpers *****************************//
 
     private int collisionSide(Hero hero, CollisionBox obstacle) {
 
@@ -88,10 +139,5 @@ public abstract class AbstractObstacle extends Spawnable {
         }
 
         return greatest;
-    }
-
-    @Override
-    public void setSize(float width, float height) {
-        super.setSize(width, height);
     }
 }
