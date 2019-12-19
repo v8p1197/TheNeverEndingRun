@@ -96,7 +96,7 @@ public class SpawnableManager {
      */
     private SpawnableTypes getAppropriateSpawnableType() {
         //If there isn't any obstacle on the screen, add one at random
-        if (lastObstacle == null) {
+        if (lastObstacle == null || !lastObstacle.isXAxisVisible()) {
             int random = ThreadLocalRandom.current().nextInt(SpawnableTypes.values().length);
             return SpawnableTypes.values()[random];
         }
@@ -203,7 +203,7 @@ public class SpawnableManager {
 
         LinkedList<Spawnable> toRemoveList = new LinkedList<>();
         for (Spawnable obstacle : obstacles)
-            if (!obstacle.isXAxisVisible()) {
+            if (lastObstacle.getX() + lastObstacle.getWidth() + hero.getWidth() < 0) {
                 toRemoveList.add(obstacle);
             }
         for (Spawnable toRemove : toRemoveList) {
