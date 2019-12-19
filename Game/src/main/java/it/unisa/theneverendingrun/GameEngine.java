@@ -2,11 +2,11 @@ package it.unisa.theneverendingrun;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import it.unisa.theneverendingrun.models.Spawnable;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import it.unisa.theneverendingrun.metersManager.MetersManagerFactory;
+import it.unisa.theneverendingrun.models.Spawnable;
 import it.unisa.theneverendingrun.models.background.AbstractScrollingBackground;
 import it.unisa.theneverendingrun.models.enemy.AbstractEnemy;
 import it.unisa.theneverendingrun.models.hero.Hero;
@@ -77,7 +77,7 @@ public class GameEngine extends BasicGame {
 
         metersManagerFactory.computeMeters();
         // TODO delete
-        obstaclesManager.setSpawnProbability(metersManagerFactory.getSpawnProbability());
+        spawnableManager.setSpawnProbability(metersManagerFactory.getSpawnProbability());
 
         //stateTime += Gdx.graphics.getDeltaTime(); // Accumulate elapsed animation time
         hero.updateDelta(Gdx.graphics.getDeltaTime());
@@ -92,13 +92,7 @@ public class GameEngine extends BasicGame {
 
         moveAllObjects();
 
-        for (Spawnable enemy : spawnableLinkedList) {
-            if (enemy instanceof AbstractEnemy) {
-                var animator = ((AbstractEnemy) enemy).getAnimator();
-                animator.updateImageFrame((AbstractEnemy) enemy);
-                animator.updateStateTime(Gdx.graphics.getDeltaTime());
-            }
-        }
+        animateCharacters();
 
         preUpdateCollisionBoxes();
 
@@ -108,6 +102,16 @@ public class GameEngine extends BasicGame {
             spriteBatch.dispose();
             computeBestScores();
             initialise();
+        }
+    }
+
+    private void animateCharacters() {
+        for (Spawnable enemy : spawnableLinkedList) {
+            if (enemy instanceof AbstractEnemy) {
+                var animator = ((AbstractEnemy) enemy).getAnimator();
+                animator.updateImageFrame((AbstractEnemy) enemy);
+                animator.updateStateTime(Gdx.graphics.getDeltaTime());
+            }
         }
     }
 
@@ -131,7 +135,7 @@ public class GameEngine extends BasicGame {
         hero.setX(hero.getX() - metersManagerFactory.getSpeed());
 
         for (var obstacle : spawnableLinkedList)
-            obstacle.setX(obstacle.getX() - 3 * SPEED);
+            obstacle.setX(obstacle.getX() - 3 * metersManagerFactory.getSpeed());
     }
 
     private void checkCollisions() {
@@ -154,6 +158,7 @@ public class GameEngine extends BasicGame {
         spriteBatch.draw(background, 0, 0);
         drawHero();
         drawObstacles();
+        drawScore();
 
         spriteBatch.end();
     }

@@ -14,7 +14,7 @@ public abstract class Hero extends Sprite {
     /**
      * The number of steps the hero takes to jump
      */
-    private static final int JUMP_DURATION = 30;
+    private static final int JUMP_DURATION = 35;
 
     /**
      * The number of steps the hero takes to slide

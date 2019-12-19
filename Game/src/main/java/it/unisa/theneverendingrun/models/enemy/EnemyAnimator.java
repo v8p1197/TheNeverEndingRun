@@ -30,7 +30,7 @@ public class EnemyAnimator implements EnemyFightStateListener {
             TextureRegion t = new TextureRegion(new Texture(commonPath + stateDescription + "_" + i + ".png"));
             tVect[i - 1] = t;
         }
-        return new Animation(0.05f, tVect);
+        return new Animation(0.1f, tVect);
     }
 
     public void updateImageFrame(AbstractEnemy enemy) {

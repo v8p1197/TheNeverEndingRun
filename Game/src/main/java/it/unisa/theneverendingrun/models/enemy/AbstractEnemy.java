@@ -79,9 +79,7 @@ public abstract class AbstractEnemy extends Spawnable {
     @Override
     public void beginCollision(Hero hero) {
         this.getFightState().onAttack();
-        //this.attack();
-        //hero.die();
-
+        hero.die();
     }
 
     @Override

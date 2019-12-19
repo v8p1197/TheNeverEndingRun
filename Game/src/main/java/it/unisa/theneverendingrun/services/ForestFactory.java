@@ -70,6 +70,6 @@ public class ForestFactory implements GameFactory {
     }
 
     public Enemy createGolem() {
-        return new Enemy(textureGolem, hero.getWidth() * 2.0f, hero.getHeight() * 1.75f);
+        return new Enemy(textureGolem, hero.getWidth() * 1.5f, hero.getHeight() * 1.5f);
     }
 }
