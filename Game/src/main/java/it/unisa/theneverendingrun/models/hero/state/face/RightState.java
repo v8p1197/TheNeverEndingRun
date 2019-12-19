@@ -1,4 +1,7 @@
-package it.unisa.theneverendingrun.models.hero;
+package it.unisa.theneverendingrun.models.hero.state.face;
+
+import it.unisa.theneverendingrun.models.hero.Hero;
+import it.unisa.theneverendingrun.models.hero.state.HeroFacingState;
 
 /**
  * In this state the hero is facing right

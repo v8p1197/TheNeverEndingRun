@@ -1,15 +1,18 @@
 package it.unisa.theneverendingrun.models.hero;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import it.unisa.theneverendingrun.models.Sprite;
+import it.unisa.theneverendingrun.models.hero.state.*;
+import it.unisa.theneverendingrun.models.hero.state.face.LeftState;
+import it.unisa.theneverendingrun.models.hero.state.face.RightState;
+import it.unisa.theneverendingrun.models.hero.state.move.*;
 import it.unisa.theneverendingrun.utilities.MathUtils;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public abstract class Hero extends Sprite {
+
+
+    /* ------------------------------------- PARAMS ------------------------------------- */
+
 
     /**
      * The number of steps the hero takes to jump
@@ -37,16 +40,6 @@ public abstract class Hero extends Sprite {
     private float dx;
 
     /**
-     * The height of the hero
-     */
-    private float standardHeight;
-
-    /**
-     * The width of the hero
-     */
-    private float standardWidth;
-
-    /**
      * A variable representing if the hero is jumping, sliding or none of them
      */
     private HeroMoveState moveState;
@@ -65,21 +58,39 @@ public abstract class Hero extends Sprite {
      */
     private int slideCount;
 
+
+
+    /* ------------------------------------- CONSTRUCTORS ------------------------------------- */
+
     /**
      * Abstract Hero constructor. Sets its bottom-left coordinates and speed, while its horizontal velocity is set to 0
+     * The scale factor is set to 1
      *
+     * @param texture the texture of the hero
      * @param x     bottom-left x coordinate
      * @param y     bottom-left y coordinate
      */
     protected Hero(Texture texture, float x, float y) {
-        super(texture);
+        this(texture, 1, x, y);
+    }
+
+    /**
+     * Abstract Hero constructor. Sets its bottom-left coordinates and speed, while its horizontal velocity is set to 0
+     *
+     * @param texture the texture of the hero
+     * @param scaleFactor the scale factor of the hero
+     * @param x     bottom-left x coordinate
+     * @param y     bottom-left y coordinate
+     */
+    public Hero(Texture texture, float scaleFactor, float x, float y) {
+        super(texture, scaleFactor);
+
         setX(x);
         setY(y);
+
         this.groundX = x;
         this.groundY = y;
         this.dx = 0;
-
-        initAnimations();
 
         this.moveState = new IdleState(this);
         this.facingState = new RightState(this);
@@ -87,131 +98,6 @@ public abstract class Hero extends Sprite {
 
 
 
-
-
-
-
-
-    private Map<Class<?>, Animation<TextureRegion>> animations;
-    private Map<Class<?>, Float> deltaTime;
-
-
-    public void initAnimations() {
-        animations = new HashMap<>();
-        deltaTime = new HashMap<>();
-
-        var tVect = new TextureRegion[8];
-        for (int i = 1; i <= 8; i++) {
-            TextureRegion t = new TextureRegion(new Texture("images/forest/hero/run/hero_run_" + i + ".png"));
-            tVect[i - 1] = t;
-        }
-
-        /*
-        var run = new Texture(Gdx.files.internal("runSheet.png"));
-        var runTextures = TextureSheets.split(run, 1,8);*/
-        var runAnimation = new Animation<>(0.05f, tVect);
-        animations.put(IdleState.class, runAnimation);
-        deltaTime.put(IdleState.class, 0F);
-
-        // animations.put(2)
-    }
-
-    public void updateDelta(float delta) {
-        deltaTime.entrySet().forEach((map) -> map.setValue(map.getValue()+delta));
-    }
-
-    public void changeState() {
-
-        Texture texture = null;
-
-        if (isSliding()) {
-            texture = new Texture("slide.png");
-            var region = new TextureRegion(texture);
-            if (isLeft())
-                region.flip(true, false);
-            setRegion(region);
-
-            setSize(texture.getWidth() * ForestHero.SCALE_FACTOR, texture.getHeight() * ForestHero.SCALE_FACTOR);
-
-            return;
-        } else {
-            texture = new Texture("jump.png");
-            setSize(texture.getWidth() * ForestHero.SCALE_FACTOR, texture.getHeight() * ForestHero.SCALE_FACTOR);
-
-        }
-
-        var animation = animations.get(getMoveState().getClass());
-        if (animation != null) {
-            var delta = deltaTime.get(getMoveState().getClass());
-            var frame = animation.getKeyFrame(delta, true);
-            var newFrame = new TextureRegion(frame);
-            if (isLeft()) {
-                int pixels = pixelWidth(newFrame);
-                // newFrame.setRegionWidth(pixels);
-                //newFrame.set
-                newFrame.flip(true, false);
-                //System.out.println(getX());
-                setX(getX() - pixels);
-                //System.out.println(getX());
-
-            }
-            setRegion(newFrame);
-
-            return;
-        }
-
-        if (isJumping()) {
-            texture = new Texture("jump.png");
-            var region = new TextureRegion(texture);
-            if (isLeft())
-                region.flip(true, false);
-            setRegion(region);
-
-            setSize(texture.getWidth() * ForestHero.SCALE_FACTOR, texture.getHeight() * ForestHero.SCALE_FACTOR);
-
-            return;
-        }
-
-        if (isFalling()) {
-            texture = new Texture("fall.png");
-            var region = new TextureRegion(texture);
-            if (isLeft())
-                region.flip(true, false);
-            setRegion(region);
-
-            setSize(texture.getWidth() * ForestHero.SCALE_FACTOR, texture.getHeight() * ForestHero.SCALE_FACTOR);
-        }
-    }
-
-    public void updateImageFrame() {
-
-        var animation = animations.get(getMoveState().getClass());
-        if (animation != null) {
-            var delta = deltaTime.get(getMoveState().getClass());
-            var frame = animation.getKeyFrame(delta, true);
-            var newFrame = new TextureRegion(frame);
-            if(isLeft()) {
-                int pixels = pixelWidth(newFrame);
-                // newFrame.setRegionWidth(pixels);
-                //newFrame.set
-                //System.out.println(getX());
-                //setX(getX()-pixels);
-               // System.out.println(pixels);
-                //translateX(-27);
-                //System.out.println(getWidth());
-               // setX(getX() - (getWidth() - (pixels*getWidth())));
-               setX(getX() - (pixels/getWidth()) - getDx());
-                newFrame.flip(true, false);
-            }
-            setRegion(newFrame);
-            return;
-        }
-      /*  var animation = animations.get(1);
-        stateTime += Gdx.graphics.getDeltaTime();
-        var region = animation.getKeyFrame(stateTime, true);
-        setRegion(region);
-        region.flip(true, false);*/
-    }
 
     /* ------------------------------------- GETTERS ------------------------------------- */
 
@@ -238,7 +124,7 @@ public abstract class Hero extends Sprite {
      *
      * @return true if the hero is above the ground, false otherwise
      */
-    boolean isAboveGround() {
+    public boolean isAboveGround() {
         return getY() - getGroundY() > MathUtils.DELTA;
     }
 
@@ -261,51 +147,6 @@ public abstract class Hero extends Sprite {
      */
     public HeroMoveState getMoveState() {
         return moveState;
-    }
-
-    /**
-     * checks if the hero is moving depending on its current horizontal velocity
-     *
-     * @return true if the hero is running, else otherwise
-     */
-    public boolean isRunning() {
-        return getDx() != 0;
-    }
-
-    /**
-     * jumping getter
-     *
-     * @return true if the hero is jumping, false otherwise
-     */
-    public boolean isJumping() {
-        return this.getMoveState() instanceof JumpState;
-    }
-
-    /**
-     * sliding getter
-     *
-     * @return true if the hero is sliding, false otherwise
-     */
-    public boolean isSliding() {
-        return this.getMoveState() instanceof SlideState;
-    }
-
-    /**
-     * falling getter
-     *
-     * @return true if the hero is falling, false otherwise
-     */
-    public boolean isFalling() {
-        return this.getMoveState() instanceof FallState;
-    }
-
-    /**
-     * dead getter
-     *
-     * @return true if the hero is dead, false otherwise
-     */
-    public boolean isDead() {
-        return this.getMoveState() instanceof DeadState;
     }
 
     /**
@@ -355,6 +196,57 @@ public abstract class Hero extends Sprite {
         return facingState;
     }
 
+
+
+
+    /* ------------------------------------- CHECK ------------------------------------- */
+
+
+    /**
+     * checks if the hero is moving depending on its current horizontal velocity
+     *
+     * @return true if the hero is running, else otherwise
+     */
+    public boolean isRunning() {
+        return getDx() != 0;
+    }
+
+    /**
+     * jumping getter
+     *
+     * @return true if the hero is jumping, false otherwise
+     */
+    public boolean isJumping() {
+        return this.getMoveState() instanceof JumpState;
+    }
+
+    /**
+     * sliding getter
+     *
+     * @return true if the hero is sliding, false otherwise
+     */
+    public boolean isSliding() {
+        return this.getMoveState() instanceof SlideState;
+    }
+
+    /**
+     * falling getter
+     *
+     * @return true if the hero is falling, false otherwise
+     */
+    public boolean isFalling() {
+        return this.getMoveState() instanceof FallState;
+    }
+
+    /**
+     * dead getter
+     *
+     * @return true if the hero is dead, false otherwise
+     */
+    public boolean isDead() {
+        return this.getMoveState() instanceof DeadState;
+    }
+
     /**
      * checks if the hero is facing right
      *
@@ -373,13 +265,9 @@ public abstract class Hero extends Sprite {
         return facingState instanceof LeftState;
     }
 
-    public float getStandardHeight() {
-        return standardHeight;
-    }
 
-    public float getStandardWidth() {
-        return standardWidth;
-    }
+
+
 
     /* ------------------------------------- SETTERS ------------------------------------- */
 
@@ -389,7 +277,6 @@ public abstract class Hero extends Sprite {
      * @param dx the horizontal velocity value to set
      */
     public void setDx(float dx) {
-        if (dx != 0) updateImageFrame();
         this.dx = dx;
     }
 
@@ -398,9 +285,8 @@ public abstract class Hero extends Sprite {
      *
      * @param moveState the new move state to set
      */
-    void changeMoveState(HeroMoveState moveState) {
+    public void changeMoveState(HeroMoveState moveState) {
         this.moveState = moveState;
-        changeState();
     }
 
     /**
@@ -408,7 +294,7 @@ public abstract class Hero extends Sprite {
      *
      * @param jumpCount the jump counter value to set
      */
-    void setJumpCount(int jumpCount) {
+    public void setJumpCount(int jumpCount) {
         this.jumpCount = jumpCount;
     }
 
@@ -417,7 +303,7 @@ public abstract class Hero extends Sprite {
      *
      * @param slideCount the slide counter value to set
      */
-    void setSlideCount(int slideCount) {
+    public void setSlideCount(int slideCount) {
         this.slideCount = slideCount;
     }
 
@@ -426,17 +312,13 @@ public abstract class Hero extends Sprite {
      *
      * @param facingState the new facing state to set
      */
-    void changeFacingState(HeroFacingState facingState) {
+    public void changeFacingState(HeroFacingState facingState) {
         this.facingState = facingState;
     }
 
-    void setStandardHeight(float standardHeight) {
-        this.standardHeight = standardHeight;
-    }
 
-    void setStandardWidth(float standardWidth) {
-        this.standardWidth = standardWidth;
-    }
+
+
 
     /* ------------------------------------- MOVEMENT METHODS ------------------------------------- */
 
@@ -453,7 +335,7 @@ public abstract class Hero extends Sprite {
      * @return the maximum number of pixels the hero moves in the vertical axis when he jumps
      */
     public double getJumpMaxElevation() {
-        return 3 * standardHeight;
+        return 3 * getHeight();
     }
 
     /**
@@ -462,7 +344,7 @@ public abstract class Hero extends Sprite {
      *
      * @return the coefficient for the jump parabola formula
      */
-    double getJumpCoefficient() {
+    public double getJumpCoefficient() {
         return getJumpMaxElevation() / MathUtils.sumSquares(JUMP_DURATION);
     }
 
@@ -509,31 +391,6 @@ public abstract class Hero extends Sprite {
         getMoveState().onDie();
     }
 
-    /* ------------------------------------- SERVICE METHODS ------------------------------------- */
 
-    /**
-     * flip method for textures that have more than one image (ex. runSheet.png)
-     *
-     * @param newFrame is the texture region to flip correctly
-     */
-    public int pixelWidth(TextureRegion newFrame) {
-        //newFrame.flip(true, false);
-        //setRegion(newFrame);
-        var texture = newFrame.getTexture();
-        var textureData = texture.getTextureData();
-        if (!textureData.isPrepared())
-            textureData.prepare();
-        var pixMap = textureData.consumePixmap();
-        int start = 0;
-        for (int i = newFrame.getRegionWidth(); i > 0; i--) {
-            for (int j = newFrame.getRegionHeight(); j > 0; j--)
-                if (pixMap.getPixel(i, j) != 0x00000000) {
-                    start = newFrame.getRegionWidth() - i;
-                    break;
-                }
-            if (start != 0)
-                break;
-        }
-        return start;
-    }
+
 }

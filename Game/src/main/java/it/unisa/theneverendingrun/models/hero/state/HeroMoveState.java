@@ -1,5 +1,7 @@
-package it.unisa.theneverendingrun.models.hero;
+package it.unisa.theneverendingrun.models.hero.state;
 
+
+import it.unisa.theneverendingrun.models.hero.Hero;
 
 /**
  * The State representing if the hero is jumping, sliding, falling or none of them:

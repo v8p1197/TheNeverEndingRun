@@ -1,4 +1,7 @@
-package it.unisa.theneverendingrun.models.hero;
+package it.unisa.theneverendingrun.models.hero.state.move;
+
+import it.unisa.theneverendingrun.models.hero.Hero;
+import it.unisa.theneverendingrun.models.hero.state.HeroMoveState;
 
 /**
  * In this state the hero is falling down
