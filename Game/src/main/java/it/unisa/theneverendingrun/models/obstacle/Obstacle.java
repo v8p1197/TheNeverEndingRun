@@ -22,6 +22,11 @@ public class Obstacle extends Sprite implements Spawnable {
         this.slideDistance = slideDistance;
     }
 
+    public Obstacle(Texture texture, float scaleFactor, float jumpHeight, float slideDistance) {
+        super(texture, scaleFactor);
+        this.jumpHeight = jumpHeight;
+        this.slideDistance = slideDistance;
+    }
 
     //***************************** getters *****************************//
 
