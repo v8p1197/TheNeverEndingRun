@@ -14,6 +14,10 @@ public class ForestBackground extends AbstractBackground {
     private static final float SCROLLING_SPEED = 0.002F;
     private static final float SCROLLING_WIDTH = 2.0F;
 
+    //calculated for this background (texture background_1)
+    public static final float BASE_X = 0.3F;
+    public static final float BASE_Y = 0.0625F;
+
 
     /**
      * Constructor.
@@ -23,7 +27,7 @@ public class ForestBackground extends AbstractBackground {
      * @param screenHeight the height of the background. Different form original height.
      */
     public ForestBackground(int screenWidth, int screenHeight) {
-        super(texture, screenWidth, screenHeight, SCROLLING_SPEED, SCROLLING_WIDTH);
+        super(texture, 0, 0, screenWidth, screenHeight, SCROLLING_SPEED, SCROLLING_WIDTH);
     }
 
     @Override
@@ -34,8 +38,8 @@ public class ForestBackground extends AbstractBackground {
 
     @Override
     public void scroll() {
-        setScrollAmount(getScrollAmount() + getScrollWidth() * getScrollingSpeed());
-        this.setU(getScrollAmount());
-        this.setU2(getScrollAmount() + getScrollWidth());
+        setHorizontalScrollAmount(getHorizontalScrollAmount() + getScrollWidth() * getScrollingSpeed());
+        this.setU(getHorizontalScrollAmount());
+        this.setU2(getHorizontalScrollAmount() + getScrollWidth());
     }
 }
