@@ -9,7 +9,7 @@ import static com.badlogic.gdx.graphics.Texture.TextureWrap.Repeat;
 
 public class ForestBackground extends AbstractBackground {
 
-    private static final Texture texture = new Texture("images/forest/backgrounds/background_0.png");
+    private static final Texture texture = new Texture("images/forest/backgrounds/background_1.png");
 
     // Experimental for this Background
     private static final float SCROLLING_SPEED = 0.002F;

@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import it.unisa.theneverendingrun.metersManager.MetersManagerFactory;
 import it.unisa.theneverendingrun.models.Spawnable;
-import it.unisa.theneverendingrun.models.background.AbstractScrollingBackground;
+import it.unisa.theneverendingrun.models.background.AbstractBackground;
 import it.unisa.theneverendingrun.models.enemy.AbstractEnemy;
 import it.unisa.theneverendingrun.models.hero.Hero;
 import it.unisa.theneverendingrun.obstaclesManager.SpawnableManager;
@@ -33,7 +33,7 @@ public class GameEngine extends BasicGame {
     private SpriteBatch spriteBatch;
     private GameFactory gameFactory;
     private Hero hero;
-    private AbstractScrollingBackground background;
+    private AbstractBackground background;
 
     private LinkedList<Spawnable> spawnableLinkedList;
     private SpawnableManager spawnableManager;
