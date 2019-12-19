@@ -7,38 +7,15 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class SlidableObstacle extends AbstractObstacle {
 
-    private float maxSlideDistance;
-    private float maxJumpHeight;
+    private static Texture textureSlidable = new Texture("images/slidable.png");
 
-    public SlidableObstacle(Texture texture, int srcX, int srcY, float maxSlideDistance, float maxJumpHeight) {
-        super(texture, srcX, srcY);
-        setMaxSlideDistance(maxSlideDistance);
-        setMaxJumpHeight(maxJumpHeight);
-        generateDimensions();
+    public SlidableObstacle(float maxSlideDistance) {
+        super(textureSlidable);
+        generateDimensions(maxSlideDistance);
     }
 
-    public float getMaxSlideDistance() {
-        return maxSlideDistance;
-    }
-
-    public void setMaxSlideDistance(float maxSlideDistance) {
-        this.maxSlideDistance = maxSlideDistance;
-    }
-
-    public float getMaxJumpHeight() {
-        return maxJumpHeight;
-    }
-
-    public void setMaxJumpHeight(float maxJumpHeight) {
-        this.maxJumpHeight = maxJumpHeight;
-    }
-
-    @Override
-    public void generateDimensions() {
-        var maxGap = getMaxSlideDistance() - 2;
-        var minGap = (getMaxSlideDistance() / 2) - 2;
-
-        var dimension = (float)ThreadLocalRandom.current().nextDouble(minGap, maxGap);
+    public void generateDimensions(float maxSlideDistance) {
+        var dimension = (float) ThreadLocalRandom.current().nextDouble(maxSlideDistance * 0.5, maxSlideDistance - 1);
         setSize(dimension, Gdx.graphics.getHeight());
     }
 

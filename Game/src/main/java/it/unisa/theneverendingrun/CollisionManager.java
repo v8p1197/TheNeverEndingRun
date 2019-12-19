@@ -1,7 +1,7 @@
 package it.unisa.theneverendingrun;
 
 import com.badlogic.gdx.math.Rectangle;
-import it.unisa.theneverendingrun.models.Sprite;
+import it.unisa.theneverendingrun.models.Spawnable;
 import it.unisa.theneverendingrun.models.hero.Hero;
 import org.mini2Dx.core.engine.geom.CollisionBox;
 
@@ -13,56 +13,29 @@ public class CollisionManager {
     /**
      * A boolean variable true when the hero is on on obstacle in the previous move step
      */
-    public static Map<Sprite, Boolean> wasOnObstacle = new HashMap<>();
+    public static Map<Spawnable, Boolean> wasOnObstacle = new HashMap<>();
 
     public static int left = 2, top = 3, right = 0, bottom = 1;
 
-    public static void checkCollision(Hero hero, Sprite obstacle) {
-        var obstacleCollisionBox = obstacle.getCollisionBox();
+    static void checkCollision(Hero hero, Spawnable spawnable) {
+        var spawnableCollisionBox = spawnable.getCollisionBox();
         var heroCollisionBox = hero.getCollisionBox();
 
-        if (heroCollisionBox.intersects(obstacleCollisionBox)) {
-            var collision = collisionSide(hero, obstacleCollisionBox);
-            var intersection = heroCollisionBox.intersection(obstacleCollisionBox);
-
-            if (collision == right) {
-                hero.setX(hero.getX() + intersection.getWidth());
-            } else if (collision == left) {
-                hero.setX(hero.getX() - intersection.getWidth());
-            } else if (collision == bottom) {
-                wasOnObstacle.put(obstacle, true);
-                if (hero.isJumping() && hero.getJumpCompletion() >= 0.5 || hero.isFalling())
-                    hero.getMoveState().onIdle();
-                hero.setY(hero.getY() + intersection.getHeight());
-            } else if (collision == top) {
-
-                if (hero.getX() < obstacle.getX()) // if the hero is left with respect to the obstacle
-                    hero.setX(hero.getX() - intersection.getWidth());
-
-                else if (hero.getX() > obstacle.getX() + obstacle.getWidth()) // if the hero is right with respect to the obstacle
-                    hero.setX(hero.getX() + intersection.getWidth());
-
-                    // if the hero is under the obstacle and was sliding, but there is not enough space to stand
-                else if (obstacle.getY() - hero.getGroundY() < hero.getStandardHeight()) {
-                    hero.getMoveState().onSlide();
-                } else {
-                    hero.setY(hero.getY() - intersection.getHeight());
-                    hero.getMoveState().onFall();
-                }
-            }
+        if (heroCollisionBox.intersects(spawnableCollisionBox)) {
+            spawnable.reactToCollision(hero);
         } else {
-            if (!wasOnObstacle.containsKey(obstacle))
-                wasOnObstacle.put(obstacle, false);
+            if (!CollisionManager.wasOnObstacle.containsKey(spawnable))
+                CollisionManager.wasOnObstacle.put(spawnable, false);
             else {
-                if (wasOnObstacle.get(obstacle) && !hero.isJumping()) {
+                if (CollisionManager.wasOnObstacle.get(spawnable) && !hero.isJumping()) {
                     hero.getMoveState().onFall();
-                    wasOnObstacle.put(obstacle, false);
+                    CollisionManager.wasOnObstacle.put(spawnable, false);
                 }
             }
         }
     }
 
-    private static int collisionSide(Hero hero, CollisionBox obstacle) {
+    public static int collisionSide(Hero hero, CollisionBox obstacle) {
 
         var heroCollisionBox = hero.getCollisionBox();
 

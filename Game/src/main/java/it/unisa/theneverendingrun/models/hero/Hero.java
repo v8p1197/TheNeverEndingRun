@@ -42,6 +42,11 @@ public abstract class Hero extends Sprite {
     private float standardHeight;
 
     /**
+     * The width of the hero
+     */
+    private float standardWidth;
+
+    /**
      * A variable representing if the hero is jumping, sliding or none of them
      */
     private HeroMoveState moveState;
@@ -372,6 +377,10 @@ public abstract class Hero extends Sprite {
         return standardHeight;
     }
 
+    public float getStandardWidth() {
+        return standardWidth;
+    }
+
     /* ------------------------------------- SETTERS ------------------------------------- */
 
     /**
@@ -423,6 +432,10 @@ public abstract class Hero extends Sprite {
 
     void setStandardHeight(float standardHeight) {
         this.standardHeight = standardHeight;
+    }
+
+    void setStandardWidth(float standardWidth) {
+        this.standardWidth = standardWidth;
     }
 
     /* ------------------------------------- MOVEMENT METHODS ------------------------------------- */

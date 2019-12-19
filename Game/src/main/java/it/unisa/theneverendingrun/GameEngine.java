@@ -1,16 +1,15 @@
 package it.unisa.theneverendingrun;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import it.unisa.theneverendingrun.models.Spawnable;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import it.unisa.theneverendingrun.metersManager.MetersManagerFactory;
 import it.unisa.theneverendingrun.models.background.AbstractScrollingBackground;
 import it.unisa.theneverendingrun.models.hero.Hero;
-import it.unisa.theneverendingrun.models.obstacles.AbstractObstacle;
-import it.unisa.theneverendingrun.obstaclesManager.ObstaclesManager;
+import it.unisa.theneverendingrun.obstaclesManager.SpawnableManager;
 import it.unisa.theneverendingrun.services.ForestFactory;
 import it.unisa.theneverendingrun.services.GameFactory;
 import it.unisa.theneverendingrun.streamManager.BestScores;
@@ -35,8 +34,8 @@ public class GameEngine extends BasicGame {
     private Hero hero;
     private AbstractScrollingBackground background;
 
-    private LinkedList<AbstractObstacle> obstacles;
-    private ObstaclesManager obstaclesManager;
+    private LinkedList<Spawnable> spawnableLinkedList;
+    private SpawnableManager spawnableManager;
 
     private MetersManagerFactory metersManagerFactory;
     private StreamManager streamManager;
@@ -52,8 +51,6 @@ public class GameEngine extends BasicGame {
         input = new HandlingInput();
         spriteBatch = new SpriteBatch();
 
-        Fonts.load();
-
         gameFactory = new ForestFactory();
         background = gameFactory.createBackground();
         hero = gameFactory.createHero();
@@ -61,12 +58,9 @@ public class GameEngine extends BasicGame {
         metersManagerFactory = new MetersManagerFactory();
 
         CollisionManager.wasOnObstacle.clear();
-        // TODO obstacle manager has to implement difficultyListener and SpawnProbabilityListener
-        obstaclesManager = new ObstaclesManager(
-                (float) hero.getJumpMaxElevation(), hero.getHeight(),
-                (float) hero.getMaxSlideRange() * 3,
-                hero.getHeight() / 2, hero.getWidth());
-        obstacles = new LinkedList<>();
+
+        spawnableManager = new SpawnableManager();
+        spawnableLinkedList = new LinkedList<>();
 
         streamManager = new StreamManager(new FileStreamFactory(FILENAME));
         bestScores = streamManager.loadBestScores();
@@ -89,10 +83,11 @@ public class GameEngine extends BasicGame {
         input.getKeyWASD(hero, metersManagerFactory.getSpeed());
         hero.move();
 
-        AbstractObstacle newObstacle = obstaclesManager.generateNewObstacle();
+        Spawnable newObstacle = spawnableManager.generateNewObstacle();
+
         if (newObstacle != null)
-            obstacles.add(newObstacle);
-        obstaclesManager.clearOldObstacles(obstacles);
+            spawnableLinkedList.add(newObstacle);
+        spawnableManager.clearOldObstacles(spawnableLinkedList);
 
         moveAllObjects();
 
@@ -119,19 +114,19 @@ public class GameEngine extends BasicGame {
 
     private void preUpdateCollisionBoxes() {
         hero.getCollisionBox().preUpdate();
-        for (var obstacle : obstacles)
+        for (var obstacle : spawnableLinkedList)
             obstacle.getCollisionBox().preUpdate();
     }
 
     private void moveAllObjects() {
         hero.setX(hero.getX() - metersManagerFactory.getSpeed());
 
-        for (var obstacle : obstacles)
-            obstacle.setX(obstacle.getX() - 3 * metersManagerFactory.getSpeed());
+        for (var obstacle : spawnableLinkedList)
+            obstacle.setX(obstacle.getX() - 3 * SPEED);
     }
 
     private void checkCollisions() {
-        for (var obstacle : obstacles)
+        for (var obstacle : spawnableLinkedList)
             CollisionManager.checkCollision(hero, obstacle);
     }
 
@@ -139,32 +134,26 @@ public class GameEngine extends BasicGame {
     public void interpolate(float alpha) {
         hero.getCollisionBox().interpolate(null, 1.0f);
 
-        for (var obstacle : obstacles)
+        for (var obstacle : spawnableLinkedList)
             obstacle.getCollisionBox().interpolate(null, 1.0f);
     }
 
     @Override
     public void render(Graphics g) {
-        float delta = Gdx.graphics.getDeltaTime();
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        stage.act(delta);
-        stage.draw();
-
         spriteBatch.begin();
 
         spriteBatch.draw(background, 0, 0);
         drawHero();
         drawObstacles();
-        drawScore();
 
         spriteBatch.end();
     }
 
     private void drawObstacles() {
-        if (obstacles.isEmpty()) {
+        if (spawnableLinkedList.isEmpty()) {
             return;
         }
-        for (var obstacle : obstacles)
+        for (var obstacle : spawnableLinkedList)
             if (obstacle.isXAxisVisible())
                 obstacle.draw(spriteBatch);
     }
