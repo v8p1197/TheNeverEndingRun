@@ -77,12 +77,12 @@ public class GameEngine extends BasicGame {
         background.scroll();
 
         if (!hero.isXAxisVisible(Gdx.graphics.getWidth())) {
-            spriteBatch.dispose();
-
-            computeBestScores();
-
-            initialise();
+            hero.die();
         }
+
+        metersManagerFactory.computeMeters();
+        // TODO delete
+        obstaclesManager.setSpawnProbability(metersManagerFactory.getSpawnProbability());
 
         //stateTime += Gdx.graphics.getDeltaTime(); // Accumulate elapsed animation time
         hero.updateDelta(Gdx.graphics.getDeltaTime());
@@ -100,11 +100,11 @@ public class GameEngine extends BasicGame {
 
         checkCollisions();
 
-        metersManagerFactory.computeMeters();
-
-        // TODO delete
-        obstaclesManager.setSpawnProbability(metersManagerFactory.getSpawnProbability());
-
+        if (hero.isDead()) {
+            spriteBatch.dispose();
+            computeBestScores();
+            initialise();
+        }
     }
 
     private void computeBestScores() {
