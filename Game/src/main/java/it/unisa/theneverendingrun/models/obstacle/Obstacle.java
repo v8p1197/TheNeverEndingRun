@@ -91,7 +91,7 @@ public class Obstacle extends Sprite implements Spawnable {
                 hero.setX(hero.getX() + intersection.getWidth());
 
                 // if the hero is under the spawnable and was sliding, but there is not enough space to stand
-            else if (this.getY() - hero.getGroundY() < hero.getStandardHeight()) {
+            else if (this.getY() - hero.getGroundY() < hero.getHeight()) {
                 hero.getMoveState().onSlide();
             } else {
                 hero.setY(hero.getY() - intersection.getHeight());
