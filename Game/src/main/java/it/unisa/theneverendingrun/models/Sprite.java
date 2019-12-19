@@ -124,7 +124,7 @@ public class Sprite extends org.mini2Dx.core.graphics.Sprite {
     /**
      * @return the original not scaled width
      */
-    public float getOriginalWidth() {
+    public float getNotScaledWidth() {
         return getWidth() / getScaleFactor();
     }
 
@@ -132,7 +132,7 @@ public class Sprite extends org.mini2Dx.core.graphics.Sprite {
      *
      * @return the original not scaled height
      */
-    public float getOriginalHeight() {
+    public float getNotScaledHeight() {
         return getHeight() / getScaleFactor();
     }
 
