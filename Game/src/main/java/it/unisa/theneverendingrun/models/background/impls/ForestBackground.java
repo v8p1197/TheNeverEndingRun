@@ -30,12 +30,19 @@ public class ForestBackground extends AbstractBackground {
         super(texture, 0, 0, screenWidth, screenHeight, SCROLLING_SPEED, SCROLLING_WIDTH);
     }
 
+    /**
+     * Add double background for scroll and flip to match conjunction
+     */
     @Override
     public void initScroll() {
         this.getTexture().setWrap(MirroredRepeat, Repeat);
         this.flip(false, true);
     }
 
+    /**
+     * Scroll based on U vertices. We don't use super.Scroll() because the scroll method reinitialize bg X and Y
+     * The scroll save the scroll amount
+     */
     @Override
     public void scroll() {
         setHorizontalScrollAmount(getHorizontalScrollAmount() + getScrollWidth() * getScrollingSpeed());
