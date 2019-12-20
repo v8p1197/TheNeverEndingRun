@@ -1,69 +1,96 @@
-package it.unisa.theneverendingrun.models.obstacle;
+package it.unisa.theneverendingrun.models.spawnables.obstacle;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import it.unisa.theneverendingrun.CollisionManager;
-import it.unisa.theneverendingrun.models.Spawnable;
 import it.unisa.theneverendingrun.models.Sprite;
 import it.unisa.theneverendingrun.models.hero.Hero;
+import it.unisa.theneverendingrun.models.spawnables.Spawnable;
 import org.mini2Dx.core.engine.geom.CollisionBox;
 
-public class Obstacle extends Sprite implements Spawnable {
+public abstract class Obstacle extends Sprite implements Spawnable {
 
+
+    /* ------------------------------------- PARAMS ------------------------------------- */
+
+    /**
+     *
+     * Index of the collision rectangle
+     * TODO: change collision box
+     */
     private static final int left = 2, top = 3, right = 0, bottom = 1;
 
-
+    /**
+     *
+     * Store the jump height of the object that need to jump over the obstacle
+     */
     private final float jumpHeight;
+
+    /**
+     *
+     * Store the slide distance of the object that need to slide over the obstacle
+     */
     private final float slideDistance;
 
+
+
+    /* ------------------------------------- CONSTRUCTORS ------------------------------------- */
+
+    /**
+     *
+     * Obstacle constructor. Call the super and set the jumpHeight and the slideDistance
+     *
+     * @param jumpHeight the jump height of the object that need to jump over the obstacle
+     * @param slideDistance the slide distance of the object that need to slide over the obstacle
+     */
     public Obstacle(Texture texture, float jumpHeight, float slideDistance) {
-        super(texture);
-        this.jumpHeight = jumpHeight;
-        this.slideDistance = slideDistance;
+        this(texture, 1, jumpHeight, slideDistance);
     }
 
+    /**
+     *
+     * Obstacle constructor. Call the super and set the jumpHeight and the slideDistance
+     *
+     * @param jumpHeight the jump height of the object that need to jump over the obstacle
+     * @param slideDistance the slide distance of the object that need to slide over the obstacle
+     */
     public Obstacle(Texture texture, float scaleFactor, float jumpHeight, float slideDistance) {
         super(texture, scaleFactor);
         this.jumpHeight = jumpHeight;
         this.slideDistance = slideDistance;
     }
 
-    //***************************** getters *****************************//
 
+    /* ------------------------------------- GETTERS ------------------------------------- */
+
+    /**
+     *
+     * @return the jump height of the object that need to jump over the obstacle
+     */
     @Override
     public float getJumpHeight() {
-        return jumpHeight;
+        return this.jumpHeight;
     }
 
+    /**
+     *
+     * @return the slide distance of the object that need to slide over the obstacle
+     */
     @Override
     public float getSlideDistance() {
         return slideDistance;
     }
 
+    /* ------------------------------------- COLLISION ------------------------------------- */
 
 
-
-    //***************************** check *****************************//
-
-    @Override
-    public boolean isJumpable() {
-        return getHeight() < jumpHeight;
-    }
-
-    @Override
-    public boolean isSlideable() {
-        return getWidth() < slideDistance;
-    }
-
-    @Override
-    public boolean isMultipleSlideable() {
-        return getWidth() < slideDistance / 2;
-    }
-
-
-
-    //***************************** helpers *****************************//
-
+    /**
+     *
+     * TODO: Move to collision manager
+     * What the spawnable have to do when the hero collide with the spawnable
+     *
+     * @param hero the hero that collide with the spawnable
+     */
     @Override
     public void beginCollision(Hero hero) {
 
@@ -101,6 +128,13 @@ public class Obstacle extends Sprite implements Spawnable {
 
     }
 
+    /**
+     *
+     * TODO: Move to collision manager
+     * What the spawnable have to do when collision with hero end
+     *
+     * @param hero the hero that collide with the spawnable
+     */
     @Override
     public void endCollision(Hero hero) {
         if (!CollisionManager.wasOnObstacle.containsKey(this))
@@ -113,10 +147,7 @@ public class Obstacle extends Sprite implements Spawnable {
         }
     }
 
-
-
-
-    //***************************** private helpers *****************************//
+    /* ------------------------------------- SERVICE METHOD ------------------------------------- */
 
     private int collisionSide(Hero hero, CollisionBox obstacle) {
 
