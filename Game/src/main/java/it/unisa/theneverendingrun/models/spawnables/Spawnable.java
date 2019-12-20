@@ -1,8 +1,6 @@
 package it.unisa.theneverendingrun.models.spawnables;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
-import it.unisa.theneverendingrun.models.hero.Hero;
-import org.mini2Dx.core.engine.geom.CollisionBox;
 
 public interface Spawnable {
 
@@ -44,12 +42,6 @@ public interface Spawnable {
      * @return the coordinate y of the spawnable
      */
     float getY();
-
-    /**
-     *
-     * @return the collision box of the spawnable
-     */
-    CollisionBox getCollisionBox();
 
 
 
@@ -104,24 +96,6 @@ public interface Spawnable {
      * @return true if the spwnable is visible on the X Axis
      */
     boolean isXAxisVisible();
-
-
-
-    /* ------------------------------------- COLLISION ------------------------------------- */
-
-    /**
-     *
-     * What the spawnable have to do when the hero collide with the spawnable
-     * @param hero the hero that collide with the spawnable
-     */
-    void beginCollision(Hero hero);
-
-    /**
-     *
-     * What the spawnable have to do when collision with hero end
-     * @param hero the hero that collide with the spawnable
-     */
-    void endCollision(Hero hero);
 
 
 

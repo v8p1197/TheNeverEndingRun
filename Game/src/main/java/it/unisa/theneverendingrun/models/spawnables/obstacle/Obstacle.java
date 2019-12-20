@@ -5,10 +5,11 @@ import com.badlogic.gdx.math.Rectangle;
 import it.unisa.theneverendingrun.CollisionManager;
 import it.unisa.theneverendingrun.models.Sprite;
 import it.unisa.theneverendingrun.models.hero.Hero;
+import it.unisa.theneverendingrun.models.spawnables.Collidable;
 import it.unisa.theneverendingrun.models.spawnables.Spawnable;
 import org.mini2Dx.core.engine.geom.CollisionBox;
 
-public abstract class Obstacle extends Sprite implements Spawnable {
+public abstract class Obstacle extends Sprite implements Spawnable, Collidable {
 
 
     /* ------------------------------------- PARAMS ------------------------------------- */
@@ -61,10 +62,12 @@ public abstract class Obstacle extends Sprite implements Spawnable {
     }
 
 
+
     /* ------------------------------------- GETTERS ------------------------------------- */
 
     /**
      *
+     * @see Obstacle#jumpHeight
      * @return the jump height of the object that need to jump over the obstacle
      */
     @Override
@@ -74,6 +77,7 @@ public abstract class Obstacle extends Sprite implements Spawnable {
 
     /**
      *
+     * @see Obstacle#slideDistance
      * @return the slide distance of the object that need to slide over the obstacle
      */
     @Override
@@ -81,19 +85,32 @@ public abstract class Obstacle extends Sprite implements Spawnable {
         return slideDistance;
     }
 
-    /* ------------------------------------- COLLISION ------------------------------------- */
 
+
+    /* ------------------------------------- CHECK ------------------------------------- */
 
     /**
      *
-     * TODO: Move to collision manager
-     * What the spawnable have to do when the hero collide with the spawnable
-     *
-     * @param hero the hero that collide with the spawnable
+     * @param hero the hero that can collide with the obstacle
+     * @return true if the obstacle collide with the hero
      */
     @Override
-    public void beginCollision(Hero hero) {
+    public boolean isColliding(Hero hero) {
+        return getCollisionBox().intersects(hero.getCollisionBox());
+    }
 
+
+
+    /* ------------------------------------- COLLISION ------------------------------------- */
+
+    /**
+     *
+     * What the obstacle have to do when the hero collide with the obstacle
+     *
+     * @param hero the hero that collide with the obstacle
+     */
+    @Override
+    public void beginColliding(Hero hero) {
         var obstacleCollisionBox = this.getCollisionBox();
         var heroCollisionBox = hero.getCollisionBox();
 
@@ -125,18 +142,16 @@ public abstract class Obstacle extends Sprite implements Spawnable {
                 hero.getMoveState().onFall();
             }
         }
-
     }
 
     /**
      *
-     * TODO: Move to collision manager
-     * What the spawnable have to do when collision with hero end
+     * What the obstacle have to do when collision with hero end
      *
-     * @param hero the hero that collide with the spawnable
+     * @param hero the hero that collide with the obstacle
      */
     @Override
-    public void endCollision(Hero hero) {
+    public void endColliding(Hero hero) {
         if (!CollisionManager.wasOnObstacle.containsKey(this))
             CollisionManager.wasOnObstacle.put(this, false);
         else {
@@ -146,6 +161,8 @@ public abstract class Obstacle extends Sprite implements Spawnable {
             }
         }
     }
+
+
 
     /* ------------------------------------- SERVICE METHOD ------------------------------------- */
 
