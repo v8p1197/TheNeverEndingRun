@@ -76,6 +76,7 @@ public class GameEngine extends BasicGame {
         }
 
         metersManagerFactory.computeMeters();
+        computeBestScores();
         // TODO delete
         spawnableManager.setSpawnProbability(metersManagerFactory.getSpawnProbability());
 
@@ -101,6 +102,7 @@ public class GameEngine extends BasicGame {
         if (hero.isDead()) {
             spriteBatch.dispose();
             computeBestScores();
+            streamManager.saveBestScores(bestScores);
             initialise();
         }
     }
@@ -121,8 +123,6 @@ public class GameEngine extends BasicGame {
 
         bestScores.setHighScore(Math.max(bestScores.getHighScore(), currentFinalScore));
         bestScores.setLongestRun(Math.max(bestScores.getLongestRun(), currentFinalMeters));
-
-        streamManager.saveBestScores(bestScores);
     }
 
     private void preUpdateCollisionBoxes() {
