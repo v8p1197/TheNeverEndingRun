@@ -10,14 +10,16 @@ public class Sprite extends org.mini2Dx.core.graphics.Sprite {
 
 
 
-    //***************************** params *****************************//
+    /* ------------------------------------- PARAMS ------------------------------------- */
 
     /**
+     *
      * Store the collision box of the sprite
      */
     private CollisionBox collisionBox;
 
     /**
+     *
      * Store the scale factor of the sprite
      */
     private final float scaleFactor;
@@ -25,79 +27,80 @@ public class Sprite extends org.mini2Dx.core.graphics.Sprite {
 
 
 
-    //***************************** constructors *****************************//
+    /* ------------------------------------- CONSTRUCTORS ------------------------------------- */
 
     /**
-     * Sprite constructor. It will set the texture and generate an initial collisionBox
      *
-     * @param texture Texture of the component
+     * Sprite constructor. It will call the super(), set scaleFactor to 1 (no scale) and fake collision box (0,0).
+     *
      */
-    public Sprite(Texture texture) {
-        this(texture, 1);
+    public Sprite() {
+        this(1);
     }
 
     /**
-     * Sprite constructor. It will set the texture and generate an initial collisionBox
      *
-     * @param texture Texture of the component
+     * Sprite constructor. It will call the super(), set scaleFactor and fake collision box (0,0).
+     *
+     * @param scaleFactor Scale factor for the sprite
+     */
+    public Sprite(float scaleFactor) {
+        super();
+        this.scaleFactor = scaleFactor;
+        collisionBox = new CollisionBox(getX(), getY(), 0,0);
+    }
+
+    /**
+     *
+     * Sprite constructor. It will call super, set the scale factor to 1 (no scale) and generate an initial collisionBox
+     *
+     */
+    public Sprite(Texture texture) {
+        this(texture, 0, 0, texture.getWidth(), texture.getHeight(),1);
+    }
+
+    /**
+     *
+     * Sprite constructor. It will call super, set the scale factor and generate an initial collisionBox
+     *
      * @param scaleFactor Scale factor for the sprite
      */
     public Sprite(Texture texture, float scaleFactor) {
-        super(texture);
-        this.scaleFactor = scaleFactor;
-
-        setSize(getWidth() * getScaleFactor(), getHeight() * getScaleFactor());
-        generateCollisionBox();
+        this(texture, 0, 0, texture.getWidth(), texture.getHeight(), scaleFactor);
     }
 
     /**
-     * Sprite constructor. It will set the texture, width and height and generate an initial collisionBox
      *
-     * @param texture   Texture of the component
-     * @param srcWidth  width of the sprite
-     * @param srcHeight height of the sprite
+     * Sprite constructor. It will call super, set the scale factor to 1 (no scale) and generate an initial collisionBox
+     *
      */
     public Sprite(Texture texture, int srcWidth, int srcHeight) {
-        this(texture, srcWidth, srcHeight, 1);
+        this(texture, 0,0, srcWidth, srcHeight, 1);
     }
 
     /**
-     * Sprite constructor. It will set the texture, width and height and generate an initial collisionBox
+     *
+     * Sprite constructor. It will call super, set the scale factor and generate an initial collisionBox
 
-     * @param texture   Texture of the component
-     * @param srcWidth  width of the sprite
-     * @param srcHeight height of the sprite
      * @param scaleFactor Scale factor for the sprite
      */
     public Sprite(Texture texture, int srcWidth, int srcHeight, float scaleFactor) {
-        super(texture, srcWidth, srcHeight);
-        this.scaleFactor = scaleFactor;
-
-        setSize(getWidth() * getScaleFactor(), getHeight() * getScaleFactor());
-        generateCollisionBox();
+        this(texture, 0,0, srcWidth, srcHeight, scaleFactor);
     }
 
     /**
-     * Sprite constructor. It will set the texture, coordinates x and y, width and height and generate an initial collisionBox
      *
-     * @param texture   Texture of the component
-     * @param srcWidth  width of the sprite
-     * @param srcHeight height of the sprite
-     * @param srcX      coordinate x
-     * @param srcY      coordinate y
+     * Sprite constructor. It will call super, set the scale factor to 1 (no scale) and generate an initial collisionBox
+     *
      */
     public Sprite(Texture texture, int srcX, int srcY, int srcWidth, int srcHeight) {
         this(texture, srcX, srcY, srcWidth, srcHeight, 1);
     }
 
     /**
-     * Sprite constructor. It will set the texture, coordinates x and y, width and height and generate an initial collisionBox
      *
-     * @param texture   Texture of the component
-     * @param srcWidth  width of the sprite
-     * @param srcHeight height of the sprite
-     * @param srcX      coordinate x
-     * @param srcY      coordinate y
+     * Sprite constructor. It will call super, set the scale factor and generate an initial collisionBox
+     *
      * @param scaleFactor Scale factor for the sprite
      */
     public Sprite(Texture texture, int srcX, int srcY, int srcWidth, int srcHeight, float scaleFactor) {
@@ -111,10 +114,11 @@ public class Sprite extends org.mini2Dx.core.graphics.Sprite {
 
 
 
-    //***************************** getters *****************************//
+    /* ------------------------------------- GETTERS ------------------------------------- */
 
     /**
      *
+     * @see Sprite#scaleFactor
      * @return the scale factor used
      */
     public float getScaleFactor() {
@@ -122,6 +126,7 @@ public class Sprite extends org.mini2Dx.core.graphics.Sprite {
     }
 
     /**
+     *
      * @return the original not scaled width
      */
     public float getNotScaledWidth() {
@@ -137,7 +142,9 @@ public class Sprite extends org.mini2Dx.core.graphics.Sprite {
     }
 
     /**
-     * CollisionBox getter
+     *
+     * @see Sprite#collisionBox
+     * @return the collision box for this sprite
      */
     public CollisionBox getCollisionBox() {
         return collisionBox;
@@ -147,9 +154,11 @@ public class Sprite extends org.mini2Dx.core.graphics.Sprite {
 
 
 
-    //***************************** setters *****************************//
+    /* ------------------------------------- SETTERS ------------------------------------- */
 
     /**
+     *
+     * @see Sprite#collisionBox
      * Generate the new collision box after doing the super setPosition
      */
     @Override
@@ -159,6 +168,8 @@ public class Sprite extends org.mini2Dx.core.graphics.Sprite {
     }
 
     /**
+     *
+     * @see Sprite#collisionBox
      * Generate the new collision box after doing the super setX
      */
     @Override
@@ -168,8 +179,9 @@ public class Sprite extends org.mini2Dx.core.graphics.Sprite {
     }
 
     /**
+     *
+     * @see Sprite#collisionBox
      * Generate the new collision box after doing the super setY
-
      */
     @Override
     public void setY(float y) {
@@ -178,6 +190,8 @@ public class Sprite extends org.mini2Dx.core.graphics.Sprite {
     }
 
     /**
+     *
+     * @see Sprite#collisionBox
      * Generate the new collision box after doing the super setSize
      */
     @Override
@@ -189,9 +203,12 @@ public class Sprite extends org.mini2Dx.core.graphics.Sprite {
 
 
 
-    //***************************** check *****************************//
+
+
+    /* ------------------------------------- CHECK ------------------------------------- */
 
     /**
+     *
      * Check if the Sprite is currently visible on the x axis
      */
     public boolean isXAxisVisible() {
@@ -199,6 +216,7 @@ public class Sprite extends org.mini2Dx.core.graphics.Sprite {
     }
 
     /**
+     *
      * Check if the Sprite is currently visible on the y axis
      */
     public boolean isYAxisVisible() {
@@ -206,6 +224,7 @@ public class Sprite extends org.mini2Dx.core.graphics.Sprite {
     }
 
     /**
+     *
      * Check if the Sprite is currently visible on the x axis
      */
     public boolean isXAxisVisible(double maxXAxisValue) {
@@ -214,6 +233,7 @@ public class Sprite extends org.mini2Dx.core.graphics.Sprite {
     }
 
     /**
+     *
      * Check if the Sprite is currently visible on the y axis
      */
     public boolean isYAxisVisible(double maxYAxisValue) {
@@ -224,9 +244,10 @@ public class Sprite extends org.mini2Dx.core.graphics.Sprite {
 
 
 
-    //***************************** private helpers *****************************//
+    /* ------------------------------------- SERVICE METHOD ------------------------------------- */
 
     /**
+     *
      * Generate a new collisionBox having the current coordinates (x,y) and the sprite width and height
      */
     private void generateCollisionBox() {
