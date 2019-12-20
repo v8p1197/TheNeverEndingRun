@@ -44,10 +44,36 @@ public abstract class Enemy extends AnimatedSprite<AnimationTypes, TextureRegion
 
     /**
      *
-     * Enemy constructor. Call the super and set the animations the jumpHeight and the slideDistance
+     * Enemy constructor. Call the super and set the jumpHeight and the slideDistance
      * Set the default state to idle
      *
-     * @param animations the animations of the enemy
+     * @param jumpHeight the jump height of the object that need to jump over the obstacle
+     * @param slideDistance the slide distance of the object that need to slide over the obstacle
+     */
+    public Enemy(Map<AnimationTypes, Animation<TextureRegion>> animations, float jumpHeight, float slideDistance) {
+        this(1, animations, jumpHeight, slideDistance);
+    }
+
+    /**
+     *
+     * Enemy constructor. Call the super and set the jumpHeight and the slideDistance
+     * Set the default state to idle
+     *
+     * @param jumpHeight the jump height of the object that need to jump over the obstacle
+     * @param slideDistance the slide distance of the object that need to slide over the obstacle
+     */
+    public Enemy(float scaleFactor, Map<AnimationTypes, Animation<TextureRegion>> animations, float jumpHeight, float slideDistance) {
+        super(scaleFactor, animations);
+        this.jumpHeight = jumpHeight;
+        this.slideDistance = slideDistance;
+        changeEnemyState(new EnemyIdleState(this));
+    }
+
+    /**
+     *
+     * Enemy constructor. Call the super and set the jumpHeight and the slideDistance
+     * Set the default state to idle
+     *
      * @param jumpHeight the jump height of the object that need to jump over the obstacle
      * @param slideDistance the slide distance of the object that need to slide over the obstacle
      */
@@ -57,10 +83,9 @@ public abstract class Enemy extends AnimatedSprite<AnimationTypes, TextureRegion
 
     /**
      *
-     * Enemy constructor. Call the super and set the animations the jumpHeight and the slideDistance
+     * Enemy constructor. Call the super and set the jumpHeight and the slideDistance
      * Set the default state to idle
      *
-     * @param animations the animations of the enemy
      * @param jumpHeight the jump height of the object that need to jump over the obstacle
      * @param slideDistance the slide distance of the object that need to slide over the obstacle
      */
