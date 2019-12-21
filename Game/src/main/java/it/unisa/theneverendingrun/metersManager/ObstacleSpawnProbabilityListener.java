@@ -16,11 +16,6 @@ class ObstacleSpawnProbabilityListener implements DifficultyListener {
     private static final int SPAWN_FACTOR_PROBABILITY = 10;
 
     /**
-     * A support var to compute in a right way the spawn probability
-     */
-    private int difficultyFlag;
-
-    /**
      * The actual spawn probability
      */
     private int spawnProbability;
@@ -29,7 +24,6 @@ class ObstacleSpawnProbabilityListener implements DifficultyListener {
      * Constructor of the class. It initialize the difficultyFlag to 1 and the actual spawn probability to the initial spawn probability
      */
     ObstacleSpawnProbabilityListener() {
-        difficultyFlag = 1;
         spawnProbability = INITIAL_SPAWN_PROBABILITY;
     }
 
@@ -66,7 +60,7 @@ class ObstacleSpawnProbabilityListener implements DifficultyListener {
      * @param probabilityFactor the factor to subtract to the spawn probability
      */
     private void setSpawnProbability(int probabilityFactor) {
-        spawnProbability -= probabilityFactor;
+        spawnProbability = probabilityFactor;
     }
 
     /**
@@ -77,10 +71,7 @@ class ObstacleSpawnProbabilityListener implements DifficultyListener {
      */
     @Override
     public void update(int difficulty) {
-        if (difficulty == difficultyFlag + 1 && difficulty < Level.LEVEL_MAX.getValue()) {
-            setSpawnProbability(SPAWN_FACTOR_PROBABILITY);
-            difficultyFlag = difficulty;
-        } else if (difficulty == Level.LEVEL_PRO.getValue())
-            setSpawnProbability(SPAWN_FACTOR_PROBABILITY / 2);
+        if (difficulty < Level.LEVEL_MAX.getValue())
+            setSpawnProbability(INITIAL_SPAWN_PROBABILITY - SPAWN_FACTOR_PROBABILITY * difficulty);
     }
 }

@@ -16,11 +16,6 @@ class SpeedDifficultyListener implements DifficultyListener {
     private static final float SPEED_FACTOR = 0.3f;
 
     /**
-     * A support var to compute in a right way the spawn probability
-     */
-    private int difficultyFlag;
-
-    /**
      * The actual value of the speed
      */
     private float speed;
@@ -30,7 +25,6 @@ class SpeedDifficultyListener implements DifficultyListener {
      */
     SpeedDifficultyListener() {
         speed = INITIAL_SPEED;
-        difficultyFlag = 1;
     }
 
     /**
@@ -39,7 +33,7 @@ class SpeedDifficultyListener implements DifficultyListener {
      * @param scoreFactor the new value to increase the speed
      */
     private void setSpeed(float speedFactor) {
-        speed += speedFactor;
+        speed = speedFactor;
         speed = (float) (Math.round(speed * 100.0) / 100.0);
     }
 
@@ -78,11 +72,7 @@ class SpeedDifficultyListener implements DifficultyListener {
      */
     @Override
     public void update(int difficulty) {
-        if (difficulty == difficultyFlag + 1 && difficulty <= Level.LEVEL_MAX.getValue()) {
-            difficultyFlag = difficulty;
-            setSpeed(SPEED_FACTOR);
-        } else if (difficulty == Level.LEVEL_PRO.getValue())
-            setSpeed(SPEED_FACTOR);
+        if (difficulty < Level.LEVEL_MAX.getValue())
+            setSpeed(INITIAL_SPEED + SPEED_FACTOR * difficulty);
     }
-
 }

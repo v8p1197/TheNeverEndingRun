@@ -21,7 +21,7 @@ class DifficultyMeterListener implements MetersListener {
     /**
      * the initial difficulty of the game
      */
-    private final static int INITIAL_DIFFICULTY = 1;
+    private final static int INITIAL_DIFFICULTY = 0;
 
     /**
      * the number of the meter that the level difficulty will change
