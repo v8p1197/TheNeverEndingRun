@@ -2,14 +2,13 @@ package it.unisa.theneverendingrun.models.spawnables.obstacle;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
-import it.unisa.theneverendingrun.CollisionManager;
 import it.unisa.theneverendingrun.models.Sprite;
 import it.unisa.theneverendingrun.models.hero.Hero;
 import it.unisa.theneverendingrun.models.spawnables.Collidable;
 import it.unisa.theneverendingrun.models.spawnables.Spawnable;
 import org.mini2Dx.core.engine.geom.CollisionBox;
 
-public abstract class Obstacle extends Sprite implements Spawnable, Collidable {
+public abstract class Obstacle extends Sprite implements Spawnable {
 
 
     /* ------------------------------------- PARAMS ------------------------------------- */
@@ -122,7 +121,7 @@ public abstract class Obstacle extends Sprite implements Spawnable, Collidable {
         } else if (collision == left) {
             hero.setX(hero.getX() - intersection.getWidth());
         } else if (collision == bottom) {
-            CollisionManager.wasOnObstacle.put(this, true);
+            //CollisionManager.wasOnObstacle.put(this, true);
             if (hero.isJumping() && hero.getJumpCompletion() >= 0.5 || hero.isFalling())
                 hero.getMoveState().onIdle();
             hero.setY(hero.getY() + intersection.getHeight());
@@ -152,14 +151,14 @@ public abstract class Obstacle extends Sprite implements Spawnable, Collidable {
      */
     @Override
     public void endColliding(Hero hero) {
-        if (!CollisionManager.wasOnObstacle.containsKey(this))
+      /*  if (!CollisionManager.wasOnObstacle.containsKey(this))
             CollisionManager.wasOnObstacle.put(this, false);
         else {
             if (CollisionManager.wasOnObstacle.get(this) && !hero.isJumping()) {
                 hero.getMoveState().onFall();
                 CollisionManager.wasOnObstacle.put(this, false);
             }
-        }
+        }*/
     }
 
 

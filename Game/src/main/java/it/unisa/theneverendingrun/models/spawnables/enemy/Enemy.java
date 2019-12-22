@@ -15,7 +15,7 @@ import it.unisa.theneverendingrun.models.spawnables.enemy.state.EnemyState;
 
 import java.util.Map;
 
-public abstract class Enemy extends AnimatedSprite<AnimationTypes, TextureRegion> implements Spawnable, Collidable {
+public abstract class Enemy extends AnimatedSprite<AnimationTypes, TextureRegion> implements Spawnable {
 
 
     /* ------------------------------------- PARAMS ------------------------------------- */

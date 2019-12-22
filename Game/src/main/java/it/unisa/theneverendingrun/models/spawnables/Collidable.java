@@ -9,7 +9,7 @@ public interface Collidable {
 
     /**
      *
-     * @return the collision box of the spawnable
+     * @return the collision box of the collidable
      */
     CollisionBox getCollisionBox();
 

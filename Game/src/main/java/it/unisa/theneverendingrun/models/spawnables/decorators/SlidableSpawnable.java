@@ -1,7 +1,9 @@
 package it.unisa.theneverendingrun.models.spawnables.decorators;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import it.unisa.theneverendingrun.models.hero.Hero;
 import it.unisa.theneverendingrun.models.spawnables.Spawnable;
+import org.mini2Dx.core.engine.geom.CollisionBox;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -42,6 +44,7 @@ public class SlidableSpawnable implements Spawnable {
     /* -------------------------------- SERVICE METHODS -------------------------------- */
 
     /**
+     *
      * Resize spawnable in random mode so that is slidable
      */
     private void resize() {
@@ -53,6 +56,7 @@ public class SlidableSpawnable implements Spawnable {
     }
 
     /**
+     *
      * Draw the spawnable through the batch
      *
      * @param batch the batch that is capable of draw the spawnable
@@ -67,6 +71,7 @@ public class SlidableSpawnable implements Spawnable {
     /* -------------------------------- GETTERS -------------------------------- */
 
     /**
+     *
      * @return the jump height of the object that need to jump over the spawnable
      */
     @Override
@@ -75,6 +80,7 @@ public class SlidableSpawnable implements Spawnable {
     }
 
     /**
+     *
      * @return the slide distance of the object that need to slide over the spawnable
      */
     @Override
@@ -83,6 +89,7 @@ public class SlidableSpawnable implements Spawnable {
     }
 
     /**
+     *
      * @return the width of the spawnable
      */
     @Override
@@ -91,6 +98,7 @@ public class SlidableSpawnable implements Spawnable {
     }
 
     /**
+     *
      * @return the height of the spawnable
      */
     @Override
@@ -99,6 +107,7 @@ public class SlidableSpawnable implements Spawnable {
     }
 
     /**
+     *
      * @return the coordinate x of the spawnable
      */
     @Override
@@ -107,6 +116,7 @@ public class SlidableSpawnable implements Spawnable {
     }
 
     /**
+     *
      * @return the coordinate y of the spawnable
      */
     @Override
@@ -114,11 +124,21 @@ public class SlidableSpawnable implements Spawnable {
         return spawnable.getY();
     }
 
+    /**
+     *
+     * @return the collision box of the spawnable
+     */
+    @Override
+    public CollisionBox getCollisionBox() {
+        return spawnable.getCollisionBox();
+    }
+
 
 
     /* -------------------------------- SETTERS -------------------------------- */
 
     /**
+     *
      * Set the size of the spawnable
      *
      * @param width  the width of the spawnable
@@ -131,6 +151,7 @@ public class SlidableSpawnable implements Spawnable {
     }
 
     /**
+     *
      * Set the position on the x and y Axis
      *
      * @param x the x coordinate
@@ -146,6 +167,7 @@ public class SlidableSpawnable implements Spawnable {
     /* -------------------------------- CHECK -------------------------------- */
 
     /**
+     *
      * @return the true if the height of the spawnable is such that the spawnable is jumpable
      */
     @Override
@@ -154,6 +176,7 @@ public class SlidableSpawnable implements Spawnable {
     }
 
     /**
+     *
      * @return the true if the width of the spawnable is such that the spawnable is slidable
      */
     @Override
@@ -162,6 +185,7 @@ public class SlidableSpawnable implements Spawnable {
     }
 
     /**
+     *
      * @return the true if the width of the spawnable is such that the spawnable is slidable if near another spawnable
      */
     @Override
@@ -170,10 +194,47 @@ public class SlidableSpawnable implements Spawnable {
     }
 
     /**
+     *
      * @return true if the spwnable is visible on the X Axis
      */
     @Override
     public boolean isXAxisVisible() {
         return spawnable.isXAxisVisible();
+    }
+
+    /**
+     *
+     * @param hero the hero that can collide with the spawnable
+     * @return true if the spawnable collide with the hero
+     */
+    @Override
+    public boolean isColliding(Hero hero) {
+        return spawnable.isColliding(hero);
+    }
+
+
+
+    /* ------------------------------------- COLLISION ------------------------------------- */
+
+    /**
+     *
+     * What the spawnable have to do when the hero collide with the spawnable
+     *
+     * @param hero the hero that collide with the spawnable
+     */
+    @Override
+    public void beginColliding(Hero hero) {
+        spawnable.beginColliding(hero);
+    }
+
+    /**
+     *
+     * What the spawnable have to do when collision with hero end
+     *
+     * @param hero the hero that collide with the spawnable
+     */
+    @Override
+    public void endColliding(Hero hero) {
+        spawnable.endColliding(hero);
     }
 }
