@@ -1,4 +1,4 @@
-package it.unisa.theneverendingrun.models.spawnables;
+package it.unisa.theneverendingrun.models;
 
 import it.unisa.theneverendingrun.models.hero.Hero;
 import org.mini2Dx.core.engine.geom.CollisionBox;

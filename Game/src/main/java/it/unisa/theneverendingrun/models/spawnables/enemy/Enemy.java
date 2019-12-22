@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import it.unisa.theneverendingrun.data.AnimationTypes;
 import it.unisa.theneverendingrun.models.AnimatedSprite;
 import it.unisa.theneverendingrun.models.hero.Hero;
-import it.unisa.theneverendingrun.models.spawnables.Collidable;
 import it.unisa.theneverendingrun.models.spawnables.Spawnable;
 import it.unisa.theneverendingrun.models.spawnables.enemy.state.EnemyAttackState;
 import it.unisa.theneverendingrun.models.spawnables.enemy.state.EnemyDeadState;

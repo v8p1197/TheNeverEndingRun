@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import it.unisa.theneverendingrun.models.Sprite;
 import it.unisa.theneverendingrun.models.hero.Hero;
-import it.unisa.theneverendingrun.models.spawnables.Collidable;
 import it.unisa.theneverendingrun.models.spawnables.Spawnable;
 import org.mini2Dx.core.engine.geom.CollisionBox;
 

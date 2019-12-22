@@ -1,6 +1,7 @@
 package it.unisa.theneverendingrun.models.spawnables;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import it.unisa.theneverendingrun.models.Collidable;
 
 public interface Spawnable extends Collidable {
 
