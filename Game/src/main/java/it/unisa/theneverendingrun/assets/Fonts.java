@@ -1,4 +1,4 @@
-package it.unisa.theneverendingrun;
+package it.unisa.theneverendingrun.assets;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -31,7 +31,7 @@ public class Fonts {
         parameter.magFilter = Texture.TextureFilter.Linear;
         parameter.minFilter = Texture.TextureFilter.Linear;
 
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("ARCADE_R.ttf"));
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("ARCADE_N.ttf"));
 
         scoreFont = generator.generateFont(parameter);
         scoreFont.setUseIntegerPositions(false);

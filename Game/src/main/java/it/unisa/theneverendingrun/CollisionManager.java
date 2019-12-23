@@ -14,7 +14,7 @@ public class CollisionManager {
      */
     public static Map<AbstractObstacle, Boolean> wasOnObstacle = new HashMap<>();
 
-    static void checkCollision(Hero hero, Spawnable spawnable) {
+    public static void checkCollision(Hero hero, Spawnable spawnable) {
         var spawnableCollisionBox = spawnable.getCollisionBox();
         var heroCollisionBox = hero.getCollisionBox();
 
