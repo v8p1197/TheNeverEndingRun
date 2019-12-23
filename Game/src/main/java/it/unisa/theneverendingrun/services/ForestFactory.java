@@ -23,6 +23,7 @@ public class ForestFactory implements GameFactory {
     private final Texture jumpableSlidableTexture;
     private final Texture textureGolem;
     private final Texture textureWolf;
+    private final Texture textureWitch;
 
     private Hero hero;
 
@@ -33,6 +34,7 @@ public class ForestFactory implements GameFactory {
         jumpableTexture = new Texture(commonPath + "obstacles/jumpable.png");
         textureGolem = new Texture(commonPath + "enemies/golem/golem_idle_1.png");
         textureWolf = new Texture(commonPath + "enemies/wolf/wolf_idle_1.png");
+        textureWitch = new Texture(commonPath + "enemies/witch/witch_idle_1.png");
     }
 
     @Override
@@ -57,6 +59,14 @@ public class ForestFactory implements GameFactory {
         return new Enemy(textureWolf, hero.getWidth() * 1.5f, hero.getHeight() * 0.8f);
     }
 
+    public Enemy createGolem() {
+        return new Enemy(textureGolem, hero.getWidth() * 1.5f, hero.getHeight() * 1.5f);
+    }
+
+    public Enemy createWitch() {
+        return new Enemy(textureWitch, hero.getWidth(), hero.getHeight());
+    }
+
     public JumpableObstacle createJumpableObstacle() {
         return new JumpableObstacle(jumpableTexture, (float) hero.getJumpMaxElevation(), hero.getWidth());
     }
@@ -69,7 +79,5 @@ public class ForestFactory implements GameFactory {
         return new JumpableSlidableObstacle(jumpableSlidableTexture, (float) hero.getJumpMaxElevation(), (float) hero.getMaxSlideRange() * 3); //fixme idem
     }
 
-    public Enemy createGolem() {
-        return new Enemy(textureGolem, hero.getWidth() * 1.5f, hero.getHeight() * 1.5f);
-    }
+
 }
