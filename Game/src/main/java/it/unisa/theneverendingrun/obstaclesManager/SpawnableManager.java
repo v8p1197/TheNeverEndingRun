@@ -5,6 +5,7 @@ import it.unisa.theneverendingrun.CollisionManager;
 import it.unisa.theneverendingrun.models.Spawnable;
 import it.unisa.theneverendingrun.models.SpawnableTypes;
 import it.unisa.theneverendingrun.models.hero.Hero;
+import it.unisa.theneverendingrun.models.powerup.AbstractPowerUp;
 import it.unisa.theneverendingrun.services.ForestFactory;
 
 import java.util.LinkedList;
@@ -195,19 +196,25 @@ public class SpawnableManager {
     /**
      * This method will remove from memory the obstacles which are not visible anymore.
      *
-     * @param obstacles the LinkedList which contains all the obstacles.
+     * @param spawnables the LinkedList which contains all the obstacles.
      */
-    public void clearOldObstacles(LinkedList<Spawnable> obstacles) {
-        if (obstacles.isEmpty())
+    public void clearOldObstacles(LinkedList<Spawnable> spawnables) {
+        if (spawnables.isEmpty())
             return;
 
         LinkedList<Spawnable> toRemoveList = new LinkedList<>();
-        for (Spawnable obstacle : obstacles)
+        for (Spawnable spawnable : spawnables) {
             if (lastObstacle.getX() + lastObstacle.getWidth() + hero.getWidth() < 0) {
-                toRemoveList.add(obstacle);
+                toRemoveList.add(spawnable);
             }
+            if (spawnable instanceof AbstractPowerUp) {
+                if (((AbstractPowerUp) spawnable).isCollected()) {
+                    toRemoveList.add(spawnable);
+                }
+            }
+        }
         for (Spawnable toRemove : toRemoveList) {
-            obstacles.remove(toRemove);
+            spawnables.remove(toRemove);
             CollisionManager.wasOnObstacle.remove(toRemove);
         }
     }
