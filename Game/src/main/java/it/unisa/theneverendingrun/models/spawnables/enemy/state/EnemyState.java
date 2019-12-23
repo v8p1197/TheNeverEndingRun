@@ -1,6 +1,6 @@
 package it.unisa.theneverendingrun.models.spawnables.enemy.state;
 
-import it.unisa.theneverendingrun.models.spawnables.enemy.Enemy;
+import it.unisa.theneverendingrun.models.spawnables.enemy.AbstractEnemy;
 
 public abstract class EnemyState {
 
@@ -8,13 +8,13 @@ public abstract class EnemyState {
      *
      * The enemy that has the state
      */
-    protected Enemy enemy;
+    protected AbstractEnemy enemy;
 
     /**
      *
      * @param enemy the enemy that has the state
      */
-    public EnemyState(Enemy enemy) {
+    public EnemyState(AbstractEnemy enemy) {
         this.enemy = enemy;
     }
 

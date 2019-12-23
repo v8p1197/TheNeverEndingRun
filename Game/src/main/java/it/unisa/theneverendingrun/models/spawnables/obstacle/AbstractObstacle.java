@@ -7,7 +7,7 @@ import it.unisa.theneverendingrun.models.hero.Hero;
 import it.unisa.theneverendingrun.models.spawnables.Spawnable;
 import org.mini2Dx.core.engine.geom.CollisionBox;
 
-public abstract class Obstacle extends Sprite implements Spawnable {
+public abstract class AbstractObstacle extends Sprite implements Spawnable {
 
 
     /* ------------------------------------- PARAMS ------------------------------------- */
@@ -42,7 +42,7 @@ public abstract class Obstacle extends Sprite implements Spawnable {
      * @param jumpHeight the jump height of the object that need to jump over the obstacle
      * @param slideDistance the slide distance of the object that need to slide over the obstacle
      */
-    public Obstacle(Texture texture, float jumpHeight, float slideDistance) {
+    public AbstractObstacle(Texture texture, float jumpHeight, float slideDistance) {
         this(texture, 1, jumpHeight, slideDistance);
     }
 
@@ -53,7 +53,7 @@ public abstract class Obstacle extends Sprite implements Spawnable {
      * @param jumpHeight the jump height of the object that need to jump over the obstacle
      * @param slideDistance the slide distance of the object that need to slide over the obstacle
      */
-    public Obstacle(Texture texture, float scaleFactor, float jumpHeight, float slideDistance) {
+    public AbstractObstacle(Texture texture, float scaleFactor, float jumpHeight, float slideDistance) {
         super(texture, scaleFactor);
         this.jumpHeight = jumpHeight;
         this.slideDistance = slideDistance;
@@ -65,7 +65,7 @@ public abstract class Obstacle extends Sprite implements Spawnable {
 
     /**
      *
-     * @see Obstacle#jumpHeight
+     * @see AbstractObstacle#jumpHeight
      * @return the jump height of the object that need to jump over the obstacle
      */
     @Override
@@ -75,7 +75,7 @@ public abstract class Obstacle extends Sprite implements Spawnable {
 
     /**
      *
-     * @see Obstacle#slideDistance
+     * @see AbstractObstacle#slideDistance
      * @return the slide distance of the object that need to slide over the obstacle
      */
     @Override

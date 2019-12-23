@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 
 import java.util.Map;
 
-public abstract class AnimatedSprite<KEY, T> extends Sprite {
+public abstract class AbstractAnimatedSprite<KEY, T> extends Sprite {
 
 
     /* ------------------------------------- PARAMS ------------------------------------- */
@@ -33,7 +33,7 @@ public abstract class AnimatedSprite<KEY, T> extends Sprite {
      *
      * @param animations the animations of the animated sprite
      */
-    public AnimatedSprite(Map<KEY, Animation<T>> animations) {
+    public AbstractAnimatedSprite(Map<KEY, Animation<T>> animations) {
         this(1,animations);
     }
 
@@ -43,7 +43,7 @@ public abstract class AnimatedSprite<KEY, T> extends Sprite {
      *
      * @param animations the animations of the animated sprite
      */
-    public AnimatedSprite(float scaleFactor, Map<KEY, Animation<T>> animations) {
+    public AbstractAnimatedSprite(float scaleFactor, Map<KEY, Animation<T>> animations) {
         super(scaleFactor);
         if (animations == null) throw new IllegalArgumentException("animations cannot be null");
         this.animations = animations;
@@ -56,7 +56,7 @@ public abstract class AnimatedSprite<KEY, T> extends Sprite {
      *
      * @param animations    the animations of the animated sprite
      */
-    public AnimatedSprite(Texture texture, Map<KEY, Animation<T>> animations) {
+    public AbstractAnimatedSprite(Texture texture, Map<KEY, Animation<T>> animations) {
         this(texture, 0, 0, texture.getWidth(), texture.getHeight(), 1, animations);
     }
 
@@ -66,7 +66,7 @@ public abstract class AnimatedSprite<KEY, T> extends Sprite {
      *
      * @param animations    the animations of the animated sprite
      */
-    public AnimatedSprite(Texture texture, float scaleFactor, Map<KEY, Animation<T>> animations) {
+    public AbstractAnimatedSprite(Texture texture, float scaleFactor, Map<KEY, Animation<T>> animations) {
         this(texture, 0, 0, texture.getWidth(), texture.getHeight(), scaleFactor, animations);
     }
 
@@ -76,7 +76,7 @@ public abstract class AnimatedSprite<KEY, T> extends Sprite {
      *
      * @param animations    the animations of the animated sprite
      */
-    public AnimatedSprite(Texture texture, int srcWidth, int srcHeight, Map<KEY, Animation<T>> animations) {
+    public AbstractAnimatedSprite(Texture texture, int srcWidth, int srcHeight, Map<KEY, Animation<T>> animations) {
         this(texture, 0,0, srcWidth, srcHeight, 1, animations);
     }
 
@@ -86,7 +86,7 @@ public abstract class AnimatedSprite<KEY, T> extends Sprite {
      *
      * @param animations    the animations of the animated sprite
      */
-    public AnimatedSprite(Texture texture, int srcWidth, int srcHeight, float scaleFactor, Map<KEY, Animation<T>> animations) {
+    public AbstractAnimatedSprite(Texture texture, int srcWidth, int srcHeight, float scaleFactor, Map<KEY, Animation<T>> animations) {
         this(texture, 0,0, srcWidth, srcHeight, scaleFactor, animations);
     }
 
@@ -96,7 +96,7 @@ public abstract class AnimatedSprite<KEY, T> extends Sprite {
      *
      * @param animations    the animations of the animated sprite
      */
-    public AnimatedSprite(Texture texture, int srcX, int srcY, int srcWidth, int srcHeight, Map<KEY, Animation<T>> animations) {
+    public AbstractAnimatedSprite(Texture texture, int srcX, int srcY, int srcWidth, int srcHeight, Map<KEY, Animation<T>> animations) {
         this(texture, srcX, srcY, srcWidth, srcHeight, 1, animations);
     }
 
@@ -106,7 +106,7 @@ public abstract class AnimatedSprite<KEY, T> extends Sprite {
      *
      * @param animations    the animations of the animated sprite
      */
-    public AnimatedSprite(Texture texture, int srcX, int srcY, int srcWidth, int srcHeight, float scaleFactor, Map<KEY, Animation<T>> animations) {
+    public AbstractAnimatedSprite(Texture texture, int srcX, int srcY, int srcWidth, int srcHeight, float scaleFactor, Map<KEY, Animation<T>> animations) {
         super(texture, srcX, srcY, srcWidth, srcHeight, scaleFactor);
         if (animations == null) throw new IllegalArgumentException("animations cannot be null");
         this.animations = animations;
@@ -122,7 +122,7 @@ public abstract class AnimatedSprite<KEY, T> extends Sprite {
 
     /**
      *
-     * @see AnimatedSprite#stateTime
+     * @see AbstractAnimatedSprite#stateTime
      * @return the current state time
      */
     public float getStateTime() {
@@ -131,7 +131,7 @@ public abstract class AnimatedSprite<KEY, T> extends Sprite {
 
     /**
      *
-     * @see AnimatedSprite#stateTime
+     * @see AbstractAnimatedSprite#stateTime
      * @param stateTime the updated state time
      */
     public void setStateTime(float stateTime) {
@@ -140,7 +140,7 @@ public abstract class AnimatedSprite<KEY, T> extends Sprite {
 
     /**
      *
-     * @see AnimatedSprite#stateTime
+     * @see AbstractAnimatedSprite#stateTime
      * Set the state time to 0
      */
     public void resetStateTime() {

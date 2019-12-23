@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import it.unisa.theneverendingrun.data.AnimationTypes;
-import it.unisa.theneverendingrun.models.AnimatedSprite;
+import it.unisa.theneverendingrun.models.AbstractAnimatedSprite;
 import it.unisa.theneverendingrun.models.hero.Hero;
 import it.unisa.theneverendingrun.models.spawnables.Spawnable;
 import it.unisa.theneverendingrun.models.spawnables.enemy.state.EnemyAttackState;
@@ -14,7 +14,7 @@ import it.unisa.theneverendingrun.models.spawnables.enemy.state.EnemyState;
 
 import java.util.Map;
 
-public abstract class Enemy extends AnimatedSprite<AnimationTypes, TextureRegion> implements Spawnable {
+public abstract class AbstractEnemy extends AbstractAnimatedSprite<AnimationTypes, TextureRegion> implements Spawnable {
 
 
     /* ------------------------------------- PARAMS ------------------------------------- */
@@ -49,7 +49,7 @@ public abstract class Enemy extends AnimatedSprite<AnimationTypes, TextureRegion
      * @param jumpHeight the jump height of the object that need to jump over the obstacle
      * @param slideDistance the slide distance of the object that need to slide over the obstacle
      */
-    public Enemy(Map<AnimationTypes, Animation<TextureRegion>> animations, float jumpHeight, float slideDistance) {
+    public AbstractEnemy(Map<AnimationTypes, Animation<TextureRegion>> animations, float jumpHeight, float slideDistance) {
         this(1, animations, jumpHeight, slideDistance);
     }
 
@@ -61,7 +61,7 @@ public abstract class Enemy extends AnimatedSprite<AnimationTypes, TextureRegion
      * @param jumpHeight the jump height of the object that need to jump over the obstacle
      * @param slideDistance the slide distance of the object that need to slide over the obstacle
      */
-    public Enemy(float scaleFactor, Map<AnimationTypes, Animation<TextureRegion>> animations, float jumpHeight, float slideDistance) {
+    public AbstractEnemy(float scaleFactor, Map<AnimationTypes, Animation<TextureRegion>> animations, float jumpHeight, float slideDistance) {
         super(scaleFactor, animations);
         this.jumpHeight = jumpHeight;
         this.slideDistance = slideDistance;
@@ -76,7 +76,7 @@ public abstract class Enemy extends AnimatedSprite<AnimationTypes, TextureRegion
      * @param jumpHeight the jump height of the object that need to jump over the obstacle
      * @param slideDistance the slide distance of the object that need to slide over the obstacle
      */
-    public Enemy(Texture texture, Map<AnimationTypes, Animation<TextureRegion>> animations, float jumpHeight, float slideDistance) {
+    public AbstractEnemy(Texture texture, Map<AnimationTypes, Animation<TextureRegion>> animations, float jumpHeight, float slideDistance) {
         this(texture, 1, animations, jumpHeight, slideDistance);
     }
 
@@ -88,7 +88,7 @@ public abstract class Enemy extends AnimatedSprite<AnimationTypes, TextureRegion
      * @param jumpHeight the jump height of the object that need to jump over the obstacle
      * @param slideDistance the slide distance of the object that need to slide over the obstacle
      */
-    public Enemy(Texture texture, float scaleFactor, Map<AnimationTypes, Animation<TextureRegion>> animations, float jumpHeight, float slideDistance) {
+    public AbstractEnemy(Texture texture, float scaleFactor, Map<AnimationTypes, Animation<TextureRegion>> animations, float jumpHeight, float slideDistance) {
         super(texture, scaleFactor, animations);
         this.jumpHeight = jumpHeight;
         this.slideDistance = slideDistance;
@@ -101,7 +101,7 @@ public abstract class Enemy extends AnimatedSprite<AnimationTypes, TextureRegion
 
     /**
      *
-     * @see Enemy#jumpHeight
+     * @see AbstractEnemy#jumpHeight
      * @return the jump height of the object that need to jump over the enemy
      */
     @Override
@@ -111,7 +111,7 @@ public abstract class Enemy extends AnimatedSprite<AnimationTypes, TextureRegion
 
     /**
      *
-     * @see Enemy#slideDistance
+     * @see AbstractEnemy#slideDistance
      * @return the slide distance of the object that need to slide over the enemy
      */
     @Override
@@ -121,7 +121,7 @@ public abstract class Enemy extends AnimatedSprite<AnimationTypes, TextureRegion
 
     /**
      *
-     * @see Enemy#state
+     * @see AbstractEnemy#state
      * @return the current enemy state
      */
     public EnemyState getState() {
@@ -136,7 +136,7 @@ public abstract class Enemy extends AnimatedSprite<AnimationTypes, TextureRegion
      *
      * Set the new enemy state and change the animation
      *
-     * @see Enemy#state
+     * @see AbstractEnemy#state
      * @param fightState the enemy state
      */
     public void changeEnemyState(EnemyState fightState) {

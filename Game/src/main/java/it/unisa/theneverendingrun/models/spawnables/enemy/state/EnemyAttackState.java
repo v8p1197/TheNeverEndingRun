@@ -1,13 +1,13 @@
 package it.unisa.theneverendingrun.models.spawnables.enemy.state;
 
-import it.unisa.theneverendingrun.models.spawnables.enemy.Enemy;
+import it.unisa.theneverendingrun.models.spawnables.enemy.AbstractEnemy;
 
 public class EnemyAttackState extends EnemyState {
 
     /**
      * @param enemy the enemy that has the state
      */
-    public EnemyAttackState(Enemy enemy) {
+    public EnemyAttackState(AbstractEnemy enemy) {
         super(enemy);
     }
 

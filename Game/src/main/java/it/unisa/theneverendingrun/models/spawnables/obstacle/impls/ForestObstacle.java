@@ -1,9 +1,9 @@
 package it.unisa.theneverendingrun.models.spawnables.obstacle.impls;
 
 import com.badlogic.gdx.graphics.Texture;
-import it.unisa.theneverendingrun.models.spawnables.obstacle.Obstacle;
+import it.unisa.theneverendingrun.models.spawnables.obstacle.AbstractObstacle;
 
-public class ForestObstacle extends Obstacle {
+public class ForestObstacle extends AbstractObstacle {
 
     /**
      *
