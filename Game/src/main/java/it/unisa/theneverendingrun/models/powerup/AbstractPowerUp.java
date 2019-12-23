@@ -26,8 +26,16 @@ public class AbstractPowerUp extends Spawnable {
 
     @Override
     public void beginCollision(Hero hero) {
-        if (type == SpawnableTypes.Shield) {
-            // hero.addShield();
+        switch (this.type) {
+            case Shield:
+                //hero.addShield();
+                break;
+            case Sword:
+                //hero.addSword();
+                break;
+            case X2:
+                //hero.addX2();
+                break;
         }
         this.collected = true;
     }
