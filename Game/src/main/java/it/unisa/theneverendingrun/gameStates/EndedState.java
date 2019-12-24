@@ -118,6 +118,14 @@ public abstract class EndedState extends GameState {
             checkNextButton(strategy);
         }
 
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
+            if (buttons.get(0).isChecked())
+                onPlay();
+            if (buttons.get(1).isChecked())
+                onMenu();
+            if (buttons.get(2).isChecked())
+                Gdx.app.exit();
+        }
     }
 
     private void checkNextButton(KeyButtonsStrategy strategy) {
