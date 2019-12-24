@@ -13,6 +13,4 @@ public class WinState extends EndedState {
     protected Texture computeBackground() {
         return new Texture("images/falkor.png");
     }
-
-
 }

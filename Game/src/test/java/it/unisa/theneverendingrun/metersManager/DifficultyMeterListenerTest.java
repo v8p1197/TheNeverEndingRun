@@ -18,7 +18,7 @@ public class DifficultyMeterListenerTest {
 
         for (int i = 0; i < steps; i++) {
             factory.computeMeters();
-            Assert.assertEquals((int) (factory.getMeters() / factory.getMetersDelta()) + factory.getDifficultyFactor(), factory.getDifficulty());
+            Assert.assertEquals((int) (factory.getMeters() / factory.getMetersDelta()) + factory.getInitialDifficulty(), factory.getDifficulty());
         }
     }
 }
