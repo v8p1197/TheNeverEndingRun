@@ -107,15 +107,21 @@ public abstract class EndedState extends GameState {
 
     @Override
     public void keyAction() {
-        var noButtonsChecked = true;
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN) || Gdx.input.isKeyJustPressed(Input.Keys.S)) {
             strategy = new KeyDownButtonsStrategy();
+            checkNextButton(strategy);
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.UP) || Gdx.input.isKeyJustPressed(Input.Keys.W)) {
             strategy = new KeyUpButtonsStrategy();
+            checkNextButton(strategy);
         }
+
+    }
+
+    private void checkNextButton(KeyButtonsStrategy strategy) {
+        var noButtonsChecked = true;
 
         for (int i = 0; i < buttons.size(); i++) {
             var button = buttons.get(i);
@@ -127,6 +133,7 @@ public abstract class EndedState extends GameState {
                 break;
             }
         }
+
         if (noButtonsChecked) {
             var firstIndex = strategy.firstIndex(buttons.size());
             buttons.get(firstIndex).setChecked(true);
