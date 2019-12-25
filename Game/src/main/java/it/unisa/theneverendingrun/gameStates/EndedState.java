@@ -9,7 +9,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
 import it.unisa.theneverendingrun.GameEngine;
+import it.unisa.theneverendingrun.assets.Fonts;
 import it.unisa.theneverendingrun.models.Sprite;
+import it.unisa.theneverendingrun.streamManager.BestScores;
 import org.mini2Dx.core.graphics.Graphics;
 
 import java.util.ArrayList;
@@ -24,11 +26,14 @@ public abstract class EndedState extends GameState {
     protected Skin skin;
 
     private Table table;
-    private ArrayList<Button> buttons;
+    private ArrayList<InteractiveTextButton> buttons;
     private KeyButtonsStrategy strategy;
 
-    public EndedState(GameEngine game) {
+    private int score;
+
+    public EndedState(GameEngine game, int finalScore) {
         super(game);
+        score = finalScore;
     }
 
     @Override
@@ -58,9 +63,11 @@ public abstract class EndedState extends GameState {
 
     private void createButtons() {
         buttons = new ArrayList<>();
-        TextButton newGameButton = new TextButton("NEW GAME", skin, "default");
-        TextButton menuButton = new TextButton("MENU", skin, "default");
-        TextButton quitButton = new TextButton("QUIT", skin, "default");
+
+        var newGameButton = new InteractiveTextButton(new TextButton("NEW GAME", skin, "default"), this::onPlay);
+        var menuButton = new InteractiveTextButton(new TextButton("MENU", skin, "default"), this::onMenu);
+        var quitButton = new InteractiveTextButton(new TextButton("QUIT", skin, "default"), () -> System.exit(0));
+
         buttons.add(newGameButton);
         buttons.add(menuButton);
         buttons.add(quitButton);
@@ -70,7 +77,6 @@ public abstract class EndedState extends GameState {
         table = new Table();
         table.setWidth(Gdx.graphics.getWidth());
         table.align(Align.center | Align.top);
-        table.setPosition(0, Gdx.graphics.getHeight());
     }
 
     private void addButtonsToTable() {
@@ -84,12 +90,14 @@ public abstract class EndedState extends GameState {
     @Override
     public void update(float delta) {
         super.update(delta);
+
+        if (buttons.stream().filter(Button::isChecked).toArray().length == 0) {
+            buttons.get(0).setChecked(true);
+        }
     }
 
     @Override
-    public void interpolate(float alpha) {
-
-    }
+    public void interpolate(float alpha) { }
 
     @Override
     public void render(Graphics g) {
@@ -102,8 +110,26 @@ public abstract class EndedState extends GameState {
     }
 
     protected void drawScores() {
+        var fontY = 0.95f * Gdx.graphics.getHeight();
+        var font = Fonts.endScreenTitleFont.draw(
+                spriteBatch, computeTitle(),
+                0, fontY, Gdx.graphics.getWidth(), Align.center, true);
+
+        fontY -= font.height * 2;
+        font = Fonts.endScreenScoreFont.draw(
+                spriteBatch, "YOUR SCORE: " + score,
+                0, fontY, Gdx.graphics.getWidth(), Align.center, true);
+
+        fontY -= font.height * 2;
+        font = Fonts.endScreenScoreFont.draw(
+                spriteBatch, "HIGH SCORE: " + BestScores.getInstance().getHighScore(),
+                0, fontY, Gdx.graphics.getWidth(), Align.center, true);
+
+        table.setPosition(0, fontY - font.height);
         table.draw(spriteBatch, 1.0f);
     }
+
+    protected abstract String computeTitle();
 
     @Override
     public void keyAction() {
@@ -118,25 +144,20 @@ public abstract class EndedState extends GameState {
             checkNextButton(strategy);
         }
 
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) || Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
+            buttons.stream().filter(Button::isChecked).forEach(InteractiveTextButton::click);
+        }
     }
 
     private void checkNextButton(KeyButtonsStrategy strategy) {
-        var noButtonsChecked = true;
-
         for (int i = 0; i < buttons.size(); i++) {
             var button = buttons.get(i);
             if (button.isChecked()) {
-                noButtonsChecked = false;
                 button.setChecked(false);
                 var nextIndex = strategy.nextIndex(i, buttons.size());
                 buttons.get(nextIndex).setChecked(true);
                 break;
             }
-        }
-
-        if (noButtonsChecked) {
-            var firstIndex = strategy.firstIndex(buttons.size());
-            buttons.get(firstIndex).setChecked(true);
         }
     }
 

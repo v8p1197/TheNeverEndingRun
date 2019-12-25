@@ -200,11 +200,14 @@ public class PlayState extends GameState {
     public void onEnded() {
         streamManager.saveBestScores(bestScores);
 
+        var finalScore = metersManagerFactory.getScore();
+
         var newHighScore = computeBestScores();
+
         if (newHighScore)
-            game.changeState(new WinState(game));
+            game.changeState(new WinState(game, finalScore));
         else
-            game.changeState(new LostState(game));
+            game.changeState(new LostState(game, finalScore));
     }
 
     @Override
