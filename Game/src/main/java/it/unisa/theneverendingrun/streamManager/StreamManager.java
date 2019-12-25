@@ -58,9 +58,14 @@ public class StreamManager {
             var longestRun = dataInputStream.readInt();
             dataInputStream.close();
 
-            return new BestScores(highScore, longestRun);
+            BestScores.getInstance().setHighScore(highScore);
+            BestScores.getInstance().setLongestRun(longestRun);
+
+            return BestScores.getInstance();
         } catch (IOException e) {
-            return new BestScores(0, 0);
+            BestScores.getInstance().setHighScore(0);
+            BestScores.getInstance().setLongestRun(0);
+            return BestScores.getInstance();
         }
     }
 
