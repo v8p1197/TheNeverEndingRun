@@ -5,7 +5,7 @@ import it.unisa.theneverendingrun.models.Spawnable;
 import it.unisa.theneverendingrun.models.SpawnableTypes;
 import it.unisa.theneverendingrun.models.hero.Hero;
 
-public class AbstractPowerUp extends Spawnable {
+public abstract class AbstractPowerUp extends Spawnable {
 
     private SpawnableTypes type;
     private Boolean collected;
