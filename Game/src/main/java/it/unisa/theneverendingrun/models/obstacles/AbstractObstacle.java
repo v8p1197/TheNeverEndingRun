@@ -10,6 +10,7 @@ import org.mini2Dx.core.engine.geom.CollisionBox;
 public abstract class AbstractObstacle extends Spawnable {
 
     private static final int left = 2, top = 3, right = 0, bottom = 1;
+    private boolean destroyed = false;
 
     AbstractObstacle(Texture texture) {
         super(texture);
@@ -26,6 +27,9 @@ public abstract class AbstractObstacle extends Spawnable {
         if (collision == right) {
             hero.setX(hero.getX() + intersection.getWidth());
         } else if (collision == left) {
+            //if(hero.getCountShield()>0){
+            destroyed = true;
+            // hero.minShield();}
             hero.setX(hero.getX() - intersection.getWidth());
         } else if (collision == bottom) {
             CollisionManager.wasOnObstacle.put(this, true);
@@ -88,6 +92,14 @@ public abstract class AbstractObstacle extends Spawnable {
         }
 
         return greatest;
+    }
+
+    public boolean isDestroyed() {
+        return destroyed;
+    }
+
+    public void setDestroyed() {
+        destroyed = false;
     }
 
     @Override
