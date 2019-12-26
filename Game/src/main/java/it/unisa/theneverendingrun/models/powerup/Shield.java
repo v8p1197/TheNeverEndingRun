@@ -9,6 +9,7 @@ public class Shield extends AbstractPowerUp {
     public Shield(Texture texture, float width, float height) {
         super(texture, SpawnableTypes.Shield);
         super.setSize(width, height);
+        
     }
 
 
