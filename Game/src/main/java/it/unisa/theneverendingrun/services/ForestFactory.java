@@ -11,6 +11,7 @@ import it.unisa.theneverendingrun.models.hero.Hero;
 import it.unisa.theneverendingrun.models.obstacles.JumpableObstacle;
 import it.unisa.theneverendingrun.models.obstacles.JumpableSlidableObstacle;
 import it.unisa.theneverendingrun.models.obstacles.SlidableObstacle;
+import it.unisa.theneverendingrun.models.powerup.Shield;
 
 public class ForestFactory implements GameFactory {
 
@@ -23,6 +24,7 @@ public class ForestFactory implements GameFactory {
     private final Texture jumpableSlidableTexture;
     private final Texture textureGolem;
     private final Texture textureWolf;
+    private final Texture textureShield;
 
     private Hero hero;
 
@@ -33,6 +35,7 @@ public class ForestFactory implements GameFactory {
         jumpableTexture = new Texture(commonPath + "obstacles/jumpable.png");
         textureGolem = new Texture(commonPath + "enemies/golem/golem_idle_1.png");
         textureWolf = new Texture(commonPath + "enemies/wolf/wolf_idle_1.png");
+        textureShield = new Texture("images/cane.png");
     }
 
     @Override
@@ -71,5 +74,9 @@ public class ForestFactory implements GameFactory {
 
     public Enemy createGolem() {
         return new Enemy(textureGolem, hero.getWidth() * 1.5f, hero.getHeight() * 1.5f);
+    }
+
+    public Shield createShield() {
+        return new Shield(textureShield, hero.getWidth(), hero.getHeight());
     }
 }

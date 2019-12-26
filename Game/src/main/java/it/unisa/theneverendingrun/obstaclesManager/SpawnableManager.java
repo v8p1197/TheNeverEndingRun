@@ -5,6 +5,7 @@ import it.unisa.theneverendingrun.CollisionManager;
 import it.unisa.theneverendingrun.models.Spawnable;
 import it.unisa.theneverendingrun.models.SpawnableTypes;
 import it.unisa.theneverendingrun.models.hero.Hero;
+import it.unisa.theneverendingrun.models.obstacles.AbstractObstacle;
 import it.unisa.theneverendingrun.models.powerup.AbstractPowerUp;
 import it.unisa.theneverendingrun.services.ForestFactory;
 
@@ -82,6 +83,8 @@ public class SpawnableManager {
                 return forestFactory.createJumpableSlidableObstacle();
             case Slidable:
                 return forestFactory.createSlidableObstacle();
+            case Shield:
+                return forestFactory.createShield();
             default:
                 return null;
         }
@@ -171,6 +174,9 @@ public class SpawnableManager {
         if (newObstacleType == SpawnableTypes.Wolf || newObstacleType == SpawnableTypes.Golem) {
             yPosition = 0;
         }
+        if (newObstacleType == SpawnableTypes.Shield /*|| newObstacleType == SpawnableTypes.Sword || newObstacleType == SpawnableTypes.X2*/) {
+            yPosition = (int) hero.getStandardHeight();
+        }
 
         if (newObstacleType == SpawnableTypes.Slidable) {
             yPosition = ThreadLocalRandom.current().nextInt(
@@ -179,8 +185,8 @@ public class SpawnableManager {
             );
             if (lastObstacleType == SpawnableTypes.Jumpable && lastObstacle.getX() + lastObstacle.getWidth() >= Gdx.graphics.getWidth() - 1) {
                 yPosition += lastObstacle.getHeight() + lastObstacle.getY() - offset;
-                }
             }
+        }
 
 
         if (newObstacleType == SpawnableTypes.JumpableSlidable) {
@@ -207,16 +213,25 @@ public class SpawnableManager {
             if (lastObstacle.getX() + lastObstacle.getWidth() + hero.getWidth() < 0) {
                 toRemoveList.add(spawnable);
             }
+
             if (spawnable instanceof AbstractPowerUp) {
                 if (((AbstractPowerUp) spawnable).isCollected()) {
                     toRemoveList.add(spawnable);
                 }
             }
+            if (spawnable instanceof AbstractObstacle) {
+                if (((AbstractObstacle) spawnable).isDestroyed()) {
+                    toRemoveList.add(spawnable);
+                    ((AbstractObstacle) spawnable).setDestroyed();
+                }
+            }
         }
+
         for (Spawnable toRemove : toRemoveList) {
             spawnables.remove(toRemove);
             CollisionManager.wasOnObstacle.remove(toRemove);
         }
+
     }
 
     /**
