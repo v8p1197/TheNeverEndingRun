@@ -1,14 +1,18 @@
 package it.unisa.theneverendingrun.models.hero;
 
-import com.badlogic.gdx.graphics.Texture;
-import it.unisa.theneverendingrun.models.Sprite;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import it.unisa.theneverendingrun.data.AnimationType;
+import it.unisa.theneverendingrun.models.AbstractAnimatedSprite;
 import it.unisa.theneverendingrun.models.hero.state.*;
 import it.unisa.theneverendingrun.models.hero.state.face.LeftState;
 import it.unisa.theneverendingrun.models.hero.state.face.RightState;
 import it.unisa.theneverendingrun.models.hero.state.move.*;
 import it.unisa.theneverendingrun.utilities.MathUtils;
 
-public abstract class Hero extends Sprite {
+import java.util.Map;
+
+public abstract class Hero extends AbstractAnimatedSprite<AnimationType, TextureRegion> {
 
 
     /* ------------------------------------- PARAMS ------------------------------------- */
@@ -42,7 +46,7 @@ public abstract class Hero extends Sprite {
     /**
      * A variable representing if the hero is jumping, sliding or none of them
      */
-    private HeroMoveState moveState;
+    private HeroMoveState moveState, prevMoveState;
     /**
      * A variable representing whether the hero is facing left or right
      */
@@ -66,24 +70,23 @@ public abstract class Hero extends Sprite {
      * Abstract Hero constructor. Sets its bottom-left coordinates and speed, while its horizontal velocity is set to 0
      * The scale factor is set to 1
      *
-     * @param texture the texture of the hero
-     * @param x     bottom-left x coordinate
-     * @param y     bottom-left y coordinate
+     * @param animations the animations of the hero
      */
-    protected Hero(Texture texture, float x, float y) {
-        this(texture, 1, x, y);
+    protected Hero(Map<AnimationType, Animation<TextureRegion>> animations, float x, float y) {
+        this(1, animations, x, y);
     }
+
 
     /**
      * Abstract Hero constructor. Sets its bottom-left coordinates and speed, while its horizontal velocity is set to 0
      *
-     * @param texture the texture of the hero
+     * @param animations the animations of the hero
      * @param scaleFactor the scale factor of the hero
      * @param x     bottom-left x coordinate
      * @param y     bottom-left y coordinate
      */
-    public Hero(Texture texture, float scaleFactor, float x, float y) {
-        super(texture, scaleFactor);
+    public Hero(float scaleFactor, Map<AnimationType, Animation<TextureRegion>> animations, float x, float y) {
+        super(scaleFactor, animations);
 
         setX(x);
         setY(y);
@@ -92,8 +95,8 @@ public abstract class Hero extends Sprite {
         this.groundY = y;
         this.dx = 0;
 
-        this.moveState = new IdleState(this);
-        this.facingState = new RightState(this);
+        changeMoveState(new IdleState(this));
+        changeFacingState(new RightState(this));
     }
 
 
@@ -265,8 +268,21 @@ public abstract class Hero extends Sprite {
         return facingState instanceof LeftState;
     }
 
+    /**
+     * idle getter
+     *
+     * @return true if the hero is idle, false otherwise
+     */
+    public boolean isIdle() {
+        return this.getMoveState() instanceof IdleState;
+    }
 
-
+    /**
+     * attack getter
+     *
+     * @return true if the hero is attacking, false otherwise
+     */
+    //public boolean isAttacking() { return this.getMoveState() instanceof AttackState; }
 
 
     /* ------------------------------------- SETTERS ------------------------------------- */
@@ -286,6 +302,7 @@ public abstract class Hero extends Sprite {
      * @param moveState the new move state to set
      */
     public void changeMoveState(HeroMoveState moveState) {
+        prevMoveState = this.moveState;
         this.moveState = moveState;
     }
 
@@ -391,6 +408,36 @@ public abstract class Hero extends Sprite {
         getMoveState().onDie();
     }
 
+    @Override
+    public void changeAnimation() {
 
+        HeroAnimationType type = null;
+        if (isIdle()) {
+            type = HeroAnimationType.IDLE;
+        } else if (isDead()) {
+            type = HeroAnimationType.DEAD;
+        }// else if (isAttacking()) {
+        // type = HeroAnimationType.ATTACK;
+        //}
+        else if (isFalling()) {
+            type = HeroAnimationType.FALL;
+        } else if (isSliding()) {
+            type = HeroAnimationType.SLIDE;
+        } else if (isJumping()) {
+            type = HeroAnimationType.JUMP;
+        } else if (isRunning()) {
+            type = HeroAnimationType.RUN;
+        }
+
+        if (type == null) return;
+
+        var animation = animations.get(type);
+        if (animation == null) return;
+
+        var frame = animation.getKeyFrame(getStateTime(), true);
+        if (prevMoveState == moveState)
+            flip(true, false);
+        this.setRegion(frame);
+    }
 
 }
