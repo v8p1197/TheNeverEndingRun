@@ -6,4 +6,5 @@ public enum SpawnableTypes {
     JumpableSlidable,
     Wolf,
     Golem,
+    Witch,
 }

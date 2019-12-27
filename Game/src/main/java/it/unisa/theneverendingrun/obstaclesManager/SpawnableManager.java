@@ -75,6 +75,8 @@ public class SpawnableManager {
                 return forestFactory.createWolf();
             case Golem:
                 return forestFactory.createGolem();
+            case Witch:
+                return forestFactory.createWitch();
             case Jumpable:
                 return forestFactory.createJumpableObstacle();
             case JumpableSlidable:
