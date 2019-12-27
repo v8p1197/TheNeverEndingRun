@@ -9,6 +9,10 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class JumpableSpawnable implements Spawnable {
 
+    /**
+     *
+     * The spawnable to decorate
+     */
     private Spawnable spawnable;
 
     /* ------------------------------------- CONSTRUCTORS ------------------------------------- */
@@ -56,6 +60,7 @@ public class JumpableSpawnable implements Spawnable {
     }
 
     /**
+     *
      * Draw the spawnable through the batch
      *
      * @param batch the batch that is capable of draw the spawnable

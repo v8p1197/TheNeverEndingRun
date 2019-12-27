@@ -9,7 +9,11 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class SlidableSpawnable implements Spawnable {
 
-    private Spawnable spawnable;
+    /**
+     *
+     * The spawnable to decorate
+     */
+    private final Spawnable spawnable;
 
     /* ------------------------------------- CONSTRUCTORS ------------------------------------- */
 
