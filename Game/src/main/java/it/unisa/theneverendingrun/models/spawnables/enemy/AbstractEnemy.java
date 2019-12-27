@@ -255,7 +255,10 @@ public abstract class AbstractEnemy extends AbstractAnimatedSprite<AnimationType
 
         if (type == null) return;
 
-        var frame = animations.get(type).getKeyFrame(getStateTime(), true);
+        var animation = animations.get(type);
+        if (animation == null) return;
+
+        var frame = animation.getKeyFrame(getStateTime(), true);
         this.setRegion(frame);
     }
 }
