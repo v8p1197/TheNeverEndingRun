@@ -1,6 +1,6 @@
 package it.unisa.theneverendingrun.services.factories;
 
-import it.unisa.theneverendingrun.data.SpawnableTypes;
+import it.unisa.theneverendingrun.data.SpawnableType;
 import it.unisa.theneverendingrun.models.background.AbstractBackground;
 import it.unisa.theneverendingrun.models.hero.Hero;
 import it.unisa.theneverendingrun.models.spawnables.Spawnable;
@@ -11,8 +11,8 @@ public interface GameFactory {
 
     Hero createHero();
 
-    Spawnable createObstacle(SpawnableTypes spawnableType, float jumpHeight, float slideDistance);
+    Spawnable createObstacle(SpawnableType spawnableType, float jumpHeight, float slideDistance);
 
-    Spawnable createEnemy(SpawnableTypes spawnableType, float jumpHeight, float slideDistance);
+    Spawnable createEnemy(SpawnableType spawnableType, float jumpHeight, float slideDistance);
 
 }

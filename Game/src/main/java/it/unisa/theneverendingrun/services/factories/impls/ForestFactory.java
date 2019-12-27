@@ -1,6 +1,6 @@
 package it.unisa.theneverendingrun.services.factories.impls;
 
-import it.unisa.theneverendingrun.data.SpawnableTypes;
+import it.unisa.theneverendingrun.data.SpawnableType;
 import it.unisa.theneverendingrun.models.spawnables.Spawnable;
 import it.unisa.theneverendingrun.models.background.AbstractBackground;
 import it.unisa.theneverendingrun.models.background.impls.ForestBackground;
@@ -38,19 +38,19 @@ public class ForestFactory implements GameFactory {
     }
 
     @Override
-    public Spawnable createObstacle(SpawnableTypes obstacleType, float jumpHeight, float slideDistance) {
+    public Spawnable createObstacle(SpawnableType obstacleType, float jumpHeight, float slideDistance) {
         return createSpawnable(obstacleFactory, obstacleType, jumpHeight, slideDistance);
     }
 
     @Override
-    public Spawnable createEnemy(SpawnableTypes enemyType, float jumpHeight, float slideDistance) {
+    public Spawnable createEnemy(SpawnableType enemyType, float jumpHeight, float slideDistance) {
        return createSpawnable(enemyFactory, enemyType, jumpHeight, slideDistance);
     }
 
 
 
-    private Spawnable createSpawnable(SpawnableFactory spawnableFactory, SpawnableTypes spawnableTypes, float jumpHeight, float slideDistance) {
-        switch (spawnableTypes) {
+    private Spawnable createSpawnable(SpawnableFactory spawnableFactory, SpawnableType spawnableType, float jumpHeight, float slideDistance) {
+        switch (spawnableType) {
             case JUMPABLE: return spawnableFactory.createJumpableSpawnable(jumpHeight, slideDistance);
             case SLIDABLE: return spawnableFactory.createSlidableSpawnable(jumpHeight, slideDistance);
             case JUMPABLE_SLIDABLE: return spawnableFactory.createJumpableSlideableSpawnable(jumpHeight, slideDistance);
