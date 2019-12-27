@@ -21,6 +21,8 @@ public class JumpableSpawnable implements Spawnable {
      *
      * Resize a spawnable so that is jumpable
      *
+     * @see JumpableSpawnable#spawnable
+     *
      * @param spawnable the spawnable that has to be jumpable
      */
     public JumpableSpawnable(Spawnable spawnable) {
@@ -30,6 +32,8 @@ public class JumpableSpawnable implements Spawnable {
     /**
      *
      * Resize a spawnable so that is jumpable if alwaysResize is true or if isHeightJumpable return false
+     *
+     * @see JumpableSpawnable#spawnable
      *
      * @param spawnable the spawnable that has to be jumpable
      * @param alwaysResize if the spawnable has be resized also when isHeightJumpable return true

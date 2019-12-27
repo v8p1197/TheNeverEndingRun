@@ -9,6 +9,7 @@ public interface Collidable {
 
     /**
      *
+     * @see CollisionBox
      * @return the collision box of the collidable
      */
     CollisionBox getCollisionBox();
@@ -19,6 +20,7 @@ public interface Collidable {
 
     /**
      *
+     * @see Hero
      * @param hero the hero that can collide with the collidable
      * @return true if the collidable collide with the hero
      */
@@ -30,6 +32,7 @@ public interface Collidable {
 
     /**
      *
+     * @see Hero
      * What the collidable have to do when the hero collide with the collidable
      * @param hero the hero that collide with the collidable
      */
@@ -37,6 +40,7 @@ public interface Collidable {
 
     /**
      *
+     * @see Hero
      * What the collidable have to do when collision with hero end
      * @param hero the hero that collide with the collidable
      */

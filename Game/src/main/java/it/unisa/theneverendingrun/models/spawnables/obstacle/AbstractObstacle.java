@@ -1,33 +1,35 @@
 package it.unisa.theneverendingrun.models.spawnables.obstacle;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Rectangle;
 import it.unisa.theneverendingrun.models.Sprite;
 import it.unisa.theneverendingrun.models.hero.Hero;
 import it.unisa.theneverendingrun.models.spawnables.Spawnable;
-import org.mini2Dx.core.engine.geom.CollisionBox;
 
+/**
+ *
+ * A wrapper for {@link Sprite} that add support for {@link Spawnable}
+ */
 public abstract class AbstractObstacle extends Sprite implements Spawnable {
 
 
     /* ------------------------------------- PARAMS ------------------------------------- */
 
-    /**
+    /*/**
      *
      * Index of the collision rectangle
      * TODO: change collision box
      */
-    private static final int left = 2, top = 3, right = 0, bottom = 1;
+    /*private static final int left = 2, top = 3, right = 0, bottom = 1;*/
 
     /**
      *
-     * Store the jump height of the object that need to jump over the obstacle
+     * Contains the jump height of the object that need to jump over the obstacle
      */
     private final float jumpHeight;
 
     /**
      *
-     * Store the slide distance of the object that need to slide over the obstacle
+     * Contains the slide distance of the object that need to slide over the obstacle
      */
     private final float slideDistance;
 
@@ -37,7 +39,13 @@ public abstract class AbstractObstacle extends Sprite implements Spawnable {
 
     /**
      *
-     * Obstacle constructor. Call the super and set the jumpHeight and the slideDistance
+     * @see Sprite#Sprite(Texture, float)
+     *
+     * Create a {@link Sprite} and {@link Spawnable}
+     * with custom {@link AbstractObstacle#jumpHeight} and {@link AbstractObstacle#slideDistance}
+     *
+     * @see AbstractObstacle#jumpHeight
+     * @see AbstractObstacle#slideDistance
      *
      * @param jumpHeight the jump height of the object that need to jump over the obstacle
      * @param slideDistance the slide distance of the object that need to slide over the obstacle
@@ -48,7 +56,13 @@ public abstract class AbstractObstacle extends Sprite implements Spawnable {
 
     /**
      *
-     * Obstacle constructor. Call the super and set the jumpHeight and the slideDistance
+     * @see Sprite#Sprite(Texture, float)
+     *
+     * Create a {@link Sprite} and {@link Spawnable}
+     * with custom {@link AbstractObstacle#jumpHeight} and {@link AbstractObstacle#slideDistance}
+     *
+     * @see AbstractObstacle#jumpHeight
+     * @see AbstractObstacle#slideDistance
      *
      * @param jumpHeight the jump height of the object that need to jump over the obstacle
      * @param slideDistance the slide distance of the object that need to slide over the obstacle
@@ -109,7 +123,8 @@ public abstract class AbstractObstacle extends Sprite implements Spawnable {
      */
     @Override
     public void beginColliding(Hero hero) {
-        var obstacleCollisionBox = this.getCollisionBox();
+        //TODO: Do better
+       /* var obstacleCollisionBox = this.getCollisionBox();
         var heroCollisionBox = hero.getCollisionBox();
 
         var collision = collisionSide(hero, obstacleCollisionBox);
@@ -139,7 +154,7 @@ public abstract class AbstractObstacle extends Sprite implements Spawnable {
                 hero.setY(hero.getY() - intersection.getHeight());
                 hero.getMoveState().onFall();
             }
-        }
+        }*/
     }
 
     /**
@@ -150,6 +165,7 @@ public abstract class AbstractObstacle extends Sprite implements Spawnable {
      */
     @Override
     public void endColliding(Hero hero) {
+        //TODO: Do better
       /*  if (!CollisionManager.wasOnObstacle.containsKey(this))
             CollisionManager.wasOnObstacle.put(this, false);
         else {
@@ -164,7 +180,8 @@ public abstract class AbstractObstacle extends Sprite implements Spawnable {
 
     /* ------------------------------------- SERVICE METHOD ------------------------------------- */
 
-    private int collisionSide(Hero hero, CollisionBox obstacle) {
+    //TODO: Do better
+    /*private int collisionSide(Hero hero, CollisionBox obstacle) {
 
         var heroCollisionBox = hero.getCollisionBox();
 
@@ -190,5 +207,5 @@ public abstract class AbstractObstacle extends Sprite implements Spawnable {
         }
 
         return greatest;
-    }
+    }*/
 }

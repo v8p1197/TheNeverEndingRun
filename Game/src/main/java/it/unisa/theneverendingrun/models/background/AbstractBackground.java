@@ -67,9 +67,16 @@ public abstract class AbstractBackground extends Sprite {
      * the {@link AbstractBackground#horizontalScrollAmount} and the
      * {@link AbstractBackground#verticalScrollAmount} to 0 and in the end call {@link AbstractBackground#initScroll()}
      *
+     * @see AbstractBackground#horizontalScrollAmount
+     * @see AbstractBackground#verticalScrollAmount
+     * @see AbstractBackground#textureWidth
+     * @see AbstractBackground#textureHeight
+     * @see AbstractBackground#scrollWidth
+     * @see AbstractBackground#scrollingSpeed
+     *
      * @param scrollingSpeed {@link AbstractBackground#scrollingSpeed}
      * @param scrollWidth {@link AbstractBackground#scrollWidth}
-     **
+     *
      */
     public AbstractBackground(Texture texture, float scrollingSpeed, float scrollWidth) {
         this(texture, 0,0, texture.getWidth(), texture.getHeight(), 1, scrollingSpeed, scrollWidth);
@@ -86,9 +93,16 @@ public abstract class AbstractBackground extends Sprite {
      * the {@link AbstractBackground#horizontalScrollAmount} and the
      * {@link AbstractBackground#verticalScrollAmount} to 0 and in the end call {@link AbstractBackground#initScroll()}
      *
-     * @param scrollingSpeed {@link AbstractBackground#scrollingSpeed}
-     * @param scrollWidth {@link AbstractBackground#scrollWidth}
-     **
+     * @see AbstractBackground#horizontalScrollAmount
+     * @see AbstractBackground#verticalScrollAmount
+     * @see AbstractBackground#textureWidth
+     * @see AbstractBackground#textureHeight
+     * @see AbstractBackground#scrollWidth
+     * @see AbstractBackground#scrollingSpeed
+     *
+     * @param scrollingSpeed the speed of the scrolling
+     * @param scrollWidth the width of the scrolling
+     *
      */
     public AbstractBackground(Texture texture, float scaleFactor, float scrollingSpeed, float scrollWidth) {
         this(texture, 0,0, texture.getWidth(), texture.getHeight(), scaleFactor, scrollingSpeed, scrollWidth);
@@ -105,9 +119,16 @@ public abstract class AbstractBackground extends Sprite {
      * the {@link AbstractBackground#horizontalScrollAmount} and the
      * {@link AbstractBackground#verticalScrollAmount} to 0 and in the end call {@link AbstractBackground#initScroll()}
      *
+     * @see AbstractBackground#horizontalScrollAmount
+     * @see AbstractBackground#verticalScrollAmount
+     * @see AbstractBackground#textureWidth
+     * @see AbstractBackground#textureHeight
+     * @see AbstractBackground#scrollWidth
+     * @see AbstractBackground#scrollingSpeed
+     *
      * @param scrollingSpeed {@link AbstractBackground#scrollingSpeed}
      * @param scrollWidth {@link AbstractBackground#scrollWidth}
-     **
+     *
      */
     public AbstractBackground(Texture texture, int backgroundWidth, int backgroundHeight, float scrollingSpeed, float scrollWidth) {
         this(texture, 0,0, backgroundWidth, backgroundHeight, 1, scrollingSpeed, scrollWidth);
@@ -124,9 +145,16 @@ public abstract class AbstractBackground extends Sprite {
      * the {@link AbstractBackground#horizontalScrollAmount} and the
      * {@link AbstractBackground#verticalScrollAmount} to 0 and in the end call {@link AbstractBackground#initScroll()}
      *
+     * @see AbstractBackground#horizontalScrollAmount
+     * @see AbstractBackground#verticalScrollAmount
+     * @see AbstractBackground#textureWidth
+     * @see AbstractBackground#textureHeight
+     * @see AbstractBackground#scrollWidth
+     * @see AbstractBackground#scrollingSpeed
+     *
      * @param scrollingSpeed {@link AbstractBackground#scrollingSpeed}
      * @param scrollWidth {@link AbstractBackground#scrollWidth}
-     **
+     *
      */
     public AbstractBackground(Texture texture, int backgroundWidth, int backgroundHeight, float scaleFactor, float scrollingSpeed, float scrollWidth) {
         this(texture, 0,0, backgroundWidth, backgroundHeight, scaleFactor, scrollingSpeed, scrollWidth);
@@ -143,9 +171,16 @@ public abstract class AbstractBackground extends Sprite {
      * the {@link AbstractBackground#horizontalScrollAmount} and the
      * {@link AbstractBackground#verticalScrollAmount} to 0 and in the end call {@link AbstractBackground#initScroll()}
      *
+     * @see AbstractBackground#horizontalScrollAmount
+     * @see AbstractBackground#verticalScrollAmount
+     * @see AbstractBackground#textureWidth
+     * @see AbstractBackground#textureHeight
+     * @see AbstractBackground#scrollWidth
+     * @see AbstractBackground#scrollingSpeed
+     *
      * @param scrollingSpeed {@link AbstractBackground#scrollingSpeed}
      * @param scrollWidth {@link AbstractBackground#scrollWidth}
-     **
+     *
      */
     public AbstractBackground(Texture texture, int srcX, int srcY, int backgroundWidth, int backgroundHeight, float scrollingSpeed, float scrollWidth) {
         this(texture, srcX,srcY, backgroundWidth, backgroundHeight, 1, scrollingSpeed, scrollWidth);
@@ -162,9 +197,16 @@ public abstract class AbstractBackground extends Sprite {
      * the {@link AbstractBackground#horizontalScrollAmount} and the
      * {@link AbstractBackground#verticalScrollAmount} to 0 and in the end call {@link AbstractBackground#initScroll()}
      *
+     * @see AbstractBackground#horizontalScrollAmount
+     * @see AbstractBackground#verticalScrollAmount
+     * @see AbstractBackground#textureWidth
+     * @see AbstractBackground#textureHeight
+     * @see AbstractBackground#scrollWidth
+     * @see AbstractBackground#scrollingSpeed
+     *
      * @param scrollingSpeed {@link AbstractBackground#scrollingSpeed}
      * @param scrollWidth {@link AbstractBackground#scrollWidth}
-     **
+     *
      */
     public AbstractBackground(Texture texture, int srcX, int srcY, int backgroundWidth, int backgroundHeight, float scaleFactor, float scrollingSpeed, float scrollWidth) {
         super(texture, srcX, srcY, backgroundWidth, backgroundHeight, scaleFactor);

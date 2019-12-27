@@ -6,21 +6,26 @@ import org.mini2Dx.core.graphics.TextureRegion;
 
 import java.security.InvalidParameterException;
 
+/**
+ *
+ * Wraps {@link org.mini2Dx.core.graphics.Sprite} to add collision and scale support
+ */
 public class Sprite extends org.mini2Dx.core.graphics.Sprite {
-
 
 
     /* ------------------------------------- PARAMS ------------------------------------- */
 
     /**
      *
-     * Store the collision box of the sprite
+     * Contains the collision box of the sprite
+     * @see CollisionBox
      */
     private CollisionBox collisionBox;
 
     /**
      *
-     * Store the scale factor of the sprite
+     * Store the scale factor of the sprite,
+     * If this value is 1 no scale is applied
      */
     private final float scaleFactor;
 
@@ -31,8 +36,8 @@ public class Sprite extends org.mini2Dx.core.graphics.Sprite {
 
     /**
      *
-     * Sprite constructor. It will call the super(), set scaleFactor to 1 (no scale) and fake collision box (0,0).
-     *
+     * @see org.mini2Dx.core.graphics.Sprite#Sprite()
+     * No scale and fake collision box is created
      */
     public Sprite() {
         this(1);
@@ -40,7 +45,10 @@ public class Sprite extends org.mini2Dx.core.graphics.Sprite {
 
     /**
      *
-     * Sprite constructor. It will call the super(), set scaleFactor and fake collision box (0,0).
+     * @see org.mini2Dx.core.graphics.Sprite#Sprite()
+     * @see Sprite#scaleFactor
+     *
+     * Custom scale and fake collision box is created.
      *
      * @param scaleFactor Scale factor for the sprite
      */
@@ -52,8 +60,8 @@ public class Sprite extends org.mini2Dx.core.graphics.Sprite {
 
     /**
      *
-     * Sprite constructor. It will call super, set the scale factor to 1 (no scale) and generate an initial collisionBox
-     *
+     * @see org.mini2Dx.core.graphics.Sprite#Sprite(Texture, int, int, int, int)
+     * @see Sprite#scaleFactor
      */
     public Sprite(Texture texture) {
         this(texture, 0, 0, texture.getWidth(), texture.getHeight(),1);
@@ -61,7 +69,8 @@ public class Sprite extends org.mini2Dx.core.graphics.Sprite {
 
     /**
      *
-     * Sprite constructor. It will call super, set the scale factor and generate an initial collisionBox
+     * @see org.mini2Dx.core.graphics.Sprite#Sprite(Texture, int, int, int, int)
+     * @see Sprite#scaleFactor
      *
      * @param scaleFactor Scale factor for the sprite
      */
@@ -71,8 +80,8 @@ public class Sprite extends org.mini2Dx.core.graphics.Sprite {
 
     /**
      *
-     * Sprite constructor. It will call super, set the scale factor to 1 (no scale) and generate an initial collisionBox
-     *
+     * @see org.mini2Dx.core.graphics.Sprite#Sprite(Texture, int, int, int, int)
+     * @see Sprite#scaleFactor
      */
     public Sprite(Texture texture, int srcWidth, int srcHeight) {
         this(texture, 0,0, srcWidth, srcHeight, 1);
@@ -80,8 +89,9 @@ public class Sprite extends org.mini2Dx.core.graphics.Sprite {
 
     /**
      *
-     * Sprite constructor. It will call super, set the scale factor and generate an initial collisionBox
-
+     * @see org.mini2Dx.core.graphics.Sprite#Sprite(Texture, int, int, int, int)
+     * @see Sprite#scaleFactor
+     *
      * @param scaleFactor Scale factor for the sprite
      */
     public Sprite(Texture texture, int srcWidth, int srcHeight, float scaleFactor) {
@@ -90,8 +100,8 @@ public class Sprite extends org.mini2Dx.core.graphics.Sprite {
 
     /**
      *
-     * Sprite constructor. It will call super, set the scale factor to 1 (no scale) and generate an initial collisionBox
-     *
+     * @see org.mini2Dx.core.graphics.Sprite#Sprite(Texture, int, int, int, int)
+     * @see Sprite#scaleFactor
      */
     public Sprite(Texture texture, int srcX, int srcY, int srcWidth, int srcHeight) {
         this(texture, srcX, srcY, srcWidth, srcHeight, 1);
@@ -99,7 +109,8 @@ public class Sprite extends org.mini2Dx.core.graphics.Sprite {
 
     /**
      *
-     * Sprite constructor. It will call super, set the scale factor and generate an initial collisionBox
+     * @see org.mini2Dx.core.graphics.Sprite#Sprite(Texture, int, int, int, int)
+     * @see Sprite#scaleFactor
      *
      * @param scaleFactor Scale factor for the sprite
      */

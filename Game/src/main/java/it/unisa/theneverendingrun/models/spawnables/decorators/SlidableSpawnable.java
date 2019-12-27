@@ -21,6 +21,8 @@ public class SlidableSpawnable implements Spawnable {
      *
      * Resize a spawnable so that is slidable
      *
+     * @see SlidableSpawnable#spawnable
+     *
      * @param spawnable the spawnable that has to be jumpable
      */
     public SlidableSpawnable(Spawnable spawnable) {
@@ -30,6 +32,8 @@ public class SlidableSpawnable implements Spawnable {
     /**
      *
      * Resize a spawnable so that is slidable if alwaysResize is true or if isWidthSlidable return false
+     *
+     * @see SlidableSpawnable#spawnable
      *
      * @param spawnable the spawnable that has to be slidable
      * @param alwaysResize if the spawnable has be resized also when isWidthSlidable return true

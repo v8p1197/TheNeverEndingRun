@@ -8,7 +8,7 @@ import static com.badlogic.gdx.graphics.Texture.TextureWrap.Repeat;
 
 /**
  *
- * An implementation of the Abstract Background class that uses predefined parameters for
+ * An implementation of the {@link AbstractBackground} class that uses predefined parameters for
  * background creation and scrolling.
  */
 public class ForestBackground extends AbstractBackground {

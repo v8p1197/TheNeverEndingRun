@@ -6,6 +6,13 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 
 import java.util.Map;
 
+/**
+ *
+ * A wrapper for {@link Sprite} that add support for animation
+ *
+ * @param <KEY> the type of the key that represent the animation. A unique value, usually an enum.
+ * @param <T> the type of the animation
+ */
 public abstract class AbstractAnimatedSprite<KEY, T> extends Sprite {
 
 
@@ -29,7 +36,11 @@ public abstract class AbstractAnimatedSprite<KEY, T> extends Sprite {
 
     /**
      *
-     * Animated Sprite constructor. It will call the super() and set the animations.
+     * @see Sprite#Sprite(float)
+     *
+     * Create a {@link Sprite} with {@link AbstractAnimatedSprite#animations}
+     *
+     * @see AbstractAnimatedSprite#animations
      *
      * @param animations the animations of the animated sprite
      */
@@ -39,7 +50,11 @@ public abstract class AbstractAnimatedSprite<KEY, T> extends Sprite {
 
     /**
      *
-     * Animated Sprite constructor. It will call the super() and set the animations.
+     * @see Sprite#Sprite(float)
+     *
+     * Create a {@link Sprite} with {@link AbstractAnimatedSprite#animations}
+     *
+     * @see AbstractAnimatedSprite#animations
      *
      * @param animations the animations of the animated sprite
      */
@@ -52,7 +67,11 @@ public abstract class AbstractAnimatedSprite<KEY, T> extends Sprite {
 
     /**
      *
-     * Animated Sprite constructor. It will call the super() and set the animations.
+     * @see Sprite#Sprite(Texture, int, int, int, int, float)
+     *
+     * Create a {@link Sprite} with {@link AbstractAnimatedSprite#animations}
+     *
+     * @see AbstractAnimatedSprite#animations
      *
      * @param animations    the animations of the animated sprite
      */
@@ -62,7 +81,11 @@ public abstract class AbstractAnimatedSprite<KEY, T> extends Sprite {
 
     /**
      *
-     * Animated Sprite constructor. It will call the super() and set the animations.
+     * @see Sprite#Sprite(Texture, int, int, int, int, float)
+     *
+     * Create a {@link Sprite} with {@link AbstractAnimatedSprite#animations}
+     *
+     * @see AbstractAnimatedSprite#animations
      *
      * @param animations    the animations of the animated sprite
      */
@@ -72,7 +95,11 @@ public abstract class AbstractAnimatedSprite<KEY, T> extends Sprite {
 
     /**
      *
-     * Animated Sprite constructor. It will call the super() and set the animations.
+     * @see Sprite#Sprite(Texture, int, int, int, int, float)
+     *
+     * Create a {@link Sprite} with {@link AbstractAnimatedSprite#animations}
+     *
+     * @see AbstractAnimatedSprite#animations
      *
      * @param animations    the animations of the animated sprite
      */
@@ -82,7 +109,11 @@ public abstract class AbstractAnimatedSprite<KEY, T> extends Sprite {
 
     /**
      *
-     * Animated Sprite constructor. It will call the super() and set the animations.
+     * @see Sprite#Sprite(Texture, int, int, int, int, float)
+     *
+     * Create a {@link Sprite} with {@link AbstractAnimatedSprite#animations}
+     *
+     * @see AbstractAnimatedSprite#animations
      *
      * @param animations    the animations of the animated sprite
      */
@@ -92,7 +123,11 @@ public abstract class AbstractAnimatedSprite<KEY, T> extends Sprite {
 
     /**
      *
-     * Animated Sprite constructor. It will call the super() and set the animations.
+     * @see Sprite#Sprite(Texture, int, int, int, int, float)
+     *
+     * Create a {@link Sprite} with {@link AbstractAnimatedSprite#animations}
+     *
+     * @see AbstractAnimatedSprite#animations
      *
      * @param animations    the animations of the animated sprite
      */
@@ -102,7 +137,11 @@ public abstract class AbstractAnimatedSprite<KEY, T> extends Sprite {
 
     /**
      *
-     * Animated Sprite constructor. It will call the super() and set the animations.
+     * @see Sprite#Sprite(Texture, int, int, int, int, float)
+     *
+     * Create a {@link Sprite} with {@link AbstractAnimatedSprite#animations}
+     *
+     * @see AbstractAnimatedSprite#animations
      *
      * @param animations    the animations of the animated sprite
      */

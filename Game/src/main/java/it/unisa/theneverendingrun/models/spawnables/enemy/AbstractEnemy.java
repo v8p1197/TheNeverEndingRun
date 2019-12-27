@@ -3,7 +3,7 @@ package it.unisa.theneverendingrun.models.spawnables.enemy;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import it.unisa.theneverendingrun.data.AnimationTypes;
+import it.unisa.theneverendingrun.data.AnimationType;
 import it.unisa.theneverendingrun.models.AbstractAnimatedSprite;
 import it.unisa.theneverendingrun.models.hero.Hero;
 import it.unisa.theneverendingrun.models.spawnables.Spawnable;
@@ -14,7 +14,11 @@ import it.unisa.theneverendingrun.models.spawnables.enemy.state.EnemyState;
 
 import java.util.Map;
 
-public abstract class AbstractEnemy extends AbstractAnimatedSprite<AnimationTypes, TextureRegion> implements Spawnable {
+/**
+ *
+ * A wrapper for {@link AbstractAnimatedSprite} that add support for {@link EnemyState} and {@link Spawnable}
+ */
+public abstract class AbstractEnemy extends AbstractAnimatedSprite<AnimationType, TextureRegion> implements Spawnable {
 
 
     /* ------------------------------------- PARAMS ------------------------------------- */
@@ -27,13 +31,13 @@ public abstract class AbstractEnemy extends AbstractAnimatedSprite<AnimationType
 
     /**
      *
-     * Store the jump height of the object that need to jump over the enemy
+     * Contains the jump height of the object that need to jump over the enemy
      */
     private final float jumpHeight;
 
     /**
      *
-     * Store the slide distance of the object that need to slide over the enemy
+     * Contains the slide distance of the object that need to slide down the enemy
      */
     private final float slideDistance;
 
@@ -43,25 +47,35 @@ public abstract class AbstractEnemy extends AbstractAnimatedSprite<AnimationType
 
     /**
      *
-     * Enemy constructor. Call the super and set the jumpHeight and the slideDistance
-     * Set the default state to idle
+     * @see AbstractAnimatedSprite#AbstractAnimatedSprite(float, Map)
+     *
+     * Create a {@link AbstractAnimatedSprite} and {@link Spawnable}
+     * with custom {@link AbstractEnemy#jumpHeight} and {@link AbstractEnemy#slideDistance}
+     *
+     * @see AbstractEnemy#jumpHeight
+     * @see AbstractEnemy#slideDistance
      *
      * @param jumpHeight the jump height of the object that need to jump over the obstacle
-     * @param slideDistance the slide distance of the object that need to slide over the obstacle
+     * @param slideDistance the slide distance of the object that need to slide down the obstacle
      */
-    public AbstractEnemy(Map<AnimationTypes, Animation<TextureRegion>> animations, float jumpHeight, float slideDistance) {
+    public AbstractEnemy(Map<AnimationType, Animation<TextureRegion>> animations, float jumpHeight, float slideDistance) {
         this(1, animations, jumpHeight, slideDistance);
     }
 
     /**
      *
-     * Enemy constructor. Call the super and set the jumpHeight and the slideDistance
-     * Set the default state to idle
+     * @see AbstractAnimatedSprite#AbstractAnimatedSprite(float, Map)
+     *
+     * Create a {@link AbstractAnimatedSprite} and {@link Spawnable}
+     * with custom {@link AbstractEnemy#jumpHeight} and {@link AbstractEnemy#slideDistance}
+     *
+     * @see AbstractEnemy#jumpHeight
+     * @see AbstractEnemy#slideDistance
      *
      * @param jumpHeight the jump height of the object that need to jump over the obstacle
      * @param slideDistance the slide distance of the object that need to slide over the obstacle
      */
-    public AbstractEnemy(float scaleFactor, Map<AnimationTypes, Animation<TextureRegion>> animations, float jumpHeight, float slideDistance) {
+    public AbstractEnemy(float scaleFactor, Map<AnimationType, Animation<TextureRegion>> animations, float jumpHeight, float slideDistance) {
         super(scaleFactor, animations);
         this.jumpHeight = jumpHeight;
         this.slideDistance = slideDistance;
@@ -70,25 +84,35 @@ public abstract class AbstractEnemy extends AbstractAnimatedSprite<AnimationType
 
     /**
      *
-     * Enemy constructor. Call the super and set the jumpHeight and the slideDistance
-     * Set the default state to idle
+     * @see AbstractAnimatedSprite#AbstractAnimatedSprite(float, Map)
+     *
+     * Create a {@link AbstractAnimatedSprite} and {@link Spawnable}
+     * with custom {@link AbstractEnemy#jumpHeight} and {@link AbstractEnemy#slideDistance}
+     *
+     * @see AbstractEnemy#jumpHeight
+     * @see AbstractEnemy#slideDistance
      *
      * @param jumpHeight the jump height of the object that need to jump over the obstacle
      * @param slideDistance the slide distance of the object that need to slide over the obstacle
      */
-    public AbstractEnemy(Texture texture, Map<AnimationTypes, Animation<TextureRegion>> animations, float jumpHeight, float slideDistance) {
+    public AbstractEnemy(Texture texture, Map<AnimationType, Animation<TextureRegion>> animations, float jumpHeight, float slideDistance) {
         this(texture, 1, animations, jumpHeight, slideDistance);
     }
 
     /**
      *
-     * Enemy constructor. Call the super and set the jumpHeight and the slideDistance
-     * Set the default state to idle
+     * @see AbstractAnimatedSprite#AbstractAnimatedSprite(float, Map)
+     *
+     * Create a {@link AbstractAnimatedSprite} and {@link Spawnable}
+     * with custom {@link AbstractEnemy#jumpHeight} and {@link AbstractEnemy#slideDistance}
+     *
+     * @see AbstractEnemy#jumpHeight
+     * @see AbstractEnemy#slideDistance
      *
      * @param jumpHeight the jump height of the object that need to jump over the obstacle
      * @param slideDistance the slide distance of the object that need to slide over the obstacle
      */
-    public AbstractEnemy(Texture texture, float scaleFactor, Map<AnimationTypes, Animation<TextureRegion>> animations, float jumpHeight, float slideDistance) {
+    public AbstractEnemy(Texture texture, float scaleFactor, Map<AnimationType, Animation<TextureRegion>> animations, float jumpHeight, float slideDistance) {
         super(texture, scaleFactor, animations);
         this.jumpHeight = jumpHeight;
         this.slideDistance = slideDistance;
@@ -187,6 +211,7 @@ public abstract class AbstractEnemy extends AbstractAnimatedSprite<AnimationType
     /* ------------------------------------- COLLISION ------------------------------------- */
 
     /**
+     *
      * What the enemy have to do when the hero collide with the enemy
      *
      * @param hero the hero that collide with the enemy
@@ -198,6 +223,7 @@ public abstract class AbstractEnemy extends AbstractAnimatedSprite<AnimationType
     }
 
     /**
+     *
      * What the enemy have to do when collision with hero end
      *
      * @param hero the hero that collide with the enemy
@@ -212,22 +238,19 @@ public abstract class AbstractEnemy extends AbstractAnimatedSprite<AnimationType
     /* ------------------------------------- SERVICE METHODS ------------------------------------- */
 
     /**
+     *
      * Change the animation when called.
      */
     @Override
     public void changeAnimation() {
 
-        AnimationTypes type = null;
+        AnimationType type = null;
         if (isIdle()) {
-            type = AnimationTypes.IDLE;
-        }
-
-        if (isDead()) {
-            type = AnimationTypes.DEAD;
-        }
-
-        if (isAttacking()) {
-            type = AnimationTypes.FIGHT;
+            type = AnimationType.IDLE;
+        } else if (isDead()) {
+            type = AnimationType.DEAD;
+        } else if (isAttacking()) {
+            type = AnimationType.ATTACK;
         }
 
         if (type == null) return;
