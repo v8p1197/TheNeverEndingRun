@@ -8,152 +8,155 @@ public abstract class AbstractBackground extends Sprite {
     /* ------------------------------------- PARAMS ------------------------------------- */
 
     /**
-     * Store the amount of the horizontal scroll.
+     *
+     * Contains the amount of background scrolled horizontally by the {@link AbstractBackground#scroll()} method.
      */
     private float horizontalScrollAmount;
 
     /**
-     * Store the amount of the vertical scroll
+     *
+     * Contains the amount of background scrolled vertically by the {@link AbstractBackground#scroll()} method.
      */
     private float verticalScrollAmount;
 
     /**
-     * Scroll the scroll speed of the background
+     *
+     * Contains the speed with which the background should scroll. Usually used in the
+     * {@link AbstractBackground#scroll()} method.
      */
     private float scrollingSpeed;
 
     /**
-     * Store the amount of the background to scroll
+     *
+     * Contains the amount of background to scroll. Usually used in the {@link AbstractBackground#scroll()} method.
      */
     private float scrollWidth;
 
     /**
-     * Store the original background width
+     *
+     * Contains the original background width
      */
-    private float textureWidth;
+    private final float textureWidth;
 
     /**
-     * Store the original background height
+     *
+     * Contains the original background height
      */
-    private float textureHeight;
+    private final float textureHeight;
 
 
 
     /* ------------------------------------- CONSTRUCTORS ------------------------------------- */
 
     /**
-     * AbstractBackground constructor
      *
-     * @param texture the texture of the background
-     * @param scrollingSpeed the scrolling speed
-     * @param scrollWidth the scrolling width
+     * @see AbstractBackground#scrollingSpeed
+     * @see AbstractBackground#scrollWidth
+     * @see Sprite#Sprite(Texture, int, int, int, int, float)
+     *
+     * Set the {@link AbstractBackground#textureWidth}, the {@link AbstractBackground#textureHeight},
+     * the {@link AbstractBackground#scrollingSpeed}, the {@link AbstractBackground#scrollWidth},
+     * the {@link AbstractBackground#horizontalScrollAmount} and the
+     * {@link AbstractBackground#verticalScrollAmount} to 0 and in the end call {@link AbstractBackground#initScroll()}
+     *
+     * @param scrollingSpeed {@link AbstractBackground#scrollingSpeed}
+     * @param scrollWidth {@link AbstractBackground#scrollWidth}
+     **
      */
     public AbstractBackground(Texture texture, float scrollingSpeed, float scrollWidth) {
-        super(texture, 1);
-        this.textureWidth = texture.getWidth();
-        this.textureHeight = texture.getHeight();
-        setHorizontalScrollAmount(0);
-        setVerticalScrollAmount(0);
-        setScrollingSpeed(scrollingSpeed);
-        setScrollWidth(scrollWidth);
-        initScroll();
-
+        this(texture, 0,0, texture.getWidth(), texture.getHeight(), 1, scrollingSpeed, scrollWidth);
     }
 
     /**
-     * AbstractBackground constructor
      *
-     * @param texture the texture of the background
-     * @param scaleFactor the scale factor of the background
-     * @param scrollingSpeed the scrolling speed
-     * @param scrollWidth the scrolling width
+     * @see AbstractBackground#scrollingSpeed
+     * @see AbstractBackground#scrollWidth
+     * @see Sprite#Sprite(Texture, int, int, int, int, float)
+     *
+     * Set the {@link AbstractBackground#textureWidth}, the {@link AbstractBackground#textureHeight},
+     * the {@link AbstractBackground#scrollingSpeed}, the {@link AbstractBackground#scrollWidth},
+     * the {@link AbstractBackground#horizontalScrollAmount} and the
+     * {@link AbstractBackground#verticalScrollAmount} to 0 and in the end call {@link AbstractBackground#initScroll()}
+     *
+     * @param scrollingSpeed {@link AbstractBackground#scrollingSpeed}
+     * @param scrollWidth {@link AbstractBackground#scrollWidth}
+     **
      */
     public AbstractBackground(Texture texture, float scaleFactor, float scrollingSpeed, float scrollWidth) {
-        super(texture, scaleFactor);
-        this.textureWidth = texture.getWidth();
-        this.textureHeight = texture.getHeight();
-        setHorizontalScrollAmount(0);
-        setVerticalScrollAmount(0);
-        setScrollingSpeed(scrollingSpeed);
-        setScrollWidth(scrollWidth);
-        initScroll();
+        this(texture, 0,0, texture.getWidth(), texture.getHeight(), scaleFactor, scrollingSpeed, scrollWidth);
     }
 
     /**
-     * AbstractBackground constructor
      *
-     * @param texture the texture of the background
-     * @param backgroundWidth the width of the background. Different form original width.
-     * @param backgroundHeight the height of the background. Different form original height.
-     * @param scrollingSpeed the scrolling speed
-     * @param scrollWidth the scrolling width
+     * @see AbstractBackground#scrollingSpeed
+     * @see AbstractBackground#scrollWidth
+     * @see Sprite#Sprite(Texture, int, int, int, int, float)
+     *
+     * Set the {@link AbstractBackground#textureWidth}, the {@link AbstractBackground#textureHeight},
+     * the {@link AbstractBackground#scrollingSpeed}, the {@link AbstractBackground#scrollWidth},
+     * the {@link AbstractBackground#horizontalScrollAmount} and the
+     * {@link AbstractBackground#verticalScrollAmount} to 0 and in the end call {@link AbstractBackground#initScroll()}
+     *
+     * @param scrollingSpeed {@link AbstractBackground#scrollingSpeed}
+     * @param scrollWidth {@link AbstractBackground#scrollWidth}
+     **
      */
     public AbstractBackground(Texture texture, int backgroundWidth, int backgroundHeight, float scrollingSpeed, float scrollWidth) {
-        super(texture, backgroundWidth, backgroundHeight);
-        this.textureWidth = texture.getWidth();
-        this.textureHeight = texture.getHeight();
-        setHorizontalScrollAmount(0);
-        setVerticalScrollAmount(0);
-        setScrollingSpeed(scrollingSpeed);
-        setScrollWidth(scrollWidth);
-        initScroll();
-
+        this(texture, 0,0, backgroundWidth, backgroundHeight, 1, scrollingSpeed, scrollWidth);
     }
 
     /**
-     * AbstractBackground constructor
      *
-     * @param texture the texture of the background
-     * @param backgroundWidth the width of the background. Different form original width.
-     * @param backgroundHeight the height of the background. Different form original height.
-     * @param scaleFactor the scale factor of the background
-     * @param scrollingSpeed the scrolling speed
-     * @param scrollWidth the scrolling width
+     * @see AbstractBackground#scrollingSpeed
+     * @see AbstractBackground#scrollWidth
+     * @see Sprite#Sprite(Texture, int, int, int, int, float)
+     *
+     * Set the {@link AbstractBackground#textureWidth}, the {@link AbstractBackground#textureHeight},
+     * the {@link AbstractBackground#scrollingSpeed}, the {@link AbstractBackground#scrollWidth},
+     * the {@link AbstractBackground#horizontalScrollAmount} and the
+     * {@link AbstractBackground#verticalScrollAmount} to 0 and in the end call {@link AbstractBackground#initScroll()}
+     *
+     * @param scrollingSpeed {@link AbstractBackground#scrollingSpeed}
+     * @param scrollWidth {@link AbstractBackground#scrollWidth}
+     **
      */
     public AbstractBackground(Texture texture, int backgroundWidth, int backgroundHeight, float scaleFactor, float scrollingSpeed, float scrollWidth) {
-        super(texture, backgroundWidth, backgroundHeight, scaleFactor);
-        this.textureWidth = texture.getWidth();
-        this.textureHeight = texture.getHeight();
-        setHorizontalScrollAmount(0);
-        setVerticalScrollAmount(0);
-        setScrollingSpeed(scrollingSpeed);
-        setScrollWidth(scrollWidth);
-        initScroll();
+        this(texture, 0,0, backgroundWidth, backgroundHeight, scaleFactor, scrollingSpeed, scrollWidth);
     }
 
     /**
-     * AbstractBackground constructor
      *
-     * @param texture the texture of the background
-     * @param srcX the initial x position
-     * @param srcY the initial y position
-     * @param backgroundWidth the width of the background. Different form original width.
-     * @param backgroundHeight the height of the background. Different form original height.
-     * @param scrollingSpeed the scrolling speed
-     * @param scrollWidth the scrolling width
+     * @see AbstractBackground#scrollingSpeed
+     * @see AbstractBackground#scrollWidth
+     * @see Sprite#Sprite(Texture, int, int, int, int, float)
+     *
+     * Set the {@link AbstractBackground#textureWidth}, the {@link AbstractBackground#textureHeight},
+     * the {@link AbstractBackground#scrollingSpeed}, the {@link AbstractBackground#scrollWidth},
+     * the {@link AbstractBackground#horizontalScrollAmount} and the
+     * {@link AbstractBackground#verticalScrollAmount} to 0 and in the end call {@link AbstractBackground#initScroll()}
+     *
+     * @param scrollingSpeed {@link AbstractBackground#scrollingSpeed}
+     * @param scrollWidth {@link AbstractBackground#scrollWidth}
+     **
      */
     public AbstractBackground(Texture texture, int srcX, int srcY, int backgroundWidth, int backgroundHeight, float scrollingSpeed, float scrollWidth) {
-        super(texture, srcX, srcY, backgroundWidth, backgroundHeight);
-        this.textureWidth = texture.getWidth();
-        this.textureHeight = texture.getHeight();
-        setHorizontalScrollAmount(0);
-        setVerticalScrollAmount(0);
-        setScrollingSpeed(scrollingSpeed);
-        setScrollWidth(scrollWidth);
-        initScroll();
+        this(texture, srcX,srcY, backgroundWidth, backgroundHeight, 1, scrollingSpeed, scrollWidth);
     }
 
     /**
-     * AbstractBackground constructor
      *
-     * @param texture the texture of the background
-     * @param srcX the initial x position
-     * @param srcY the initial y position
-     * @param backgroundWidth the width of the background. Different form original width.
-     * @param backgroundHeight the height of the background. Different form original height.
-     * @param scaleFactor the scale factor of the background
-     * @param scrollingSpeed the scrolling speed
-     * @param scrollWidth the scrolling width
+     * @see AbstractBackground#scrollingSpeed
+     * @see AbstractBackground#scrollWidth
+     * @see Sprite#Sprite(Texture, int, int, int, int, float)
+     *
+     * Set the {@link AbstractBackground#textureWidth}, the {@link AbstractBackground#textureHeight},
+     * the {@link AbstractBackground#scrollingSpeed}, the {@link AbstractBackground#scrollWidth},
+     * the {@link AbstractBackground#horizontalScrollAmount} and the
+     * {@link AbstractBackground#verticalScrollAmount} to 0 and in the end call {@link AbstractBackground#initScroll()}
+     *
+     * @param scrollingSpeed {@link AbstractBackground#scrollingSpeed}
+     * @param scrollWidth {@link AbstractBackground#scrollWidth}
+     **
      */
     public AbstractBackground(Texture texture, int srcX, int srcY, int backgroundWidth, int backgroundHeight, float scaleFactor, float scrollingSpeed, float scrollWidth) {
         super(texture, srcX, srcY, backgroundWidth, backgroundHeight, scaleFactor);
@@ -172,11 +175,13 @@ public abstract class AbstractBackground extends Sprite {
     /* ------------------------------------- ABSTRACT ------------------------------------- */
 
     /**
-     * Initialize scrolling parameters
+     *
+     * Initialize the scrolling parameters
      */
     public abstract void initScroll();
 
     /**
+     *
      * Scroll the background
      */
     public abstract void scroll();
@@ -188,6 +193,7 @@ public abstract class AbstractBackground extends Sprite {
 
     /**
      *
+     * @see AbstractBackground#horizontalScrollAmount
      * @return the total horizontal scrolled background
      */
     public float getHorizontalScrollAmount() {
@@ -196,6 +202,7 @@ public abstract class AbstractBackground extends Sprite {
 
     /**
      *
+     * @see AbstractBackground#scrollingSpeed
      * @return the current scrolling speed
      */
     public float getScrollingSpeed() {
@@ -204,6 +211,7 @@ public abstract class AbstractBackground extends Sprite {
 
     /**
      *
+     * @see AbstractBackground#scrollWidth
      * @return the width of the screen when scrolled
      */
     public float getScrollWidth() {
@@ -211,6 +219,8 @@ public abstract class AbstractBackground extends Sprite {
     }
 
     /**
+     *
+     * @see AbstractBackground#textureWidth
      * Original background width getter
      */
     public float getTextureWidth() {
@@ -218,6 +228,8 @@ public abstract class AbstractBackground extends Sprite {
     }
 
     /**
+     *
+     * @see AbstractBackground#textureHeight
      * Original background height getter
      */
     public float getTextureHeight() {
@@ -226,7 +238,8 @@ public abstract class AbstractBackground extends Sprite {
 
     /**
      *
-     * @return the total vertical scroll background
+     * @see AbstractBackground#verticalScrollAmount
+     * @return the total vertical scrolled background
      */
     public float getVerticalScrollAmount() { return verticalScrollAmount; }
 
@@ -237,6 +250,7 @@ public abstract class AbstractBackground extends Sprite {
 
     /**
      *
+     * @see AbstractBackground#scrollWidth
      * @param scrollWidth the new width when the background scroll
      */
     public void setScrollWidth(float scrollWidth) {
@@ -245,6 +259,7 @@ public abstract class AbstractBackground extends Sprite {
 
     /**
      *
+     * @see AbstractBackground#scrollingSpeed
      * @param scrollingSpeed the new speed of the scroll
      */
     public void setScrollingSpeed(float scrollingSpeed) {
@@ -252,8 +267,10 @@ public abstract class AbstractBackground extends Sprite {
     }
 
     /**
+     *
      * This should be protected. It's an important info for meters and score
      *
+     * @see AbstractBackground#horizontalScrollAmount
      * @param horizontalScrollAmount set the actual total horizontal scroll amount
      */
     protected void setHorizontalScrollAmount(float horizontalScrollAmount) {
@@ -261,8 +278,10 @@ public abstract class AbstractBackground extends Sprite {
     }
 
     /**
+     *
      * This should be protected.
      *
+     * @see AbstractBackground#verticalScrollAmount
      * @param verticalScrollAmount set the actual total vertical scroll amount
      */
     protected void setVerticalScrollAmount(float verticalScrollAmount) {
