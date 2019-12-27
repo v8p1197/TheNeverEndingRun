@@ -6,6 +6,11 @@ import it.unisa.theneverendingrun.models.background.AbstractBackground;
 import static com.badlogic.gdx.graphics.Texture.TextureWrap.MirroredRepeat;
 import static com.badlogic.gdx.graphics.Texture.TextureWrap.Repeat;
 
+/**
+ *
+ * An implementation of the Abstract Background class that uses predefined parameters for
+ * background creation and scrolling.
+ */
 public class ForestBackground extends AbstractBackground {
 
     private static final Texture texture = new Texture("images/forest/backgrounds/background_1.png");

@@ -3,6 +3,14 @@ package it.unisa.theneverendingrun.models.background;
 import com.badlogic.gdx.graphics.Texture;
 import it.unisa.theneverendingrun.models.Sprite;
 
+/**
+ *
+ * An abstraction of the Sprite class that adds scrolling support.
+ * In particular, the scrollingSpeed, scrollingWidth and scrollingAmount parameters are used for scrolling.
+ * To underline the importance of scrollingAmount as it allows you to keep track of how much, indeed,
+ * the background has moved since its creation.
+ * Useful for example for calculating the meters traveled.
+ */
 public abstract class AbstractBackground extends Sprite {
 
     /* ------------------------------------- PARAMS ------------------------------------- */
