@@ -2,7 +2,8 @@ package it.unisa.theneverendingrun.data;
 
 public enum EnemyFrameType {
     WOLF(true),
-    GOLEM(true)
+    GOLEM(true),
+    WITCH(true)
     ;
 
     private boolean isJumpable;

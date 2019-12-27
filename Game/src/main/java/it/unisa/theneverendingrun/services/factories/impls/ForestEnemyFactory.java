@@ -24,19 +24,35 @@ public class ForestEnemyFactory implements SpawnableFactory {
 
     private static final int GOLEM_IDLE_FRAME_COUNT = 13;
     private static final int GOLEM_ATTACK_FRAME_COUNT = 13;
+    private static final int GOLEM_DEATH_FRAME_COUNT = 13;
     private static final int WOLF_IDLE_FRAME_COUNT = 13;
     private static final int WOLF_ATTACK_FRAME_COUNT = 13;
+    private static final int WOLF_DEATH_FRAME_COUNT = 13;
+    private static final int WITCH_IDLE_FRAME_COUNT = 13;
+    private static final int WITCH_ATTACK_FRAME_COUNT = 13;
+    private static final int WITCH_DEATH_FRAME_COUNT = 13;
 
     private static final TextureRegion[] GOLEM_IDLE_FRAMES = new TextureRegion[GOLEM_IDLE_FRAME_COUNT];
     private static final TextureRegion[] GOLEM_ATTACK_FRAMES = new TextureRegion[GOLEM_ATTACK_FRAME_COUNT];
+    private static final TextureRegion[] GOLEM_DEATH_FRAMES = new TextureRegion[GOLEM_DEATH_FRAME_COUNT];
     private static final TextureRegion[] WOLF_IDLE_FRAMES = new TextureRegion[WOLF_IDLE_FRAME_COUNT];
     private static final TextureRegion[] WOLF_ATTACK_FRAMES = new TextureRegion[WOLF_ATTACK_FRAME_COUNT];
+    private static final TextureRegion[] WOLF_DEATH_FRAMES = new TextureRegion[WOLF_DEATH_FRAME_COUNT];
+    private static final TextureRegion[] WITCH_IDLE_FRAMES = new TextureRegion[WITCH_IDLE_FRAME_COUNT];
+    private static final TextureRegion[] WITCH_ATTACK_FRAMES = new TextureRegion[WITCH_ATTACK_FRAME_COUNT];
+    private static final TextureRegion[] WITCH_DEATH_FRAMES = new TextureRegion[WITCH_DEATH_FRAME_COUNT];
 
     static {
         createTextureRegion(GOLEM_IDLE_FRAMES, "golem/golem_idle_", "png");
         createTextureRegion(GOLEM_ATTACK_FRAMES, "golem/golem_attack_", "png");
+        createTextureRegion(GOLEM_DEATH_FRAMES, "golem/golem_death_", "png");
         createTextureRegion(WOLF_IDLE_FRAMES, "wolf/wolf_idle_", "png");
         createTextureRegion(WOLF_ATTACK_FRAMES, "wolf/wolf_idle_", "png");
+        createTextureRegion(WOLF_DEATH_FRAMES, "wolf/wolf_death_", "png");
+        createTextureRegion(WITCH_IDLE_FRAMES, "witch/witch_idle_", "png");
+        createTextureRegion(WITCH_ATTACK_FRAMES, "witch/witch_attack_", "png");
+        createTextureRegion(WITCH_DEATH_FRAMES, "witch/witch_death_", "png");
+
     }
 
     private static void createTextureRegion(TextureRegion[] regions, String path, String extension) {
@@ -83,11 +99,19 @@ public class ForestEnemyFactory implements SpawnableFactory {
             case WOLF:
                 animations.put(AnimationType.IDLE, new Animation<>(2F, WOLF_IDLE_FRAMES));
                 animations.put(AnimationType.ATTACK, new Animation<>(2F, WOLF_ATTACK_FRAMES));
+                animations.put(AnimationType.DEAD, new Animation<>(2F, WOLF_DEATH_FRAMES));
                 break;
 
             case GOLEM:
                 animations.put(AnimationType.IDLE, new Animation<>(2F, GOLEM_IDLE_FRAMES));
                 animations.put(AnimationType.ATTACK, new Animation<>(2F, GOLEM_ATTACK_FRAMES));
+                animations.put(AnimationType.DEAD, new Animation<>(2F, GOLEM_DEATH_FRAMES));
+                break;
+
+            case WITCH:
+                animations.put(AnimationType.IDLE, new Animation<>(2F, WITCH_IDLE_FRAMES));
+                animations.put(AnimationType.ATTACK, new Animation<>(2F, WITCH_ATTACK_FRAMES));
+                animations.put(AnimationType.DEAD, new Animation<>(2F, WITCH_DEATH_FRAMES));
                 break;
 
             default: throw new InvalidParameterException("No valid enemy");
