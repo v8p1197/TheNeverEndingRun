@@ -304,6 +304,7 @@ public abstract class Hero extends AbstractAnimatedSprite<AnimationType, Texture
     public void changeMoveState(HeroMoveState moveState) {
         prevMoveState = this.moveState;
         this.moveState = moveState;
+        changeAnimation();
     }
 
     /**
@@ -331,6 +332,7 @@ public abstract class Hero extends AbstractAnimatedSprite<AnimationType, Texture
      */
     public void changeFacingState(HeroFacingState facingState) {
         this.facingState = facingState;
+        changeAnimation();
     }
 
 
