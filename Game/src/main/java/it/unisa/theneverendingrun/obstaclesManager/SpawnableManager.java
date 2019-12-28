@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import it.unisa.theneverendingrun.CollisionManager;
 import it.unisa.theneverendingrun.models.Spawnable;
 import it.unisa.theneverendingrun.models.SpawnableTypes;
+import it.unisa.theneverendingrun.models.enemy.AbstractEnemy;
 import it.unisa.theneverendingrun.models.hero.Hero;
 import it.unisa.theneverendingrun.models.obstacles.AbstractObstacle;
 import it.unisa.theneverendingrun.models.powerup.AbstractPowerUp;
@@ -223,6 +224,12 @@ public class SpawnableManager {
                 if (((AbstractObstacle) spawnable).isDestroyed()) {
                     toRemoveList.add(spawnable);
                     ((AbstractObstacle) spawnable).setDestroyed();
+                }
+            }
+            if (spawnable instanceof AbstractEnemy) {
+                if (((AbstractEnemy) spawnable).isDestroyed()) {
+                    toRemoveList.add(spawnable);
+                    ((AbstractEnemy) spawnable).setDestroyed();
                 }
             }
         }

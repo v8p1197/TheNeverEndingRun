@@ -10,6 +10,7 @@ public abstract class AbstractEnemy extends Spawnable {
     EnemyEventManager events = new EnemyEventManager(EnemyEventType.ENEMY_FIGHT_STATE_CHANGED);
 
     private EnemyFightState fightState;
+    private boolean destroyed = false;
 
     /**
      * Enemy constructor. Sets its bottom-left coordinates and speed, while its horizontal velocity is set to 0
@@ -64,6 +65,10 @@ public abstract class AbstractEnemy extends Spawnable {
         return animator;
     }
 
+    public boolean isDestroyed() {
+        return destroyed;
+    }
+
     /* ------------------------------------- SETTERS ------------------------------------- */
 
 
@@ -73,11 +78,19 @@ public abstract class AbstractEnemy extends Spawnable {
         events.notify(EnemyEventType.ENEMY_FIGHT_STATE_CHANGED, this);
     }
 
+    public void setDestroyed() {
+        destroyed = false;
+    }
+
 
     /* ------------------------------------- COLLISION ------------------------------------- */
 
     @Override
     public void beginCollision(Hero hero) {
+       /* if(//proiettile && hero.getShield>0){
+        destroyed=true;
+        hero.minShield();
+        */
         this.getFightState().onAttack();
         hero.die();
     }
