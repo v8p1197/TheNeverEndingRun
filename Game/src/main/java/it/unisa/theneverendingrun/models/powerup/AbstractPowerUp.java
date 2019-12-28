@@ -30,12 +30,12 @@ public abstract class AbstractPowerUp extends Spawnable {
             case Shield:
                 //hero.addShield();
                 break;
-            case Sword:
+            /*case Sword:
                 //hero.addSword();
                 break;
             case X2:
                 //hero.addX2();
-                break;
+                break;*/
         }
         this.collected = true;
     }

@@ -7,6 +7,6 @@ public enum SpawnableTypes {
     Wolf,
     Golem,
     Shield,
-    Sword,
-    X2,
+    //Sword,
+    //X2,
 }

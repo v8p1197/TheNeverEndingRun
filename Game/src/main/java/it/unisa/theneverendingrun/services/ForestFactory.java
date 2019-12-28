@@ -35,7 +35,7 @@ public class ForestFactory implements GameFactory {
         jumpableTexture = new Texture(commonPath + "obstacles/jumpable.png");
         textureGolem = new Texture(commonPath + "enemies/golem/golem_idle_1.png");
         textureWolf = new Texture(commonPath + "enemies/wolf/wolf_idle_1.png");
-        textureShield = new Texture("images/cane.png");
+        textureShield = new Texture("images/shield.png");
     }
 
     @Override
@@ -77,6 +77,6 @@ public class ForestFactory implements GameFactory {
     }
 
     public Shield createShield() {
-        return new Shield(textureShield, hero.getWidth(), hero.getHeight());
+        return new Shield(textureShield, hero.getWidth(), hero.getHeight() * 0.7f);
     }
 }
