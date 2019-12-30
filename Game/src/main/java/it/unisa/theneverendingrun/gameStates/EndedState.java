@@ -1,7 +1,6 @@
 package it.unisa.theneverendingrun.gameStates;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -133,32 +132,7 @@ public abstract class EndedState extends GameState {
 
     @Override
     public void keyAction() {
-
-        if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN) || Gdx.input.isKeyJustPressed(Input.Keys.S)) {
-            strategy = new KeyDownButtonsStrategy();
-            checkNextButton(strategy);
-        }
-
-        if (Gdx.input.isKeyJustPressed(Input.Keys.UP) || Gdx.input.isKeyJustPressed(Input.Keys.W)) {
-            strategy = new KeyUpButtonsStrategy();
-            checkNextButton(strategy);
-        }
-
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) || Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
-            buttons.stream().filter(Button::isChecked).forEach(InteractiveTextButton::click);
-        }
-    }
-
-    private void checkNextButton(KeyButtonsStrategy strategy) {
-        for (int i = 0; i < buttons.size(); i++) {
-            var button = buttons.get(i);
-            if (button.isChecked()) {
-                button.setChecked(false);
-                var nextIndex = strategy.nextIndex(i, buttons.size());
-                buttons.get(nextIndex).setChecked(true);
-                break;
-            }
-        }
+        ButtonActionHandler.action(buttons, strategy);
     }
 
     @Override
