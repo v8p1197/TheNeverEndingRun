@@ -2,9 +2,9 @@ package it.unisa.theneverendingrun.models.hero;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import it.unisa.theneverendingrun.data.AnimationType;
 import it.unisa.theneverendingrun.models.AbstractAnimatedSprite;
-import it.unisa.theneverendingrun.models.hero.state.*;
+import it.unisa.theneverendingrun.models.hero.state.HeroFacingState;
+import it.unisa.theneverendingrun.models.hero.state.HeroMoveState;
 import it.unisa.theneverendingrun.models.hero.state.face.LeftState;
 import it.unisa.theneverendingrun.models.hero.state.face.RightState;
 import it.unisa.theneverendingrun.models.hero.state.move.*;
@@ -12,7 +12,7 @@ import it.unisa.theneverendingrun.utilities.MathUtils;
 
 import java.util.Map;
 
-public abstract class Hero extends AbstractAnimatedSprite<AnimationType, TextureRegion> {
+public abstract class Hero extends AbstractAnimatedSprite<HeroAnimationType, TextureRegion> {
 
 
     /* ------------------------------------- PARAMS ------------------------------------- */
@@ -72,7 +72,7 @@ public abstract class Hero extends AbstractAnimatedSprite<AnimationType, Texture
      *
      * @param animations the animations of the hero
      */
-    protected Hero(Map<AnimationType, Animation<TextureRegion>> animations, float x, float y) {
+    protected Hero(Map<HeroAnimationType, Animation<TextureRegion>> animations, float x, float y) {
         this(1, animations, x, y);
     }
 
@@ -85,7 +85,7 @@ public abstract class Hero extends AbstractAnimatedSprite<AnimationType, Texture
      * @param x     bottom-left x coordinate
      * @param y     bottom-left y coordinate
      */
-    public Hero(float scaleFactor, Map<AnimationType, Animation<TextureRegion>> animations, float x, float y) {
+    public Hero(float scaleFactor, Map<HeroAnimationType, Animation<TextureRegion>> animations, float x, float y) {
         super(scaleFactor, animations);
 
         setX(x);
@@ -256,7 +256,7 @@ public abstract class Hero extends AbstractAnimatedSprite<AnimationType, Texture
      * @return true if the hero is facing right, else otherwise
      */
     public boolean isRight() {
-        return facingState instanceof RightState;
+        return getFacingState() instanceof RightState;
     }
 
     /**
@@ -265,7 +265,7 @@ public abstract class Hero extends AbstractAnimatedSprite<AnimationType, Texture
      * @return true if the hero is facing left, else otherwise
      */
     public boolean isLeft() {
-        return facingState instanceof LeftState;
+        return getFacingState() instanceof LeftState;
     }
 
     /**
