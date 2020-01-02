@@ -13,7 +13,7 @@ public class Fonts {
     public static BitmapFont endScreenTitleFont;
     public static BitmapFont endScreenScoreFont;
 
-    public static void load() {
+    static void load() {
         scoreFont = loadScoreFont();
         meterFont = loadMeterFont();
         endScreenTitleFont = loadEndScreenTitleFont();
