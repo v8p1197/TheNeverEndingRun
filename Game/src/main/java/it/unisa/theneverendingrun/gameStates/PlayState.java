@@ -171,10 +171,9 @@ public class PlayState extends GameState {
         drawHero();
         drawObstacles();
         drawScore();
-        /*if(paused){
+        if (paused) {
             spriteBatch.setColor(0.5f, 0.5f, 0.5f, 1f);
-        }
-        else spriteBatch.setColor(1f, 1f, 1f, 1f);*/
+        } else spriteBatch.setColor(1f, 1f, 1f, 1f);
 
         spriteBatch.end();
     }
