@@ -11,6 +11,7 @@ public final class SoundManager {
     private boolean musicOn;
     private Array<Sound> sounds;
     private Array<Music> musics;
+    private int pausedMusicIndex;
 
     private static SoundManager soundManager;
 
@@ -54,10 +55,6 @@ public final class SoundManager {
 
     public void setMusicOn(boolean musicOn) {
         this.musicOn = musicOn;
-        if (!musicOn)
-            for (Music track : musics) {
-                track.stop();
-            }
     }
 
     public void setSound(int soundNumber) {
@@ -71,6 +68,29 @@ public final class SoundManager {
                 track.stop();
             }
             musics.get(musicNumber).play();
+        }
+    }
+
+    public void muteMusic() {
+        for (Music track : musics) {
+            if (track.isPlaying())
+                track.setVolume(0f);
+        }
+        setMusicOn(false);
+    }
+
+    public void resumeMusic() {
+        for (Music track : musics) {
+            if (track.isPlaying())
+                track.setVolume(1);
+        }
+        setMusicOn(true);
+    }
+
+    public void onPause() {
+        for (Music track : musics) {
+            if (track.isPlaying())
+                track.setVolume(0.2f);
         }
     }
 }
