@@ -269,6 +269,10 @@ public class PlayState extends GameState {
     public void controlPause() {
         if (Gdx.input.isKeyJustPressed(Input.Keys.P) || Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             paused = !paused;
+            if (paused)
+                soundManager.onPause();
+            else
+                soundManager.resumeMusic();
         }
     }
 
