@@ -1,6 +1,8 @@
 package it.unisa.theneverendingrun.models.hero;
 
 
+import it.unisa.theneverendingrun.services.sounds.SoundManager;
+
 /**
  * In this state the hero is jumping
  */
@@ -12,10 +14,14 @@ public class JumpState extends HeroMoveState {
      *
      * @param hero the hero which jump state is held
      */
+
+    private SoundManager soundManager;
+
     public JumpState(Hero hero) {
         super(hero);
-
         hero.setJumpCount(hero.getJumpDuration());
+        soundManager = SoundManager.getSoundManager();
+        soundManager.setSound(0);
     }
 
     /**

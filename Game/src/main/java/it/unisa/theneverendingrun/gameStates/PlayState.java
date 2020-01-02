@@ -14,6 +14,7 @@ import it.unisa.theneverendingrun.models.hero.Hero;
 import it.unisa.theneverendingrun.obstaclesManager.SpawnableManager;
 import it.unisa.theneverendingrun.services.ForestFactory;
 import it.unisa.theneverendingrun.services.GameFactory;
+import it.unisa.theneverendingrun.services.sounds.SoundManager;
 import it.unisa.theneverendingrun.streamManager.BestScores;
 import it.unisa.theneverendingrun.streamManager.FileStreamFactory;
 import it.unisa.theneverendingrun.streamManager.StreamManager;
@@ -27,6 +28,7 @@ import java.util.LinkedList;
 public class PlayState extends GameState {
 
     private static final String FILENAME = "best_scores.dat";
+    private SoundManager soundManager;
 
     private Stage stage;
 
@@ -64,6 +66,9 @@ public class PlayState extends GameState {
 
         streamManager = new StreamManager(new FileStreamFactory(FILENAME));
         bestScores = streamManager.loadBestScores();
+
+        soundManager = SoundManager.getSoundManager();
+        soundManager.setMusic(0);
     }
 
     @Override

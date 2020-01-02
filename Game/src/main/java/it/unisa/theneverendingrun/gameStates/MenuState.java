@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
 import it.unisa.theneverendingrun.GameEngine;
 import it.unisa.theneverendingrun.models.Sprite;
+import it.unisa.theneverendingrun.services.sounds.SoundManager;
 import org.mini2Dx.core.graphics.Graphics;
 
 import java.util.ArrayList;
@@ -26,8 +27,11 @@ public class MenuState extends GameState {
     private ArrayList<InteractiveTextButton> buttons;
     private KeyButtonsStrategy strategy;
 
+    private SoundManager soundManager;
+
     public MenuState(GameEngine game) {
         super(game);
+        soundManager = SoundManager.getSoundManager();
     }
 
     @Override
@@ -37,6 +41,7 @@ public class MenuState extends GameState {
         createBackground();
 
         createTableButtons();
+        soundManager.setMusic(2);
     }
 
     private void createTableButtons() {

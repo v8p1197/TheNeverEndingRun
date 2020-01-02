@@ -1,6 +1,7 @@
 package it.unisa.theneverendingrun.gameStates;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -10,6 +11,7 @@ import com.badlogic.gdx.utils.Align;
 import it.unisa.theneverendingrun.GameEngine;
 import it.unisa.theneverendingrun.assets.Fonts;
 import it.unisa.theneverendingrun.models.Sprite;
+import it.unisa.theneverendingrun.services.sounds.SoundManager;
 import it.unisa.theneverendingrun.streamManager.BestScores;
 import org.mini2Dx.core.graphics.Graphics;
 
@@ -27,12 +29,14 @@ public abstract class EndedState extends GameState {
     private Table table;
     private ArrayList<InteractiveTextButton> buttons;
     private KeyButtonsStrategy strategy;
+    private SoundManager soundManager;
 
     private int score;
 
     public EndedState(GameEngine game, int finalScore) {
         super(game);
         score = finalScore;
+        soundManager = SoundManager.getSoundManager();
     }
 
     @Override
@@ -42,6 +46,8 @@ public abstract class EndedState extends GameState {
         createBackground();
 
         createTableButtons();
+
+        soundManager.setMusic(1);
     }
 
     private void createBackground() {
@@ -132,7 +138,32 @@ public abstract class EndedState extends GameState {
 
     @Override
     public void keyAction() {
-        ButtonActionHandler.action(buttons, strategy);
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN) || Gdx.input.isKeyJustPressed(Input.Keys.S)) {
+            strategy = new KeyDownButtonsStrategy();
+            checkNextButton(strategy);
+        }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.UP) || Gdx.input.isKeyJustPressed(Input.Keys.W)) {
+            strategy = new KeyUpButtonsStrategy();
+            checkNextButton(strategy);
+        }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) || Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
+            buttons.stream().filter(Button::isChecked).forEach(InteractiveTextButton::click);
+        }
+    }
+
+    private void checkNextButton(KeyButtonsStrategy strategy) {
+        for (int i = 0; i < buttons.size(); i++) {
+            var button = buttons.get(i);
+            if (button.isChecked()) {
+                button.setChecked(false);
+                var nextIndex = strategy.nextIndex(i, buttons.size());
+                buttons.get(nextIndex).setChecked(true);
+                break;
+            }
+        }
     }
 
     @Override

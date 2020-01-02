@@ -1,6 +1,8 @@
 package it.unisa.theneverendingrun.models.hero;
 
 
+import it.unisa.theneverendingrun.services.sounds.SoundManager;
+
 /**
  * In this state the hero is sliding
  */
@@ -12,10 +14,14 @@ public class SlideState extends HeroMoveState {
      *
      * @param hero the hero which slide state is held
      */
+
+    private SoundManager soundManager;
+
     public SlideState(Hero hero) {
         super(hero);
-
+        soundManager = SoundManager.getSoundManager();
         hero.setSlideCount(0);
+        soundManager.setSound(1);
     }
 
     /**
