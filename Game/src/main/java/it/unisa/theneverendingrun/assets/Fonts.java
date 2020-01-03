@@ -15,7 +15,7 @@ public final class Fonts {
 
     private static BitmapFont loadEndScreenScoreFont() {
         //Generate a font object for font.ttf at size 40px
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        var parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 24;
         parameter.flip = false;
         parameter.color = Color.WHITE;
@@ -25,7 +25,7 @@ public final class Fonts {
 
     private static BitmapFont loadEndScreenTitleFont() {
         //Generate a font object for font.ttf at size 40px
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        var parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 32;
         parameter.flip = false;
         parameter.color = Color.RED;
@@ -35,7 +35,7 @@ public final class Fonts {
 
     private static BitmapFont loadScoreFont() {
         //Generate a font object for font.ttf at size 40px
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        var parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 24;
         parameter.flip = false;
         parameter.color = Color.WHITE;
@@ -68,7 +68,7 @@ public final class Fonts {
         parameter.magFilter = Texture.TextureFilter.Linear;
         parameter.minFilter = Texture.TextureFilter.Linear;
 
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/ARCADE_N.ttf"));
+        var generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/arcade_font.ttf"));
 
         var font = generator.generateFont(parameter);
         font.setUseIntegerPositions(false);
