@@ -1,14 +1,15 @@
 package it.unisa.theneverendingrun.models;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.mini2Dx.core.engine.geom.CollisionBox;
-import org.mini2Dx.core.graphics.TextureRegion;
 
 import java.security.InvalidParameterException;
 
 /**
  *
- * Wraps {@link org.mini2Dx.core.graphics.Sprite} to add collision and scale support
+ * Wraps {@link org.mini2Dx.core.graphics.Sprite} to add collision, scale and animation support
  */
 public class Sprite extends org.mini2Dx.core.graphics.Sprite {
 
@@ -27,8 +28,20 @@ public class Sprite extends org.mini2Dx.core.graphics.Sprite {
      * Store the scale factor of the sprite,
      * If this value is 1 no scale is applied
      */
-    private final float scaleFactor;
+    private float scaleFactor;
 
+    /**
+     *
+     * Active animation of the sprite
+     * @see Animation
+     */
+    private Animation<TextureRegion> animation;
+
+    /**
+     *
+     * The time span between the current frame and the last frame in seconds
+     */
+    private float stateTime;
 
 
 
@@ -55,7 +68,9 @@ public class Sprite extends org.mini2Dx.core.graphics.Sprite {
     public Sprite(float scaleFactor) {
         super();
         this.scaleFactor = scaleFactor;
-        collisionBox = new CollisionBox(getX(), getY(), 0,0);
+        this.collisionBox = new CollisionBox(0, 0, 0,0);
+
+        resetStateTime();
     }
 
     /**
@@ -117,9 +132,10 @@ public class Sprite extends org.mini2Dx.core.graphics.Sprite {
     public Sprite(Texture texture, int srcX, int srcY, int srcWidth, int srcHeight, float scaleFactor) {
         super(texture, srcX, srcY, srcWidth, srcHeight);
         this.scaleFactor = scaleFactor;
+        this.collisionBox = new CollisionBox(this.getX(), this.getY(), this.getWidth(), this.getHeight());
 
-        setSize(getWidth() * getScaleFactor(), getHeight() * getScaleFactor());
-        generateCollisionBox();
+        scale();
+        resetStateTime();
     }
 
 
@@ -161,11 +177,42 @@ public class Sprite extends org.mini2Dx.core.graphics.Sprite {
         return collisionBox;
     }
 
+    /**
+     *
+     * @see Sprite#animation
+     * @return the current active animation for this sprite
+     */
+    public Animation<TextureRegion> getAnimation() {
+        return animation;
+    }
+
+    /**
+     *
+     * @see Sprite#stateTime
+     * @return the current state time
+     */
+    public float getStateTime() {
+        return this.stateTime;
+    }
+
 
 
 
 
     /* ------------------------------------- SETTERS ------------------------------------- */
+
+    /**
+     * Make this sprite a copy in every way of the specified sprite
+     *
+     * @param sprite
+     */
+    public void set(Sprite sprite) {
+        super.set(sprite);
+        this.collisionBox = sprite.getCollisionBox();
+        this.animation = sprite.animation;
+        this.scaleFactor = sprite.scaleFactor;
+        this.stateTime = sprite.getStateTime();
+    }
 
     /**
      *
@@ -208,7 +255,43 @@ public class Sprite extends org.mini2Dx.core.graphics.Sprite {
     @Override
     public void setSize(float width, float height) {
         super.setSize(width, height);
-        generateCollisionBox();
+        collisionBox.setSize(width, height);
+    }
+
+    /**
+     *
+     * @see Sprite#animation
+     * @param animation the new animation for the sprite
+     */
+    public void setAnimation(Animation<TextureRegion> animation) {
+        if (animation == null) throw new NullPointerException("Animation is null");
+        this.animation = animation;
+    }
+
+    /**
+     *
+     * @see Sprite#stateTime
+     * @param stateTime the updated state time
+     */
+    public void setStateTime(float stateTime) {
+        this.stateTime = stateTime;
+    }
+
+    /**
+     *
+     * @see Sprite#stateTime
+     * Set the state time to 0
+     */
+    public void resetStateTime() {
+        setStateTime(0);
+    }
+
+    /**
+     *
+     * Scales the sprite using width, height and scale factor
+     */
+    public void scale() {
+        setSize(getWidth() * getScaleFactor(), getHeight() * getScaleFactor());
     }
 
 
@@ -251,20 +334,6 @@ public class Sprite extends org.mini2Dx.core.graphics.Sprite {
         if (maxYAxisValue < 0) throw new InvalidParameterException("maxYAxisValue cannot be less than 0");
         return (getY() + getHeight()) > 0 && (getY() - getHeight()) < maxYAxisValue;
     }
-
-
-
-
-    /* ------------------------------------- SERVICE METHOD ------------------------------------- */
-
-    /**
-     *
-     * Generate a new collisionBox having the current coordinates (x,y) and the sprite width and height
-     */
-    private void generateCollisionBox() {
-        collisionBox = new CollisionBox(this.getX(), this.getY(), this.getWidth(), this.getHeight());
-    }
-
 
 }
 
