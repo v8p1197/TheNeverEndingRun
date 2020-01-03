@@ -3,7 +3,7 @@ package it.unisa.theneverendingrun.models.hero.state.move;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import it.unisa.theneverendingrun.models.hero.AbstractHero;
-import it.unisa.theneverendingrun.models.hero.HeroAnimationType;
+import it.unisa.theneverendingrun.models.hero.HeroStateType;
 import it.unisa.theneverendingrun.models.hero.state.HeroMoveState;
 
 import java.util.Map;
@@ -28,7 +28,7 @@ public class FallState extends HeroMoveState {
      *
      * Set gravity to 1
      */
-    public FallState(AbstractHero hero, Map<HeroAnimationType, Animation<TextureRegion>> animations) {
+    public FallState(AbstractHero hero, Map<HeroStateType, Animation<TextureRegion>> animations) {
         this(hero, animations, 1);
     }
 
@@ -42,7 +42,7 @@ public class FallState extends HeroMoveState {
      *
      * @param gravity the fall step the hero actually is in
      */
-    public FallState(AbstractHero hero, Map<HeroAnimationType, Animation<TextureRegion>> animations, int gravity) {
+    public FallState(AbstractHero hero, Map<HeroStateType, Animation<TextureRegion>> animations, int gravity) {
         super(hero, animations);
         this.gravity = gravity;
     }
@@ -146,11 +146,11 @@ public class FallState extends HeroMoveState {
 
     /**
      *
-     * @see HeroMoveState#computeAnimationType()
+     * @see HeroMoveState#computeStateType()
      * @return the current hero animation type based on the current state
      */
     @Override
-    protected HeroAnimationType computeAnimationType() {
-        return HeroAnimationType.FALL;
+    protected HeroStateType computeStateType() {
+        return HeroStateType.FALL;
     }
 }

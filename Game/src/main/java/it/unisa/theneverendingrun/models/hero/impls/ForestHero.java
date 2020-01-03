@@ -3,7 +3,7 @@ package it.unisa.theneverendingrun.models.hero.impls;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import it.unisa.theneverendingrun.models.hero.AbstractHero;
-import it.unisa.theneverendingrun.models.hero.HeroAnimationType;
+import it.unisa.theneverendingrun.models.hero.HeroStateType;
 import it.unisa.theneverendingrun.utilities.TextureUtils;
 
 import java.util.HashMap;
@@ -20,7 +20,7 @@ public class ForestHero extends AbstractHero {
     private final static float SCALE_FACTOR = 3.0f;
 
 
-    private static final Map<HeroAnimationType, Animation<TextureRegion>> ANIMATIONS;
+    private static final Map<HeroStateType, Animation<TextureRegion>> ANIMATIONS;
     static {
         final String HERO_FRAME_PATH = "images/forest/hero/";
 
@@ -39,12 +39,12 @@ public class ForestHero extends AbstractHero {
         final var SLIDE_FRAMES = TextureUtils.toVector(HERO_FRAME_PATH + "hero_slide/hero_slide_", "png", SLIDE_FRAME_COUNT);
 
         ANIMATIONS = new HashMap<>();
-        ANIMATIONS.put(HeroAnimationType.DEAD, new Animation<>(2F, DEATH_FRAMES));
-        ANIMATIONS.put(HeroAnimationType.FALL, new Animation<>(2F, FALL_FRAMES));
-        ANIMATIONS.put(HeroAnimationType.IDLE, new Animation<>(2F, IDLE_FRAMES));
-        ANIMATIONS.put(HeroAnimationType.JUMP, new Animation<>(2F, JUMP_FRAMES));
-        ANIMATIONS.put(HeroAnimationType.RUN, new Animation<>(2F, RUN_FRAMES));
-        ANIMATIONS.put(HeroAnimationType.SLIDE, new Animation<>(2F, SLIDE_FRAMES));
+        ANIMATIONS.put(HeroStateType.DEAD, new Animation<>(2F, DEATH_FRAMES));
+        ANIMATIONS.put(HeroStateType.FALL, new Animation<>(2F, FALL_FRAMES));
+        ANIMATIONS.put(HeroStateType.IDLE, new Animation<>(2F, IDLE_FRAMES));
+        ANIMATIONS.put(HeroStateType.JUMP, new Animation<>(2F, JUMP_FRAMES));
+        ANIMATIONS.put(HeroStateType.RUN, new Animation<>(2F, RUN_FRAMES));
+        ANIMATIONS.put(HeroStateType.SLIDE, new Animation<>(2F, SLIDE_FRAMES));
     }
 
     /**

@@ -4,7 +4,7 @@ package it.unisa.theneverendingrun.models.hero.state.move;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import it.unisa.theneverendingrun.models.hero.AbstractHero;
-import it.unisa.theneverendingrun.models.hero.HeroAnimationType;
+import it.unisa.theneverendingrun.models.hero.HeroStateType;
 import it.unisa.theneverendingrun.models.hero.state.HeroMoveState;
 
 import java.util.Map;
@@ -22,10 +22,10 @@ public class JumpState extends HeroMoveState {
      * Sets the hero for holding its jump state, setting his jumping variable to true
      * and his jump counter variable to its initial value
      */
-    public JumpState(AbstractHero hero, Map<HeroAnimationType, Animation<TextureRegion>> animations) {
+    public JumpState(AbstractHero hero, Map<HeroStateType, Animation<TextureRegion>> animations) {
         super(hero, animations);
 
-        hero.setJumpCount(hero.getJumpDuration());
+        hero.setJumpCount(AbstractHero.getJumpDuration());
     }
 
     /**
@@ -139,11 +139,11 @@ public class JumpState extends HeroMoveState {
 
     /**
      *
-     * @see HeroMoveState#computeAnimationType()
+     * @see HeroMoveState#computeStateType()
      * @return the current hero animation type based on the current state
      */
     @Override
-    protected HeroAnimationType computeAnimationType() {
-        return HeroAnimationType.JUMP;
+    protected HeroStateType computeStateType() {
+        return HeroStateType.JUMP;
     }
 }

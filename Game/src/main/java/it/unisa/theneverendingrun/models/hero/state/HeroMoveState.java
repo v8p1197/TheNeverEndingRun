@@ -3,8 +3,9 @@ package it.unisa.theneverendingrun.models.hero.state;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import it.unisa.theneverendingrun.assets.SoundEffects;
 import it.unisa.theneverendingrun.models.hero.AbstractHero;
-import it.unisa.theneverendingrun.models.hero.HeroAnimationType;
+import it.unisa.theneverendingrun.models.hero.HeroStateType;
 
 import java.util.Map;
 
@@ -26,7 +27,7 @@ public abstract class HeroMoveState {
      *
      * Animations of the hero
      */
-    protected final Map<HeroAnimationType, Animation<TextureRegion>> animations;
+    protected final Map<HeroStateType, Animation<TextureRegion>> animations;
 
     /**
      *
@@ -35,10 +36,12 @@ public abstract class HeroMoveState {
      * @param hero the hero which move state is held
      * @param animations the possible animations of the hero
      */
-    public HeroMoveState(AbstractHero hero, Map<HeroAnimationType, Animation<TextureRegion>> animations) {
+    public HeroMoveState(AbstractHero hero, Map<HeroStateType, Animation<TextureRegion>> animations) {
         this.hero = hero;
         this.animations = animations;
+
         setAnimation();
+        playSound();
     }
 
     /**
@@ -117,10 +120,10 @@ public abstract class HeroMoveState {
 
     /**
      *
-     * Change the animation of the hero depending on the particular state of the enemy
+     * Change the animation of the hero depending on the particular state of the hero
      */
     private void setAnimation() {
-        var type = computeAnimationType();
+        var type = computeStateType();
         if (type == null) return;
 
         var animation = animations.get(type);
@@ -129,13 +132,22 @@ public abstract class HeroMoveState {
         hero.setAnimation(animation);
     }
 
+    private void playSound() {
+        var type = computeStateType();
+        if (type == null) return;
+
+        var sound = SoundEffects.sounds.get(type);
+        if (sound == null) return;
+
+        sound.play();
+    }
+
     /**
      *
-     * @see HeroAnimationType
+     * @see HeroStateType
      * @return the current hero animation type based on the current state
      */
-    protected abstract HeroAnimationType computeAnimationType();
-
+    protected abstract HeroStateType computeStateType();
 
 }
 

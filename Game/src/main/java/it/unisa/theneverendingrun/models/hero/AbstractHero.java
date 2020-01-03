@@ -92,7 +92,7 @@ public abstract class AbstractHero extends Sprite implements Animatable {
      * @param y     bottom-left y coordinate
      * @param animations the animations of the hero
      */
-    public AbstractHero(float x, float y, Map<HeroAnimationType, Animation<TextureRegion>> animations) {
+    public AbstractHero(float x, float y, Map<HeroStateType, Animation<TextureRegion>> animations) {
         this(1, x, y, animations);
     }
 
@@ -108,7 +108,7 @@ public abstract class AbstractHero extends Sprite implements Animatable {
      * @param y     bottom-left y coordinate
      * @param animations the animations of the hero
      */
-    public AbstractHero(float scaleFactor, float x, float y, Map<HeroAnimationType, Animation<TextureRegion>> animations) {
+    public AbstractHero(float scaleFactor, float x, float y, Map<HeroStateType, Animation<TextureRegion>> animations) {
         super(scaleFactor);
 
         this.groundX = x;

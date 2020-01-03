@@ -3,7 +3,7 @@ package it.unisa.theneverendingrun.models.hero.state.move;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import it.unisa.theneverendingrun.models.hero.AbstractHero;
-import it.unisa.theneverendingrun.models.hero.HeroAnimationType;
+import it.unisa.theneverendingrun.models.hero.HeroStateType;
 import it.unisa.theneverendingrun.models.hero.state.HeroMoveState;
 
 import java.util.Map;
@@ -20,7 +20,7 @@ public class RunningState extends HeroMoveState {
      * @param hero       the hero which move state is held
      * @param animations the possible animations of the hero
      */
-    public RunningState(AbstractHero hero, Map<HeroAnimationType, Animation<TextureRegion>> animations) {
+    public RunningState(AbstractHero hero, Map<HeroStateType, Animation<TextureRegion>> animations) {
         super(hero, animations);
     }
 
@@ -111,12 +111,12 @@ public class RunningState extends HeroMoveState {
 
     /**
      *
-     * @see HeroMoveState#computeAnimationType()
+     * @see HeroMoveState#computeStateType()
      * @return the current hero animation type based on the current state
      */
     @Override
-    protected HeroAnimationType computeAnimationType() {
-        return HeroAnimationType.RUN;
+    protected HeroStateType computeStateType() {
+        return HeroStateType.RUN;
     }
 
 }
