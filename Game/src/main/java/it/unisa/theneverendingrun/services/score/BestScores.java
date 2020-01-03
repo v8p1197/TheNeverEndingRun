@@ -15,15 +15,14 @@ public class BestScores {
      */
     private int longestRun;
 
-    /**
-     * Initializes fields {@code highScore} and {@code longestRun}
-     *
-     * @param highScore  the new highest score
-     * @param longestRun the new longest run
-     */
-    public BestScores(int highScore, int longestRun) {
-        this.highScore = highScore;
-        this.longestRun = longestRun;
+    private BestScores() { }
+
+    private static class BestScoresHolder {
+        public static final BestScores instance = new BestScores();
+    }
+
+    public static BestScores getInstance() {
+        return BestScoresHolder.instance;
     }
 
     /**

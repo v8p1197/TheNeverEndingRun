@@ -1,8 +1,7 @@
-package it.unisa.theneverendingrun.services.speed;
+package it.unisa.theneverendingrun.metersManager;
 
 public enum Level {
-    LEVEL_MAX(10),
-    LEVEL_PRO(17);
+    LEVEL_MAX(10);
 
     private int value;
 
