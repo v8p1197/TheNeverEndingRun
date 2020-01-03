@@ -1,4 +1,4 @@
-package it.unisa.theneverendingrun.gameStates;
+package it.unisa.theneverendingrun.ui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -6,13 +6,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import it.unisa.theneverendingrun.services.strategies.KeyStrategy;
 import it.unisa.theneverendingrun.services.strategies.impls.NextKeyStrategy;
 import it.unisa.theneverendingrun.services.strategies.impls.PreviousKeyStrategy;
-import it.unisa.theneverendingrun.ui.InteractiveTextButton;
 
-import java.util.ArrayList;
+import java.util.List;
 
-public class ButtonActionHandler {
+public interface InteractiveTextButtonActionHandler extends ActionHandler<InteractiveTextButton> {
 
-    public static void action(ArrayList<InteractiveTextButton> buttons) {
+    default void action(List<InteractiveTextButton> buttons) {
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN) || Gdx.input.isKeyJustPressed(Input.Keys.S)) {
             var strategy = new NextKeyStrategy();
@@ -29,7 +28,7 @@ public class ButtonActionHandler {
         }
     }
 
-    private static void checkNextButton(ArrayList<InteractiveTextButton> buttons, KeyStrategy strategy) {
+    private static void checkNextButton(List<InteractiveTextButton> buttons, KeyStrategy strategy) {
         for (int i = 0; i < buttons.size(); i++) {
             var button = buttons.get(i);
             if (button.isChecked()) {
