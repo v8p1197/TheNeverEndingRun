@@ -1,13 +1,14 @@
 package it.unisa.theneverendingrun.gameStates;
 
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
-public class InteractiveTextButton extends TextButtonDecorator {
+public class InteractiveTextButton extends TextButton {
 
     private Actionable action;
 
-    public InteractiveTextButton(TextButton button, Actionable action) {
-        super(button);
+    public InteractiveTextButton(String text, Skin skin, String styleName, Actionable action) {
+        super(text, skin, styleName);
         this.action = action;
     }
 

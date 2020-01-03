@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
 import it.unisa.theneverendingrun.GameEngine;
 import it.unisa.theneverendingrun.models.Sprite;
@@ -24,7 +23,6 @@ public class HelpState extends GameState {
 
     private Table table;
     private ArrayList<InteractiveTextButton> buttons;
-    private KeyButtonsStrategy strategy;
 
     private SoundManager soundManager;
 
@@ -53,8 +51,8 @@ public class HelpState extends GameState {
     private void createButtons() {
         buttons = new ArrayList<>();
 
-        var newGameButton = new InteractiveTextButton(new TextButton("NEW GAME", skin, "default"), this::onPlay);
-        var helpButton = new InteractiveTextButton(new TextButton("MENU", skin, "default"), this::onMenu);
+        var newGameButton = new InteractiveTextButton("NEW GAME", skin, "default", this::onPlay);
+        var helpButton = new InteractiveTextButton("MENU", skin, "default", this::onMenu);
 
         buttons.add(newGameButton);
         buttons.add(helpButton);
@@ -112,7 +110,7 @@ public class HelpState extends GameState {
 
     @Override
     public void keyAction() {
-        ButtonActionHandler.action(buttons, strategy);
+        ButtonActionHandler.action(buttons);
     }
 
     @Override
