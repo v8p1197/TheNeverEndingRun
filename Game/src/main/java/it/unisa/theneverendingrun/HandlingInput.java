@@ -2,19 +2,21 @@ package it.unisa.theneverendingrun;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import it.unisa.theneverendingrun.models.hero.Hero;
+import it.unisa.theneverendingrun.models.hero.AbstractHero;
 
 public class HandlingInput {
 
-    public void getKeyWASD(Hero hero, float speed) {
+    public void getKeyWASD(AbstractHero hero, float speed) {
 
         if (Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             hero.getFacingState().onRight();
+            hero.getMoveState().onRun();
 
             if (hero.getX() < hero.getGroundX())
                 hero.setDx(speed * 2f);
             else
                 hero.setDx(speed);
+
         } else
             hero.setDx(0);
 
@@ -24,6 +26,7 @@ public class HandlingInput {
 
         if (Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
             hero.getFacingState().onLeft();
+            hero.getMoveState().onRun();
             hero.setDx(speed);
         }
 

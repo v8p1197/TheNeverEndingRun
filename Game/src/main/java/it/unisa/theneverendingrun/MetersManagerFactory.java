@@ -1,4 +1,15 @@
-package it.unisa.theneverendingrun.metersManager;
+package it.unisa.theneverendingrun;
+
+import it.unisa.theneverendingrun.services.difficulty.DifficultyEventManager;
+import it.unisa.theneverendingrun.services.difficulty.DifficultyEventType;
+import it.unisa.theneverendingrun.services.difficulty.DifficultyMeterListener;
+import it.unisa.theneverendingrun.services.meters.MetersEventManager;
+import it.unisa.theneverendingrun.services.meters.MetersEventType;
+import it.unisa.theneverendingrun.services.meters.MetersListener;
+import it.unisa.theneverendingrun.services.meters.MeterEditor;
+import it.unisa.theneverendingrun.services.score.ScoreMetersListener;
+import it.unisa.theneverendingrun.services.spawn.spawnables.ObstacleSpawnProbabilityListener;
+import it.unisa.theneverendingrun.services.speed.SpeedDifficultyListener;
 
 /**
  * A class that is delegated to initialise the {@link MeterEditor} and all its {@link MetersListener}
