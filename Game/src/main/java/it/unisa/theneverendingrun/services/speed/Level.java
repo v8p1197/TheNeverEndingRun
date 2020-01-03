@@ -1,6 +1,6 @@
-package it.unisa.theneverendingrun.metersManager;
+package it.unisa.theneverendingrun.services.speed;
 
-enum Level {
+public enum Level {
     LEVEL_MAX(10),
     LEVEL_PRO(17);
 
@@ -10,7 +10,7 @@ enum Level {
         this.value = value;
     }
 
-    int getValue() {
+    public int getValue() {
         return value;
     }
 }

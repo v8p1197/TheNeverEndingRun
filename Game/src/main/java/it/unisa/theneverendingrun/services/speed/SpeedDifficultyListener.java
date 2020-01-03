@@ -1,19 +1,23 @@
-package it.unisa.theneverendingrun.metersManager;
+package it.unisa.theneverendingrun.services.speed;
+
+import it.unisa.theneverendingrun.services.difficulty.DifficultyEventType;
+import it.unisa.theneverendingrun.services.difficulty.DifficultyListener;
+import it.unisa.theneverendingrun.services.difficulty.DifficultyMeterListener;
 
 /**
  * A {@link DifficultyListener} that computes the store depending on the {@link DifficultyMeterListener} difficulty variable value
  */
-class SpeedDifficultyListener implements DifficultyListener {
+public class SpeedDifficultyListener implements DifficultyListener {
 
     /**
      * Initial speed
      */
-    private static final float INITIAL_SPEED = 1.2f;
+    public static final float INITIAL_SPEED = 1.2f;
 
     /**
      * Value of how the speed will increase
      */
-    private static final float SPEED_FACTOR = 0.3f;
+    public static final float SPEED_FACTOR = 0.3f;
 
     /**
      * A support var to compute in a right way the spawn probability
@@ -28,8 +32,8 @@ class SpeedDifficultyListener implements DifficultyListener {
     /**
      * Initialises the speed variable and the difficulty flag
      */
-    SpeedDifficultyListener() {
-        speed = INITIAL_SPEED;
+    public SpeedDifficultyListener() {
+        setSpeed(INITIAL_SPEED);
         difficultyFlag = 1;
     }
 
@@ -46,27 +50,9 @@ class SpeedDifficultyListener implements DifficultyListener {
     /**
      * {@code speed} getter
      *
-     * @return the initial speed
-     */
-    float getInitialSpeed() {
-        return INITIAL_SPEED;
-    }
-
-    /**
-     * {@code speed} getter
-     *
-     * @return the speed factor
-     */
-    float getSpeedFactor() {
-        return SPEED_FACTOR;
-    }
-
-    /**
-     * {@code speed} getter
-     *
      * @return the actual speed
      */
-    float getSpeed() {
+    public float getSpeed() {
         return speed;
     }
 
@@ -74,15 +60,19 @@ class SpeedDifficultyListener implements DifficultyListener {
      * The {@link SpeedDifficultyListener} listener reaction when the observed variable {@code difficulty} changes.
      * It increases the speed when the level will change.
      *
+     * @param eventType
      * @param difficulty the new value for the observed variable
      */
     @Override
-    public void update(int difficulty) {
-        if (difficulty == difficultyFlag + 1 && difficulty <= Level.LEVEL_MAX.getValue()) {
-            difficultyFlag = difficulty;
-            setSpeed(SPEED_FACTOR);
-        } else if (difficulty == Level.LEVEL_PRO.getValue())
-            setSpeed(SPEED_FACTOR);
+    public void update(DifficultyEventType eventType, int difficulty) {
+        if (eventType == DifficultyEventType.LEVEL_CHANGED) {
+            if (difficulty == difficultyFlag + 1 && difficulty <= Level.LEVEL_MAX.getValue()) {
+                difficultyFlag = difficulty;
+                setSpeed(SPEED_FACTOR);
+            } else if (difficulty == Level.LEVEL_PRO.getValue())
+                setSpeed(SPEED_FACTOR);
+        }
+
     }
 
 }
