@@ -1,4 +1,9 @@
-package it.unisa.theneverendingrun.metersManager;
+package it.unisa.theneverendingrun.services.spawn.spawnables;
+
+import it.unisa.theneverendingrun.services.difficulty.DifficultyEventType;
+import it.unisa.theneverendingrun.services.difficulty.DifficultyListener;
+import it.unisa.theneverendingrun.services.difficulty.DifficultyMeterListener;
+import it.unisa.theneverendingrun.services.speed.Level;
 
 /**
  * A {@link DifficultyListener} that computes the store depending on the {@link DifficultyMeterListener} difficulty variable value
@@ -73,10 +78,11 @@ class ObstacleSpawnProbabilityListener implements DifficultyListener {
      * The {@link ObstacleSpawnProbabilityListener} listener reaction when the observed variable {@code difficulty} changes.
      * It decreases the spawn probability when the level will change.
      *
+     * @param eventType
      * @param difficulty the new value for the observed variable
      */
     @Override
-    public void update(int difficulty) {
+    public void update(DifficultyEventType eventType, int difficulty) {
         if (difficulty == difficultyFlag + 1 && difficulty < Level.LEVEL_MAX.getValue()) {
             setSpawnProbability(SPAWN_FACTOR_PROBABILITY);
             difficultyFlag = difficulty;

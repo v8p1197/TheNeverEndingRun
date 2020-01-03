@@ -1,7 +1,7 @@
-package it.unisa.theneverendingrun.obstaclesManager;
+package it.unisa.theneverendingrun.services.spawn.spawnables;
 
 import com.badlogic.gdx.Gdx;
-import it.unisa.theneverendingrun.CollisionManager;
+import it.unisa.theneverendingrun.services.collision.CollisionManager;
 import it.unisa.theneverendingrun.models.Spawnable;
 import it.unisa.theneverendingrun.models.SpawnableTypes;
 import it.unisa.theneverendingrun.models.hero.Hero;
