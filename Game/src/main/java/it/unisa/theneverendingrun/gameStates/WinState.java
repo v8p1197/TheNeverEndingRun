@@ -1,7 +1,8 @@
 package it.unisa.theneverendingrun.gameStates;
 
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.Gdx;
 import it.unisa.theneverendingrun.GameEngine;
+import it.unisa.theneverendingrun.models.background.impls.WinStateBackground;
 
 public class WinState extends EndedState {
 
@@ -10,8 +11,8 @@ public class WinState extends EndedState {
     }
 
     @Override
-    protected Texture computeBackground() {
-        return new Texture("images/falkor.png");
+    protected void createBackground() {
+        background = new WinStateBackground(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
     @Override

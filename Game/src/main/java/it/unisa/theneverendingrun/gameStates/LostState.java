@@ -1,7 +1,8 @@
 package it.unisa.theneverendingrun.gameStates;
 
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.Gdx;
 import it.unisa.theneverendingrun.GameEngine;
+import it.unisa.theneverendingrun.models.background.impls.LostStateBackground;
 
 
 public class LostState extends EndedState {
@@ -11,8 +12,8 @@ public class LostState extends EndedState {
     }
 
     @Override
-    protected Texture computeBackground() {
-        return new Texture("images/gmork.png");
+    protected void createBackground() {
+        background = new LostStateBackground(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
     @Override

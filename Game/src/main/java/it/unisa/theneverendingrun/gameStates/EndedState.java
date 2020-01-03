@@ -1,62 +1,43 @@
 package it.unisa.theneverendingrun.gameStates;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import it.unisa.theneverendingrun.GameEngine;
 import it.unisa.theneverendingrun.assets.Fonts;
-import it.unisa.theneverendingrun.models.Sprite;
 import it.unisa.theneverendingrun.services.score.BestScores;
-import it.unisa.theneverendingrun.services.sounds.SoundManager;
 import it.unisa.theneverendingrun.ui.InteractiveTextButton;
-import org.mini2Dx.core.graphics.Graphics;
 
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * In this state the run is ended (the hero died) and the user can start a new run, go back to the main menu or quit
  */
 public abstract class EndedState extends InfoGameState {
 
-
-    private SoundManager soundManager;
-
     private int score;
 
     public EndedState(GameEngine game, int finalScore) {
         super(game);
         score = finalScore;
-        soundManager = SoundManager.getSoundManager();
     }
 
     @Override
-    public void initialise() {
-        super.initialise();
-        soundManager.setMusic(1);
+    protected GameStateType computeStateType() {
+        return GameStateType.ENDED;
     }
 
-    public void createButtons() {
-        buttons = new ArrayList<>();
-
+    @Override
+    protected List<InteractiveTextButton> defineButtons() {
         var newGameButton = new InteractiveTextButton("NEW GAME", skin, "default", this::onPlay);
         var menuButton = new InteractiveTextButton("MENU", skin, "default", this::onMenu);
         var quitButton = new InteractiveTextButton("QUIT", skin, "default", () -> System.exit(0));
 
-        buttons.add(newGameButton);
-        buttons.add(menuButton);
-        buttons.add(quitButton);
+        return Arrays.asList(newGameButton, menuButton, quitButton);
     }
 
-    private void createTable() {
-        table = new Table();
-        table.setWidth(Gdx.graphics.getWidth());
-        table.align(Align.center | Align.top);
-    }
-
-    private void addButtonsToTable() {
+    @Override
+    protected void addButtonsToTable() {
         table.padTop(30);
         for (var button : buttons) {
             table.add(button).padBottom(30);
@@ -65,25 +46,8 @@ public abstract class EndedState extends InfoGameState {
     }
 
     @Override
-    public void update(float delta) {
-        super.update(delta);
-
-        if (buttons.stream().filter(Button::isChecked).toArray().length == 0) {
-            buttons.get(0).setChecked(true);
-        }
-    }
-
-    @Override
-    public void interpolate(float alpha) { }
-
-    @Override
-    public void render(Graphics g) {
-        spriteBatch.begin();
-
-        background.draw(spriteBatch);
+    protected void drawInfo() {
         drawScores();
-
-        spriteBatch.end();
     }
 
     protected void drawScores() {
@@ -109,11 +73,6 @@ public abstract class EndedState extends InfoGameState {
     protected abstract String computeTitle();
 
     @Override
-    public void keyAction() {
-        ButtonActionHandler.action(buttons);
-    }
-
-    @Override
     public void onMenu() {
         game.changeState(new MenuState(game));
     }
@@ -130,4 +89,6 @@ public abstract class EndedState extends InfoGameState {
     @Override
     public void onHelp() {
     }
+
+
 }
