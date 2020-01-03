@@ -8,7 +8,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import it.unisa.theneverendingrun.GameEngine;
 import it.unisa.theneverendingrun.models.Sprite;
+import it.unisa.theneverendingrun.models.background.impls.MenuBackground;
 import it.unisa.theneverendingrun.services.sounds.SoundManager;
+import it.unisa.theneverendingrun.ui.InteractiveTextButton;
 import org.mini2Dx.core.graphics.Graphics;
 
 import java.util.ArrayList;
@@ -16,7 +18,7 @@ import java.util.ArrayList;
 /**
  * In this state the game displays the main menu, from which the user can start a run, open the help menu or quit
  */
-public class MenuState extends GameState {
+public class MenuState extends InfoGameState {
 
     private Sprite background;
 
@@ -43,7 +45,7 @@ public class MenuState extends GameState {
     }
 
     private void createTableButtons() {
-        skin = new Skin(Gdx.files.internal("menu.json"));
+        skin = new Skin(Gdx.files.internal("arcade.json"));
         createButtons();
         createTable();
         addButtonsToTable();
@@ -77,14 +79,8 @@ public class MenuState extends GameState {
     }
 
     private void createBackground() {
-        var texture = computeBackground();
-        background = new Sprite(texture);
-        background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        background = new MenuBackground(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         background.flip(false, true);
-    }
-
-    private Texture computeBackground() {
-        return new Texture("images/menu.jpg");
     }
 
     @Override

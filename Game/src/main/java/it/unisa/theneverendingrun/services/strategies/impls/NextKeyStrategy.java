@@ -1,12 +1,15 @@
-package it.unisa.theneverendingrun.gameStates;
+package it.unisa.theneverendingrun.services.strategies.impls;
+
+import it.unisa.theneverendingrun.services.strategies.KeyStrategy;
 
 /**
- * This Strategy defines how to visit a collection of items when the DOWN (or S) key is pressed
+ * This Strategy defines how to visit a collection of items when the (ex. DOWN (or S)) key is pressed
  */
-public class NextKeyButtonsStrategy implements KeyButtonsStrategy {
+public class NextKeyStrategy implements KeyStrategy {
 
     /**
-     * Computes the first index to visit on a collection of dimension {@code} when the DOWN (or S) key is pressed
+     * Computes the first index to visit on a collection of dimension {@code size}
+     * when the (ex. DOWN (or S)) key is pressed
      *
      * @param size the dimension of the collection to visit
      * @return the first index in the collection
@@ -17,7 +20,8 @@ public class NextKeyButtonsStrategy implements KeyButtonsStrategy {
     }
 
     /**
-     * Computes the next index to visit on a collection of dimension {@code} when the DOWN (or S) key is pressed
+     * Computes the next index to visit on a collection of dimension {@code size}
+     * when the (ex. DOWN (or S)) key is pressed
      *
      * @param i    the last index visited
      * @param size the dimension of the collection to visit

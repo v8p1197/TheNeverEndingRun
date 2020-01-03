@@ -11,6 +11,7 @@ import it.unisa.theneverendingrun.assets.Fonts;
 import it.unisa.theneverendingrun.models.Sprite;
 import it.unisa.theneverendingrun.services.score.BestScores;
 import it.unisa.theneverendingrun.services.sounds.SoundManager;
+import it.unisa.theneverendingrun.ui.InteractiveTextButton;
 import org.mini2Dx.core.graphics.Graphics;
 
 import java.util.ArrayList;
@@ -18,14 +19,9 @@ import java.util.ArrayList;
 /**
  * In this state the run is ended (the hero died) and the user can start a new run, go back to the main menu or quit
  */
-public abstract class EndedState extends GameState {
+public abstract class EndedState extends InfoGameState {
 
-    private Sprite background;
 
-    protected Skin skin;
-
-    private Table table;
-    private ArrayList<InteractiveTextButton> buttons;
     private SoundManager soundManager;
 
     private int score;
@@ -39,31 +35,10 @@ public abstract class EndedState extends GameState {
     @Override
     public void initialise() {
         super.initialise();
-
-        createBackground();
-
-        createTableButtons();
-
         soundManager.setMusic(1);
     }
 
-    private void createBackground() {
-        var texture = computeBackground();
-        background = new Sprite(texture);
-        background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        background.flip(false, true);
-    }
-
-    protected abstract Texture computeBackground();
-
-    private void createTableButtons() {
-        skin = new Skin(Gdx.files.internal("arcade.json"));
-        createButtons();
-        createTable();
-        addButtonsToTable();
-    }
-
-    private void createButtons() {
+    public void createButtons() {
         buttons = new ArrayList<>();
 
         var newGameButton = new InteractiveTextButton("NEW GAME", skin, "default", this::onPlay);

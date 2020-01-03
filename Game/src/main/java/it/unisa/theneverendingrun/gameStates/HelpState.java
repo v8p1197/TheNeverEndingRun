@@ -8,16 +8,22 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import it.unisa.theneverendingrun.GameEngine;
 import it.unisa.theneverendingrun.models.Sprite;
+import it.unisa.theneverendingrun.models.background.AbstractBackground;
+import it.unisa.theneverendingrun.models.background.impls.HelpBackground;
 import it.unisa.theneverendingrun.services.sounds.SoundManager;
+import it.unisa.theneverendingrun.ui.InteractiveTextButton;
 import org.mini2Dx.core.graphics.Graphics;
 
 import java.util.ArrayList;
 
 /**
- * In this state the rules of the game are displayed on screen. The user can go back to the menu, start a new run or quit
+ *
+ * In this state the rules of the game are displayed on screen.
+ * The user can go back to the menu, start a new run or quit
  */
-public class HelpState extends GameState {
-    private Sprite background;
+public class HelpState extends InfoGameState {
+
+    private AbstractBackground background;
 
     protected Skin skin;
 
@@ -34,7 +40,8 @@ public class HelpState extends GameState {
     public void initialise() {
         super.initialise();
 
-        createBackground();
+        background = new HelpBackground(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        background.flip(false, true);
 
         createTableButtons();
         soundManager = SoundManager.getSoundManager();
@@ -42,7 +49,7 @@ public class HelpState extends GameState {
     }
 
     private void createTableButtons() {
-        skin = new Skin(Gdx.files.internal("menu.json"));
+        skin = new Skin(Gdx.files.internal("arcade.json"));
         createButtons();
         createTable();
         addButtonsToTable();
@@ -71,17 +78,6 @@ public class HelpState extends GameState {
             table.add(button).padBottom(40);
             table.row();
         }
-    }
-
-    private void createBackground() {
-        var texture = computeBackground();
-        background = new Sprite(texture);
-        background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        background.flip(false, true);
-    }
-
-    private Texture computeBackground() {
-        return new Texture("images/help.jpg");
     }
 
     @Override

@@ -6,6 +6,7 @@ import it.unisa.theneverendingrun.InputHandler;
 import org.mini2Dx.core.graphics.Graphics;
 
 /**
+ *
  * This class represent the state the game is in. The possible states are:
  * Menu, Play, Ended, Help
  */
@@ -38,4 +39,5 @@ public abstract class GameState implements InputHandler {
     public abstract void onEnded();
 
     public abstract void onHelp();
+
 }

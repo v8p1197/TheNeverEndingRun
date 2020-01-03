@@ -1,12 +1,15 @@
-package it.unisa.theneverendingrun.gameStates;
+package it.unisa.theneverendingrun.services.strategies.impls;
+
+import it.unisa.theneverendingrun.services.strategies.KeyStrategy;
 
 /**
- * This Strategy defines how to visit a collection of items when the UP (or W) is pressed
+ * This Strategy defines how to visit a collection of items when the (ex. UP (or W)) is pressed
  */
-public class PreviousKeyButtonsStrategy implements KeyButtonsStrategy {
+public class PreviousKeyStrategy implements KeyStrategy {
 
     /**
-     * Computes the first index to visit on a collection of dimension {@code} when the UP (or W) is pressed
+     * Computes the first index to visit on a collection of dimension {@code size}
+     * when the (ex. UP (or W)) is pressed
      *
      * @param size the dimension of the collection to visit
      * @return the previous index in the collection
@@ -17,7 +20,8 @@ public class PreviousKeyButtonsStrategy implements KeyButtonsStrategy {
     }
 
     /**
-     * Computes the next index to visit on a collection of dimension {@code} when the UP (or W) is pressed
+     * Computes the next index to visit on a collection of dimension {@code size}
+     * when the (ex. UP (or W)) is pressed
      *
      * @param i    the last index visited
      * @param size the dimension of the collection to visit

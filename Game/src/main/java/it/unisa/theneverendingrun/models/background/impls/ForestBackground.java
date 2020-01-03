@@ -3,6 +3,7 @@ package it.unisa.theneverendingrun.models.background.impls;
 import com.badlogic.gdx.graphics.Texture;
 import it.unisa.theneverendingrun.models.Sprite;
 import it.unisa.theneverendingrun.models.background.AbstractBackground;
+import it.unisa.theneverendingrun.models.background.AbstractScrollingBackground;
 
 import static com.badlogic.gdx.graphics.Texture.TextureWrap.MirroredRepeat;
 import static com.badlogic.gdx.graphics.Texture.TextureWrap.Repeat;
@@ -12,7 +13,7 @@ import static com.badlogic.gdx.graphics.Texture.TextureWrap.Repeat;
  * An implementation of the {@link AbstractBackground} class that uses predefined parameters for
  * background creation and scrolling.
  */
-public class ForestBackground extends AbstractBackground {
+public class ForestBackground extends AbstractScrollingBackground {
 
     private static final Texture texture = new Texture("images/forest/backgrounds/background_1.png");
 
@@ -38,7 +39,7 @@ public class ForestBackground extends AbstractBackground {
 
     /**
      *
-     * @see AbstractBackground#AbstractBackground(Texture, int, int, int, int, float, float, float)
+     * @see AbstractScrollingBackground#AbstractScrollingBackground(Texture, int, int, int, int, float, float, float)
      *
      * The forest background is small. We need the screen size for the width and height
      *

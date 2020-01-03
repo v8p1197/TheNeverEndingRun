@@ -75,7 +75,7 @@ public class Fonts {
         parameter.magFilter = Texture.TextureFilter.Linear;
         parameter.minFilter = Texture.TextureFilter.Linear;
 
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("ARCADE_N.ttf"));
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/ARCADE_N.ttf"));
 
         var font = generator.generateFont(parameter);
         font.setUseIntegerPositions(false);

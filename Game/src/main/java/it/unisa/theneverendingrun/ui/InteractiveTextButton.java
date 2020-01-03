@@ -1,4 +1,4 @@
-package it.unisa.theneverendingrun.gameStates;
+package it.unisa.theneverendingrun.ui;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -13,6 +13,6 @@ public class InteractiveTextButton extends TextButton {
     }
 
     public void click() {
-        action.act();
+        action.apply();
     }
 }
