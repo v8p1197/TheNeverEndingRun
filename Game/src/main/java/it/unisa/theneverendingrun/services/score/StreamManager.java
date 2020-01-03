@@ -1,4 +1,4 @@
-package it.unisa.theneverendingrun.services.persistence;
+package it.unisa.theneverendingrun.services.score;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
