@@ -1,6 +1,6 @@
 package it.unisa.theneverendingrun.utilities;
 
-public class MathUtils {
+public final class MathUtils {
 
     public static final double DELTA = 1e-4;
 
