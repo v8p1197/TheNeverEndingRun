@@ -1,7 +1,7 @@
-package it.unisa.theneverendingrun.gameStates;
+package it.unisa.theneverendingrun.engine.state;
 
 import com.badlogic.gdx.Gdx;
-import it.unisa.theneverendingrun.GameEngine;
+import it.unisa.theneverendingrun.engine.GameEngine;
 import it.unisa.theneverendingrun.models.background.impls.LostStateBackground;
 
 

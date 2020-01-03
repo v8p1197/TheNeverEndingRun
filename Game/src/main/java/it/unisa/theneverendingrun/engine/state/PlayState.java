@@ -1,19 +1,24 @@
-package it.unisa.theneverendingrun.gameStates;
+package it.unisa.theneverendingrun.engine.state;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import it.unisa.theneverendingrun.CollisionManager;
-import it.unisa.theneverendingrun.GameEngine;
 import it.unisa.theneverendingrun.assets.Fonts;
+import it.unisa.theneverendingrun.engine.GameEngine;
+import it.unisa.theneverendingrun.engine.GameState;
 import it.unisa.theneverendingrun.metersManager.MetersManagerFactory;
 import it.unisa.theneverendingrun.models.Spawnable;
+import it.unisa.theneverendingrun.models.Sprite;
+import it.unisa.theneverendingrun.models.background.AbstractBackground;
 import it.unisa.theneverendingrun.models.background.AbstractScrollingBackground;
 import it.unisa.theneverendingrun.models.enemy.AbstractEnemy;
+import it.unisa.theneverendingrun.models.hero.AbstractHero;
 import it.unisa.theneverendingrun.models.hero.Hero;
 import it.unisa.theneverendingrun.obstaclesManager.SpawnableManager;
 import it.unisa.theneverendingrun.services.ForestFactory;
-import it.unisa.theneverendingrun.services.GameFactory;
+import it.unisa.theneverendingrun.services.factories.GameFactory;
+import it.unisa.theneverendingrun.services.factories.impls.ForestFactory;
 import it.unisa.theneverendingrun.services.sounds.SoundManager;
 import it.unisa.theneverendingrun.streamManager.BestScores;
 import it.unisa.theneverendingrun.streamManager.FileStreamFactory;
@@ -28,20 +33,19 @@ import java.util.LinkedList;
 public class PlayState extends GameState {
 
     private static final String FILENAME = "best_scores.dat";
-    private SoundManager soundManager;
 
     private Stage stage;
 
     private GameFactory gameFactory;
-    private Hero hero;
-    private AbstractScrollingBackground background;
+    private AbstractHero hero;
+    private AbstractBackground background;
 
-    private LinkedList<Spawnable> spawnableLinkedList;
-    private SpawnableManager spawnableManager;
+    private LinkedList<Sprite> spawnableLinkedList;
+   // private SpawnableManager spawnableManager;
 
-    private MetersManagerFactory metersManagerFactory;
-    private StreamManager streamManager;
-    private BestScores bestScores;
+    //private MetersManagerFactory metersManagerFactory;
+    //private StreamManager streamManager;
+    //private BestScores bestScores;
 
     private boolean paused;
 
@@ -55,22 +59,23 @@ public class PlayState extends GameState {
         // Gdx.input.setInputProcessor(stage);
         super.initialise();
 
-        gameFactory = new ForestFactory();
+        gameFactory = new ForestFactory(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         background = gameFactory.createBackground();
         hero = gameFactory.createHero();
 
-        metersManagerFactory = new MetersManagerFactory();
+        /*metersManagerFactory = new MetersManagerFactory();
 
         CollisionManager.wasOnObstacle.clear();
 
-        spawnableManager = new SpawnableManager();
+        spawnableManager = new SpawnableManager();*/
         spawnableLinkedList = new LinkedList<>();
 
-        streamManager = new StreamManager(new FileStreamFactory(FILENAME));
+
+       /* streamManager = new StreamManager(new FileStreamFactory(FILENAME));
         bestScores = streamManager.loadBestScores();
 
         soundManager = SoundManager.getSoundManager();
-        soundManager.setMusic(0);
+        soundManager.setMusic(0);*/
 
         initPause();
     }
@@ -81,27 +86,28 @@ public class PlayState extends GameState {
         if (!paused) {
             super.update(delta);
 
-            background.scroll();
+            if (background instanceof AbstractScrollingBackground)
+                ((AbstractScrollingBackground) background).scroll();
 
             if (!hero.isXAxisVisible(Gdx.graphics.getWidth())) {
                 hero.die();
             }
 
-            metersManagerFactory.computeMeters();
+           // metersManagerFactory.computeMeters();
             computeBestScores();
             // TODO delete
-            spawnableManager.setSpawnProbability(metersManagerFactory.getSpawnProbability());
+           // spawnableManager.setSpawnProbability(metersManagerFactory.getSpawnProbability());
 
             //stateTime += Gdx.graphics.getDeltaTime(); // Accumulate elapsed animation time
-            hero.updateDelta(Gdx.graphics.getDeltaTime());
+            hero.setStateTime(Gdx.graphics.getDeltaTime());
             hero.move();
 
-            Spawnable newObstacle = spawnableManager.generateNewObstacle();
+//            Spawnable newObstacle = spawnableManager.generateNewObstacle();
 
-            if (newObstacle != null)
+  /*          if (newObstacle != null)
                 spawnableLinkedList.add(newObstacle);
             spawnableManager.clearOldObstacles(spawnableLinkedList);
-
+*/
             moveAllObjects();
 
             animateCharacters();
@@ -118,30 +124,31 @@ public class PlayState extends GameState {
     }
 
     private boolean computeBestScores() {
-        var currentFinalScore = metersManagerFactory.getScore();
+        return false;
+     /*   var currentFinalScore = metersManagerFactory.getScore();
         var currentFinalMeters = metersManagerFactory.getMeters();
 
         bestScores.setHighScore(Math.max(bestScores.getHighScore(), currentFinalScore));
         bestScores.setLongestRun(Math.max(bestScores.getLongestRun(), currentFinalMeters));
 
-        return currentFinalScore == bestScores.getHighScore();
+        return currentFinalScore == bestScores.getHighScore();*/
     }
 
     private void moveAllObjects() {
-        hero.setX(hero.getX() - metersManagerFactory.getSpeed());
+       /* hero.setX(hero.getX() - metersManagerFactory.getSpeed());
 
         for (var obstacle : spawnableLinkedList)
-            obstacle.setX(obstacle.getX() - 3 * metersManagerFactory.getSpeed());
+            obstacle.setX(obstacle.getX() - 3 * metersManagerFactory.getSpeed());*/
     }
 
     private void animateCharacters() {
-        for (Spawnable enemy : spawnableLinkedList) {
+       /* for (Spawnable enemy : spawnableLinkedList) {
             if (enemy instanceof AbstractEnemy) {
                 var animator = ((AbstractEnemy) enemy).getAnimator();
                 animator.updateImageFrame((AbstractEnemy) enemy);
                 animator.updateStateTime(Gdx.graphics.getDeltaTime());
             }
-        }
+        }*/
     }
 
     private void preUpdateCollisionBoxes() {
@@ -151,8 +158,8 @@ public class PlayState extends GameState {
     }
 
     private void checkCollisions() {
-        for (var obstacle : spawnableLinkedList)
-            CollisionManager.checkCollision(hero, obstacle);
+        /*for (var obstacle : spawnableLinkedList)
+            CollisionManager.checkCollision(hero, obstacle);*/
     }
 
     @Override
@@ -182,11 +189,12 @@ public class PlayState extends GameState {
     public void keyAction() {
         if (Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             hero.getFacingState().onRight();
+            hero.getMoveState().onRun();
 
-            if (hero.getX() < hero.getGroundX())
+           /* if (hero.getX() < hero.getGroundX())
                 hero.setDx(metersManagerFactory.getSpeed() * 2f);
             else
-                hero.setDx(metersManagerFactory.getSpeed());
+                hero.setDx(metersManagerFactory.getSpeed());*/
         } else
             hero.setDx(0);
 
@@ -196,7 +204,9 @@ public class PlayState extends GameState {
 
         if (Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
             hero.getFacingState().onLeft();
-            hero.setDx(metersManagerFactory.getSpeed());
+            hero.getMoveState().onRun();
+
+           // hero.setDx(metersManagerFactory.getSpeed());
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.S) || Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
@@ -216,7 +226,7 @@ public class PlayState extends GameState {
 
     @Override
     public void onEnded() {
-        streamManager.saveBestScores(bestScores);
+/*        streamManager.saveBestScores(bestScores);
 
         var finalScore = metersManagerFactory.getScore();
 
@@ -225,11 +235,16 @@ public class PlayState extends GameState {
         if (newHighScore)
             game.changeState(new WinState(game, finalScore));
         else
-            game.changeState(new LostState(game, finalScore));
+            game.changeState(new LostState(game, finalScore));*/
     }
 
     @Override
     public void onHelp() {
+    }
+
+    @Override
+    public void onPause() {
+        game.changeState(new PauseState());
     }
 
     private void drawObstacles() {
@@ -249,7 +264,7 @@ public class PlayState extends GameState {
         var xPosMeter = Gdx.graphics.getWidth() * 0.03f;
         var yPos = Gdx.graphics.getHeight() * 0.95f;
 
-        var meter_offset = Fonts.meterFont.draw(spriteBatch, "METERS: " + metersManagerFactory.getMeters(),
+      /*  var meter_offset = Fonts.meterFont.draw(spriteBatch, "METERS: " + metersManagerFactory.getMeters(),
                 xPosMeter, yPos);
         var longestRunOffset = Fonts.meterFont.draw(spriteBatch, "LONGEST RUN: " + bestScores.getLongestRun(),
                 xPosMeter, yPos - (meter_offset.height * 1.5f));
@@ -259,7 +274,7 @@ public class PlayState extends GameState {
         var score_offset = Fonts.scoreFont.draw(spriteBatch, "SCORE: " + metersManagerFactory.getScore(),
                 xPosScore, yPos);
         Fonts.scoreFont.draw(spriteBatch, "HIGH SCORE: " + bestScores.getHighScore(),
-                xPosScore, yPos - (score_offset.height * 1.5f));
+                xPosScore, yPos - (score_offset.height * 1.5f));*/
     }
 
     private void initPause() {
@@ -269,10 +284,10 @@ public class PlayState extends GameState {
     public void controlPause() {
         if (Gdx.input.isKeyJustPressed(Input.Keys.P) || Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             paused = !paused;
-            if (paused)
+            /*if (paused)
                 soundManager.onPause();
             else
-                soundManager.resumeMusic();
+                soundManager.resumeMusic();*/
         }
     }
 

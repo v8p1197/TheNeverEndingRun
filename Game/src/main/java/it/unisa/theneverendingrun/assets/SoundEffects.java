@@ -2,7 +2,7 @@ package it.unisa.theneverendingrun.assets;
 
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
-import it.unisa.theneverendingrun.gameStates.GameStateType;
+import it.unisa.theneverendingrun.engine.GameStateType;
 import it.unisa.theneverendingrun.models.hero.HeroStateType;
 
 import java.util.Arrays;

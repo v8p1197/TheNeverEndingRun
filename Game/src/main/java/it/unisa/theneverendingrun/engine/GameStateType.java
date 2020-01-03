@@ -1,4 +1,4 @@
-package it.unisa.theneverendingrun.gameStates;
+package it.unisa.theneverendingrun.engine;
 
 import com.badlogic.gdx.audio.Music;
 import it.unisa.theneverendingrun.utilities.SoundEffectsUtils;

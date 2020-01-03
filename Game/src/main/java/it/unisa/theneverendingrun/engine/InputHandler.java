@@ -1,4 +1,4 @@
-package it.unisa.theneverendingrun;
+package it.unisa.theneverendingrun.engine;
 
 public interface InputHandler {
 

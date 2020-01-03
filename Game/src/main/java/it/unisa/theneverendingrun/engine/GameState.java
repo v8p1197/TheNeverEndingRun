@@ -1,9 +1,7 @@
-package it.unisa.theneverendingrun.gameStates;
+package it.unisa.theneverendingrun.engine;
 
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import it.unisa.theneverendingrun.GameEngine;
-import it.unisa.theneverendingrun.InputHandler;
 import it.unisa.theneverendingrun.assets.SoundEffects;
 import org.mini2Dx.core.graphics.Graphics;
 

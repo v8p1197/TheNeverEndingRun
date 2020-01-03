@@ -1,9 +1,10 @@
-package it.unisa.theneverendingrun.gameStates;
+package it.unisa.theneverendingrun.engine.state;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Align;
-import it.unisa.theneverendingrun.GameEngine;
+import it.unisa.theneverendingrun.engine.GameEngine;
 import it.unisa.theneverendingrun.assets.Fonts;
+import it.unisa.theneverendingrun.engine.GameStateType;
 import it.unisa.theneverendingrun.services.score.BestScores;
 import it.unisa.theneverendingrun.ui.InteractiveTextButton;
 

@@ -1,46 +1,48 @@
-package it.unisa.theneverendingrun.gameStates;
+package it.unisa.theneverendingrun.engine.state;
 
 import com.badlogic.gdx.Gdx;
-import it.unisa.theneverendingrun.GameEngine;
-import it.unisa.theneverendingrun.models.background.impls.MenuStateBackground;
+import it.unisa.theneverendingrun.engine.GameEngine;
+import it.unisa.theneverendingrun.engine.GameStateType;
+import it.unisa.theneverendingrun.models.background.impls.HelpStateBackground;
 import it.unisa.theneverendingrun.ui.InteractiveTextButton;
 
 import java.util.Arrays;
 import java.util.List;
 
 /**
- * In this state the game displays the main menu, from which the user can start a run, open the help menu or quit
+ *
+ * In this state the rules of the game are displayed on screen.
+ * The user can go back to the menu, start a new run or quit
  */
-public class MenuState extends InfoGameState {
+public class HelpState extends InfoGameState {
 
-    public MenuState(GameEngine game) {
+    public HelpState(GameEngine game) {
         super(game);
     }
 
     @Override
     protected GameStateType computeStateType() {
-        return GameStateType.MENU;
+        return GameStateType.HELP;
     }
 
     @Override
     protected void createBackground() {
-        background = new MenuStateBackground(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        background = new HelpStateBackground(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
     @Override
     protected void createTable() {
         super.createTable();
 
-        table.setPosition(0, Gdx.graphics.getHeight() * 0.6f);
+        table.setPosition(0, Gdx.graphics.getHeight() * 0.4f);
     }
 
     @Override
     protected List<InteractiveTextButton> defineButtons() {
         var newGameButton = new InteractiveTextButton("NEW GAME", skin, "default", this::onPlay);
-        var helpButton = new InteractiveTextButton("HELP", skin, "default", this::onHelp);
-        var quitButton = new InteractiveTextButton("QUIT", skin, "default", () -> System.exit(0));
+        var helpButton = new InteractiveTextButton("MENU", skin, "default", this::onMenu);
 
-        return Arrays.asList(newGameButton, helpButton, quitButton);
+        return Arrays.asList(newGameButton, helpButton);
     }
 
     @Override
@@ -54,6 +56,7 @@ public class MenuState extends InfoGameState {
 
     @Override
     public void onMenu() {
+        game.changeState(new MenuState(game));
     }
 
     @Override
@@ -67,6 +70,5 @@ public class MenuState extends InfoGameState {
 
     @Override
     public void onHelp() {
-        game.changeState(new HelpState(game));
     }
 }

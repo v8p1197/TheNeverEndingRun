@@ -3,6 +3,7 @@ package it.unisa.theneverendingrun.services.factories.impls;
 import it.unisa.theneverendingrun.models.Sprite;
 import it.unisa.theneverendingrun.models.SpriteType;
 import it.unisa.theneverendingrun.models.background.AbstractBackground;
+import it.unisa.theneverendingrun.models.background.AbstractScrollingBackground;
 import it.unisa.theneverendingrun.models.background.impls.PlayStateBackground;
 import it.unisa.theneverendingrun.models.hero.AbstractHero;
 import it.unisa.theneverendingrun.models.hero.impls.ForestHero;
@@ -25,7 +26,7 @@ public class ForestFactory implements GameFactory {
     }
 
     @Override
-    public AbstractBackground createBackground() {
+    public AbstractScrollingBackground createBackground() {
         return new PlayStateBackground(screenWidth, screenHeight);
     }
 

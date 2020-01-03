@@ -1,7 +1,7 @@
-package it.unisa.theneverendingrun;
+package it.unisa.theneverendingrun.engine;
 
-import it.unisa.theneverendingrun.gameStates.GameState;
-import it.unisa.theneverendingrun.gameStates.MenuState;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import it.unisa.theneverendingrun.engine.state.MenuState;
 import org.mini2Dx.core.game.BasicGame;
 import org.mini2Dx.core.graphics.Graphics;
 
@@ -9,7 +9,7 @@ import org.mini2Dx.core.graphics.Graphics;
 // TODO implements ScoreListener and MetersListener
 public class GameEngine extends BasicGame {
 
-    static final String GAME_IDENTIFIER = "it.unisa.theneverendingrun";
+    public static final String GAME_IDENTIFIER = "it.unisa.theneverendingrun";
 
     private GameState state;
 
