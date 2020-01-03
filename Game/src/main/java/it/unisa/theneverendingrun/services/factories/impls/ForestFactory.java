@@ -1,18 +1,18 @@
 package it.unisa.theneverendingrun.services.factories.impls;
 
-import it.unisa.theneverendingrun.data.SpawnableType;
-import it.unisa.theneverendingrun.models.spawnables.Spawnable;
+import it.unisa.theneverendingrun.models.Sprite;
+import it.unisa.theneverendingrun.models.SpriteType;
 import it.unisa.theneverendingrun.models.background.AbstractBackground;
 import it.unisa.theneverendingrun.models.background.impls.ForestBackground;
 import it.unisa.theneverendingrun.models.hero.impls.ForestHero;
-import it.unisa.theneverendingrun.models.hero.Hero;
+import it.unisa.theneverendingrun.models.hero.AbstractHero;
 import it.unisa.theneverendingrun.services.factories.GameFactory;
-import it.unisa.theneverendingrun.services.factories.SpawnableFactory;
+import it.unisa.theneverendingrun.services.factories.SpriteFactory;
 
 public class ForestFactory implements GameFactory {
 
-    private SpawnableFactory obstacleFactory;
-    private SpawnableFactory enemyFactory;
+    private SpriteFactory obstacleFactory;
+    private SpriteFactory enemyFactory;
     private int screenWidth;
     private int screenHeight;
 
@@ -31,31 +31,31 @@ public class ForestFactory implements GameFactory {
 
 
     @Override
-    public Hero createHero() {
+    public AbstractHero createHero() {
         var hero = new ForestHero(ForestBackground.BASE_X * screenWidth, ForestBackground.BASE_Y * screenHeight);
         hero.flip(false, true);
         return hero;
     }
 
     @Override
-    public Spawnable createObstacle(SpawnableType obstacleType, float jumpHeight, float slideDistance) {
-        return createSpawnable(obstacleFactory, obstacleType, jumpHeight, slideDistance);
+    public Sprite createObstacle(SpriteType spriteType, float maxHeight, float maxWidth) {
+        return createSprite(obstacleFactory, spriteType, maxHeight, maxWidth);
     }
 
     @Override
-    public Spawnable createEnemy(SpawnableType enemyType, float jumpHeight, float slideDistance) {
-       return createSpawnable(enemyFactory, enemyType, jumpHeight, slideDistance);
+    public Sprite createEnemy(SpriteType spriteType, float maxHeight, float maxWidth) {
+       return createSprite(enemyFactory, spriteType, maxHeight, maxWidth);
     }
 
 
 
-    private Spawnable createSpawnable(SpawnableFactory spawnableFactory, SpawnableType spawnableType, float jumpHeight, float slideDistance) {
-        switch (spawnableType) {
-            case JUMPABLE: return spawnableFactory.createJumpableSpawnable(jumpHeight, slideDistance);
-            case SLIDABLE: return spawnableFactory.createSlidableSpawnable(jumpHeight, slideDistance);
-            case JUMPABLE_SLIDABLE: return spawnableFactory.createJumpableSlideableSpawnable(jumpHeight, slideDistance);
+    private Sprite createSprite(SpriteFactory spriteFactory, SpriteType spriteType, float maxHeight, float maxWidth) {
+        switch (spriteType) {
+            case JUMPABLE: return spriteFactory.createJumpableSprite(maxHeight);
+            case SLIDABLE: return spriteFactory.createSlidableSprite(maxWidth);
+            case JUMPABLE_SLIDABLE: return spriteFactory.createJumpableSlideableSprite(maxHeight, maxWidth);
         }
 
-        throw new IllegalArgumentException("Enemy type is not valid");
+        throw new IllegalArgumentException("Sprite type is not valid");
     }
 }

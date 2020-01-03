@@ -1,4 +1,4 @@
-package it.unisa.theneverendingrun.data;
+package it.unisa.theneverendingrun.services.factories.impls;
 
 public enum EnemyFrameType {
     WOLF(true),
