@@ -6,19 +6,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
-public class Fonts {
+public final class Fonts {
 
-    public static BitmapFont scoreFont;
-    public static BitmapFont meterFont;
-    public static BitmapFont endScreenTitleFont;
-    public static BitmapFont endScreenScoreFont;
-
-    static void load() {
-        scoreFont = loadScoreFont();
-        meterFont = loadMeterFont();
-        endScreenTitleFont = loadEndScreenTitleFont();
-        endScreenScoreFont = loadEndScreenScoreFont();
-    }
+    public static final BitmapFont scoreFont = loadScoreFont();
+    public static final BitmapFont meterFont = loadMeterFont();
+    public static final BitmapFont endScreenTitleFont = loadEndScreenTitleFont();
+    public static final BitmapFont endScreenScoreFont = loadEndScreenScoreFont();
 
     private static BitmapFont loadEndScreenScoreFont() {
         //Generate a font object for font.ttf at size 40px

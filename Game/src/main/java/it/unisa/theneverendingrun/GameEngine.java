@@ -1,7 +1,5 @@
 package it.unisa.theneverendingrun;
 
-import it.unisa.theneverendingrun.assets.Assets;
-import it.unisa.theneverendingrun.assets.Fonts;
 import it.unisa.theneverendingrun.gameStates.GameState;
 import it.unisa.theneverendingrun.gameStates.MenuState;
 import org.mini2Dx.core.game.BasicGame;
@@ -26,7 +24,6 @@ public class GameEngine extends BasicGame {
 
     @Override
     public void initialise() {
-        Assets.load();
         changeState(new MenuState(this));
     }
 
