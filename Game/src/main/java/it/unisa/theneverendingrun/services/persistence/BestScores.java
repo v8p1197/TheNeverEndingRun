@@ -1,4 +1,4 @@
-package it.unisa.theneverendingrun.streamManager;
+package it.unisa.theneverendingrun.services.persistence;
 
 /**
  * This class is delegated for saving the game best scores, i.e. the highest score in points and the longest run in meters

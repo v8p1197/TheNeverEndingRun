@@ -1,4 +1,4 @@
-package it.unisa.theneverendingrun.streamManager;
+package it.unisa.theneverendingrun.services.persistence;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
