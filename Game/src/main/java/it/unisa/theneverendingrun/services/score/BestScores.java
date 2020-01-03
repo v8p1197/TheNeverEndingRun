@@ -18,7 +18,7 @@ public class BestScores {
     private BestScores() { }
 
     private static class BestScoresHolder {
-        public static final BestScores instance = new BestScores();
+        static final BestScores instance = new BestScores();
     }
 
     public static BestScores getInstance() {
