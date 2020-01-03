@@ -1,4 +1,4 @@
-package it.unisa.theneverendingrun;
+package it.unisa.theneverendingrun.services.collision;
 
 import it.unisa.theneverendingrun.models.Spawnable;
 import it.unisa.theneverendingrun.models.hero.Hero;
