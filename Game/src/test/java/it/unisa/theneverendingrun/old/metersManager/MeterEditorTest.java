@@ -1,6 +1,8 @@
-package it.unisa.theneverendingrun.metersManager;
+package it.unisa.theneverendingrun.old.metersManager;
 
 import de.tomgrill.gdxtesting.GdxTestRunner;
+import it.unisa.theneverendingrun.MetersManagerFactory;
+import it.unisa.theneverendingrun.services.meters.MeterEditor;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

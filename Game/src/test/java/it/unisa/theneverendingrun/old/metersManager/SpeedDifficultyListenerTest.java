@@ -1,15 +1,14 @@
-package it.unisa.theneverendingrun.metersManager;
+package it.unisa.theneverendingrun.old.metersManager;
 
 import de.tomgrill.gdxtesting.GdxTestRunner;
-import org.junit.Assert;
+import it.unisa.theneverendingrun.MetersManagerFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.Random;
 
-
 @RunWith(GdxTestRunner.class)
-public class DifficultyMeterListenerTest {
+public class SpeedDifficultyListenerTest {
     private MetersManagerFactory factory = new MetersManagerFactory();
 
     @Test
@@ -18,7 +17,9 @@ public class DifficultyMeterListenerTest {
 
         for (int i = 0; i < steps; i++) {
             factory.computeMeters();
-            Assert.assertEquals((int) (factory.getMeters() / factory.getMetersDelta()) + factory.getDifficultyFactor(), factory.getDifficulty());
+            /*Assert.assertEquals(factory.getInitialSpeed() +
+                    factory.getSpeedFactor() *
+                            (factory.getDifficulty() - factory.getInitialDifficulty()), factory.getSpeed(), 0.0);*/
         }
     }
 }

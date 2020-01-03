@@ -1,4 +1,4 @@
-/*package it.unisa.theneverendingrun.obstaclesManager;
+/*package it.unisa.theneverendingrun.old.obstaclesManager;
 
 import de.tomgrill.gdxtesting.GdxTestRunner;
 import it.unisa.theneverendingrun.models.obstacles.AbstractObstacle;
