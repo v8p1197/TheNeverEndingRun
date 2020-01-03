@@ -3,7 +3,7 @@ package it.unisa.theneverendingrun.gameStates;
 /**
  * This Strategy defines how to visit a collection of items when the UP (or W) is pressed
  */
-public class KeyUpButtonsStrategy implements KeyButtonsStrategy {
+public class PreviousKeyButtonsStrategy implements KeyButtonsStrategy {
 
     /**
      * Computes the first index to visit on a collection of dimension {@code} when the UP (or W) is pressed

@@ -3,7 +3,7 @@ package it.unisa.theneverendingrun.gameStates;
 /**
  * This Strategy defines how to visit a collection of items when the DOWN (or S) key is pressed
  */
-public class KeyDownButtonsStrategy implements KeyButtonsStrategy {
+public class NextKeyButtonsStrategy implements KeyButtonsStrategy {
 
     /**
      * Computes the first index to visit on a collection of dimension {@code} when the DOWN (or S) key is pressed
