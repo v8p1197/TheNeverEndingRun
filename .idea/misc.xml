@@ -4,6 +4,9 @@
   <component name="JavaScriptSettings">
     <option name="languageLevel" value="ES6" />
   </component>
+  <component name="LibGDXGdxJsonFiles">
+    <file url="file://$PROJECT_DIR$/Game/src/main/resources/arcade.json" />
+  </component>
   <component name="LibGDXPluginSettings">
     <option name="neverAskAboutSkinFiles" value="true" />
   </component>

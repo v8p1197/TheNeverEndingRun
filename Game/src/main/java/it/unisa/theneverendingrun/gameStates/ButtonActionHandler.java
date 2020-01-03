@@ -8,16 +8,16 @@ import java.util.ArrayList;
 
 public class ButtonActionHandler {
 
-    public static void action(ArrayList<InteractiveTextButton> buttons, KeyButtonsStrategy strategy) {
+    public static void action(ArrayList<InteractiveTextButton> buttons) {
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN) || Gdx.input.isKeyJustPressed(Input.Keys.S)) {
-            strategy = new KeyDownButtonsStrategy();
-            checkNextButton(strategy, buttons);
+            var strategy = new NextKeyButtonsStrategy();
+            checkNextButton(buttons, strategy);
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.UP) || Gdx.input.isKeyJustPressed(Input.Keys.W)) {
-            strategy = new KeyUpButtonsStrategy();
-            checkNextButton(strategy, buttons);
+            var strategy = new PreviousKeyButtonsStrategy();
+            checkNextButton(buttons, strategy);
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) || Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
@@ -25,9 +25,7 @@ public class ButtonActionHandler {
         }
     }
 
-
-    private static void checkNextButton(KeyButtonsStrategy strategy, ArrayList<InteractiveTextButton> buttons) {
-
+    private static void checkNextButton(ArrayList<InteractiveTextButton> buttons, KeyButtonsStrategy strategy) {
         for (int i = 0; i < buttons.size(); i++) {
             var button = buttons.get(i);
             if (button.isChecked()) {
