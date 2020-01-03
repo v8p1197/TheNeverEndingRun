@@ -1,6 +1,7 @@
 package it.unisa.theneverendingrun.models.background.impls;
 
 import com.badlogic.gdx.graphics.Texture;
+import it.unisa.theneverendingrun.models.Sprite;
 import it.unisa.theneverendingrun.models.background.AbstractBackground;
 
 import static com.badlogic.gdx.graphics.Texture.TextureWrap.MirroredRepeat;
@@ -26,6 +27,7 @@ public class ForestBackground extends AbstractBackground {
      * For this {@link ForestBackground#texture} the x base isn't 0.
      */
     public static final float BASE_X = 0.3F;
+
     /**
      *
      * The real y axis base.
@@ -60,7 +62,7 @@ public class ForestBackground extends AbstractBackground {
 
     /**
      *
-     * Scroll based on U vertices. We don't use {@link it.unisa.theneverendingrun.models.Sprite#scroll(float, float)}
+     * Scroll based on U vertices. We don't use {@link Sprite#scroll(float, float)}
      * because the scroll method reinitialize the background X and Y axis every scroll
      * The scroll save the scroll amount
      */
