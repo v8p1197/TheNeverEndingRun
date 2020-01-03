@@ -1,6 +1,5 @@
 package it.unisa.theneverendingrun.models.hero.state.move;
 
-
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import it.unisa.theneverendingrun.models.hero.AbstractHero;
@@ -11,61 +10,40 @@ import java.util.Map;
 
 /**
  *
- * In this state the hero is sliding
+ * In this state the hero is running
  */
-public class SlideState extends HeroMoveState {
+public class RunningState extends HeroMoveState {
 
     /**
+     * Sets the hero for holding its move state
      *
-     * @see HeroMoveState#HeroMoveState(AbstractHero, Map)
-     *
-     * Sets the hero for holding its slide state, setting its slide variable to true
-     * and his slide counter variable to its initial value
+     * @param hero       the hero which move state is held
+     * @param animations the possible animations of the hero
      */
-    public SlideState(AbstractHero hero, Map<HeroAnimationType, Animation<TextureRegion>> animations) {
+    public RunningState(AbstractHero hero, Map<HeroAnimationType, Animation<TextureRegion>> animations) {
         super(hero, animations);
-
-        hero.setSlideCount(0);
     }
 
     /**
      *
      * @see HeroMoveState#move()
-     * @see SlideState#slide()
      *
-     * Updates the hero bottom-left coordinates and sprite
+     * Actually, the hero have to move if isRunning is true
      */
     @Override
     public void move() {
+        if (!hero.isMoving())
+            onStand();
+
         super.move();
-
-        slide();
-    }
-
-    /**
-     *
-     * Performs a slide step: none of the hero coordinates change
-     */
-    private void slide() {
-        int slideCount = hero.getSlideCount();
-
-        if (slideCount < AbstractHero.getSlideDuration()) {
-            hero.setSlideCount(slideCount + 1);
-        } else {
-            if (hero.isMoving()) {
-                onRun();
-            } else {
-                onStand();
-            }
-        }
     }
 
     /**
      *
      * @see HeroMoveState#onStand()
-
-     * The reaction when the state tries to change from Slide to Stand.
-     * Actually, the hero does change its state to Idle
+     *
+     * The reaction when the state tries to change from Run to Stand
+     * Actually, the hero does change it's state to Idle
      */
     @Override
     public void onStand() {
@@ -76,7 +54,7 @@ public class SlideState extends HeroMoveState {
      *
      * @see HeroMoveState#onJump()
      *
-     * The reaction when the state tries to change from Slide to Jump
+     * The reaction when the state tries to change from Run to Jump
      * Actually, the hero does start jumping
      */
     @Override
@@ -88,18 +66,19 @@ public class SlideState extends HeroMoveState {
      *
      * @see HeroMoveState#onSlide()
      *
-     * The reaction when the state tries to change from Slide to Slide
-     * Actually, the hero keeps sliding and doesn't change his state
+     * The reaction when the state tries to change from Run to Slide
+     * Actually, the hero does start sliding
      */
     @Override
     public void onSlide() {
+        hero.changeMoveState(new SlideState(hero, animations));
     }
 
     /**
      *
      * @see HeroMoveState#onFall()
      *
-     * The reaction when the state tries to change from Slide to Fall
+     * The reaction when the state tries to change from Run to Fall
      * Actually, the hero does start falling
      */
     @Override
@@ -111,8 +90,8 @@ public class SlideState extends HeroMoveState {
      *
      * @see HeroMoveState#onDie()
      *
-     * The reaction when the state tries to change from Slide to Dead.
-     * Actually, the hero does die
+     * The reaction when the state tries to change from Run to Die
+     * Actually, the hero has to die
      */
     @Override
     public void onDie() {
@@ -123,21 +102,21 @@ public class SlideState extends HeroMoveState {
      *
      * @see HeroMoveState#onRun()
      *
-     * The reaction when the state tries to change from Slide to Run
-     * Actually, the hero does run
+     * The reaction when the state tries to change from Run to Run
+     * Actually, the hero keeps running and doesn't change his state
      */
     @Override
     public void onRun() {
-        hero.changeMoveState(new RunningState(hero, animations));
     }
 
     /**
      *
+     * @see HeroMoveState#computeAnimationType()
      * @return the current hero animation type based on the current state
-     * @see HeroAnimationType
      */
     @Override
     protected HeroAnimationType computeAnimationType() {
-        return HeroAnimationType.SLIDE;
+        return HeroAnimationType.RUN;
     }
+
 }

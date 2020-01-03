@@ -1,9 +1,15 @@
 package it.unisa.theneverendingrun.models.hero.state;
 
 
-import it.unisa.theneverendingrun.models.hero.Hero;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import it.unisa.theneverendingrun.models.hero.AbstractHero;
+import it.unisa.theneverendingrun.models.hero.HeroAnimationType;
+
+import java.util.Map;
 
 /**
+ *
  * The State representing if the hero is jumping, sliding, falling or none of them:
  * the states are called Idle, Jump, Slide, Fall and Dead.
  * Also is delegated to compute the sprite image
@@ -11,20 +17,32 @@ import it.unisa.theneverendingrun.models.hero.Hero;
 public abstract class HeroMoveState {
 
     /**
+     *
      * The hero which move state is held
      */
-    protected Hero hero;
+    protected AbstractHero hero;
 
     /**
+     *
+     * Animations of the hero
+     */
+    protected final Map<HeroAnimationType, Animation<TextureRegion>> animations;
+
+    /**
+     *
      * Sets the hero for holding its move state
      *
      * @param hero the hero which move state is held
+     * @param animations the possible animations of the hero
      */
-    public HeroMoveState(Hero hero) {
+    public HeroMoveState(AbstractHero hero, Map<HeroAnimationType, Animation<TextureRegion>> animations) {
         this.hero = hero;
+        this.animations = animations;
+        setAnimation();
     }
 
     /**
+     *
      * Updates the hero bottom-left coordinates and sprite
      */
     public void move() {
@@ -32,6 +50,7 @@ public abstract class HeroMoveState {
     }
 
     /**
+     *
      * Updates the hero bottom-left coordinates depending on its current horizontal velocity.
      * (This means that if it is 0, the hero actually doesn't move)
      * Plus, makes the hero fall if it is above the ground
@@ -45,6 +64,7 @@ public abstract class HeroMoveState {
     }
 
     /**
+     *
      * Makes the hero move to the right depending on its current horizontal velocity.
      */
     private void moveRight() {
@@ -52,6 +72,7 @@ public abstract class HeroMoveState {
     }
 
     /**
+     *
      * Makes the hero move to the left depending on its current horizontal velocity.
      */
     private void moveLeft() {
@@ -59,31 +80,62 @@ public abstract class HeroMoveState {
     }
 
     /**
+     *
      * The reaction when the state tries to change to Idle
      */
-    public abstract void onIdle();
+    public abstract void onStand();
 
     /**
+     *
      * The reaction when the state tries to change to Jump
      */
     public abstract void onJump();
 
     /**
+     *
      * The reaction when the state tries to change to Slide
      */
     public abstract void onSlide();
 
     /**
+     *
      * The reaction when the state tries to change to Fall
      */
     public abstract void onFall();
 
     /**
+     *
      * The reaction when the state tries to change to Dead
      */
     public abstract void onDie();
 
-    public abstract String toString();
+    /**
+     *
+     * The reaction when the state tries to change to Run
+     */
+    public abstract void onRun();
+
+    /**
+     *
+     * Change the animation of the hero depending on the particular state of the enemy
+     */
+    private void setAnimation() {
+        var type = computeAnimationType();
+        if (type == null) return;
+
+        var animation = animations.get(type);
+        if (animation == null) return;
+
+        hero.setAnimation(animation);
+    }
+
+    /**
+     *
+     * @see HeroAnimationType
+     * @return the current hero animation type based on the current state
+     */
+    protected abstract HeroAnimationType computeAnimationType();
+
 
 }
 

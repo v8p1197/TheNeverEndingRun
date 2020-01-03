@@ -1,62 +1,99 @@
 package it.unisa.theneverendingrun.models.hero.state.move;
 
-import it.unisa.theneverendingrun.models.hero.Hero;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import it.unisa.theneverendingrun.models.hero.AbstractHero;
+import it.unisa.theneverendingrun.models.hero.HeroAnimationType;
 import it.unisa.theneverendingrun.models.hero.state.HeroMoveState;
 
+import java.util.Map;
+
 /**
+ *
  * In this state the hero is falling down
  */
 public class FallState extends HeroMoveState {
 
     /**
+     *
      * A variable representing the fall step the hero actually is in
      */
     private int gravity;
 
     /**
-     * Sets the hero for holding its move state
      *
-     * @param hero the hero which move state is held
+     * @see HeroMoveState#HeroMoveState(AbstractHero, Map)
+     *
+     * @see FallState#gravity
+     *
+     * Set gravity to 1
      */
-    public FallState(Hero hero) {
-        this(hero, 1);
+    public FallState(AbstractHero hero, Map<HeroAnimationType, Animation<TextureRegion>> animations) {
+        this(hero, animations, 1);
     }
 
-    public FallState(Hero hero, int gravity) {
-        super(hero);
+    /**
+     *
+     * @see HeroMoveState#HeroMoveState(AbstractHero, Map)
+     *
+     * @see FallState#gravity
+     *
+     * Set gravity to 1
+     *
+     * @param gravity the fall step the hero actually is in
+     */
+    public FallState(AbstractHero hero, Map<HeroAnimationType, Animation<TextureRegion>> animations, int gravity) {
+        super(hero, animations);
         this.gravity = gravity;
     }
 
 
     /**
-     * Updates the hero bottom-left coordinates and sprite
+     *
+     * @see HeroMoveState#move()
+     * @see FallState#fall()
+     *
+     * Actually, the hero have to fall
      */
     @Override
     public void move() {
         super.move();
-
         fall();
     }
 
     /**
+     *
      * Performs a fall step, updating the hero bottom-left y coordinate according to a parabola-like formula
      */
     private void fall() {
         var newY = (float) Math.max(hero.getGroundY(), hero.getY() - (gravity * gravity) * hero.getJumpCoefficient());
         hero.setY(newY);
         gravity++;
-        if (!hero.isAboveGround()) hero.changeMoveState(new IdleState(hero));
+        if (!hero.isAboveGround()) {
+            if (hero.isMoving()) {
+                onRun();
+            } else {
+                onStand();
+            }
+        }
     }
 
     /**
-     * The reaction when the state tries to change from Fall to Idle: the hero does change its state to Idle
+     *
+     * @see HeroMoveState#onStand()
+     *
+     * The reaction when the state tries to change from Fall to Stand
+     * Actually, the hero does change its state to Stand
      */
     @Override
-    public void onIdle() {
-        hero.changeMoveState(new IdleState(hero));
+    public void onStand() {
+        hero.changeMoveState(new StandState(hero, animations));
     }
 
     /**
+     *
+     * @see HeroMoveState#onJump()
+     *
      * The reaction when the state tries to change from Fall to Jump.
      * Actually, the hero keeps falling and doesn't change his state
      */
@@ -64,6 +101,9 @@ public class FallState extends HeroMoveState {
     public void onJump() { }
 
     /**
+     *
+     * @see HeroMoveState#onSlide()
+
      * The reaction when the state tries to change from Fall to Slide.
      * Actually, the hero keeps falling and doesn't change his state
      */
@@ -72,22 +112,45 @@ public class FallState extends HeroMoveState {
     }
 
     /**
-     * The reaction when the state tries to change from Fall to Fall: the reaction is null
+     *
+     * @see HeroMoveState#onFall()
+     *
+     * The reaction when the state tries to change from Fall to Fall
+     * Actually, the hero keeps falling so doesn't change his state
      */
     @Override
     public void onFall() {
     }
 
     /**
-     * The reaction when the state tries to change from Fall to Dead: the hero does die
+     *
+     * @see HeroMoveState#onDie()
+     *
+     * The reaction when the state tries to change from Fall to Dead
+     * Actually, the hero does die.
      */
     @Override
     public void onDie() {
-        hero.changeMoveState(new DeadState(hero));
+        hero.changeMoveState(new DeadState(hero, animations));
     }
 
+    /**
+     *
+     * @see HeroMoveState#onRun()
+     *
+     * The reaction when the state tries to change from Fall to Run
+     * Actually, the hero does run.
+     */
     @Override
-    public String toString() {
-        return "falling " + hero.getFacingState().toString();
+    public void onRun() { hero.changeMoveState(new RunningState(hero, animations)); }
+
+    /**
+     *
+     * @see HeroMoveState#computeAnimationType()
+     * @return the current hero animation type based on the current state
+     */
+    @Override
+    protected HeroAnimationType computeAnimationType() {
+        return HeroAnimationType.FALL;
     }
 }

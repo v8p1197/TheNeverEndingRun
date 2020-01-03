@@ -1,6 +1,6 @@
 package it.unisa.theneverendingrun.models.hero.state.face;
 
-import it.unisa.theneverendingrun.models.hero.Hero;
+import it.unisa.theneverendingrun.models.hero.AbstractHero;
 import it.unisa.theneverendingrun.models.hero.state.HeroFacingState;
 
 /**
@@ -13,7 +13,7 @@ public class RightState extends HeroFacingState {
      *
      * @param hero the hero which right facing state is held
      */
-    public RightState(Hero hero) {
+    public RightState(AbstractHero hero) {
         super(hero);
     }
 

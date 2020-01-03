@@ -2,7 +2,8 @@ package it.unisa.theneverendingrun.models.hero;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import it.unisa.theneverendingrun.models.AbstractAnimatedSprite;
+import it.unisa.theneverendingrun.models.Animatable;
+import it.unisa.theneverendingrun.models.Sprite;
 import it.unisa.theneverendingrun.models.hero.state.HeroFacingState;
 import it.unisa.theneverendingrun.models.hero.state.HeroMoveState;
 import it.unisa.theneverendingrun.models.hero.state.face.LeftState;
@@ -12,52 +13,66 @@ import it.unisa.theneverendingrun.utilities.MathUtils;
 
 import java.util.Map;
 
-public abstract class Hero extends AbstractAnimatedSprite<HeroAnimationType, TextureRegion> {
+public abstract class AbstractHero extends Sprite implements Animatable {
 
 
     /* ------------------------------------- PARAMS ------------------------------------- */
 
 
     /**
+     *
      * The number of steps the hero takes to jump
      */
     private static final int JUMP_DURATION = 35;
 
     /**
+     *
      * The number of steps the hero takes to slide
      */
     private static final int SLIDE_DURATION = 45;
 
     /**
+     *
      * Bottom-left original x coordinate, i.e. where the hero appears when it's created
      */
     private float groundX;
 
     /**
+     *
      * Bottom-left original y coordinate, i.e. where the hero appears when it's created
      */
     private float groundY;
 
     /**
+     *
      * The current speed the hero is moving
      */
     private float dx;
 
     /**
-     * A variable representing if the hero is jumping, sliding or none of them
+     *
+     * @see HeroMoveState
+     *
+     * A variable representing if the hero is jumping, sliding, falling, dead or none of them
      */
-    private HeroMoveState moveState, prevMoveState;
+    private HeroMoveState moveState;
+
     /**
+     *
+     * @see HeroFacingState
+     *
      * A variable representing whether the hero is facing left or right
      */
     private HeroFacingState facingState;
 
     /**
+     *
      * A variable representing the jump step the hero actually is in
      */
     private int jumpCount;
 
     /**
+     *
      * A variable representing the slide step the hero actually is in
      */
     private int slideCount;
@@ -67,35 +82,42 @@ public abstract class Hero extends AbstractAnimatedSprite<HeroAnimationType, Tex
     /* ------------------------------------- CONSTRUCTORS ------------------------------------- */
 
     /**
-     * Abstract Hero constructor. Sets its bottom-left coordinates and speed, while its horizontal velocity is set to 0
-     * The scale factor is set to 1
      *
+     * @see Sprite#Sprite()
+     *
+     * Abstract Hero constructor.
+     * Sets its bottom-left coordinates and speed, while its horizontal velocity is set to 0
+     *
+     * @param x     bottom-left x coordinate
+     * @param y     bottom-left y coordinate
      * @param animations the animations of the hero
      */
-    protected Hero(Map<HeroAnimationType, Animation<TextureRegion>> animations, float x, float y) {
-        this(1, animations, x, y);
+    public AbstractHero(float x, float y, Map<HeroAnimationType, Animation<TextureRegion>> animations) {
+        this(1, x, y, animations);
     }
 
 
     /**
-     * Abstract Hero constructor. Sets its bottom-left coordinates and speed, while its horizontal velocity is set to 0
      *
-     * @param animations the animations of the hero
-     * @param scaleFactor the scale factor of the hero
+     * @see Sprite#Sprite()
+     *
+     * Abstract Hero constructor.
+     * Sets its bottom-left coordinates and speed, while its horizontal velocity is set to 0
+     *
      * @param x     bottom-left x coordinate
      * @param y     bottom-left y coordinate
+     * @param animations the animations of the hero
      */
-    public Hero(float scaleFactor, Map<HeroAnimationType, Animation<TextureRegion>> animations, float x, float y) {
-        super(scaleFactor, animations);
-
-        setX(x);
-        setY(y);
+    public AbstractHero(float scaleFactor, float x, float y, Map<HeroAnimationType, Animation<TextureRegion>> animations) {
+        super(scaleFactor);
 
         this.groundX = x;
         this.groundY = y;
-        this.dx = 0;
 
-        changeMoveState(new IdleState(this));
+        setX(x);
+        setY(y);
+        setDx(0);
+        changeMoveState(new StandState(this, animations));
         changeFacingState(new RightState(this));
     }
 
@@ -105,7 +127,8 @@ public abstract class Hero extends AbstractAnimatedSprite<HeroAnimationType, Tex
     /* ------------------------------------- GETTERS ------------------------------------- */
 
     /**
-     * groundX getter
+     *
+     * @see AbstractHero#groundX
      *
      * @return the hero bottom-left original x coordinate
      */
@@ -114,7 +137,8 @@ public abstract class Hero extends AbstractAnimatedSprite<HeroAnimationType, Tex
     }
 
     /**
-     * groundY getter
+     *
+     * @see AbstractHero#groundY
      *
      * @return the hero bottom-left original y coordinate
      */
@@ -123,16 +147,8 @@ public abstract class Hero extends AbstractAnimatedSprite<HeroAnimationType, Tex
     }
 
     /**
-     * Checks if the hero is above the ground, i.e. its current y coordinate is above its original y coordinate
      *
-     * @return true if the hero is above the ground, false otherwise
-     */
-    public boolean isAboveGround() {
-        return getY() - getGroundY() > MathUtils.DELTA;
-    }
-
-    /**
-     * dx getter
+     * @see AbstractHero#dx
      *
      * @return the hero horizontal velocity
      */
@@ -141,19 +157,23 @@ public abstract class Hero extends AbstractAnimatedSprite<HeroAnimationType, Tex
     }
 
     /**
-     * moveState getter
+     *
+     * @see AbstractHero#moveState
      *
      * @return the move state in which the hero is:
-     * IdleState if the hero is neither jumping or sliding;
      * JumpState if the hero is jumping;
      * SlideState if the hero is sliding
+     * DeadState if the hero is dead
+     * FallState if the hero is falling
+     * IdleState if none of previous is true;
      */
     public HeroMoveState getMoveState() {
         return moveState;
     }
 
     /**
-     * jumpCount getter
+     *
+     * @see AbstractHero#jumpCount
      *
      * @return the hero jump counter
      */
@@ -162,16 +182,18 @@ public abstract class Hero extends AbstractAnimatedSprite<HeroAnimationType, Tex
     }
 
     /**
-     * JUMP_DURATION getter
+     *
+     * @see AbstractHero#JUMP_DURATION
      *
      * @return the hero jump duration
      */
-    public int getJumpDuration() {
+    public static int getJumpDuration() {
         return JUMP_DURATION;
     }
 
     /**
-     * slideCount getter
+     *
+     * @see AbstractHero#slideCount
      *
      * @return the hero slide counter
      */
@@ -180,16 +202,18 @@ public abstract class Hero extends AbstractAnimatedSprite<HeroAnimationType, Tex
     }
 
     /**
-     * SLIDE_DURATION getter
+     *
+     * @see AbstractHero#SLIDE_DURATION
      *
      * @return the hero slide duration
      */
-    public int getSlideDuration() {
+    public static int getSlideDuration() {
         return SLIDE_DURATION;
     }
 
     /**
-     * facingState getter
+     *
+     * @see AbstractHero#facingState
      *
      * @return the facing state in which the hero is:
      * LeftState if the hero is facing left;
@@ -206,16 +230,22 @@ public abstract class Hero extends AbstractAnimatedSprite<HeroAnimationType, Tex
 
 
     /**
+     *
      * checks if the hero is moving depending on its current horizontal velocity
      *
-     * @return true if the hero is running, else otherwise
+     * @return true if the hero is moving, else otherwise
      */
-    public boolean isRunning() {
+    public boolean isMoving() {
         return getDx() != 0;
     }
 
     /**
-     * jumping getter
+     *
+     * @return true if the hero is running, false otherwise
+     */
+    public boolean isRunning() { return this.getMoveState() instanceof  RunningState; }
+
+    /**
      *
      * @return true if the hero is jumping, false otherwise
      */
@@ -224,7 +254,6 @@ public abstract class Hero extends AbstractAnimatedSprite<HeroAnimationType, Tex
     }
 
     /**
-     * sliding getter
      *
      * @return true if the hero is sliding, false otherwise
      */
@@ -233,7 +262,6 @@ public abstract class Hero extends AbstractAnimatedSprite<HeroAnimationType, Tex
     }
 
     /**
-     * falling getter
      *
      * @return true if the hero is falling, false otherwise
      */
@@ -242,7 +270,6 @@ public abstract class Hero extends AbstractAnimatedSprite<HeroAnimationType, Tex
     }
 
     /**
-     * dead getter
      *
      * @return true if the hero is dead, false otherwise
      */
@@ -251,6 +278,7 @@ public abstract class Hero extends AbstractAnimatedSprite<HeroAnimationType, Tex
     }
 
     /**
+     *
      * checks if the hero is facing right
      *
      * @return true if the hero is facing right, else otherwise
@@ -260,6 +288,7 @@ public abstract class Hero extends AbstractAnimatedSprite<HeroAnimationType, Tex
     }
 
     /**
+     *
      * checks if the hero is facing left
      *
      * @return true if the hero is facing left, else otherwise
@@ -269,26 +298,31 @@ public abstract class Hero extends AbstractAnimatedSprite<HeroAnimationType, Tex
     }
 
     /**
-     * idle getter
      *
      * @return true if the hero is idle, false otherwise
      */
     public boolean isIdle() {
-        return this.getMoveState() instanceof IdleState;
+        return this.getMoveState() instanceof StandState;
     }
 
     /**
-     * attack getter
      *
-     * @return true if the hero is attacking, false otherwise
+     * Checks if the hero is above the ground, i.e. its current y coordinate is above its original y coordinate
+     *
+     * @return true if the hero is above the ground, false otherwise
      */
-    //public boolean isAttacking() { return this.getMoveState() instanceof AttackState; }
+    public boolean isAboveGround() {
+        return getY() - getGroundY() > MathUtils.DELTA;
+    }
+
+
 
 
     /* ------------------------------------- SETTERS ------------------------------------- */
 
     /**
-     * dx setter
+     *
+     * @see AbstractHero#dx
      *
      * @param dx the horizontal velocity value to set
      */
@@ -297,18 +331,18 @@ public abstract class Hero extends AbstractAnimatedSprite<HeroAnimationType, Tex
     }
 
     /**
-     * moveState setter
+     *
+     * @see AbstractHero#moveState
      *
      * @param moveState the new move state to set
      */
     public void changeMoveState(HeroMoveState moveState) {
-        prevMoveState = this.moveState;
         this.moveState = moveState;
-        changeAnimation();
     }
 
     /**
-     * jumpCount setter
+     *
+     * @see AbstractHero#jumpCount
      *
      * @param jumpCount the jump counter value to set
      */
@@ -317,7 +351,8 @@ public abstract class Hero extends AbstractAnimatedSprite<HeroAnimationType, Tex
     }
 
     /**
-     * slideCount setter
+     *
+     * @see AbstractHero#slideCount
      *
      * @param slideCount the slide counter value to set
      */
@@ -326,13 +361,13 @@ public abstract class Hero extends AbstractAnimatedSprite<HeroAnimationType, Tex
     }
 
     /**
-     * facingState setter
+     *
+     * @see AbstractHero#facingState
      *
      * @param facingState the new facing state to set
      */
     public void changeFacingState(HeroFacingState facingState) {
         this.facingState = facingState;
-        changeAnimation();
     }
 
 
@@ -342,6 +377,7 @@ public abstract class Hero extends AbstractAnimatedSprite<HeroAnimationType, Tex
     /* ------------------------------------- MOVEMENT METHODS ------------------------------------- */
 
     /**
+     *
      * Updates hero's coordinates and image depending on its state
      */
     public void move() {
@@ -349,6 +385,7 @@ public abstract class Hero extends AbstractAnimatedSprite<HeroAnimationType, Tex
     }
 
     /**
+     *
      * Computes how much the hero can jump
      *
      * @return the maximum number of pixels the hero moves in the vertical axis when he jumps
@@ -358,6 +395,7 @@ public abstract class Hero extends AbstractAnimatedSprite<HeroAnimationType, Tex
     }
 
     /**
+     *
      * Computes the coefficient for the jump parabola formula depending on how much the hero can jump
      * and the number of steps the hero takes to jump
      *
@@ -368,6 +406,7 @@ public abstract class Hero extends AbstractAnimatedSprite<HeroAnimationType, Tex
     }
 
     /**
+     *
      * Computes how much the hero can move on the horizontal axis while he's jumping,
      * supposing his horizontal velocity is 1
      *
@@ -379,6 +418,7 @@ public abstract class Hero extends AbstractAnimatedSprite<HeroAnimationType, Tex
     }
 
     /**
+     *
      * Computes how much the hero can move on the horizontal axis while he's sliding,
      * supposing his horizontal velocity is 1
      *
@@ -390,6 +430,7 @@ public abstract class Hero extends AbstractAnimatedSprite<HeroAnimationType, Tex
     }
 
     /**
+     *
      * Computes how much of the jump parabola (in percentage) is completed.
      *
      * @return A value of type double in range [0, 1] depending on how much of the jump parabola is completed:
@@ -404,42 +445,35 @@ public abstract class Hero extends AbstractAnimatedSprite<HeroAnimationType, Tex
     }
 
     /**
+     *
      * Asks the hero to die
      */
     public void die() {
         getMoveState().onDie();
     }
 
+
+
+
+    /* ------------------------------------- ANIMATION ------------------------------------- */
+
+    /**
+     *
+     * @see Animatable#animate()
+     */
     @Override
-    public void changeAnimation() {
+    public void animate() {
 
-        HeroAnimationType type = null;
-        if (isIdle()) {
-            type = HeroAnimationType.IDLE;
-        } else if (isDead()) {
-            type = HeroAnimationType.DEAD;
-        }// else if (isAttacking()) {
-        // type = HeroAnimationType.ATTACK;
-        //}
-        else if (isFalling()) {
-            type = HeroAnimationType.FALL;
-        } else if (isSliding()) {
-            type = HeroAnimationType.SLIDE;
-        } else if (isJumping()) {
-            type = HeroAnimationType.JUMP;
-        } else if (isRunning()) {
-            type = HeroAnimationType.RUN;
-        }
-
-        if (type == null) return;
-
-        var animation = animations.get(type);
-        if (animation == null) return;
+        var animation = getAnimation();
+        if (animation == null) throw new NullPointerException("animation is null");
 
         var frame = animation.getKeyFrame(getStateTime(), true);
-        if (prevMoveState == moveState)
-            flip(true, false);
-        this.setRegion(frame);
-    }
 
+        if (frame == null) throw new NullPointerException("animation frame is null");
+
+        if (isLeft())
+            frame.flip(true, false);
+
+        setRegion(frame);
+    }
 }

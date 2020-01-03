@@ -1,28 +1,39 @@
 package it.unisa.theneverendingrun.models.hero.state.move;
 
 
-import it.unisa.theneverendingrun.models.hero.Hero;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import it.unisa.theneverendingrun.models.hero.AbstractHero;
+import it.unisa.theneverendingrun.models.hero.HeroAnimationType;
 import it.unisa.theneverendingrun.models.hero.state.HeroMoveState;
 
+import java.util.Map;
+
 /**
+ *
  * In this state the hero is jumping
  */
 public class JumpState extends HeroMoveState {
 
     /**
+     *
+     * @see HeroMoveState#HeroMoveState(AbstractHero, Map)
+     *
      * Sets the hero for holding its jump state, setting his jumping variable to true
      * and his jump counter variable to its initial value
-     *
-     * @param hero the hero which jump state is held
      */
-    public JumpState(Hero hero) {
-        super(hero);
+    public JumpState(AbstractHero hero, Map<HeroAnimationType, Animation<TextureRegion>> animations) {
+        super(hero, animations);
 
         hero.setJumpCount(hero.getJumpDuration());
     }
 
     /**
-     * Updates the hero bottom-left coordinates and sprite
+     *
+     * @see HeroMoveState#move()
+     * @see JumpState#jump()
+     *
+     * Actualy, the hero have to jump
      */
     @Override
     public void move() {
@@ -32,40 +43,57 @@ public class JumpState extends HeroMoveState {
     }
 
     /**
+     *
      * Performs a jump step, updating the hero bottom-left y coordinate according to a parabola-like formula
      */
     private void jump() {
         int jumpCount = hero.getJumpCount();
 
-        if (jumpCount >= -hero.getJumpDuration()) {
+        if (jumpCount >= -AbstractHero.getJumpDuration()) {
             int up = jumpCount < 0 ? -1 : 1;
             var newY = (float) (hero.getY() + (jumpCount * jumpCount) * hero.getJumpCoefficient() * up);
             hero.setY(newY);
             hero.setJumpCount(jumpCount - 1);
         } else {
-            if (hero.isAboveGround())
-                hero.changeMoveState(new FallState(hero, Math.abs(jumpCount)));
-            else
-                hero.changeMoveState(new IdleState(hero));
+            if (hero.isAboveGround()) {
+                hero.changeMoveState(new FallState(hero, animations, Math.abs(jumpCount)));
+            } else {
+                if (hero.isMoving()) {
+                    onRun();
+                } else {
+                    onStand();
+                }
+            }
         }
     }
 
     /**
-     * The reaction when the state tries to change from Jump to Idle: the hero does change its state to Idle
+     *
+     * @see HeroMoveState#onStand()
+     *
+     * The reaction when the state tries to change from Jump to Idle
+     * Actually, the hero does change its state to Idle
      */
     @Override
-    public void onIdle() {
-        hero.changeMoveState(new IdleState(hero));
+    public void onStand() {
+        hero.changeMoveState(new StandState(hero, animations));
     }
 
     /**
-     * The reaction when the state tries to change from Jump to Jump: the reaction is null
+     *
+     * @see HeroMoveState#onJump()
+     *
+     * The reaction when the state tries to change from Jump to Jump
+     * Actually, the hero keeps jumping and doesn't change his state
      */
     @Override
     public void onJump() {
     }
 
     /**
+     *
+     * @see HeroMoveState#onSlide()
+     *
      * The reaction when the state tries to change from Jump to Slide.
      * Actually, the hero keeps jumping and doesn't change his state
      */
@@ -74,24 +102,48 @@ public class JumpState extends HeroMoveState {
     }
 
     /**
+     *
+     * @see HeroMoveState#onFall()
+     *
      * The reaction when the state tries to change from Jump to Fall.
      * Actually, the hero does start falling.
      */
     @Override
     public void onFall() {
-        hero.changeMoveState(new FallState(hero));
+        hero.changeMoveState(new FallState(hero, animations));
     }
 
     /**
-     * The reaction when the state tries to change from Jump to Dead: the hero does die
+     *
+     * @see HeroMoveState#onDie()
+     *
+     * The reaction when the state tries to change from Jump to Dead
+     * Actually, the hero does die
      */
     @Override
     public void onDie() {
-        hero.changeMoveState(new DeadState(hero));
+        hero.changeMoveState(new DeadState(hero, animations));
     }
 
+    /**
+     *
+     * @see HeroMoveState#onRun()
+     *
+     * The reaction when the state tries to change to Run
+     * Actually, the hero does run
+     */
     @Override
-    public String toString() {
-        return "jumping " + hero.getFacingState().toString();
+    public void onRun() {
+        hero.changeMoveState(new RunningState(hero, animations));
+    }
+
+    /**
+     *
+     * @see HeroMoveState#computeAnimationType()
+     * @return the current hero animation type based on the current state
+     */
+    @Override
+    protected HeroAnimationType computeAnimationType() {
+        return HeroAnimationType.JUMP;
     }
 }
