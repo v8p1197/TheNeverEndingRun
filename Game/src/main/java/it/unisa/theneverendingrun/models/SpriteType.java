@@ -1,10 +1,10 @@
-package it.unisa.theneverendingrun.data;
+package it.unisa.theneverendingrun.models;
 
 /**
  *
  * Represent the type of the spawnable
  */
-public enum SpawnableType {
+public enum SpriteType {
     JUMPABLE,
     SLIDABLE,
     JUMPABLE_SLIDABLE,
