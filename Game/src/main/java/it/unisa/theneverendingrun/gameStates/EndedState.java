@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.Align;
 import it.unisa.theneverendingrun.GameEngine;
 import it.unisa.theneverendingrun.assets.Fonts;
 import it.unisa.theneverendingrun.models.Sprite;
+import it.unisa.theneverendingrun.services.sounds.SoundManager;
 import it.unisa.theneverendingrun.streamManager.BestScores;
 import org.mini2Dx.core.graphics.Graphics;
 
@@ -28,12 +29,14 @@ public abstract class EndedState extends GameState {
     private Table table;
     private ArrayList<InteractiveTextButton> buttons;
     private KeyButtonsStrategy strategy;
+    private SoundManager soundManager;
 
     private int score;
 
     public EndedState(GameEngine game, int finalScore) {
         super(game);
         score = finalScore;
+        soundManager = SoundManager.getSoundManager();
     }
 
     @Override
@@ -43,6 +46,8 @@ public abstract class EndedState extends GameState {
         createBackground();
 
         createTableButtons();
+
+        soundManager.setMusic(1);
     }
 
     private void createBackground() {

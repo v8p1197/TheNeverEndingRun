@@ -5,11 +5,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 public class TextButtonDecorator extends TextButton {
 
-    private TextButton wrappee;
+    private TextButton wrapper;
 
     public TextButtonDecorator(TextButton button, String text, Skin skin) {
         super(text, skin);
-        wrappee = button;
+        wrapper = button;
     }
 
     public TextButtonDecorator(TextButton button) {

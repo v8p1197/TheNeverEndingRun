@@ -14,6 +14,7 @@ import it.unisa.theneverendingrun.models.hero.Hero;
 import it.unisa.theneverendingrun.obstaclesManager.SpawnableManager;
 import it.unisa.theneverendingrun.services.ForestFactory;
 import it.unisa.theneverendingrun.services.GameFactory;
+import it.unisa.theneverendingrun.services.sounds.SoundManager;
 import it.unisa.theneverendingrun.streamManager.BestScores;
 import it.unisa.theneverendingrun.streamManager.FileStreamFactory;
 import it.unisa.theneverendingrun.streamManager.StreamManager;
@@ -27,6 +28,7 @@ import java.util.LinkedList;
 public class PlayState extends GameState {
 
     private static final String FILENAME = "best_scores.dat";
+    private SoundManager soundManager;
 
     private Stage stage;
 
@@ -40,6 +42,8 @@ public class PlayState extends GameState {
     private MetersManagerFactory metersManagerFactory;
     private StreamManager streamManager;
     private BestScores bestScores;
+
+    private boolean paused;
 
     public PlayState(GameEngine game) {
         super(game);
@@ -64,44 +68,53 @@ public class PlayState extends GameState {
 
         streamManager = new StreamManager(new FileStreamFactory(FILENAME));
         bestScores = streamManager.loadBestScores();
+
+        soundManager = SoundManager.getSoundManager();
+        soundManager.setMusic(0);
+
+        initPause();
     }
 
     @Override
     public void update(float delta) {
-        super.update(delta);
 
-        background.scroll();
+        if (!paused) {
+            super.update(delta);
 
-        if (!hero.isXAxisVisible(Gdx.graphics.getWidth())) {
-            hero.die();
+            background.scroll();
+
+            if (!hero.isXAxisVisible(Gdx.graphics.getWidth())) {
+                hero.die();
+            }
+
+            metersManagerFactory.computeMeters();
+            computeBestScores();
+            // TODO delete
+            spawnableManager.setSpawnProbability(metersManagerFactory.getSpawnProbability());
+
+            //stateTime += Gdx.graphics.getDeltaTime(); // Accumulate elapsed animation time
+            hero.updateDelta(Gdx.graphics.getDeltaTime());
+            hero.move();
+
+            Spawnable newObstacle = spawnableManager.generateNewObstacle();
+
+            if (newObstacle != null)
+                spawnableLinkedList.add(newObstacle);
+            spawnableManager.clearOldObstacles(spawnableLinkedList);
+
+            moveAllObjects();
+
+            animateCharacters();
+
+            preUpdateCollisionBoxes();
+
+            checkCollisions();
+
+            if (hero.isDead()) {
+                onEnded();
+            }
         }
-
-        metersManagerFactory.computeMeters();
-        computeBestScores();
-        // TODO delete
-        spawnableManager.setSpawnProbability(metersManagerFactory.getSpawnProbability());
-
-        //stateTime += Gdx.graphics.getDeltaTime(); // Accumulate elapsed animation time
-        hero.updateDelta(Gdx.graphics.getDeltaTime());
-        hero.move();
-
-        Spawnable newObstacle = spawnableManager.generateNewObstacle();
-
-        if (newObstacle != null)
-            spawnableLinkedList.add(newObstacle);
-        spawnableManager.clearOldObstacles(spawnableLinkedList);
-
-        moveAllObjects();
-
-        animateCharacters();
-
-        preUpdateCollisionBoxes();
-
-        checkCollisions();
-
-        if (hero.isDead()) {
-            onEnded();
-        }
+        controlPause();
     }
 
     private boolean computeBestScores() {
@@ -158,6 +171,9 @@ public class PlayState extends GameState {
         drawHero();
         drawObstacles();
         drawScore();
+        if (paused) {
+            spriteBatch.setColor(0.5f, 0.5f, 0.5f, 1f);
+        } else spriteBatch.setColor(1f, 1f, 1f, 1f);
 
         spriteBatch.end();
     }
@@ -186,6 +202,8 @@ public class PlayState extends GameState {
         if (Gdx.input.isKeyPressed(Input.Keys.S) || Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
             hero.getMoveState().onSlide();
         }
+
+
     }
 
     @Override
@@ -243,4 +261,20 @@ public class PlayState extends GameState {
         Fonts.scoreFont.draw(spriteBatch, "HIGH SCORE: " + bestScores.getHighScore(),
                 xPosScore, yPos - (score_offset.height * 1.5f));
     }
+
+    private void initPause() {
+        paused = false;
+    }
+
+    public void controlPause() {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.P) || Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            paused = !paused;
+            if (paused)
+                soundManager.onPause();
+            else
+                soundManager.resumeMusic();
+        }
+    }
+
+
 }
