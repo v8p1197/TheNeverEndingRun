@@ -3,7 +3,7 @@ package it.unisa.theneverendingrun.models.hero.state;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import it.unisa.theneverendingrun.assets.SoundEffects;
+import it.unisa.theneverendingrun.Assets;
 import it.unisa.theneverendingrun.models.hero.AbstractHero;
 import it.unisa.theneverendingrun.models.hero.HeroStateType;
 
@@ -136,7 +136,7 @@ public abstract class HeroMoveState {
         var type = computeStateType();
         if (type == null) return;
 
-        var sound = SoundEffects.sounds.get(type);
+        var sound = Assets.soundEffects.sounds.get(type);
         if (sound == null) return;
 
         sound.play();
