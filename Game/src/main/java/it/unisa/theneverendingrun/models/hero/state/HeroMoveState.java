@@ -136,7 +136,7 @@ public abstract class HeroMoveState {
         var type = computeStateType();
         if (type == null) return;
 
-        var sound = Assets.soundEffects.sounds.get(type);
+        var sound = Assets.SOUNDS.sounds.get(type);
         if (sound == null) return;
 
         sound.play();
