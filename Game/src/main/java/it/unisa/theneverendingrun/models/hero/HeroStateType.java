@@ -9,7 +9,8 @@ public enum HeroStateType {
     FALL(""),
     SLIDE("sounds/effects/heroSlide.mp3"),
     JUMP("sounds/effects/heroJump.mp3"),
-    RUN("");
+    RUN(""),
+    ATTACK("");
 
     private String soundPath;
 

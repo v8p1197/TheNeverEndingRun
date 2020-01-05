@@ -119,6 +119,11 @@ public abstract class HeroMoveState {
     public abstract void onRun();
 
     /**
+     * The reaction when the state tries to change to Attack
+     */
+    public abstract void onAttack();
+
+    /**
      *
      * Change the animation of the hero depending on the particular state of the hero
      */
