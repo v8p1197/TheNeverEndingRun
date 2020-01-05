@@ -13,29 +13,7 @@ import static com.badlogic.gdx.graphics.Texture.TextureWrap.Repeat;
  * An implementation of the {@link AbstractBackground} class that uses predefined parameters for
  * background creation and scrolling.
  */
-public class PlayStateBackground extends AbstractScrollingBackground {
-
-    private static final Texture texture = new Texture("images/forest/backgrounds/background_1.png");
-
-    // Experimental for this Background
-    private static final float SCROLLING_SPEED = 0.002F;
-    private static final float SCROLLING_WIDTH = 2.0F;
-
-    //calculated for this background (texture background_1)
-    /**
-     *
-     * The real x axis base.
-     * For this {@link PlayStateBackground#texture} the x base isn't 0.
-     */
-    public static final float BASE_X = 0.3F;
-
-    /**
-     *
-     * The real y axis base.
-     * For this {@link PlayStateBackground#texture} the y base isn't 0.
-     */
-    public static final float BASE_Y = 0.0625F;
-
+public abstract class PlayStateBackground extends AbstractScrollingBackground {
 
     /**
      *
@@ -46,8 +24,9 @@ public class PlayStateBackground extends AbstractScrollingBackground {
      * @param screenWidth the width of the background. Different form original width.
      * @param screenHeight the height of the background. Different form original height.
      */
-    public PlayStateBackground(int screenWidth, int screenHeight) {
-        super(texture, 0, 0, screenWidth, screenHeight, SCROLLING_SPEED, SCROLLING_WIDTH);
+    public PlayStateBackground(Texture texture,
+                               int screenWidth, int screenHeight, float scrollingSpeed, float scrollingWidth) {
+        super(texture, 0, 0, screenWidth, screenHeight, scrollingSpeed, scrollingWidth);
     }
 
     /**

@@ -15,7 +15,7 @@ public class HelpStateBackground extends AbstractBackground {
     /**
      *
      * @see AbstractBackground#AbstractBackground(Texture, int, int, int, int, float)
-     **
+     *
      * @param screenWidth the width of the background. Different form original width.
      * @param screenHeight the height of the background. Different form original height.
      */
