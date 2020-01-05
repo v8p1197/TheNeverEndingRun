@@ -105,7 +105,7 @@ public abstract class AbstractBackground extends Sprite {
      *
      * @see AbstractBackground#textureWidth
      * @see AbstractBackground#textureHeight
-     **
+     *
      */
     public AbstractBackground(Texture texture, int srcX, int srcY, int backgroundWidth, int backgroundHeight, float scaleFactor) {
         super(texture, srcX, srcY, backgroundWidth, backgroundHeight, scaleFactor);
