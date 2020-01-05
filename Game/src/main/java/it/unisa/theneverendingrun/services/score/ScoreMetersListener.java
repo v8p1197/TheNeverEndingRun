@@ -29,6 +29,11 @@ public class ScoreMetersListener implements MetersListener {
     private int score;
 
     /**
+     * A flag for Multiplier power up
+     */
+    private boolean powerUp;
+
+    /**
      *
      * @see ScoreMetersListener#setScore(int)
      *
@@ -36,6 +41,7 @@ public class ScoreMetersListener implements MetersListener {
      */
     public ScoreMetersListener() {
         setScore(INITIAL_SCORE);
+        powerUp = false;
     }
 
     /**
@@ -60,6 +66,16 @@ public class ScoreMetersListener implements MetersListener {
 
     /**
      *
+     * Power up setter
+     *
+     * @param powerUp is the value of the new flag
+     */
+    public void setPowerUp(boolean powerUp) {
+        this.powerUp = powerUp;
+    }
+
+    /**
+     *
      * The {@link ScoreMetersListener} listener reaction when the observed variable {@code meters} changes.
      * It increases the score as a linear function of the travelled meters
      *
@@ -69,6 +85,9 @@ public class ScoreMetersListener implements MetersListener {
     @Override
     public void update(MetersEventType eventType, int meters) {
         if (eventType == MetersEventType.METERS_CHANGED)
-            setScore(SCORE_FACTOR * meters + INITIAL_SCORE);
+            if (powerUp)
+                setScore((SCORE_FACTOR * 2) * meters + INITIAL_SCORE);
+            else
+                setScore(SCORE_FACTOR * meters + INITIAL_SCORE);
     }
 }
