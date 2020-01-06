@@ -1,7 +1,8 @@
-package it.unisa.theneverendingrun.engine.state;
+package it.unisa.theneverendingrun.engine.state.info;
 
 import com.badlogic.gdx.Gdx;
 import it.unisa.theneverendingrun.engine.GameEngine;
+import it.unisa.theneverendingrun.models.background.AbstractBackground;
 import it.unisa.theneverendingrun.models.background.impls.LostStateBackground;
 
 
@@ -12,8 +13,8 @@ public class LostState extends EndedState {
     }
 
     @Override
-    protected void createBackground() {
-        background = new LostStateBackground(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+    protected AbstractBackground createBackground() {
+        return new LostStateBackground(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
     @Override

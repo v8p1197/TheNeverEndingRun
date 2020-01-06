@@ -1,7 +1,6 @@
 package it.unisa.theneverendingrun.engine;
 
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import it.unisa.theneverendingrun.engine.state.MenuState;
+import it.unisa.theneverendingrun.engine.state.info.MenuState;
 import org.mini2Dx.core.game.BasicGame;
 import org.mini2Dx.core.graphics.Graphics;
 

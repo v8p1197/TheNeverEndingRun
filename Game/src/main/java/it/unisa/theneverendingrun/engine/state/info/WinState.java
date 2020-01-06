@@ -1,7 +1,8 @@
-package it.unisa.theneverendingrun.engine.state;
+package it.unisa.theneverendingrun.engine.state.info;
 
 import com.badlogic.gdx.Gdx;
 import it.unisa.theneverendingrun.engine.GameEngine;
+import it.unisa.theneverendingrun.models.background.AbstractBackground;
 import it.unisa.theneverendingrun.models.background.impls.WinStateBackground;
 
 public class WinState extends EndedState {
@@ -11,8 +12,8 @@ public class WinState extends EndedState {
     }
 
     @Override
-    protected void createBackground() {
-        background = new WinStateBackground(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+    protected AbstractBackground createBackground() {
+        return new WinStateBackground(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
     @Override

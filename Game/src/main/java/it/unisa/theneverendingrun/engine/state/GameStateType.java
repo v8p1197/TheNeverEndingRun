@@ -1,7 +1,7 @@
-package it.unisa.theneverendingrun.engine;
+package it.unisa.theneverendingrun.engine.state;
 
 import com.badlogic.gdx.audio.Music;
-import it.unisa.theneverendingrun.utilities.SoundEffectsUtils;
+import it.unisa.theneverendingrun.utilities.SoundUtils;
 
 public enum GameStateType {
     PLAY("sounds/music/playMusic.mp3", true),
@@ -9,29 +9,15 @@ public enum GameStateType {
     MENU("sounds/music/menuMusic.mp3", true),
     HELP("sounds/music/helpMusic.mp3", true);
 
-    private String musicPath;
-
-    private boolean looping;
-
     private Music music;
 
     GameStateType(String musicPath, boolean looping) {
-        this.musicPath = musicPath;
-        this.looping = looping;
 
         try {
-            music = SoundEffectsUtils.getMusic(musicPath, looping);
+            music = SoundUtils.getMusic(musicPath, looping);
         } catch (IllegalArgumentException exc) {
             music = null;
         }
-    }
-
-    public String getSoundPath() {
-        return musicPath;
-    }
-
-    public boolean getLooping() {
-        return looping;
     }
 
     public Music getMusic() {
