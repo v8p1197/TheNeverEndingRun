@@ -73,7 +73,7 @@ public class Enemy extends Sprite implements Animatable {
     }
 
     @Override
-    public SpriteDescriptionType getName() {
+    public SpriteDescriptionType getSpriteType() {
         return SpriteDescriptionType.ENEMY;
     }
 
