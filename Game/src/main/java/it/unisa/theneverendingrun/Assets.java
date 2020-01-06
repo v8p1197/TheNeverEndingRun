@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import it.unisa.theneverendingrun.engine.GameStateType;
+import it.unisa.theneverendingrun.engine.state.GameStateType;
 import it.unisa.theneverendingrun.models.hero.HeroStateType;
 
 import java.util.Arrays;
@@ -16,20 +16,20 @@ import java.util.stream.Collectors;
 
 public class Assets {
 
-    public static final SoundEffects soundEffects;
+    public static final Sounds sounds;
     public static final Fonts fonts;
 
     static {
-        soundEffects = new SoundEffects();
+        sounds = new Sounds();
         fonts = new Fonts();
     }
 
-    public static final class SoundEffects {
+    public static final class Sounds {
 
         public final Map<GameStateType, Music> musics;
         public final Map<HeroStateType, Sound> sounds;
 
-        private SoundEffects() {
+        private Sounds() {
             musics = loadMusics();
             sounds = loadSounds();
         }
@@ -60,15 +60,6 @@ public class Assets {
             endScreenTitleFont = loadEndScreenTitleFont();
             endScreenScoreFont = loadEndScreenScoreFont();
         }
-
-    /*
-    static {
-        scoreFont = loadScoreFont();
-        meterFont = loadMeterFont();
-        endScreenTitleFont = loadEndScreenTitleFont();
-        endScreenScoreFont = loadEndScreenScoreFont();
-    }
-    */
 
         private static BitmapFont loadEndScreenScoreFont() {
             //Generate a font object for font.ttf at size 40px
