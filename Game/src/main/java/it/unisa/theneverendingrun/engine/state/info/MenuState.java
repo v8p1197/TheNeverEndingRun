@@ -47,7 +47,7 @@ public class MenuState extends InfoGameState {
                 .withWidth(Gdx.graphics.getWidth())
                 .align(Align.center | Align.top)
                 .withTopPad(30)
-                .addInteractiveTextButtonWithPad(40, buttons)
+                .addInteractiveTextButtonsWithPad(40, buttons)
                 .withPosition(0, Gdx.graphics.getHeight() * 0.6f)
                 .build();
     }

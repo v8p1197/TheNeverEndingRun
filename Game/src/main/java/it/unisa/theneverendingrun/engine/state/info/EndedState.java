@@ -45,7 +45,7 @@ public abstract class EndedState extends InfoGameState {
                 .withWidth(Gdx.graphics.getWidth())
                 .align(Align.center | Align.top)
                 .withTopPad(30)
-                .addInteractiveTextButtonWithPad(40, buttons)
+                .addInteractiveTextButtonsWithPad(30, buttons)
                 .build();
     }
 
