@@ -156,6 +156,7 @@ public abstract class Sprite extends org.mini2Dx.core.graphics.Sprite {
         this.visible = true;
 
         scale();
+
         this.standardWidth = getWidth();
         this.standardHeight = getHeight();
 
@@ -168,7 +169,7 @@ public abstract class Sprite extends org.mini2Dx.core.graphics.Sprite {
      *
      * @return the sprite description
      */
-    public abstract SpriteDescriptionType getName();
+    public abstract SpriteDescriptionType getSpriteType();
 
     /**
      *
@@ -265,6 +266,8 @@ public abstract class Sprite extends org.mini2Dx.core.graphics.Sprite {
         this.animation = sprite.animation;
         this.scaleFactor = sprite.scaleFactor;
         this.stateTime = sprite.getStateTime();
+        this.standardHeight = sprite.getStandardHeight();
+        this.standardWidth = sprite.getStandardWidth();
     }
 
     @Override
