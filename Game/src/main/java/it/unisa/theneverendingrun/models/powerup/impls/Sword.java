@@ -1,12 +1,32 @@
 package it.unisa.theneverendingrun.models.powerup.impls;
 
-import it.unisa.theneverendingrun.models.powerup.PowerUp;
+import it.unisa.theneverendingrun.models.Sprite;
+import it.unisa.theneverendingrun.models.powerup.AbstractPowerUp;
 import it.unisa.theneverendingrun.models.powerup.PowerUpType;
 
-public class Sword extends PowerUp {
+/**
+ *
+ * An implementation of {@link AbstractPowerUp}
+ */
+public class Sword extends AbstractPowerUp {
 
+    /**
+     *
+     * see {@link AbstractPowerUp#AbstractPowerUp(Sprite)}
+     *
+     * @param sprite the original sprite
+     */
+    public Sword(Sprite sprite) {
+        super(sprite);
+    }
+
+    /**
+     * @return the the type of the powerup
+     *
+     * @see PowerUpType
+     */
     @Override
-    public PowerUpType getType() {
+    public PowerUpType getPowerUpType() {
         return PowerUpType.SWORD;
     }
 }

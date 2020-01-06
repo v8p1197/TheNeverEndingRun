@@ -1,45 +1,41 @@
 package it.unisa.theneverendingrun.models.powerup;
 
-import com.badlogic.gdx.graphics.Texture;
 import it.unisa.theneverendingrun.models.Sprite;
+import it.unisa.theneverendingrun.models.SpriteImplType;
 
+/**
+ *
+ * A wrapper for {@link Sprite}
+ */
 public abstract class AbstractPowerUp extends Sprite {
 
     /* ------------------------------------- CONSTRUCTORS ------------------------------------- */
 
     /**
-     * @see Sprite#Sprite()
-     * <p>
-     * Create an {@link AbstractPowerUp}
+     *
+     * Create an {@link AbstractPowerUp} starting from anther {@link Sprite}
+     *
+     * @param sprite the original sprite
      */
-    public AbstractPowerUp() {
-        this(1);
+    public AbstractPowerUp(Sprite sprite) {
+        super(sprite.getScaleFactor());
+        set(sprite);
     }
 
     /**
-     * @see Sprite#Sprite(float)
-     * <p>
-     * Create an {@link AbstractPowerUp}
+     *
+     * @return the sprite implementation type
      */
-    public AbstractPowerUp(float scaleFactor) {
-        super(scaleFactor);
+    @Override
+    public SpriteImplType getSpriteImplType() {
+        return SpriteImplType.POWER_UP;
     }
 
     /**
-     * @see Sprite#Sprite(float)
-     * <p>
-     * Create an {@link AbstractPowerUp}
+     *
+     * @see PowerUpType
+     *
+     * @return the the type of the powerup
      */
-    public AbstractPowerUp(Texture texture) {
-        this(texture, 1);
-    }
-
-    /**
-     * @see Sprite#Sprite(float)
-     * <p>
-     * Create an {@link AbstractPowerUp}
-     */
-    public AbstractPowerUp(Texture texture, float scaleFactor) {
-        super(texture, scaleFactor);
-    }
+    public abstract PowerUpType getPowerUpType();
 }
