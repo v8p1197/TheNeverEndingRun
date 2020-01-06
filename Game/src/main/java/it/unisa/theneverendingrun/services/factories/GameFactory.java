@@ -8,7 +8,7 @@ import it.unisa.theneverendingrun.models.hero.AbstractHero;
 
 public interface GameFactory {
 
-    AbstractBackground createBackground();
+    AbstractScrollingBackground createBackground();
 
     AbstractHero createHero();
 

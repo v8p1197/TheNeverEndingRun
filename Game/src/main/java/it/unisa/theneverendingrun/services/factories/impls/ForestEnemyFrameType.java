@@ -1,6 +1,6 @@
 package it.unisa.theneverendingrun.services.factories.impls;
 
-public enum EnemyFrameType {
+public enum ForestEnemyFrameType {
     WOLF(true),
     GOLEM(true),
     WITCH(true)
@@ -8,7 +8,7 @@ public enum EnemyFrameType {
 
     private boolean isJumpable;
 
-    EnemyFrameType(boolean isJumpable) {
+    ForestEnemyFrameType(boolean isJumpable) {
         this.isJumpable = isJumpable;
     }
 
