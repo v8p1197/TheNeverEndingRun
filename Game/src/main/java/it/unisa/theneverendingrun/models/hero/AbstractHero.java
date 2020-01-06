@@ -9,6 +9,7 @@ import it.unisa.theneverendingrun.models.hero.state.HeroMoveState;
 import it.unisa.theneverendingrun.models.hero.state.face.LeftState;
 import it.unisa.theneverendingrun.models.hero.state.face.RightState;
 import it.unisa.theneverendingrun.models.hero.state.move.*;
+import it.unisa.theneverendingrun.models.powerup.PowerUpManager;
 import it.unisa.theneverendingrun.utilities.MathUtils;
 
 import java.util.Map;
@@ -77,6 +78,10 @@ public abstract class AbstractHero extends Sprite implements Animatable {
      */
     private int slideCount;
 
+    /**
+     * PowerUp manager instance
+     */
+    private PowerUpManager powerUpManager = PowerUpManager.getInstance();
 
 
     /* ------------------------------------- CONSTRUCTORS ------------------------------------- */
@@ -449,7 +454,10 @@ public abstract class AbstractHero extends Sprite implements Animatable {
      * Asks the hero to die
      */
     public void die() {
-        getMoveState().onDie();
+        if (powerUpManager.getSwords() > 0)
+            getMoveState().onAttack();
+        else
+            getMoveState().onDie();
     }
 
 

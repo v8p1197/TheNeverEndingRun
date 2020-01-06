@@ -9,10 +9,9 @@ import it.unisa.theneverendingrun.models.hero.state.HeroMoveState;
 import java.util.Map;
 
 /**
- *
  * In this state the hero is running
  */
-public class RunningState extends HeroMoveState {
+public class AttackState extends HeroMoveState {
 
     /**
      * Sets the hero for holding its move state
@@ -20,14 +19,13 @@ public class RunningState extends HeroMoveState {
      * @param hero       the hero which move state is held
      * @param animations the possible animations of the hero
      */
-    public RunningState(AbstractHero hero, Map<HeroStateType, Animation<TextureRegion>> animations) {
+    public AttackState(AbstractHero hero, Map<HeroStateType, Animation<TextureRegion>> animations) {
         super(hero, animations);
     }
 
     /**
-     *
      * @see HeroMoveState#move()
-     *
+     * <p>
      * Actually, the hero have to move if isRunning is true
      */
     @Override
@@ -39,9 +37,8 @@ public class RunningState extends HeroMoveState {
     }
 
     /**
-     *
      * @see HeroMoveState#onStand()
-     *
+     * <p>
      * The reaction when the state tries to change from Run to Stand
      * Actually, the hero does change it's state to Idle
      */
@@ -51,9 +48,8 @@ public class RunningState extends HeroMoveState {
     }
 
     /**
-     *
      * @see HeroMoveState#onJump()
-     *
+     * <p>
      * The reaction when the state tries to change from Run to Jump
      * Actually, the hero does start jumping
      */
@@ -63,9 +59,8 @@ public class RunningState extends HeroMoveState {
     }
 
     /**
-     *
      * @see HeroMoveState#onSlide()
-     *
+     * <p>
      * The reaction when the state tries to change from Run to Slide
      * Actually, the hero does start sliding
      */
@@ -75,9 +70,8 @@ public class RunningState extends HeroMoveState {
     }
 
     /**
-     *
      * @see HeroMoveState#onFall()
-     *
+     * <p>
      * The reaction when the state tries to change from Run to Fall
      * Actually, the hero does start falling
      */
@@ -87,9 +81,8 @@ public class RunningState extends HeroMoveState {
     }
 
     /**
-     *
      * @see HeroMoveState#onDie()
-     *
+     * <p>
      * The reaction when the state tries to change from Run to Die
      * Actually, the hero has to die
      */
@@ -99,9 +92,8 @@ public class RunningState extends HeroMoveState {
     }
 
     /**
-     *
      * @see HeroMoveState#onRun()
-     *
+     * <p>
      * The reaction when the state tries to change from Run to Run
      * Actually, the hero keeps running and doesn't change his state
      */
@@ -111,13 +103,12 @@ public class RunningState extends HeroMoveState {
 
     @Override
     public void onAttack() {
-        hero.changeMoveState(new AttackState(hero, animations));
+
     }
 
     /**
-     *
-     * @see HeroMoveState#computeStateType()
      * @return the current hero animation type based on the current state
+     * @see HeroMoveState#computeStateType()
      */
     @Override
     protected HeroStateType computeStateType() {

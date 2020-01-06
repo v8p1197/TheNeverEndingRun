@@ -1,5 +1,6 @@
 package it.unisa.theneverendingrun.services.score;
 
+import it.unisa.theneverendingrun.models.powerup.PowerUpManager;
 import it.unisa.theneverendingrun.services.meters.MetersEventType;
 import it.unisa.theneverendingrun.services.meters.MetersListener;
 import it.unisa.theneverendingrun.services.meters.MeterEditor;
@@ -29,6 +30,11 @@ public class ScoreMetersListener implements MetersListener {
     private int score;
 
     /**
+     * A flag for Multiplier power up
+     */
+    private PowerUpManager powerUpManager;
+
+    /**
      *
      * @see ScoreMetersListener#setScore(int)
      *
@@ -36,6 +42,7 @@ public class ScoreMetersListener implements MetersListener {
      */
     public ScoreMetersListener() {
         setScore(INITIAL_SCORE);
+        powerUpManager = PowerUpManager.getInstance();
     }
 
     /**
@@ -69,6 +76,9 @@ public class ScoreMetersListener implements MetersListener {
     @Override
     public void update(MetersEventType eventType, int meters) {
         if (eventType == MetersEventType.METERS_CHANGED)
-            setScore(SCORE_FACTOR * meters + INITIAL_SCORE);
+            if (powerUpManager.isMultiplier())
+                setScore((SCORE_FACTOR * 2) * meters + INITIAL_SCORE);
+            else
+                setScore(SCORE_FACTOR * meters + INITIAL_SCORE);
     }
 }

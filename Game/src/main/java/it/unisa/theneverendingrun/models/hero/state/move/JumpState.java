@@ -137,6 +137,11 @@ public class JumpState extends HeroMoveState {
         hero.changeMoveState(new RunningState(hero, animations));
     }
 
+    @Override
+    public void onAttack() {
+        hero.changeMoveState(new AttackState(hero, animations));
+    }
+
     /**
      *
      * @see HeroMoveState#computeStateType()
