@@ -395,7 +395,7 @@ public abstract class AbstractHero extends Sprite implements Animatable {
      *
      * @return the maximum number of pixels the hero moves in the vertical axis when he jumps
      */
-    public double getJumpMaxElevation() {
+    public float getJumpMaxElevation() {
         return 3 * getHeight();
     }
 
