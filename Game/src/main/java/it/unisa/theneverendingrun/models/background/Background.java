@@ -2,26 +2,13 @@ package it.unisa.theneverendingrun.models.background;
 
 import com.badlogic.gdx.graphics.Texture;
 import it.unisa.theneverendingrun.models.Sprite;
+import it.unisa.theneverendingrun.models.SpriteDescriptionType;
 
 /**
  *
  * An abstraction of the Sprite class that adds support to original texture size.
  */
 public class Background extends Sprite {
-
-    /* ------------------------------------- PARAMS ------------------------------------- */
-
-    /**
-     *
-     * Contains the original background width
-     */
-    private final float textureWidth;
-
-    /**
-     *
-     * Contains the original background height
-     */
-    private final float textureHeight;
 
 
 
@@ -30,13 +17,6 @@ public class Background extends Sprite {
     /**
      *
      * @see Sprite#Sprite(Texture, int, int, int, int, float)
-     *
-     * Set the {@link Background#textureWidth} and the {@link Background#textureHeight},
-     *
-     * @see Background#textureWidth
-     * @see Background#textureHeight
-     *
-     *
      */
     public Background(Texture texture) {
         this(texture, 0,0, texture.getWidth(), texture.getHeight(), 1);
@@ -45,11 +25,6 @@ public class Background extends Sprite {
     /**
      *
      * @see Sprite#Sprite(Texture, int, int, int, int, float)
-     *
-     * Set the {@link Background#textureWidth} and the {@link Background#textureHeight}
-     *
-     * @see Background#textureWidth
-     * @see Background#textureHeight
      */
     public Background(Texture texture, float scaleFactor) {
         this(texture, 0,0, texture.getWidth(), texture.getHeight(), scaleFactor);
@@ -58,12 +33,6 @@ public class Background extends Sprite {
     /**
      *
      * @see Sprite#Sprite(Texture, int, int, int, int, float)
-     *
-     * Set the {@link Background#textureWidth} and the {@link Background#textureHeight}
-     *
-     * @see Background#textureWidth
-     * @see Background#textureHeight
-     *
      */
     public Background(Texture texture, int backgroundWidth, int backgroundHeight) {
         this(texture, 0,0, backgroundWidth, backgroundHeight, 1);
@@ -72,12 +41,6 @@ public class Background extends Sprite {
     /**
      *
      * @see Sprite#Sprite(Texture, int, int, int, int, float)
-     *
-     * Set the {@link Background#textureWidth} and the {@link Background#textureHeight}
-     *
-     * @see Background#textureWidth
-     * @see Background#textureHeight
-     *
      */
     public Background(Texture texture, int backgroundWidth, int backgroundHeight, float scaleFactor) {
         this(texture, 0,0, backgroundWidth, backgroundHeight, scaleFactor);
@@ -86,12 +49,6 @@ public class Background extends Sprite {
     /**
      *
      * @see Sprite#Sprite(Texture, int, int, int, int, float)
-     *
-     * Set the {@link Background#textureWidth} and the {@link Background#textureHeight}
-     *
-     * @see Background#textureWidth
-     * @see Background#textureHeight
-     *
      */
     public Background(Texture texture, int srcX, int srcY, int backgroundWidth, int backgroundHeight) {
         this(texture, srcX,srcY, backgroundWidth, backgroundHeight, 1);
@@ -100,38 +57,23 @@ public class Background extends Sprite {
     /**
      *
      * @see Sprite#Sprite(Texture, int, int, int, int, float)
-     *
-     * Set the {@link Background#textureWidth} and the {@link Background#textureHeight}
-     *
-     * @see Background#textureWidth
-     * @see Background#textureHeight
-     *
      */
     public Background(Texture texture, int srcX, int srcY, int backgroundWidth, int backgroundHeight, float scaleFactor) {
         super(texture, srcX, srcY, backgroundWidth, backgroundHeight, scaleFactor);
-        this.textureWidth = texture.getWidth();
-        this.textureHeight = texture.getHeight();
     }
+
+
 
 
     /* ------------------------------------- GETTERS ------------------------------------- */
 
     /**
      *
-     * @see Background#textureWidth
-     * Original background width getter
+     * @return the sprite description
      */
-    public final float getTextureWidth() {
-        return textureWidth;
-    }
-
-    /**
-     *
-     * @see Background#textureHeight
-     * Original background height getter
-     */
-    public final float getTextureHeight() {
-        return textureHeight;
+    @Override
+    public SpriteDescriptionType getSpriteType() {
+        return SpriteDescriptionType.BACKGROUND;
     }
 
 }
