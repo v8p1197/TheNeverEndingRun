@@ -70,11 +70,7 @@ public class FallState extends HeroMoveState {
         hero.setY(newY);
         gravity++;
         if (!hero.isAboveGround()) {
-            if (hero.isMoving()) {
-                onRun();
-            } else {
-                onStand();
-            }
+            onIdle();
         }
     }
 

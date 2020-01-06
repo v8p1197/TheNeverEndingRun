@@ -82,6 +82,13 @@ public abstract class HeroMoveState {
         hero.setX(hero.getX() - hero.getDx());
     }
 
+    public final void onIdle() {
+        if (hero.isMoving())
+            onRun();
+        else
+            onStand();
+    }
+
     /**
      *
      * The reaction when the state tries to change to Idle

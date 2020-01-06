@@ -52,11 +52,7 @@ public class SlideState extends HeroMoveState {
         if (slideCount < AbstractHero.getSlideDuration()) {
             hero.setSlideCount(slideCount + 1);
         } else {
-            if (hero.isMoving()) {
-                onRun();
-            } else {
-                onStand();
-            }
+            onIdle();
         }
     }
 

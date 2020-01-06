@@ -58,11 +58,7 @@ public class JumpState extends HeroMoveState {
             if (hero.isAboveGround()) {
                 hero.changeMoveState(new FallState(hero, animations, Math.abs(jumpCount)));
             } else {
-                if (hero.isMoving()) {
-                    onRun();
-                } else {
-                    onStand();
-                }
+                onIdle();
             }
         }
     }
