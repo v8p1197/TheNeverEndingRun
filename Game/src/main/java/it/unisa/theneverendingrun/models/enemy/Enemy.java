@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import it.unisa.theneverendingrun.models.Animatable;
 import it.unisa.theneverendingrun.models.Sprite;
-import it.unisa.theneverendingrun.models.SpriteDescriptionType;
+import it.unisa.theneverendingrun.models.SpriteImplType;
 import it.unisa.theneverendingrun.models.enemy.state.EnemyAttackState;
 import it.unisa.theneverendingrun.models.enemy.state.EnemyIdleState;
 
@@ -72,9 +72,13 @@ public class Enemy extends Sprite implements Animatable {
         return prevState;
     }
 
+    /**
+     *
+     * @return the sprite implementation type
+     */
     @Override
-    public SpriteDescriptionType getSpriteType() {
-        return SpriteDescriptionType.ENEMY;
+    public SpriteImplType getSpriteImplType() {
+        return SpriteImplType.ENEMY;
     }
 
 

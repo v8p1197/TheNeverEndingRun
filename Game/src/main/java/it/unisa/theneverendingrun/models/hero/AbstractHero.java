@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import it.unisa.theneverendingrun.models.Animatable;
 import it.unisa.theneverendingrun.models.Sprite;
-import it.unisa.theneverendingrun.models.SpriteDescriptionType;
+import it.unisa.theneverendingrun.models.SpriteImplType;
 import it.unisa.theneverendingrun.models.hero.state.HeroFacingState;
 import it.unisa.theneverendingrun.models.hero.state.HeroMoveState;
 import it.unisa.theneverendingrun.models.hero.state.face.LeftState;
@@ -199,6 +199,12 @@ public abstract class AbstractHero extends Sprite implements Animatable {
         return moveState;
     }
 
+    /**
+     *
+     * @see AbstractHero#previousMoveState
+     *
+     * @return the previous move state
+     */
     public HeroMoveState getPreviousMoveState() {
         return previousMoveState;
     }
@@ -257,11 +263,11 @@ public abstract class AbstractHero extends Sprite implements Animatable {
 
     /**
      *
-     * @return the type of the sprite
+     * @return the sprite implementation type
      */
     @Override
-    public SpriteDescriptionType getSpriteType() {
-        return SpriteDescriptionType.HERO;
+    public SpriteImplType getSpriteImplType() {
+        return SpriteImplType.HERO;
     }
 
     /**

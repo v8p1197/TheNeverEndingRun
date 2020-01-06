@@ -2,7 +2,7 @@ package it.unisa.theneverendingrun.models;
 
 /**
  *
- * Represent the type of the spawnable
+ * Represent the type of the sprite
  */
 public enum SpriteType {
     JUMPABLE,

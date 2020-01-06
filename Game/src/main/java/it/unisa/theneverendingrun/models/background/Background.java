@@ -2,7 +2,7 @@ package it.unisa.theneverendingrun.models.background;
 
 import com.badlogic.gdx.graphics.Texture;
 import it.unisa.theneverendingrun.models.Sprite;
-import it.unisa.theneverendingrun.models.SpriteDescriptionType;
+import it.unisa.theneverendingrun.models.SpriteImplType;
 
 /**
  *
@@ -69,11 +69,11 @@ public class Background extends Sprite {
 
     /**
      *
-     * @return the sprite description
+     * @return the sprite implementation type
      */
     @Override
-    public SpriteDescriptionType getSpriteType() {
-        return SpriteDescriptionType.BACKGROUND;
+    public SpriteImplType getSpriteImplType() {
+        return SpriteImplType.BACKGROUND;
     }
 
 }

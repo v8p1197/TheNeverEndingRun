@@ -1,7 +1,7 @@
 package it.unisa.theneverendingrun.models.obstacle;
 
 import it.unisa.theneverendingrun.models.Sprite;
-import it.unisa.theneverendingrun.models.SpriteDescriptionType;
+import it.unisa.theneverendingrun.models.SpriteImplType;
 
 /**
  *
@@ -22,10 +22,10 @@ public class Obstacle extends Sprite {
     }
 
     /**
-     * @return the sprite description
+     * @return the sprite implementation type
      */
     @Override
-    public SpriteDescriptionType getSpriteType() {
-        return SpriteDescriptionType.OBSTACLE;
+    public SpriteImplType getSpriteImplType() {
+        return SpriteImplType.OBSTACLE;
     }
 }

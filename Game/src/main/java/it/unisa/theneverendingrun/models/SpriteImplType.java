@@ -1,6 +1,10 @@
 package it.unisa.theneverendingrun.models;
 
-public enum SpriteDescriptionType {
+/**
+ *
+ * Represent the existing sprite implementation
+ */
+public enum SpriteImplType {
 
     HERO,
     OBSTACLE,

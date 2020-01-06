@@ -167,9 +167,9 @@ public abstract class Sprite extends org.mini2Dx.core.graphics.Sprite {
 
     /**
      *
-     * @return the sprite description
+     * @return the sprite implementation type
      */
-    public abstract SpriteDescriptionType getSpriteType();
+    public abstract SpriteImplType getSpriteImplType();
 
     /**
      *
