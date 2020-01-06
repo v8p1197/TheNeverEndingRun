@@ -3,6 +3,7 @@ package it.unisa.theneverendingrun;
 import com.badlogic.gdx.backends.lwjgl.DesktopMini2DxGame;
 import it.unisa.theneverendingrun.config.PropertiesCache;
 import it.unisa.theneverendingrun.config.PropertiesConstants;
+import it.unisa.theneverendingrun.engine.GameEngine;
 import org.mini2Dx.desktop.DesktopMini2DxConfig;
 
 import java.io.IOException;

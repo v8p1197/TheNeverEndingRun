@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import it.unisa.theneverendingrun.models.JumpableSprite;
 import it.unisa.theneverendingrun.models.SlidableSprite;
 import it.unisa.theneverendingrun.models.Sprite;
+import it.unisa.theneverendingrun.models.obstacle.AbstractObstacle;
 import it.unisa.theneverendingrun.models.obstacle.impls.ForestObstacle;
 import it.unisa.theneverendingrun.services.factories.SpriteFactory;
 

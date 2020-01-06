@@ -127,6 +127,11 @@ public class SlideState extends HeroMoveState {
         hero.changeMoveState(new RunningState(hero, animations));
     }
 
+    @Override
+    public void onAttack() {
+        hero.changeMoveState(new AttackState(hero, animations));
+    }
+
     /**
      *
      * @return the current hero animation type based on the current state

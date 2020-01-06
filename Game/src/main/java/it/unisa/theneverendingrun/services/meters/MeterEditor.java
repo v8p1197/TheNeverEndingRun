@@ -1,5 +1,7 @@
 package it.unisa.theneverendingrun.services.meters;
 
+import it.unisa.theneverendingrun.engine.GameEngine;
+
 /**
  *
  * The class that is delegated to properly updating the meter counter
@@ -26,7 +28,7 @@ public class MeterEditor {
 
     /**
      *
-     * Increases by 1 each time the {@link it.unisa.theneverendingrun.GameEngine#update(float)} method is called.
+     * Increases by 1 each time the {@link GameEngine#update(float)} method is called.
      * If it reaches {@link MeterEditor#METERS_FACTOR}, it's set back to 0
      */
     private int counter;

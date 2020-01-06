@@ -1,7 +1,7 @@
 package it.unisa.theneverendingrun.models.hero;
 
 import com.badlogic.gdx.audio.Sound;
-import it.unisa.theneverendingrun.utilities.SoundEffectsUtils;
+import it.unisa.theneverendingrun.utilities.SoundUtils;
 
 public enum HeroStateType {
     IDLE(""),
@@ -9,7 +9,8 @@ public enum HeroStateType {
     FALL(""),
     SLIDE("sounds/effects/heroSlide.mp3"),
     JUMP("sounds/effects/heroJump.mp3"),
-    RUN("");
+    RUN(""),
+    ATTACK("");
 
     private String soundPath;
 
@@ -19,7 +20,7 @@ public enum HeroStateType {
         this.soundPath = soundPath;
 
         try {
-            sound = SoundEffectsUtils.getSound(soundPath);
+            sound = SoundUtils.getSound(soundPath);
         } catch (IllegalArgumentException exc) {
             sound = null;
         }

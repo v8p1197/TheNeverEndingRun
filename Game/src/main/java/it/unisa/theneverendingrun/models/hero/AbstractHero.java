@@ -19,6 +19,7 @@ public abstract class AbstractHero extends Sprite implements Animatable {
 
     /* ------------------------------------- PARAMS ------------------------------------- */
 
+
     /**
      *
      * The number of steps the hero takes to jump
@@ -141,7 +142,6 @@ public abstract class AbstractHero extends Sprite implements Animatable {
     /* ------------------------------------- GETTERS ------------------------------------- */
 
     /**
-     *
      *
      * @see AbstractHero#groundX
      *
@@ -491,6 +491,9 @@ public abstract class AbstractHero extends Sprite implements Animatable {
         getMoveState().onDie();
     }
 
+
+
+
     /* ------------------------------------- ANIMATION ------------------------------------- */
 
     /**
@@ -512,5 +515,4 @@ public abstract class AbstractHero extends Sprite implements Animatable {
 
         setRegion(frame);
     }
-
 }

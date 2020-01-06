@@ -109,6 +109,11 @@ public class RunningState extends HeroMoveState {
     public void onRun() {
     }
 
+    @Override
+    public void onAttack() {
+        hero.changeMoveState(new AttackState(hero, animations));
+    }
+
     /**
      *
      * @see HeroMoveState#computeStateType()

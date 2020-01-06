@@ -2,8 +2,9 @@ package it.unisa.theneverendingrun.models.enemy.state;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import it.unisa.theneverendingrun.models.enemy.EnemyAnimationType;
-import it.unisa.theneverendingrun.models.enemy.AbstractEnemy;
+import it.unisa.theneverendingrun.models.enemy.EnemyState;
+import it.unisa.theneverendingrun.models.enemy.EnemyStateType;
+import it.unisa.theneverendingrun.models.enemy.Enemy;
 
 import java.util.Map;
 
@@ -13,7 +14,7 @@ public class EnemyDeadState extends EnemyState {
     /**
      * @param enemy the enemy that has the state
      */
-    public EnemyDeadState(AbstractEnemy enemy, Map<EnemyAnimationType, Animation<TextureRegion>> animations) {
+    public EnemyDeadState(Enemy enemy, Map<EnemyStateType, Animation<TextureRegion>> animations) {
         super(enemy, animations);
     }
 
@@ -41,11 +42,11 @@ public class EnemyDeadState extends EnemyState {
 
     /**
      *
-     * @see EnemyAnimationType
+     * @see EnemyStateType
      * @return the current enemy animation type based on the current state
      */
     @Override
-    protected EnemyAnimationType computeAnimationType() {
-        return EnemyAnimationType.DEAD;
+    protected EnemyStateType getEnemyType() {
+        return EnemyStateType.DEAD;
     }
 }

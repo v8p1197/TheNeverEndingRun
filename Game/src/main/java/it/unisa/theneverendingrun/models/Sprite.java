@@ -341,7 +341,7 @@ public abstract class Sprite extends org.mini2Dx.core.graphics.Sprite {
      * @param stateTime the updated state time
      */
     public void setStateTime(float stateTime) {
-        this.stateTime = stateTime;
+        this.stateTime += stateTime;
     }
 
     /**

@@ -99,6 +99,11 @@ public class DeadState extends HeroMoveState {
 
     }
 
+    @Override
+    public void onAttack() {
+
+    }
+
     /**
      *
      * @see HeroMoveState#computeStateType()

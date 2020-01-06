@@ -30,6 +30,7 @@ public class ForestHero extends AbstractHero {
         final var JUMP_FRAME_COUNT = 13;
         final var RUN_FRAME_COUNT = 8;
         final var SLIDE_FRAME_COUNT = 13;
+        final var ATTACK_FRAME_COUNT = 13;
 
         final var DEATH_FRAMES = TextureUtils.toVector(HERO_FRAME_PATH + "hero_death/hero_death_", "png", DEATH_FRAME_COUNT);
         final var FALL_FRAMES = TextureUtils.toVector(HERO_FRAME_PATH + "hero_fall/hero_fall_", "png", FALL_FRAME_COUNT);
@@ -37,6 +38,7 @@ public class ForestHero extends AbstractHero {
         final var JUMP_FRAMES = TextureUtils.toVector(HERO_FRAME_PATH + "hero_jump/hero_jump_", "png", JUMP_FRAME_COUNT);
         final var RUN_FRAMES = TextureUtils.toVector(HERO_FRAME_PATH + "hero_run/hero_run_", "png", RUN_FRAME_COUNT);
         final var SLIDE_FRAMES = TextureUtils.toVector(HERO_FRAME_PATH + "hero_slide/hero_slide_", "png", SLIDE_FRAME_COUNT);
+        final var ATTACK_FRAMES = TextureUtils.toVector(HERO_FRAME_PATH + "hero_attack/hero_attack_", "png", ATTACK_FRAME_COUNT);
 
         ANIMATIONS = new HashMap<>();
         ANIMATIONS.put(HeroStateType.DEAD, new Animation<>(2F, DEATH_FRAMES));
@@ -45,6 +47,7 @@ public class ForestHero extends AbstractHero {
         ANIMATIONS.put(HeroStateType.JUMP, new Animation<>(2F, JUMP_FRAMES));
         ANIMATIONS.put(HeroStateType.RUN, new Animation<>(2F, RUN_FRAMES));
         ANIMATIONS.put(HeroStateType.SLIDE, new Animation<>(2F, SLIDE_FRAMES));
+        ANIMATIONS.put(HeroStateType.ATTACK, new Animation<>(2F, ATTACK_FRAMES));
     }
 
     /**

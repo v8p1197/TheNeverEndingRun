@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import it.unisa.theneverendingrun.models.JumpableSprite;
 import it.unisa.theneverendingrun.models.Sprite;
+import it.unisa.theneverendingrun.models.enemy.AbstractEnemy;
 import it.unisa.theneverendingrun.models.enemy.EnemyAnimationType;
 import it.unisa.theneverendingrun.models.enemy.impls.ForestEnemy;
 import it.unisa.theneverendingrun.services.factories.SpriteFactory;
@@ -86,7 +87,7 @@ public class ForestEnemyFactory implements SpriteFactory {
     private Map<EnemyAnimationType, Animation<TextureRegion>> createAnimations() {
 
         //For now only Jumpable exist
-        var enemies = Arrays.stream(EnemyFrameType.values()).filter(EnemyFrameType::isJumpable).collect(Collectors.toList());
+        var enemies = Arrays.stream(ForestEnemyFrameType.values()).filter(ForestEnemyFrameType::isJumpable).collect(Collectors.toList());
 
         if (enemies.size() == 0) throw new ArrayIndexOutOfBoundsException("Enemies is empty");
 
