@@ -1,20 +1,20 @@
 package it.unisa.theneverendingrun.services.collision.strategies.impls;
 
 import it.unisa.theneverendingrun.models.hero.AbstractHero;
-import it.unisa.theneverendingrun.models.obstacle.AbstractObstacle;
+import it.unisa.theneverendingrun.models.obstacle.Obstacle;
 import it.unisa.theneverendingrun.services.collision.CollisionSideType;
 import it.unisa.theneverendingrun.services.collision.strategies.CollisionSideStrategy;
 import it.unisa.theneverendingrun.services.collision.strategies.ObstacleCollisionSideStrategyFactory;
 import it.unisa.theneverendingrun.utilities.CollisionUtils;
 
-public class ObstacleTopCollisionSideStrategy extends CollisionSideStrategy<AbstractObstacle> {
+public class ObstacleTopCollisionSideStrategy extends CollisionSideStrategy<Obstacle> {
 
     public ObstacleTopCollisionSideStrategy(AbstractHero hero) {
         super(hero);
     }
 
     @Override
-    public void collide(AbstractObstacle obstacle) {
+    public void collide(Obstacle obstacle) {
         var intersection = CollisionUtils.computeIntersection(hero, obstacle);
 
         if (hero.isJumping()) {

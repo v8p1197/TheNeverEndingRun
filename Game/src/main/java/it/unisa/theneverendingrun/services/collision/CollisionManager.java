@@ -1,10 +1,10 @@
 package it.unisa.theneverendingrun.services.collision;
 
 import it.unisa.theneverendingrun.models.Sprite;
-import it.unisa.theneverendingrun.models.enemy.AbstractEnemy;
+import it.unisa.theneverendingrun.models.enemy.Enemy;
 import it.unisa.theneverendingrun.models.hero.AbstractHero;
-import it.unisa.theneverendingrun.models.obstacle.AbstractObstacle;
-import it.unisa.theneverendingrun.models.powerup.PowerUp;
+import it.unisa.theneverendingrun.models.obstacle.Obstacle;
+import it.unisa.theneverendingrun.models.powerup.AbstractPowerUp;
 import it.unisa.theneverendingrun.models.powerup.PowerUpType;
 import it.unisa.theneverendingrun.models.powerup.strategies.PowerUpStrategyFactory;
 import it.unisa.theneverendingrun.services.collision.strategies.ObstacleCollisionSideStrategyFactory;
@@ -44,12 +44,12 @@ public class CollisionManager {
 
     private void beginCollision(AbstractHero hero, Sprite sprite) {
 
-        var name = sprite.getName();
+        var type = sprite.getSpriteImplType();
 
-        switch (name) {
+        switch (type) {
 
             case OBSTACLE:
-                var obstacle = ((AbstractObstacle) sprite);
+                var obstacle = (Obstacle) sprite;
 
                 var side = CollisionUtils.collisionSide(hero.getCollisionBox(), obstacle.getCollisionBox());
 
@@ -62,7 +62,7 @@ public class CollisionManager {
                 break;
 
             case ENEMY:
-                var enemy = ((AbstractEnemy) sprite);
+                var enemy = (Enemy) sprite;
                 enemy.getState().onAttack();
                 var swordStrategy = powerUpStrategyFactory.createPowerUpStrategy(PowerUpType.SWORD);
                 var killed = swordStrategy.consume();
@@ -76,9 +76,9 @@ public class CollisionManager {
                 break;
 
             case POWER_UP:
-                var powerUp = ((PowerUp) sprite);
-                var type = powerUp.getType();
-                var strategy = powerUpStrategyFactory.createPowerUpStrategy(type);
+                var powerUp = ((AbstractPowerUp) sprite);
+                var powerUpType = powerUp.getPowerUpType();
+                var strategy = powerUpStrategyFactory.createPowerUpStrategy(powerUpType);
                 var collected = strategy.collect();
                 if (collected) powerUp.setVisible(false);
 
@@ -91,9 +91,9 @@ public class CollisionManager {
 
     private void endCollision(AbstractHero hero, Sprite sprite) {
 
-        var name = sprite.getName();
+        var type = sprite.getSpriteImplType();
 
-        switch (name) {
+        switch (type) {
 
             case OBSTACLE:
                 if (wasOnObstacle)
@@ -103,7 +103,7 @@ public class CollisionManager {
                 break;
 
             case ENEMY:
-                var enemy = ((AbstractEnemy) sprite);
+                var enemy = (Enemy) sprite;
 
                 enemy.getState().onIdle();
 
