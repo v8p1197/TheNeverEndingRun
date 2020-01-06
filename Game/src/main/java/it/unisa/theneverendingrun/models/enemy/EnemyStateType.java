@@ -1,6 +1,6 @@
 package it.unisa.theneverendingrun.models.enemy;
 
-public enum EnemyAnimationType {
+public enum EnemyStateType {
     IDLE,
     DEAD,
     ATTACK

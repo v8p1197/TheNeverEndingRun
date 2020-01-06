@@ -1,58 +1,106 @@
 package it.unisa.theneverendingrun.models;
 
 
+import com.badlogic.gdx.graphics.Texture;
+
 import java.util.concurrent.ThreadLocalRandom;
 
 public class SlidableSprite extends Sprite {
-
-
-    /* ------------------------------------- PARAMS ------------------------------------- */
-
-    /**
-     *
-     * The value that say if the spawnable is resized
-     */
-    private boolean isResized;
-
-
 
 
     /* ------------------------------------- CONSTRUCTORS ------------------------------------- */
 
     /**
      *
-     * Resize a sprite so that is slidable
+     * @see Sprite#Sprite()
      *
-     * @param sprite the sprite that has to be slidable
+     * Create a {@link SlidableSprite}.
+     * At constructor time the sprite height is less than the maxHeight
+     *
      * @param maxWidth the max width that the sprite can have
+     * @param resize   if the sprite has to be resized
+     *                 is false and getHeight() >= maxHeight return true or getHeight() == 0,
+     *                 then {@link SlidableSprite#resize(float)} is called
      */
-    public SlidableSprite(Sprite sprite, float maxWidth) {
-        this(sprite,  maxWidth, true);
+    public SlidableSprite(float maxWidth, boolean resize) {
+        this(1, maxWidth, resize);
     }
 
     /**
      *
-     * Resize a sprite so that is slidable
+     * @see Sprite#Sprite()
      *
-     * @param sprite the sprite that has to be slidable
+     * Create a {@link SlidableSprite}.
+     * At constructor time the sprite height is less than the maxHeight
+     *
      * @param maxWidth the max width that the sprite can have
-     * @param alwaysResize if the sprite has to be resized.
-     *                     If is false and getWidth() >= maxWidth return true or getWidth() == 0,
-     *                     then {@link SlidableSprite#resize(float)} is called
+     * @param resize   if the sprite has to be resized
+     *                 is false and getHeight() >= maxHeight return true or getHeight() == 0,
+     *                 then {@link SlidableSprite#resize(float)} is called
      */
-    public SlidableSprite(Sprite sprite, float maxWidth, boolean alwaysResize) {
-        super(sprite.getScaleFactor());
+    public SlidableSprite(float scaleFactor, float maxWidth, boolean resize) {
+        super(scaleFactor);
 
-        this.isResized = false;
+        if (resize || getWidth() >= maxWidth || getWidth() == 0)
+            resize(maxWidth);
+    }
+
+    /**
+     *
+     * @see Sprite#Sprite()
+     *
+     * Create a {@link SlidableSprite}.
+     * At constructor time the sprite height is less than the maxHeight
+     *
+     * @param maxWidth the max width that the sprite can have
+     * @param resize   if the sprite has to be resized
+     *                 is false and getHeight() >= maxHeight return true or getHeight() == 0,
+     *                 then {@link SlidableSprite#resize(float)} is called
+     */
+    public SlidableSprite(Texture texture, float maxWidth, boolean resize) {
+        this(texture, 1, maxWidth, resize);
+    }
+
+    /**
+     *
+     * @see Sprite#Sprite()
+     *
+     * Create a {@link SlidableSprite}.
+     * At constructor time the sprite height is less than the maxHeight
+     *
+     * @param maxWidth the max width that the sprite can have
+     * @param resize   if the sprite has to be resized
+     *                 is false and getHeight() >= maxHeight return true or getHeight() == 0,
+     *                 then {@link SlidableSprite#resize(float)} is called
+     */
+    public SlidableSprite(Texture texture, float scaleFactor, float maxWidth, boolean resize) {
+        super(texture, scaleFactor);
+
+        if (resize || getWidth() >= maxWidth || getWidth() == 0)
+            resize(maxWidth);
+    }
+
+
+    /**
+     *
+     * Create a {@link SlidableSprite} starting from another {@link Sprite}
+     * and resize it so that is jumpable
+     *
+     * @param sprite the sprite that has to be jumpable
+     * @param maxWidth the max width that the sprite can have
+     * @param resize   if the sprite has to be resized
+     *                 is false and getHeight() >= maxHeight return true or getHeight() == 0,
+     *                 then {@link SlidableSprite#resize(float)} is called
+     */
+    public SlidableSprite(Sprite sprite, float maxWidth, boolean resize) {
+        super(sprite.getScaleFactor());
 
         set(sprite);
 
-        if (alwaysResize || getWidth() >= maxWidth || getWidth() == 0)
+        if (resize || getWidth() >= maxWidth || getWidth() == 0)
             resize(maxWidth);
 
-        isResized = true;
     }
-
 
 
 
@@ -60,7 +108,7 @@ public class SlidableSprite extends Sprite {
 
     /**
      *
-     * Resize spawnable in random mode so that is slidable
+     * Resize sprite in random mode so that his width is less than maxWidth
      */
     private void resize(float maxWidth) {
         var minW = Math.min(getWidth(), maxWidth * 0.5 - 1);
@@ -68,25 +116,6 @@ public class SlidableSprite extends Sprite {
 
         float newW = (float)ThreadLocalRandom.current().nextDouble(minW, maxW);
         setSize(newW, getHeight());
-    }
-
-
-
-
-    /* -------------------------------- SETTERS -------------------------------- */
-
-    /**
-     *
-     * Set the size of the spawnable
-     *
-     * @param width  the width of the spawnable
-     * @param height the height of the spawnable
-     */
-    @Override
-    public void setSize(float width, float height) {
-        if (isResized) return;
-        super.setSize(width, height);
-        isResized = true;
     }
 
 }

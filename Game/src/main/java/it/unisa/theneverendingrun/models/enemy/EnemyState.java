@@ -1,9 +1,9 @@
-package it.unisa.theneverendingrun.models.enemy.state;
+package it.unisa.theneverendingrun.models.enemy;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import it.unisa.theneverendingrun.models.enemy.EnemyAnimationType;
-import it.unisa.theneverendingrun.models.enemy.AbstractEnemy;
+import it.unisa.theneverendingrun.models.enemy.EnemyStateType;
+import it.unisa.theneverendingrun.models.enemy.Enemy;
 
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -14,20 +14,20 @@ public abstract class EnemyState {
      *
      * The enemy that has the state
      */
-    protected AbstractEnemy enemy;
+    protected Enemy enemy;
 
     /**
      *
      * Animations of the enemy
      */
-    protected final Map<EnemyAnimationType, Animation<TextureRegion>> animations;
+    protected final Map<EnemyStateType, Animation<TextureRegion>> animations;
 
     /**
      *
      * @param enemy the enemy that has the state
      * @param animations the possible animations of the enemy
      */
-    public EnemyState(AbstractEnemy enemy, Map<EnemyAnimationType, Animation<TextureRegion>> animations) {
+    public EnemyState(Enemy enemy, Map<EnemyStateType, Animation<TextureRegion>> animations) {
         this.enemy = enemy;
         this.animations = animations;
         setAnimation();
@@ -56,7 +56,7 @@ public abstract class EnemyState {
      * Change the animation of the enemy depending on the particular state of the enemy
      */
     private void setAnimation() {
-        var type = computeAnimationType();
+        var type = getEnemyType();
         if (type == null) return;
 
         var animation = animations.get(type);
@@ -76,9 +76,9 @@ public abstract class EnemyState {
 
     /**
      *
-     * @see EnemyAnimationType
+     * @see EnemyStateType
      * @return the current enemy animation type based on the current state
      */
-    protected abstract EnemyAnimationType computeAnimationType();
+    protected abstract EnemyStateType getEnemyType();
 
 }

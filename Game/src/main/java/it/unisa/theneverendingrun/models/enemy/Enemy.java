@@ -1,13 +1,11 @@
 package it.unisa.theneverendingrun.models.enemy;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import it.unisa.theneverendingrun.models.Animatable;
 import it.unisa.theneverendingrun.models.Sprite;
 import it.unisa.theneverendingrun.models.enemy.state.EnemyAttackState;
 import it.unisa.theneverendingrun.models.enemy.state.EnemyIdleState;
-import it.unisa.theneverendingrun.models.enemy.state.EnemyState;
 
 import java.util.Map;
 
@@ -15,7 +13,7 @@ import java.util.Map;
  *
  * A wrapper for {@link Sprite} that add support for {@link EnemyState} and {@link Animatable}
  */
-public abstract class AbstractEnemy extends Sprite implements Animatable {
+public class Enemy extends Sprite implements Animatable {
 
 
     /* ------------------------------------- PARAMS ------------------------------------- */
@@ -39,59 +37,25 @@ public abstract class AbstractEnemy extends Sprite implements Animatable {
     /* ------------------------------------- CONSTRUCTORS ------------------------------------- */
 
     /**
-     * @see Sprite#Sprite()
      *
-     * Create an {@link AbstractEnemy} and pass animations to {@link EnemyState} so that when state change the animation change
+     * Create an {@link Enemy} starting from another {@link Sprite}
+     * and pass animations to {@link EnemyState} so that when state change the animation change
      *
+     * @param sprite the original sprite
      * @param animations the animations of the enemy for state
      */
-    public AbstractEnemy(Map<EnemyAnimationType, Animation<TextureRegion>> animations) {
-        this(1, animations);
-    }
-
-    /**
-     * @see Sprite#Sprite(float)
-     *
-     * Create an {@link AbstractEnemy} and pass animations to {@link EnemyState} so that when state change the animation change
-     *
-     * @param animations the animations of the enemy for state
-     */
-    public AbstractEnemy(float scaleFactor, Map<EnemyAnimationType, Animation<TextureRegion>> animations) {
-        super(scaleFactor);
+    public Enemy(Sprite sprite, Map<EnemyStateType, Animation<TextureRegion>> animations) {
+        super(sprite.getScaleFactor());
+        set(sprite);
         changeEnemyState(new EnemyIdleState(this, animations));
     }
-
-    /**
-     * @see Sprite#Sprite(float)
-     *
-     * Create an {@link AbstractEnemy} and pass animations to {@link EnemyState} so that when state change the animation change
-     *
-     * @param animations the animations of the enemy for state
-     */
-    public AbstractEnemy(Texture texture, Map<EnemyAnimationType, Animation<TextureRegion>> animations) {
-        this(texture, 1, animations);
-    }
-
-    /**
-     * @see Sprite#Sprite(float)
-     *
-     * Create an {@link AbstractEnemy} and pass animations to {@link EnemyState} so that when state change the animation change
-     *
-     * @param animations the animations of the enemy for state
-     */
-    public AbstractEnemy(Texture texture, float scaleFactor, Map<EnemyAnimationType, Animation<TextureRegion>> animations) {
-        super(texture, scaleFactor);
-        changeEnemyState(new EnemyIdleState(this, animations));
-    }
-
-
 
 
     /* ------------------------------------- GETTER ------------------------------------- */
 
     /**
      *
-     * @see AbstractEnemy#state
+     * @see Enemy#state
      * @return the current enemy state
      */
     public EnemyState getState() {
@@ -100,7 +64,7 @@ public abstract class AbstractEnemy extends Sprite implements Animatable {
 
     /**
      *
-     * @see AbstractEnemy#prevState
+     * @see Enemy#prevState
      * @return the current enemy state
      */
     public EnemyState getPreviousState() {
@@ -116,7 +80,7 @@ public abstract class AbstractEnemy extends Sprite implements Animatable {
      *
      * Set the new enemy state
      *
-     * @see AbstractEnemy#state
+     * @see Enemy#state
      * @param state the enemy state
      */
     public void changeEnemyState(EnemyState state) {
