@@ -19,8 +19,8 @@ public class ForestHero extends AbstractHero {
     //experimental for this implementation
     private final static float SCALE_FACTOR = 3.0f;
 
-
     private static final Map<HeroStateType, Animation<TextureRegion>> ANIMATIONS;
+
     static {
         final String HERO_FRAME_PATH = "images/forest/hero/";
 

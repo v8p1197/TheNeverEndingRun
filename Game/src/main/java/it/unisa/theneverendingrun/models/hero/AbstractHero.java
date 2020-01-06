@@ -4,12 +4,12 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import it.unisa.theneverendingrun.models.Animatable;
 import it.unisa.theneverendingrun.models.Sprite;
+import it.unisa.theneverendingrun.models.SpriteDescriptionType;
 import it.unisa.theneverendingrun.models.hero.state.HeroFacingState;
 import it.unisa.theneverendingrun.models.hero.state.HeroMoveState;
 import it.unisa.theneverendingrun.models.hero.state.face.LeftState;
 import it.unisa.theneverendingrun.models.hero.state.face.RightState;
 import it.unisa.theneverendingrun.models.hero.state.move.*;
-import it.unisa.theneverendingrun.models.powerup.PowerUpManager;
 import it.unisa.theneverendingrun.utilities.MathUtils;
 
 import java.util.Map;
@@ -58,6 +58,8 @@ public abstract class AbstractHero extends Sprite implements Animatable {
      */
     private HeroMoveState moveState;
 
+    private HeroMoveState previousMoveState;
+
     /**
      *
      * @see HeroFacingState
@@ -79,9 +81,16 @@ public abstract class AbstractHero extends Sprite implements Animatable {
     private int slideCount;
 
     /**
-     * PowerUp manager instance
+     *
+     * The number of swords the hero is holding
      */
-    private PowerUpManager powerUpManager = PowerUpManager.getInstance();
+    private int swords;
+
+    /**
+     *
+     * The number of shields the hero is holding
+     */
+    private int shields;
 
 
     /* ------------------------------------- CONSTRUCTORS ------------------------------------- */
@@ -124,10 +133,11 @@ public abstract class AbstractHero extends Sprite implements Animatable {
         setDx(0);
         changeMoveState(new StandState(this, animations));
         changeFacingState(new RightState(this));
+
+        var texture = animations.get(HeroStateType.IDLE).getKeyFrames()[0].getTexture();
+        setStandardWidth(texture.getWidth() * scaleFactor);
+        setStandardHeight(texture.getHeight() * scaleFactor);
     }
-
-
-
 
     /* ------------------------------------- GETTERS ------------------------------------- */
 
@@ -174,6 +184,10 @@ public abstract class AbstractHero extends Sprite implements Animatable {
      */
     public HeroMoveState getMoveState() {
         return moveState;
+    }
+
+    public HeroMoveState getPreviousMoveState() {
+        return previousMoveState;
     }
 
     /**
@@ -228,8 +242,10 @@ public abstract class AbstractHero extends Sprite implements Animatable {
         return facingState;
     }
 
-
-
+    @Override
+    public SpriteDescriptionType getName() {
+        return SpriteDescriptionType.HERO;
+    }
 
     /* ------------------------------------- CHECK ------------------------------------- */
 
@@ -248,7 +264,7 @@ public abstract class AbstractHero extends Sprite implements Animatable {
      *
      * @return true if the hero is running, false otherwise
      */
-    public boolean isRunning() { return this.getMoveState() instanceof  RunningState; }
+    public boolean isRunning() { return this.getMoveState() instanceof RunningState; }
 
     /**
      *
@@ -264,6 +280,10 @@ public abstract class AbstractHero extends Sprite implements Animatable {
      */
     public boolean isSliding() {
         return this.getMoveState() instanceof SlideState;
+    }
+
+    public boolean wasSliding() {
+        return this.getPreviousMoveState() instanceof SlideState;
     }
 
     /**
@@ -306,8 +326,12 @@ public abstract class AbstractHero extends Sprite implements Animatable {
      *
      * @return true if the hero is idle, false otherwise
      */
-    public boolean isIdle() {
+    public boolean isStanding() {
         return this.getMoveState() instanceof StandState;
+    }
+
+    public boolean isIdle() {
+        return isStanding() || isRunning();
     }
 
     /**
@@ -320,8 +344,13 @@ public abstract class AbstractHero extends Sprite implements Animatable {
         return getY() - getGroundY() > MathUtils.DELTA;
     }
 
+    public int getShields() {
+        return shields;
+    }
 
-
+    public int getSwords() {
+        return swords;
+    }
 
     /* ------------------------------------- SETTERS ------------------------------------- */
 
@@ -342,6 +371,7 @@ public abstract class AbstractHero extends Sprite implements Animatable {
      * @param moveState the new move state to set
      */
     public void changeMoveState(HeroMoveState moveState) {
+        this.previousMoveState = getMoveState();
         this.moveState = moveState;
     }
 
@@ -375,9 +405,13 @@ public abstract class AbstractHero extends Sprite implements Animatable {
         this.facingState = facingState;
     }
 
+    public void setShields(int shields) {
+        this.shields = shields;
+    }
 
-
-
+    public void setSwords(int swords) {
+        this.swords = swords;
+    }
 
     /* ------------------------------------- MOVEMENT METHODS ------------------------------------- */
 
@@ -454,10 +488,7 @@ public abstract class AbstractHero extends Sprite implements Animatable {
      * Asks the hero to die
      */
     public void die() {
-        if (powerUpManager.getSwords() > 0)
-            getMoveState().onAttack();
-        else
-            getMoveState().onDie();
+        getMoveState().onDie();
     }
 
 
