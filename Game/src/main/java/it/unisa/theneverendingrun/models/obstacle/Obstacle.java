@@ -1,6 +1,7 @@
 package it.unisa.theneverendingrun.models.obstacle;
 
 import it.unisa.theneverendingrun.models.Sprite;
+import it.unisa.theneverendingrun.models.SpriteDescriptionType;
 
 /**
  *
@@ -18,5 +19,13 @@ public class Obstacle extends Sprite {
     public Obstacle(Sprite sprite) {
         super(sprite.getScaleFactor());
         set(sprite);
+    }
+
+    /**
+     * @return the sprite description
+     */
+    @Override
+    public SpriteDescriptionType getSpriteType() {
+        return SpriteDescriptionType.OBSTACLE;
     }
 }
