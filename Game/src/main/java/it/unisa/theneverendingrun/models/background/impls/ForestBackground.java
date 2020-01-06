@@ -1,6 +1,7 @@
 package it.unisa.theneverendingrun.models.background.impls;
 
 import com.badlogic.gdx.graphics.Texture;
+import it.unisa.theneverendingrun.models.background.PlayStateBackground;
 
 public class ForestBackground extends PlayStateBackground {
 

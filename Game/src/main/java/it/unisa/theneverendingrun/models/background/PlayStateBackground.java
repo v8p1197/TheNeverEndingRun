@@ -1,23 +1,23 @@
-package it.unisa.theneverendingrun.models.background.impls;
+package it.unisa.theneverendingrun.models.background;
 
 import com.badlogic.gdx.graphics.Texture;
 import it.unisa.theneverendingrun.models.Sprite;
-import it.unisa.theneverendingrun.models.background.AbstractBackground;
-import it.unisa.theneverendingrun.models.background.AbstractScrollingBackground;
+import it.unisa.theneverendingrun.models.background.Background;
+import it.unisa.theneverendingrun.models.background.ScrollingBackground;
 
 import static com.badlogic.gdx.graphics.Texture.TextureWrap.MirroredRepeat;
 import static com.badlogic.gdx.graphics.Texture.TextureWrap.Repeat;
 
 /**
  *
- * An implementation of the {@link AbstractBackground} class that uses predefined parameters for
+ * An implementation of the {@link Background} class that uses predefined parameters for
  * background creation and scrolling.
  */
-public abstract class PlayStateBackground extends AbstractScrollingBackground {
+public abstract class PlayStateBackground extends ScrollingBackground {
 
     /**
      *
-     * @see AbstractScrollingBackground#AbstractScrollingBackground(Texture, int, int, int, int, float, float, float)
+     * @see ScrollingBackground#ScrollingBackground(Texture, int, int, int, int, float, float, float)
      *
      * The forest background is small. We need the screen size for the width and height
      *

@@ -7,7 +7,7 @@ import it.unisa.theneverendingrun.models.Sprite;
  *
  * An abstraction of the Sprite class that adds support to original texture size.
  */
-public abstract class AbstractBackground extends Sprite {
+public class Background extends Sprite {
 
     /* ------------------------------------- PARAMS ------------------------------------- */
 
@@ -31,14 +31,14 @@ public abstract class AbstractBackground extends Sprite {
      *
      * @see Sprite#Sprite(Texture, int, int, int, int, float)
      *
-     * Set the {@link AbstractBackground#textureWidth} and the {@link AbstractBackground#textureHeight},
+     * Set the {@link Background#textureWidth} and the {@link Background#textureHeight},
      *
-     * @see AbstractBackground#textureWidth
-     * @see AbstractBackground#textureHeight
+     * @see Background#textureWidth
+     * @see Background#textureHeight
      *
      *
      */
-    public AbstractBackground(Texture texture) {
+    public Background(Texture texture) {
         this(texture, 0,0, texture.getWidth(), texture.getHeight(), 1);
     }
 
@@ -46,12 +46,12 @@ public abstract class AbstractBackground extends Sprite {
      *
      * @see Sprite#Sprite(Texture, int, int, int, int, float)
      *
-     * Set the {@link AbstractBackground#textureWidth} and the {@link AbstractBackground#textureHeight}
+     * Set the {@link Background#textureWidth} and the {@link Background#textureHeight}
      *
-     * @see AbstractBackground#textureWidth
-     * @see AbstractBackground#textureHeight
+     * @see Background#textureWidth
+     * @see Background#textureHeight
      */
-    public AbstractBackground(Texture texture, float scaleFactor) {
+    public Background(Texture texture, float scaleFactor) {
         this(texture, 0,0, texture.getWidth(), texture.getHeight(), scaleFactor);
     }
 
@@ -59,13 +59,13 @@ public abstract class AbstractBackground extends Sprite {
      *
      * @see Sprite#Sprite(Texture, int, int, int, int, float)
      *
-     * Set the {@link AbstractBackground#textureWidth} and the {@link AbstractBackground#textureHeight}
+     * Set the {@link Background#textureWidth} and the {@link Background#textureHeight}
      *
-     * @see AbstractBackground#textureWidth
-     * @see AbstractBackground#textureHeight
+     * @see Background#textureWidth
+     * @see Background#textureHeight
      *
      */
-    public AbstractBackground(Texture texture, int backgroundWidth, int backgroundHeight) {
+    public Background(Texture texture, int backgroundWidth, int backgroundHeight) {
         this(texture, 0,0, backgroundWidth, backgroundHeight, 1);
     }
 
@@ -73,13 +73,13 @@ public abstract class AbstractBackground extends Sprite {
      *
      * @see Sprite#Sprite(Texture, int, int, int, int, float)
      *
-     * Set the {@link AbstractBackground#textureWidth} and the {@link AbstractBackground#textureHeight}
+     * Set the {@link Background#textureWidth} and the {@link Background#textureHeight}
      *
-     * @see AbstractBackground#textureWidth
-     * @see AbstractBackground#textureHeight
+     * @see Background#textureWidth
+     * @see Background#textureHeight
      *
      */
-    public AbstractBackground(Texture texture, int backgroundWidth, int backgroundHeight, float scaleFactor) {
+    public Background(Texture texture, int backgroundWidth, int backgroundHeight, float scaleFactor) {
         this(texture, 0,0, backgroundWidth, backgroundHeight, scaleFactor);
     }
 
@@ -87,13 +87,13 @@ public abstract class AbstractBackground extends Sprite {
      *
      * @see Sprite#Sprite(Texture, int, int, int, int, float)
      *
-     * Set the {@link AbstractBackground#textureWidth} and the {@link AbstractBackground#textureHeight}
+     * Set the {@link Background#textureWidth} and the {@link Background#textureHeight}
      *
-     * @see AbstractBackground#textureWidth
-     * @see AbstractBackground#textureHeight
+     * @see Background#textureWidth
+     * @see Background#textureHeight
      *
      */
-    public AbstractBackground(Texture texture, int srcX, int srcY, int backgroundWidth, int backgroundHeight) {
+    public Background(Texture texture, int srcX, int srcY, int backgroundWidth, int backgroundHeight) {
         this(texture, srcX,srcY, backgroundWidth, backgroundHeight, 1);
     }
 
@@ -101,13 +101,13 @@ public abstract class AbstractBackground extends Sprite {
      *
      * @see Sprite#Sprite(Texture, int, int, int, int, float)
      *
-     * Set the {@link AbstractBackground#textureWidth} and the {@link AbstractBackground#textureHeight}
+     * Set the {@link Background#textureWidth} and the {@link Background#textureHeight}
      *
-     * @see AbstractBackground#textureWidth
-     * @see AbstractBackground#textureHeight
+     * @see Background#textureWidth
+     * @see Background#textureHeight
      *
      */
-    public AbstractBackground(Texture texture, int srcX, int srcY, int backgroundWidth, int backgroundHeight, float scaleFactor) {
+    public Background(Texture texture, int srcX, int srcY, int backgroundWidth, int backgroundHeight, float scaleFactor) {
         super(texture, srcX, srcY, backgroundWidth, backgroundHeight, scaleFactor);
         this.textureWidth = texture.getWidth();
         this.textureHeight = texture.getHeight();
@@ -118,19 +118,19 @@ public abstract class AbstractBackground extends Sprite {
 
     /**
      *
-     * @see AbstractBackground#textureWidth
+     * @see Background#textureWidth
      * Original background width getter
      */
-    public float getTextureWidth() {
+    public final float getTextureWidth() {
         return textureWidth;
     }
 
     /**
      *
-     * @see AbstractBackground#textureHeight
+     * @see Background#textureHeight
      * Original background height getter
      */
-    public float getTextureHeight() {
+    public final float getTextureHeight() {
         return textureHeight;
     }
 

@@ -9,7 +9,7 @@ import it.unisa.theneverendingrun.engine.GameState;
 import it.unisa.theneverendingrun.services.strategies.KeyStrategy;
 import it.unisa.theneverendingrun.services.strategies.impls.NextKeyStrategy;
 import it.unisa.theneverendingrun.services.strategies.impls.PreviousKeyStrategy;
-import it.unisa.theneverendingrun.models.background.AbstractBackground;
+import it.unisa.theneverendingrun.models.background.Background;
 import it.unisa.theneverendingrun.ui.controls.InteractiveTextButton;
 import org.mini2Dx.core.graphics.Graphics;
 
@@ -22,7 +22,7 @@ public abstract class InfoGameState extends GameState {
 
     /* ------------------------------------- PARAMS ------------------------------------- */
 
-    protected AbstractBackground background;
+    protected Background background;
     private List<InteractiveTextButton> buttons;
 
 
@@ -68,7 +68,7 @@ public abstract class InfoGameState extends GameState {
 
     /* ------------------------------------- UI ------------------------------------- */
 
-    protected abstract AbstractBackground createBackground();
+    protected abstract Background createBackground();
 
     protected abstract List<InteractiveTextButton> createButtons();
 

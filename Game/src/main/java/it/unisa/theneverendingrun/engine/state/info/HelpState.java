@@ -1,18 +1,16 @@
 package it.unisa.theneverendingrun.engine.state.info;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import it.unisa.theneverendingrun.engine.GameEngine;
 import it.unisa.theneverendingrun.engine.state.GameStateType;
 import it.unisa.theneverendingrun.engine.state.InfoGameState;
 import it.unisa.theneverendingrun.engine.state.PlayState;
-import it.unisa.theneverendingrun.models.background.AbstractBackground;
-import it.unisa.theneverendingrun.models.background.impls.HelpStateBackground;
+import it.unisa.theneverendingrun.models.background.Background;
 import it.unisa.theneverendingrun.ui.builder.TableBuilder;
 import it.unisa.theneverendingrun.ui.controls.InteractiveTextButton;
-import org.mini2Dx.core.graphics.Graphics;
 
 import java.util.Arrays;
 import java.util.List;
@@ -24,6 +22,8 @@ import java.util.List;
  */
 public class HelpState extends InfoGameState {
 
+    private static final Texture TEXTURE = new Texture("images/help_state_background.png");
+
     private Table table;
 
     public HelpState(GameEngine game) {
@@ -31,8 +31,8 @@ public class HelpState extends InfoGameState {
     }
 
     @Override
-    protected AbstractBackground createBackground() {
-        return new HelpStateBackground(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+    protected Background createBackground() {
+        return new Background(TEXTURE, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
     @Override
