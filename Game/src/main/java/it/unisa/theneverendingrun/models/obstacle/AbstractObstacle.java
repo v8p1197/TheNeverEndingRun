@@ -2,6 +2,7 @@ package it.unisa.theneverendingrun.models.obstacle;
 
 import com.badlogic.gdx.graphics.Texture;
 import it.unisa.theneverendingrun.models.Sprite;
+import it.unisa.theneverendingrun.models.SpriteDescriptionType;
 
 /**
  *
@@ -45,5 +46,10 @@ public abstract class AbstractObstacle extends Sprite {
      */
     public AbstractObstacle(Texture texture, float scaleFactor) {
         super(texture, scaleFactor);
+    }
+
+    @Override
+    public SpriteDescriptionType getName() {
+        return SpriteDescriptionType.OBSTACLE;
     }
 }

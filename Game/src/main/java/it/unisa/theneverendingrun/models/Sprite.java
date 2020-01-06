@@ -11,8 +11,7 @@ import java.security.InvalidParameterException;
  *
  * Wraps {@link org.mini2Dx.core.graphics.Sprite} to add collision, scale and animation support
  */
-public class Sprite extends org.mini2Dx.core.graphics.Sprite {
-
+public abstract class Sprite extends org.mini2Dx.core.graphics.Sprite {
 
     /* ------------------------------------- PARAMS ------------------------------------- */
 
@@ -39,10 +38,28 @@ public class Sprite extends org.mini2Dx.core.graphics.Sprite {
 
     /**
      *
+     * Contains the original sprite width
+     */
+    private float standardWidth;
+
+    /**
+     *
+     * Contains the original sprite height
+     */
+    private float standardHeight;
+
+    /**
+     *
      * The time span between the current frame and the last frame in seconds
      */
     private float stateTime;
 
+    /**
+     *
+     *
+     * This parameter is true if it has to appear on the screen, false otherwise
+     */
+    private boolean visible;
 
 
     /* ------------------------------------- CONSTRUCTORS ------------------------------------- */
@@ -69,6 +86,9 @@ public class Sprite extends org.mini2Dx.core.graphics.Sprite {
         super();
         this.scaleFactor = scaleFactor;
         this.collisionBox = new CollisionBox(0, 0, 0,0);
+        this.visible = false;
+        this.standardWidth = 0;
+        this.standardHeight = 0;
 
         resetStateTime();
     }
@@ -133,15 +153,31 @@ public class Sprite extends org.mini2Dx.core.graphics.Sprite {
         super(texture, srcX, srcY, srcWidth, srcHeight);
         this.scaleFactor = scaleFactor;
         this.collisionBox = new CollisionBox(this.getX(), this.getY(), this.getWidth(), this.getHeight());
+        this.visible = true;
 
         scale();
+        this.standardWidth = getWidth();
+        this.standardHeight = getHeight();
+
         resetStateTime();
     }
 
-
-
-
     /* ------------------------------------- GETTERS ------------------------------------- */
+
+    /**
+     *
+     * @return the sprite description
+     */
+    public abstract SpriteDescriptionType getName();
+
+    /**
+     *
+     * @see Sprite#visible
+     * @return true if the sprite is visible, false otherwise
+     */
+    public boolean isVisible() {
+        return visible;
+    }
 
     /**
      *
@@ -166,6 +202,14 @@ public class Sprite extends org.mini2Dx.core.graphics.Sprite {
      */
     public float getNotScaledHeight() {
         return getHeight() / getScaleFactor();
+    }
+
+    public final float getStandardWidth() {
+        return standardWidth;
+    }
+
+    public final float getStandardHeight() {
+        return standardHeight;
     }
 
     /**
@@ -202,9 +246,18 @@ public class Sprite extends org.mini2Dx.core.graphics.Sprite {
     /* ------------------------------------- SETTERS ------------------------------------- */
 
     /**
+     *
+     * @see Sprite#visible
+     * @param visible if the sprite has to be visible or not
+     */
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+    }
+
+    /**
      * Make this sprite a copy in every way of the specified sprite
      *
-     * @param sprite
+     * @param sprite the old sprite
      */
     public void set(Sprite sprite) {
         super.set(sprite);
@@ -212,6 +265,12 @@ public class Sprite extends org.mini2Dx.core.graphics.Sprite {
         this.animation = sprite.animation;
         this.scaleFactor = sprite.scaleFactor;
         this.stateTime = sprite.getStateTime();
+    }
+
+    @Override
+    public void setRegion(float u, float v, float u2, float v2) {
+        super.setRegion(u, v, u2, v2);
+        scale();
     }
 
     /**
@@ -256,6 +315,14 @@ public class Sprite extends org.mini2Dx.core.graphics.Sprite {
     public void setSize(float width, float height) {
         super.setSize(width, height);
         collisionBox.setSize(width, height);
+    }
+
+    protected final void setStandardWidth(float standardWidth) {
+        this.standardWidth = standardWidth;
+    }
+
+    protected final void setStandardHeight(float standardHeight) {
+        this.standardHeight = standardHeight;
     }
 
     /**

@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import it.unisa.theneverendingrun.models.Animatable;
 import it.unisa.theneverendingrun.models.Sprite;
+import it.unisa.theneverendingrun.models.SpriteDescriptionType;
 import it.unisa.theneverendingrun.models.enemy.state.EnemyAttackState;
 import it.unisa.theneverendingrun.models.enemy.state.EnemyIdleState;
 import it.unisa.theneverendingrun.models.enemy.state.EnemyState;
@@ -107,7 +108,10 @@ public abstract class AbstractEnemy extends Sprite implements Animatable {
         return prevState;
     }
 
-
+    @Override
+    public SpriteDescriptionType getName() {
+        return SpriteDescriptionType.ENEMY;
+    }
 
 
     /* ------------------------------------- SETTERS ------------------------------------- */
