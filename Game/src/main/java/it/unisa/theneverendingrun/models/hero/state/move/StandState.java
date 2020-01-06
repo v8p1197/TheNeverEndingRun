@@ -102,18 +102,13 @@ public class StandState extends HeroMoveState {
         hero.changeMoveState(new RunningState(hero, animations));
     }
 
-    @Override
-    public void onAttack() {
-        hero.changeMoveState(new AttackState(hero, animations));
-    }
-
     /**
      *
-     * @see HeroMoveState#computeStateType()
+     * @see HeroMoveState#getStateType()
      * @return the current hero animation type based on the current state
      */
     @Override
-    protected HeroStateType computeStateType() {
-        return HeroStateType.IDLE;
+    protected HeroStateType getStateType() {
+        return HeroStateType.STAND;
     }
 }

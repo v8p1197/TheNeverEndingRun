@@ -4,13 +4,13 @@ import com.badlogic.gdx.audio.Sound;
 import it.unisa.theneverendingrun.utilities.SoundUtils;
 
 public enum HeroStateType {
-    IDLE(""),
+    STAND(""),
     DEAD("sounds/music/playerDiedMusic.mp3"),
     FALL(""),
     SLIDE("sounds/effects/heroSlide.mp3"),
     JUMP("sounds/effects/heroJump.mp3"),
-    RUN(""),
-    ATTACK("");
+    RUN("")
+    ;
 
     private String soundPath;
 

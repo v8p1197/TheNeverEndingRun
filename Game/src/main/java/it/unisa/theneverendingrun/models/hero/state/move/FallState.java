@@ -140,18 +140,13 @@ public class FallState extends HeroMoveState {
     @Override
     public void onRun() { hero.changeMoveState(new RunningState(hero, animations)); }
 
-    @Override
-    public void onAttack() {
-        hero.changeMoveState(new AttackState(hero, animations));
-    }
-
     /**
      *
-     * @see HeroMoveState#computeStateType()
+     * @see HeroMoveState#getStateType()
      * @return the current hero animation type based on the current state
      */
     @Override
-    protected HeroStateType computeStateType() {
+    protected HeroStateType getStateType() {
         return HeroStateType.FALL;
     }
 }

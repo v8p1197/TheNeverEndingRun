@@ -99,18 +99,14 @@ public class DeadState extends HeroMoveState {
 
     }
 
-    @Override
-    public void onAttack() {
-
-    }
 
     /**
      *
-     * @see HeroMoveState#computeStateType()
+     * @see HeroMoveState#getStateType()
      * @return the current hero animation type based on the current state
      */
     @Override
-    protected HeroStateType computeStateType() {
+    protected HeroStateType getStateType() {
         return HeroStateType.DEAD;
     }
 }

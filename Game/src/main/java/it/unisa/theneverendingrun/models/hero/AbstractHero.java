@@ -58,6 +58,13 @@ public abstract class AbstractHero extends Sprite implements Animatable {
      */
     private HeroMoveState moveState;
 
+    /**
+     *
+     * @see HeroMoveState
+     * @see AbstractHero#moveState
+     *
+     * A variable representing the previuos state of the hero
+     */
     private HeroMoveState previousMoveState;
 
     /**
@@ -134,9 +141,15 @@ public abstract class AbstractHero extends Sprite implements Animatable {
         changeMoveState(new StandState(this, animations));
         changeFacingState(new RightState(this));
 
-        var texture = animations.get(HeroStateType.IDLE).getKeyFrames()[0].getTexture();
+
+        var standAnimation = animations.get(HeroStateType.STAND);
+        if (standAnimation == null) throw new IllegalArgumentException("No stand animation");
+
+        var texture = standAnimation.getKeyFrames()[0].getTexture();
         setStandardWidth(texture.getWidth() * scaleFactor);
         setStandardHeight(texture.getHeight() * scaleFactor);
+
+
     }
 
     /* ------------------------------------- GETTERS ------------------------------------- */
@@ -206,7 +219,7 @@ public abstract class AbstractHero extends Sprite implements Animatable {
      *
      * @return the hero jump duration
      */
-    public static int getJumpDuration() {
+    public int getJumpDuration() {
         return JUMP_DURATION;
     }
 
@@ -226,7 +239,7 @@ public abstract class AbstractHero extends Sprite implements Animatable {
      *
      * @return the hero slide duration
      */
-    public static int getSlideDuration() {
+    public int getSlideDuration() {
         return SLIDE_DURATION;
     }
 
@@ -242,10 +255,31 @@ public abstract class AbstractHero extends Sprite implements Animatable {
         return facingState;
     }
 
+    /**
+     *
+     * @return the type of the sprite
+     */
     @Override
-    public SpriteDescriptionType getName() {
+    public SpriteDescriptionType getSpriteType() {
         return SpriteDescriptionType.HERO;
     }
+
+    /**
+     *
+     * @return the number of shields that the hero has currently collected
+     */
+    public int getShields() {
+        return shields;
+    }
+
+    /**
+     *
+     * @return the number of sword that the hero has currently collected
+     */
+    public int getSwords() {
+        return swords;
+    }
+
 
     /* ------------------------------------- CHECK ------------------------------------- */
 
@@ -282,6 +316,10 @@ public abstract class AbstractHero extends Sprite implements Animatable {
         return this.getMoveState() instanceof SlideState;
     }
 
+    /**
+     *
+     * @return true if the hero was sliding, false otherwise
+     */
     public boolean wasSliding() {
         return this.getPreviousMoveState() instanceof SlideState;
     }
@@ -344,13 +382,8 @@ public abstract class AbstractHero extends Sprite implements Animatable {
         return getY() - getGroundY() > MathUtils.DELTA;
     }
 
-    public int getShields() {
-        return shields;
-    }
 
-    public int getSwords() {
-        return swords;
-    }
+
 
     /* ------------------------------------- SETTERS ------------------------------------- */
 
@@ -405,13 +438,27 @@ public abstract class AbstractHero extends Sprite implements Animatable {
         this.facingState = facingState;
     }
 
+    /**
+     *
+     * @see AbstractHero#shields
+     *
+     * @param shields the new number of shields
+     */
     public void setShields(int shields) {
         this.shields = shields;
     }
 
+    /**
+     *
+     * @see AbstractHero#swords
+     *
+     * @param swords the new number of swords
+     */
     public void setSwords(int swords) {
         this.swords = swords;
     }
+
+
 
     /* ------------------------------------- MOVEMENT METHODS ------------------------------------- */
 
@@ -430,7 +477,7 @@ public abstract class AbstractHero extends Sprite implements Animatable {
      * @return the maximum number of pixels the hero moves in the vertical axis when he jumps
      */
     public float getJumpMaxElevation() {
-        return 3 * getHeight();
+        return 3 * getStandardHeight();
     }
 
     /**
@@ -441,7 +488,7 @@ public abstract class AbstractHero extends Sprite implements Animatable {
      * @return the coefficient for the jump parabola formula
      */
     public double getJumpCoefficient() {
-        return getJumpMaxElevation() / MathUtils.sumSquares(JUMP_DURATION);
+        return getJumpMaxElevation() / MathUtils.sumSquares(getJumpDuration());
     }
 
     /**
@@ -453,7 +500,7 @@ public abstract class AbstractHero extends Sprite implements Animatable {
      * with a horizontal velocity value of 1
      */
     public double getMaxJumpRange() {
-        return 2 * JUMP_DURATION + 1;
+        return 2 * getJumpDuration() + 1;
     }
 
     /**

@@ -40,6 +40,9 @@ public abstract class HeroMoveState {
         this.hero = hero;
         this.animations = animations;
 
+        if (animations.size() != HeroStateType.values().length)
+            throw new IllegalArgumentException("The set of the animations is not complete");
+
         setAnimation();
         playSound();
     }
@@ -125,30 +128,32 @@ public abstract class HeroMoveState {
      */
     public abstract void onRun();
 
-    /**
-     * The reaction when the state tries to change to Attack
-     */
-    public abstract void onAttack();
 
     /**
      *
      * Change the animation of the hero depending on the particular state of the hero
      */
     private void setAnimation() {
-        var type = computeStateType();
-        if (type == null) return;
+        var type = getStateType();
+        if (type == null) {
+            hero.setAnimation(null);
+            return;
+        }
 
         var animation = animations.get(type);
-        if (animation == null) return;
+        if (animation == null) {
+            hero.setAnimation(null);
+            return;
+        }
 
         hero.setAnimation(animation);
     }
 
     private void playSound() {
-        var type = computeStateType();
+        var type = getStateType();
         if (type == null) return;
 
-        var sound = Assets.sounds.sounds.get(type);
+        var sound = Assets.sounds.effects.get(type);
         if (sound == null) return;
 
         sound.play();
@@ -159,7 +164,7 @@ public abstract class HeroMoveState {
      * @see HeroStateType
      * @return the current hero animation type based on the current state
      */
-    protected abstract HeroStateType computeStateType();
+    protected abstract HeroStateType getStateType();
 
 }
 

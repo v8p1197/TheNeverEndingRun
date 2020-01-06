@@ -25,7 +25,7 @@ public class JumpState extends HeroMoveState {
     public JumpState(AbstractHero hero, Map<HeroStateType, Animation<TextureRegion>> animations) {
         super(hero, animations);
 
-        hero.setJumpCount(AbstractHero.getJumpDuration());
+        hero.setJumpCount(hero.getJumpDuration());
     }
 
     /**
@@ -49,7 +49,7 @@ public class JumpState extends HeroMoveState {
     private void jump() {
         int jumpCount = hero.getJumpCount();
 
-        if (jumpCount >= -AbstractHero.getJumpDuration()) {
+        if (jumpCount >= -hero.getJumpDuration()) {
             int up = jumpCount < 0 ? -1 : 1;
             var newY = (float) (hero.getY() + (jumpCount * jumpCount) * hero.getJumpCoefficient() * up);
             hero.setY(newY);
@@ -133,18 +133,13 @@ public class JumpState extends HeroMoveState {
         hero.changeMoveState(new RunningState(hero, animations));
     }
 
-    @Override
-    public void onAttack() {
-        hero.changeMoveState(new AttackState(hero, animations));
-    }
-
     /**
      *
-     * @see HeroMoveState#computeStateType()
+     * @see HeroMoveState#getStateType()
      * @return the current hero animation type based on the current state
      */
     @Override
-    protected HeroStateType computeStateType() {
+    protected HeroStateType getStateType() {
         return HeroStateType.JUMP;
     }
 }

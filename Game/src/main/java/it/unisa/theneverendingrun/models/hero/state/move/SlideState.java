@@ -49,7 +49,7 @@ public class SlideState extends HeroMoveState {
     private void slide() {
         int slideCount = hero.getSlideCount();
 
-        if (slideCount < AbstractHero.getSlideDuration()) {
+        if (slideCount < hero.getSlideDuration()) {
             hero.setSlideCount(slideCount + 1);
         } else {
             onIdle();
@@ -127,18 +127,13 @@ public class SlideState extends HeroMoveState {
         hero.changeMoveState(new RunningState(hero, animations));
     }
 
-    @Override
-    public void onAttack() {
-        hero.changeMoveState(new AttackState(hero, animations));
-    }
-
     /**
      *
      * @return the current hero animation type based on the current state
      * @see HeroStateType
      */
     @Override
-    protected HeroStateType computeStateType() {
+    protected HeroStateType getStateType() {
         return HeroStateType.SLIDE;
     }
 }
