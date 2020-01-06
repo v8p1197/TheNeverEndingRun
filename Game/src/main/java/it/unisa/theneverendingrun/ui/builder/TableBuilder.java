@@ -27,7 +27,7 @@ public class TableBuilder {
         return this;
     }
 
-    public TableBuilder addInteractiveTextButtonWithPad(float pad, List<InteractiveTextButton> actors) {
+    public TableBuilder addInteractiveTextButtonsWithPad(float pad, List<InteractiveTextButton> actors) {
         for (var actor : actors) {
             table.add(actor).padBottom(pad);
             table.row();

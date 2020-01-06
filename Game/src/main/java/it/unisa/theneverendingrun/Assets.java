@@ -27,11 +27,11 @@ public class Assets {
     public static final class Sounds {
 
         public final Map<GameStateType, Music> musics;
-        public final Map<HeroStateType, Sound> sounds;
+        public final Map<HeroStateType, Sound> effects;
 
         private Sounds() {
             musics = loadMusics();
-            sounds = loadSounds();
+            effects = loadSounds();
         }
 
         private static Map<GameStateType, Music> loadMusics() {
