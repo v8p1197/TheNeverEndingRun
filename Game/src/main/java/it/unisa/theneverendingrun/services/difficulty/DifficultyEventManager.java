@@ -11,7 +11,7 @@ public class DifficultyEventManager {
 
     /**
      *
-     * A Map containing all the {@link DifficultyEventType} topics related to {@link DifficultyMeterListener} events as keys,
+     * A Map containing all the {@link DifficultyEventType} topics related to {@link DifficultyMetersListener} events as keys,
      * and all the {@link DifficultyListener} observers subscribed to the key topic as values
      */
     private Map<DifficultyEventType, List<DifficultyListener>> listeners = new HashMap<>();
@@ -20,11 +20,11 @@ public class DifficultyEventManager {
      *
      * Instantiates an empty list of {@link DifficultyListener} observers for each topic in {@code topics}.
      *
-     * @param topics the {@link DifficultyEventType} topics related to the {@link DifficultyMeterListener} events
+     * @param topics the {@link DifficultyEventType} topics related to the {@link DifficultyMetersListener} events
      *               the {@link MetersEventManager} manages
      */
     public DifficultyEventManager(DifficultyEventType... topics) {
-        if (topics == null) throw new NullPointerException("topic is null");
+        if (topics == null) throw new NullPointerException("topics is null");
         if (topics.length == 0) throw new IllegalArgumentException("topics is empty");
 
         for (var topic : topics)

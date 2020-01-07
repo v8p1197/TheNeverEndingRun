@@ -38,6 +38,7 @@ public class ScoreMetersListener implements MetersListener {
 
     /**
      *
+     * The handler for all the {@link ScoreEventType} topics related to this class
      */
     private ScoreEventManager eventManager;
 
@@ -45,7 +46,7 @@ public class ScoreMetersListener implements MetersListener {
      *
      * @see ScoreMetersListener#setScore(int)
      *
-     * Initializes the {@code score} field to {@code INITIAL_SCORE}
+     * Initializes the {@link ScoreMetersListener#score} field to {@link ScoreMetersListener#INITIAL_SCORE}
      */
     public ScoreMetersListener() {
         setScore(INITIAL_SCORE);
@@ -88,7 +89,7 @@ public class ScoreMetersListener implements MetersListener {
     /**
      *
      * The {@link ScoreMetersListener} listener reaction when the observed variable {@code meters} changes.
-     * It increases the score as a linear function of the travelled meters
+     * It increases the score as a step function of the travelled meters
      *
      * @param eventType the updated topic related to {@link MeterEditor}
      * @param meters the new value for the observed variable
@@ -97,10 +98,10 @@ public class ScoreMetersListener implements MetersListener {
     public void update(MetersEventType eventType, int meters) {
         if (eventType == MetersEventType.METERS_CHANGED) {
             var currentScore = getScore();
-            var newScore = meters / METERS_DELTA * SCORE_FACTOR + INITIAL_SCORE;
+            var newScore = (int) (SCORE_FACTOR * meters / METERS_DELTA) + INITIAL_SCORE;
             var delta = newScore - currentScore;
             delta *= multiplier;
-            setScore(currentScore + (int)delta);
+            setScore(currentScore + delta);
         }
     }
 }
