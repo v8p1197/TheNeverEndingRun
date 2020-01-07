@@ -12,7 +12,7 @@ public class MeterEditor {
      *
      * {@link MeterEditor#meters} field increases by 1 each time {@link MeterEditor#counter} is equal to METERS_FACTOR
      */
-    public final static int METERS_FACTOR = 5;
+    public final static int UPDATE_DELTA = 5;
 
     /**
      *
@@ -29,7 +29,7 @@ public class MeterEditor {
     /**
      *
      * Increases by 1 each time the {@link GameEngine#update(float)} method is called.
-     * If it reaches {@link MeterEditor#METERS_FACTOR}, it's set back to 0
+     * If it reaches {@link MeterEditor#UPDATE_DELTA}, it's set back to 0
      */
     private int counter;
 
@@ -78,11 +78,12 @@ public class MeterEditor {
 
     /**
      *
-     * Updates the {@code counter} and {@code meters} fields depending on {@code METERS_FACTOR}
+     * Updates the {@link MeterEditor#counter} and {@link MeterEditor#meters} fields depending on
+     * {@link MeterEditor#UPDATE_DELTA}
      */
     public void compute() {
         counter++;
-        if (counter == METERS_FACTOR) {
+        if (counter == UPDATE_DELTA) {
             counter = 0;
             setMeters(getMeters() + 1);
         }

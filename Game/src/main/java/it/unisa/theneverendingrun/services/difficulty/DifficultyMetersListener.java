@@ -20,6 +20,12 @@ public class DifficultyMetersListener implements MetersListener {
 
     /**
      *
+     * The initial difficulty of the game
+     */
+    public final static int INITIAL_DIFFICULTY = 1;
+
+    /**
+     *
      * Each {@link DifficultyMetersListener#METERS_DELTA} meters the {@link DifficultyMetersListener#difficultyLevel}
      * increases by DIFFICULTY_FACTOR
      */
@@ -27,13 +33,7 @@ public class DifficultyMetersListener implements MetersListener {
 
     /**
      *
-     * The initial difficulty of the game
-     */
-    public final static int INITIAL_DIFFICULTY = 1;
-
-    /**
-     *
-     * The number of the meter that the level difficulty will change
+     * How many meters the difficulty changes
      */
     public final static float METERS_DELTA = 200.0f;
 
@@ -77,9 +77,10 @@ public class DifficultyMetersListener implements MetersListener {
 
     /**
      *
-     * @see DifficultyMetersListener#difficultyLevel
+     * {@link DifficultyMetersListener#difficultyLevel} setter: updates the {@code difficulty} variable and notifies
+     * all the {@link DifficultyListener} observers
      *
-     * @param difficulty the new value for the difficulty variable
+     * @param difficulty the new difficulty value
      */
     private void setDifficultyLevel(int difficulty) {
         difficultyLevel = difficulty;
@@ -97,6 +98,6 @@ public class DifficultyMetersListener implements MetersListener {
     @Override
     public void update(MetersEventType eventType, int meters) {
         if (eventType == MetersEventType.METERS_CHANGED)
-            setDifficultyLevel((int) (DIFFICULTY_FACTOR * meters / METERS_DELTA) + INITIAL_DIFFICULTY);
+            setDifficultyLevel(DIFFICULTY_FACTOR * (int)(meters / METERS_DELTA) + INITIAL_DIFFICULTY);
     }
 }

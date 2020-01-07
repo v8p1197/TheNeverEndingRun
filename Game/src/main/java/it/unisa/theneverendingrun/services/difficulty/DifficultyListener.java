@@ -1,6 +1,7 @@
 package it.unisa.theneverendingrun.services.difficulty;
 
 /**
+ *
  * A common interface for all the subscribers interested in observing the {@link DifficultyMetersListener} difficulty variable
  */
 public interface DifficultyListener {

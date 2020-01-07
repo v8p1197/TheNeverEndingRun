@@ -77,9 +77,10 @@ public class ScoreMetersListener implements MetersListener {
 
     /**
      *
-     * @see ScoreMetersListener#score
+     * {@link ScoreMetersListener#score} setter: updates the {@code score} field and notifies all the
+     * {@link ScoreListener} observers
      *
-     * @param score the new value for the score variable
+     * @param score the new score value
      */
     private void setScore(int score) {
         this.score = score;
@@ -98,7 +99,7 @@ public class ScoreMetersListener implements MetersListener {
     public void update(MetersEventType eventType, int meters) {
         if (eventType == MetersEventType.METERS_CHANGED) {
             var currentScore = getScore();
-            var newScore = (int) (SCORE_FACTOR * meters / METERS_DELTA) + INITIAL_SCORE;
+            var newScore = SCORE_FACTOR * (int)(meters / METERS_DELTA) + INITIAL_SCORE;
             var delta = newScore - currentScore;
             delta *= multiplier;
             setScore(currentScore + delta);
