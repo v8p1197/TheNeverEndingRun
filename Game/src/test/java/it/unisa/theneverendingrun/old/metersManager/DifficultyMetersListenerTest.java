@@ -10,7 +10,7 @@ import java.util.Random;
 
 
 @RunWith(GdxTestRunner.class)
-public class DifficultyMeterListenerTest {
+public class DifficultyMetersListenerTest {
     private MetersManagerFactory factory = new MetersManagerFactory();
 
     @Test

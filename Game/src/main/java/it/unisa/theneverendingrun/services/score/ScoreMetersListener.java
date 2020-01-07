@@ -1,9 +1,8 @@
 package it.unisa.theneverendingrun.services.score;
 
-import it.unisa.theneverendingrun.models.powerup.PowerUpManager;
+import it.unisa.theneverendingrun.services.meters.MeterEditor;
 import it.unisa.theneverendingrun.services.meters.MetersEventType;
 import it.unisa.theneverendingrun.services.meters.MetersListener;
-import it.unisa.theneverendingrun.services.meters.MeterEditor;
 
 /**
  *
@@ -16,6 +15,8 @@ public class ScoreMetersListener implements MetersListener {
      * The factor the meters are multiplied with in order to compute the score
      */
     public static final int SCORE_FACTOR = 10;
+
+    public static final float METERS_DELTA = 1.0F;
 
     /**
      *
@@ -30,9 +31,15 @@ public class ScoreMetersListener implements MetersListener {
     private int score;
 
     /**
-     * A flag for Multiplier power up
+     *
+     * The {@link ScoreMetersListener#score} multiplier
      */
-    private PowerUpManager powerUpManager;
+    private float multiplier;
+
+    /**
+     *
+     */
+    private ScoreEventManager eventManager;
 
     /**
      *
@@ -42,7 +49,9 @@ public class ScoreMetersListener implements MetersListener {
      */
     public ScoreMetersListener() {
         setScore(INITIAL_SCORE);
-        powerUpManager = PowerUpManager.getInstance();
+        multiplier = 1.0F;
+
+        eventManager = new ScoreEventManager(ScoreEventType.values());
     }
 
     /**
@@ -57,12 +66,23 @@ public class ScoreMetersListener implements MetersListener {
 
     /**
      *
+     * @see ScoreMetersListener#eventManager
+     *
+     * @return the handler for all the {@link ScoreEventType} topics related to this class
+     */
+    public ScoreEventManager getEventManager() {
+        return eventManager;
+    }
+
+    /**
+     *
      * @see ScoreMetersListener#score
      *
      * @param score the new value for the score variable
      */
     private void setScore(int score) {
         this.score = score;
+        getEventManager().notify(ScoreEventType.SCORE_CHANGED, getScore());
     }
 
     /**
@@ -75,10 +95,12 @@ public class ScoreMetersListener implements MetersListener {
      */
     @Override
     public void update(MetersEventType eventType, int meters) {
-        if (eventType == MetersEventType.METERS_CHANGED)
-            if (powerUpManager.isMultiplier())
-                setScore((SCORE_FACTOR * 2) * meters + INITIAL_SCORE);
-            else
-                setScore(SCORE_FACTOR * meters + INITIAL_SCORE);
+        if (eventType == MetersEventType.METERS_CHANGED) {
+            var currentScore = getScore();
+            var newScore = meters / METERS_DELTA * SCORE_FACTOR + INITIAL_SCORE;
+            var delta = newScore - currentScore;
+            delta *= multiplier;
+            setScore(currentScore + (int)delta);
+        }
     }
 }
