@@ -2,7 +2,7 @@ package it.unisa.theneverendingrun.models.background;
 
 import com.badlogic.gdx.graphics.Texture;
 import it.unisa.theneverendingrun.models.Sprite;
-import it.unisa.theneverendingrun.models.SpriteImplType;
+import it.unisa.theneverendingrun.models.Visitor;
 
 /**
  *
@@ -60,20 +60,20 @@ public class Background extends Sprite {
      */
     public Background(Texture texture, int srcX, int srcY, int backgroundWidth, int backgroundHeight, float scaleFactor) {
         super(texture, srcX, srcY, backgroundWidth, backgroundHeight, scaleFactor);
+        flip(false, true);
     }
 
 
 
-
-    /* ------------------------------------- GETTERS ------------------------------------- */
+    /* ------------------------------------- VISITOR ------------------------------------- */
 
     /**
-     *
-     * @return the sprite implementation type
+     * @param visitor the action to perform
      */
     @Override
-    public SpriteImplType getSpriteImplType() {
-        return SpriteImplType.BACKGROUND;
+    public void accept(Visitor visitor) {
+        visitor.visitBackground(this);
     }
+
 
 }

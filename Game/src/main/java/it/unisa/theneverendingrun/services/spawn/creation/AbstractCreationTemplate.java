@@ -3,14 +3,15 @@ package it.unisa.theneverendingrun.services.spawn.creation;
 import it.unisa.theneverendingrun.models.Sprite;
 import it.unisa.theneverendingrun.models.SpriteType;
 
+import java.util.AbstractMap;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.concurrent.ThreadLocalRandom;
 
 public abstract class AbstractCreationTemplate {
 
-    public Sprite create(float maxHeight, float maxWidth) {
-        return getSprite(getType(), maxHeight, maxWidth);
+    public AbstractMap.SimpleEntry<SpriteType, Sprite> create(float maxHeight, float maxWidth) {
+        return new AbstractMap.SimpleEntry<>(getType(), getSprite(getType(), maxHeight, maxWidth));
     }
 
     protected SpriteType getType() {

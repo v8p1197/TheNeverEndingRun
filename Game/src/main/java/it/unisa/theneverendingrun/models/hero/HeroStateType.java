@@ -5,12 +5,11 @@ import it.unisa.theneverendingrun.utilities.SoundUtils;
 
 public enum HeroStateType {
     STAND(""),
-    DEAD("sounds/music/playerDiedMusic.mp3"),
+    DEAD(""),
     FALL(""),
-    SLIDE("sounds/effects/heroSlide.mp3"),
-    JUMP("sounds/effects/heroJump.mp3"),
-    RUN("")
-    ;
+    SLIDE("sounds/effects/hero_slide_state_music.mp3"),
+    JUMP("sounds/effects/hero_jump_state_music.mp3"),
+    RUN("");
 
     private String soundPath;
 

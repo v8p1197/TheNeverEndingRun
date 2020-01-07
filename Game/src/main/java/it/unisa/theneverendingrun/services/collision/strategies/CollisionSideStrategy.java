@@ -1,13 +1,13 @@
 package it.unisa.theneverendingrun.services.collision.strategies;
 
 import it.unisa.theneverendingrun.models.Sprite;
-import it.unisa.theneverendingrun.models.hero.AbstractHero;
+import it.unisa.theneverendingrun.models.hero.Hero;
 
 public abstract class CollisionSideStrategy<T extends Sprite> {
 
-    protected AbstractHero hero;
+    protected Hero hero;
 
-    public CollisionSideStrategy(AbstractHero hero) {
+    public CollisionSideStrategy(Hero hero) {
         this.hero = hero;
     }
 

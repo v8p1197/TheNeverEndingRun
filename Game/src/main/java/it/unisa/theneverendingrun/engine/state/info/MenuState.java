@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class MenuState extends InfoGameState {
 
-    private static final Texture TEXTURE = new Texture("images/menu_state_background.png");
+    private static final Texture TEXTURE = new Texture("images/menu_state_background.jpg");
 
     private Table table;
 

@@ -1,7 +1,8 @@
 package it.unisa.theneverendingrun.models.obstacle;
 
+import com.badlogic.gdx.graphics.Texture;
 import it.unisa.theneverendingrun.models.Sprite;
-import it.unisa.theneverendingrun.models.SpriteImplType;
+import it.unisa.theneverendingrun.models.Visitor;
 
 /**
  *
@@ -12,20 +13,34 @@ public class Obstacle extends Sprite {
     /* ------------------------------------- CONSTRUCTORS ------------------------------------- */
 
     /**
-     *
-     * Create an {@link Obstacle} starting from another {@link Sprite}
-     * @param sprite the original sprite
+     * @see Sprite#Sprite(float)
+     * <p>
+     * Create an {@link Obstacle}
      */
-    public Obstacle(Sprite sprite) {
-        super(sprite.getScaleFactor());
-        set(sprite);
+    public Obstacle(Texture texture) {
+        this(texture, 1);
     }
 
     /**
-     * @return the sprite implementation type
+     * @see Sprite#Sprite(float)
+     * <p>
+     * Create an {@link Obstacle}
+     */
+    public Obstacle(Texture texture, float scaleFactor) {
+        super(texture, scaleFactor);
+    }
+
+
+
+    /* ------------------------------------- VISITOR ------------------------------------- */
+
+    /**
+     * @param visitor the action to perform
      */
     @Override
-    public SpriteImplType getSpriteImplType() {
-        return SpriteImplType.OBSTACLE;
+    public void accept(Visitor visitor) {
+        visitor.visitObstacle(this);
     }
+
+
 }

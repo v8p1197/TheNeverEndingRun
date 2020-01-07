@@ -4,6 +4,7 @@ public enum PowerUpType {
 
     SWORD,
     SHIELD,
+    MULTIPLIER
     ;
 
 }

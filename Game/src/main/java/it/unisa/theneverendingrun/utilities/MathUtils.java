@@ -10,7 +10,7 @@ public final class MathUtils {
      * @param n the upper bound of summation
      * @return the sum of (i^2) from i=1 to n
      */
-    public static int sumSquares(int n) {
+    public static float sumSquares(float n) {
         return n * (n + 1) * (2 * n + 1) / 6;
     }
 }

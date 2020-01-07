@@ -1,15 +1,16 @@
 package it.unisa.theneverendingrun.models.powerup.strategies;
 
-import it.unisa.theneverendingrun.models.hero.AbstractHero;
+import it.unisa.theneverendingrun.models.hero.Hero;
 import it.unisa.theneverendingrun.models.powerup.PowerUpType;
+import it.unisa.theneverendingrun.models.powerup.strategies.impls.MultiplierPowerUpStrategy;
 import it.unisa.theneverendingrun.models.powerup.strategies.impls.ShieldPowerUpStrategy;
 import it.unisa.theneverendingrun.models.powerup.strategies.impls.SwordPowerUpStrategy;
 
 public class PowerUpStrategyFactory {
 
-    private AbstractHero hero;
+    private Hero hero;
 
-    public PowerUpStrategyFactory(AbstractHero hero) {
+    public PowerUpStrategyFactory(Hero hero) {
         this.hero = hero;
     }
 
@@ -19,6 +20,8 @@ public class PowerUpStrategyFactory {
                 return new SwordPowerUpStrategy(hero);
             case SHIELD:
                 return new ShieldPowerUpStrategy(hero);
+            case MULTIPLIER:
+                return new MultiplierPowerUpStrategy(hero);
             default:
                 throw new IllegalArgumentException("Power-up type not valid");
         }

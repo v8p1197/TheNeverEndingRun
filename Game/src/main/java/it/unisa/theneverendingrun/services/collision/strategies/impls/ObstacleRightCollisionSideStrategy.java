@@ -1,6 +1,7 @@
 package it.unisa.theneverendingrun.services.collision.strategies.impls;
 
-import it.unisa.theneverendingrun.models.hero.AbstractHero;
+import it.unisa.theneverendingrun.engine.state.PlayState;
+import it.unisa.theneverendingrun.models.hero.Hero;
 import it.unisa.theneverendingrun.models.obstacle.Obstacle;
 import it.unisa.theneverendingrun.models.powerup.PowerUpType;
 import it.unisa.theneverendingrun.models.powerup.strategies.PowerUpStrategyFactory;
@@ -9,7 +10,7 @@ import it.unisa.theneverendingrun.utilities.CollisionUtils;
 
 public class ObstacleRightCollisionSideStrategy extends CollisionSideStrategy<Obstacle> {
 
-    public ObstacleRightCollisionSideStrategy(AbstractHero hero) {
+    public ObstacleRightCollisionSideStrategy(Hero hero) {
         super(hero);
     }
 
@@ -21,7 +22,7 @@ public class ObstacleRightCollisionSideStrategy extends CollisionSideStrategy<Ob
 
         if (consumed) {
             obstacle.setVisible(false);
-
+            PlayState.scoreMetersListener.setMultiplier(PlayState.scoreMetersListener.getMultiplier() + 0.1F);
         } else
             hero.setX(hero.getX() - intersection.getWidth());
     }

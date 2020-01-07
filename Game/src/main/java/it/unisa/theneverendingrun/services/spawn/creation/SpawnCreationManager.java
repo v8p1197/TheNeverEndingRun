@@ -17,27 +17,26 @@ public class SpawnCreationManager implements SpawnEventListener {
     private final int maxCapacity;
     private volatile AtomicInteger counter;
     private final float maxHeight;
+    private final float maxWidth;
 
     public SpawnCreationManager(SpawnHolder spawnHolder, List<AbstractCreationTemplate> creationTemplates,
-                                int maxCapacity, float maxHeight) {
+                                int maxCapacity, float maxHeight, float maxWidth) {
 
         this.spawnHolder = spawnHolder;
         this.creationTemplates = creationTemplates;
         this.maxCapacity = maxCapacity;
         this.maxHeight = maxHeight;
+        this.maxWidth = maxWidth;
 
         this.counter = new AtomicInteger(0);
-
-        //TODO: External
-        this.spawnHolder.getEventManager().subscribe(SpawnEventType.REMOVED, this);
     }
 
-    public void create(float maxWidth) {
+    public void create() {
         if (isFull()) return;
         Collections.shuffle(creationTemplates);
         var template = creationTemplates.get(ThreadLocalRandom.current().nextInt(creationTemplates.size()));
         var sprite = template.create(maxHeight, maxWidth);
-        spawnHolder.add(sprite);
+        spawnHolder.add(sprite.getKey(), sprite.getValue());
         counter.incrementAndGet();
     }
 

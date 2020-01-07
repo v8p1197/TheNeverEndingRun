@@ -2,7 +2,7 @@ package it.unisa.theneverendingrun.models.hero.state.move;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import it.unisa.theneverendingrun.models.hero.AbstractHero;
+import it.unisa.theneverendingrun.models.hero.Hero;
 import it.unisa.theneverendingrun.models.hero.HeroStateType;
 import it.unisa.theneverendingrun.models.hero.state.HeroMoveState;
 
@@ -15,10 +15,9 @@ import java.util.Map;
 public class DeadState extends HeroMoveState {
 
     /**
-     *
-     * @see HeroMoveState#HeroMoveState(AbstractHero, Map)
+     * @see HeroMoveState#HeroMoveState(Hero, Map)
      */
-    public DeadState(AbstractHero hero, Map<HeroStateType, Animation<TextureRegion>> animations) {
+    public DeadState(Hero hero, Map<HeroStateType, Animation<TextureRegion>> animations) {
         super(hero, animations);
     }
 

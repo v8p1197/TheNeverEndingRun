@@ -1,31 +1,30 @@
-package it.unisa.theneverendingrun.models.background;
+package it.unisa.theneverendingrun.models.background.impls;
 
 import com.badlogic.gdx.graphics.Texture;
 import it.unisa.theneverendingrun.models.Sprite;
+import it.unisa.theneverendingrun.models.background.AbstractScrollingBackground;
 import it.unisa.theneverendingrun.models.background.Background;
-import it.unisa.theneverendingrun.models.background.ScrollingBackground;
 
 import static com.badlogic.gdx.graphics.Texture.TextureWrap.MirroredRepeat;
 import static com.badlogic.gdx.graphics.Texture.TextureWrap.Repeat;
 
 /**
- *
  * An implementation of the {@link Background} class that uses predefined parameters for
  * background creation and scrolling.
  */
-public abstract class PlayStateBackground extends ScrollingBackground {
+public class PlayStateBackgroundAbstract extends AbstractScrollingBackground {
 
     /**
      *
-     * @see ScrollingBackground#ScrollingBackground(Texture, int, int, int, int, float, float, float)
+     * @see AbstractScrollingBackground#AbstractScrollingBackground(Texture, int, int, int, int, float, float, float)
      *
      * The forest background is small. We need the screen size for the width and height
      *
      * @param screenWidth the width of the background. Different form original width.
      * @param screenHeight the height of the background. Different form original height.
      */
-    public PlayStateBackground(Texture texture,
-                               int screenWidth, int screenHeight, float scrollingSpeed, float scrollingWidth) {
+    public PlayStateBackgroundAbstract(Texture texture,
+                                       int screenWidth, int screenHeight, float scrollingSpeed, float scrollingWidth) {
         super(texture, 0, 0, screenWidth, screenHeight, scrollingSpeed, scrollingWidth);
     }
 
@@ -37,7 +36,7 @@ public abstract class PlayStateBackground extends ScrollingBackground {
     @Override
     public void initScroll() {
         this.getTexture().setWrap(MirroredRepeat, Repeat);
-        this.flip(false, true);
+        this.flip(true, false);
     }
 
     /**

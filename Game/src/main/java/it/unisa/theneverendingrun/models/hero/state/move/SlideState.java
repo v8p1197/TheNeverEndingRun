@@ -3,7 +3,7 @@ package it.unisa.theneverendingrun.models.hero.state.move;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import it.unisa.theneverendingrun.models.hero.AbstractHero;
+import it.unisa.theneverendingrun.models.hero.Hero;
 import it.unisa.theneverendingrun.models.hero.HeroStateType;
 import it.unisa.theneverendingrun.models.hero.state.HeroMoveState;
 
@@ -16,13 +16,12 @@ import java.util.Map;
 public class SlideState extends HeroMoveState {
 
     /**
-     *
-     * @see HeroMoveState#HeroMoveState(AbstractHero, Map)
-     *
+     * @see HeroMoveState#HeroMoveState(Hero, Map)
+     * <p>
      * Sets the hero for holding its slide state, setting its slide variable to true
      * and his slide counter variable to its initial value
      */
-    public SlideState(AbstractHero hero, Map<HeroStateType, Animation<TextureRegion>> animations) {
+    public SlideState(Hero hero, Map<HeroStateType, Animation<TextureRegion>> animations) {
         super(hero, animations);
 
         hero.setSlideCount(0);
@@ -124,7 +123,7 @@ public class SlideState extends HeroMoveState {
      */
     @Override
     public void onRun() {
-        hero.changeMoveState(new RunningState(hero, animations));
+       // hero.changeMoveState(new RunningState(hero, animations));
     }
 
     /**

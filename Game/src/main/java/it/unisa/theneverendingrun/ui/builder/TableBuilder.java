@@ -18,7 +18,7 @@ public class TableBuilder {
         return this;
     }
     public TableBuilder align(int align) {
-        align(align);
+        table.align(align);
         return this;
     }
 

@@ -1,6 +1,6 @@
 package it.unisa.theneverendingrun.services.collision.strategies.impls;
 
-import it.unisa.theneverendingrun.models.hero.AbstractHero;
+import it.unisa.theneverendingrun.models.hero.Hero;
 import it.unisa.theneverendingrun.models.obstacle.Obstacle;
 import it.unisa.theneverendingrun.services.collision.CollisionSideType;
 import it.unisa.theneverendingrun.services.collision.strategies.CollisionSideStrategy;
@@ -9,7 +9,7 @@ import it.unisa.theneverendingrun.utilities.CollisionUtils;
 
 public class ObstacleTopCollisionSideStrategy extends CollisionSideStrategy<Obstacle> {
 
-    public ObstacleTopCollisionSideStrategy(AbstractHero hero) {
+    public ObstacleTopCollisionSideStrategy(Hero hero) {
         super(hero);
     }
 

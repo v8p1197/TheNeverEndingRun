@@ -4,10 +4,10 @@ import com.badlogic.gdx.audio.Music;
 import it.unisa.theneverendingrun.utilities.SoundUtils;
 
 public enum GameStateType {
-    PLAY("sounds/music/playMusic.mp3", true),
-    ENDED("sounds/music/menuMusic.mp3", true),
-    MENU("sounds/music/menuMusic.mp3", true),
-    HELP("sounds/music/helpMusic.mp3", true);
+    PLAY("sounds/music/play_state_music.mp3", true),
+    ENDED("sounds/music/lost_state_music.mp3", true),
+    MENU("sounds/music/menu_state_music.mp3", true),
+    HELP("sounds/music/help_state_music.mp3", true);
 
     private Music music;
 

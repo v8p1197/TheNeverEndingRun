@@ -4,8 +4,9 @@ package it.unisa.theneverendingrun.models.hero.state;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import it.unisa.theneverendingrun.Assets;
-import it.unisa.theneverendingrun.models.hero.AbstractHero;
+import it.unisa.theneverendingrun.models.hero.Hero;
 import it.unisa.theneverendingrun.models.hero.HeroStateType;
+import it.unisa.theneverendingrun.models.hero.state.move.RunningState;
 
 import java.util.Map;
 
@@ -18,10 +19,9 @@ import java.util.Map;
 public abstract class HeroMoveState {
 
     /**
-     *
      * The hero which move state is held
      */
-    protected AbstractHero hero;
+    protected Hero hero;
 
     /**
      *
@@ -36,7 +36,7 @@ public abstract class HeroMoveState {
      * @param hero the hero which move state is held
      * @param animations the possible animations of the hero
      */
-    public HeroMoveState(AbstractHero hero, Map<HeroStateType, Animation<TextureRegion>> animations) {
+    public HeroMoveState(Hero hero, Map<HeroStateType, Animation<TextureRegion>> animations) {
         this.hero = hero;
         this.animations = animations;
 
@@ -87,7 +87,7 @@ public abstract class HeroMoveState {
 
     public final void onIdle() {
         if (hero.isMoving())
-            onRun();
+            hero.changeMoveState(new RunningState(hero, animations));
         else
             onStand();
     }

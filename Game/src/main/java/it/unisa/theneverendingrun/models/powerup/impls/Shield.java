@@ -1,6 +1,6 @@
 package it.unisa.theneverendingrun.models.powerup.impls;
 
-import it.unisa.theneverendingrun.models.Sprite;
+import com.badlogic.gdx.graphics.Texture;
 import it.unisa.theneverendingrun.models.powerup.AbstractPowerUp;
 import it.unisa.theneverendingrun.models.powerup.PowerUpType;
 
@@ -11,18 +11,25 @@ import it.unisa.theneverendingrun.models.powerup.PowerUpType;
 public class Shield extends AbstractPowerUp {
 
     /**
-     *
-     * see {@link AbstractPowerUp#AbstractPowerUp(Sprite)}
-     *
-     * @param sprite the original sprite
+     * @see AbstractPowerUp#AbstractPowerUp(Texture, float)
+     * <p>
+     * Create an {@link AbstractPowerUp}
      */
-    public Shield(Sprite sprite) {
-        super(sprite);
+    public Shield(Texture texture) {
+        this(texture, 1);
+    }
+
+    /**
+     * @see AbstractPowerUp#AbstractPowerUp(Texture, float)
+     * <p>
+     * Create an {@link AbstractPowerUp}
+     */
+    public Shield(Texture texture, float scaleFactor) {
+        super(texture, scaleFactor);
     }
 
     /**
      * @return the the type of the powerup
-     *
      * @see PowerUpType
      */
     @Override

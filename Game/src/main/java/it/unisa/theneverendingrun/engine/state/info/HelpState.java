@@ -22,7 +22,7 @@ import java.util.List;
  */
 public class HelpState extends InfoGameState {
 
-    private static final Texture TEXTURE = new Texture("images/help_state_background.png");
+    private static final Texture TEXTURE = new Texture("images/help_state_background.jpg");
 
     private Table table;
 

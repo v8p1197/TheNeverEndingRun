@@ -8,7 +8,7 @@ public class EnemyCreationTemplate extends AbstractCreationTemplate {
 
     private final GameFactory factory;
 
-    protected EnemyCreationTemplate(GameFactory factory) {
+    public EnemyCreationTemplate(GameFactory factory) {
         this.factory = factory;
     }
 
@@ -19,7 +19,7 @@ public class EnemyCreationTemplate extends AbstractCreationTemplate {
 
     @Override
     protected Sprite getSprite(SpriteType spriteType, float maxHeight, float maxWidth) {
-        return factory.createEnemy(spriteType, maxHeight, maxWidth);
+        return factory.createEnemy(maxHeight);
     }
 
 }

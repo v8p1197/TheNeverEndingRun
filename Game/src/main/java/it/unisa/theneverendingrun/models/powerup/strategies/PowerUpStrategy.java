@@ -1,12 +1,12 @@
 package it.unisa.theneverendingrun.models.powerup.strategies;
 
-import it.unisa.theneverendingrun.models.hero.AbstractHero;
+import it.unisa.theneverendingrun.models.hero.Hero;
 
 public abstract class PowerUpStrategy {
 
-    protected AbstractHero hero;
+    protected Hero hero;
 
-    public PowerUpStrategy(AbstractHero hero) {
+    public PowerUpStrategy(Hero hero) {
         this.hero = hero;
     }
 

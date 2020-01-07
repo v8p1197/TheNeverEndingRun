@@ -1,6 +1,6 @@
 package it.unisa.theneverendingrun.models.hero.state;
 
-import it.unisa.theneverendingrun.models.hero.AbstractHero;
+import it.unisa.theneverendingrun.models.hero.Hero;
 
 /**
  * The State representing if the hero is facing left or right: the states are called Left and Right.
@@ -8,10 +8,9 @@ import it.unisa.theneverendingrun.models.hero.AbstractHero;
 public abstract class HeroFacingState {
 
     /**
-     *
      * The hero which facing state is held
      */
-    protected AbstractHero hero;
+    protected Hero hero;
 
     /**
      *
@@ -19,7 +18,7 @@ public abstract class HeroFacingState {
      *
      * @param hero the hero which facing state is held
      */
-    public HeroFacingState(AbstractHero hero) {
+    public HeroFacingState(Hero hero) {
         this.hero = hero;
     }
 

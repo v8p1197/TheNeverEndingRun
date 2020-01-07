@@ -3,7 +3,7 @@ package it.unisa.theneverendingrun.models.hero.state.move;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import it.unisa.theneverendingrun.models.hero.AbstractHero;
+import it.unisa.theneverendingrun.models.hero.Hero;
 import it.unisa.theneverendingrun.models.hero.HeroStateType;
 import it.unisa.theneverendingrun.models.hero.state.HeroMoveState;
 
@@ -16,13 +16,12 @@ import java.util.Map;
 public class JumpState extends HeroMoveState {
 
     /**
-     *
-     * @see HeroMoveState#HeroMoveState(AbstractHero, Map)
-     *
+     * @see HeroMoveState#HeroMoveState(Hero, Map)
+     * <p>
      * Sets the hero for holding its jump state, setting his jumping variable to true
      * and his jump counter variable to its initial value
      */
-    public JumpState(AbstractHero hero, Map<HeroStateType, Animation<TextureRegion>> animations) {
+    public JumpState(Hero hero, Map<HeroStateType, Animation<TextureRegion>> animations) {
         super(hero, animations);
 
         hero.setJumpCount(hero.getJumpDuration());
@@ -47,7 +46,7 @@ public class JumpState extends HeroMoveState {
      * Performs a jump step, updating the hero bottom-left y coordinate according to a parabola-like formula
      */
     private void jump() {
-        int jumpCount = hero.getJumpCount();
+        var jumpCount = hero.getJumpCount();
 
         if (jumpCount >= -hero.getJumpDuration()) {
             int up = jumpCount < 0 ? -1 : 1;
@@ -130,7 +129,7 @@ public class JumpState extends HeroMoveState {
      */
     @Override
     public void onRun() {
-        hero.changeMoveState(new RunningState(hero, animations));
+        // hero.changeMoveState(new RunningState(hero, animations));
     }
 
     /**

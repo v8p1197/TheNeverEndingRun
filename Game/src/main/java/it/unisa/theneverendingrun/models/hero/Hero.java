@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import it.unisa.theneverendingrun.models.Animatable;
 import it.unisa.theneverendingrun.models.Sprite;
-import it.unisa.theneverendingrun.models.SpriteImplType;
+import it.unisa.theneverendingrun.models.Visitor;
 import it.unisa.theneverendingrun.models.hero.state.HeroFacingState;
 import it.unisa.theneverendingrun.models.hero.state.HeroMoveState;
 import it.unisa.theneverendingrun.models.hero.state.face.LeftState;
@@ -14,14 +14,13 @@ import it.unisa.theneverendingrun.utilities.MathUtils;
 
 import java.util.Map;
 
-public abstract class AbstractHero extends Sprite implements Animatable {
+public class Hero extends Sprite implements Animatable {
 
 
     /* ------------------------------------- PARAMS ------------------------------------- */
 
 
     /**
-     *
      * The number of steps the hero takes to jump
      */
     private static final int JUMP_DURATION = 35;
@@ -61,7 +60,7 @@ public abstract class AbstractHero extends Sprite implements Animatable {
     /**
      *
      * @see HeroMoveState
-     * @see AbstractHero#moveState
+     * @see Hero#moveState
      *
      * A variable representing the previuos state of the hero
      */
@@ -94,26 +93,35 @@ public abstract class AbstractHero extends Sprite implements Animatable {
     private int swords;
 
     /**
-     *
      * The number of shields the hero is holding
      */
     private int shields;
+
+    /**
+     * The original height of the slide
+     */
+    private float slideStandardHeight;
+
+    /**
+     * The original width of the slide
+     */
+    private float slideStandardWidth;
+
+
 
 
     /* ------------------------------------- CONSTRUCTORS ------------------------------------- */
 
     /**
-     *
+     * @param x          bottom-left x coordinate
+     * @param y          bottom-left y coordinate
+     * @param animations the animations of the hero
      * @see Sprite#Sprite()
-     *
+     * <p>
      * Abstract Hero constructor.
      * Sets its bottom-left coordinates and speed, while its horizontal velocity is set to 0
-     *
-     * @param x     bottom-left x coordinate
-     * @param y     bottom-left y coordinate
-     * @param animations the animations of the hero
      */
-    public AbstractHero(float x, float y, Map<HeroStateType, Animation<TextureRegion>> animations) {
+    public Hero(float x, float y, Map<HeroStateType, Animation<TextureRegion>> animations) {
         this(1, x, y, animations);
     }
 
@@ -129,7 +137,7 @@ public abstract class AbstractHero extends Sprite implements Animatable {
      * @param y     bottom-left y coordinate
      * @param animations the animations of the hero
      */
-    public AbstractHero(float scaleFactor, float x, float y, Map<HeroStateType, Animation<TextureRegion>> animations) {
+    public Hero(float scaleFactor, float x, float y, Map<HeroStateType, Animation<TextureRegion>> animations) {
         super(scaleFactor);
 
         this.groundX = x;
@@ -145,30 +153,47 @@ public abstract class AbstractHero extends Sprite implements Animatable {
         var standAnimation = animations.get(HeroStateType.STAND);
         if (standAnimation == null) throw new IllegalArgumentException("No stand animation");
 
-        var texture = standAnimation.getKeyFrames()[0].getTexture();
-        setStandardWidth(texture.getWidth() * scaleFactor);
-        setStandardHeight(texture.getHeight() * scaleFactor);
+        var standTexture = standAnimation.getKeyFrames()[0].getTexture();
+        setStandardWidth(standTexture.getWidth() * scaleFactor);
+        setStandardHeight(standTexture.getHeight() * scaleFactor);
 
+        var slideAnimation = animations.get(HeroStateType.SLIDE);
+        if (slideAnimation == null) throw new IllegalArgumentException("No stand animation");
 
+        var slideTexture = standAnimation.getKeyFrames()[0].getTexture();
+        this.slideStandardWidth = slideTexture.getWidth() * scaleFactor;
+        this.slideStandardHeight = slideTexture.getHeight() * scaleFactor;
+
+        animate();
     }
 
     /* ------------------------------------- GETTERS ------------------------------------- */
 
     /**
-     *
-     * @see AbstractHero#groundX
-     *
+     * @return the slide standard height
+     */
+    public final float getSlideStandardHeight() {
+        return slideStandardHeight;
+    }
+
+    /**
+     * @return the slide standard width
+     */
+    public final float getSlideStandardWidth() {
+        return slideStandardWidth;
+    }
+
+    /**
      * @return the hero bottom-left original x coordinate
+     * @see Hero#groundX
      */
     public float getGroundX() {
         return groundX;
     }
 
     /**
-     *
-     * @see AbstractHero#groundY
-     *
      * @return the hero bottom-left original y coordinate
+     * @see Hero#groundY
      */
     public float getGroundY() {
         return groundY;
@@ -176,7 +201,7 @@ public abstract class AbstractHero extends Sprite implements Animatable {
 
     /**
      *
-     * @see AbstractHero#dx
+     * @see Hero#dx
      *
      * @return the hero horizontal velocity
      */
@@ -186,7 +211,7 @@ public abstract class AbstractHero extends Sprite implements Animatable {
 
     /**
      *
-     * @see AbstractHero#moveState
+     * @see Hero#moveState
      *
      * @return the move state in which the hero is:
      * JumpState if the hero is jumping;
@@ -201,7 +226,7 @@ public abstract class AbstractHero extends Sprite implements Animatable {
 
     /**
      *
-     * @see AbstractHero#previousMoveState
+     * @see Hero#previousMoveState
      *
      * @return the previous move state
      */
@@ -211,7 +236,7 @@ public abstract class AbstractHero extends Sprite implements Animatable {
 
     /**
      *
-     * @see AbstractHero#jumpCount
+     * @see Hero#jumpCount
      *
      * @return the hero jump counter
      */
@@ -221,7 +246,7 @@ public abstract class AbstractHero extends Sprite implements Animatable {
 
     /**
      *
-     * @see AbstractHero#JUMP_DURATION
+     * @see Hero#JUMP_DURATION
      *
      * @return the hero jump duration
      */
@@ -231,7 +256,7 @@ public abstract class AbstractHero extends Sprite implements Animatable {
 
     /**
      *
-     * @see AbstractHero#slideCount
+     * @see Hero#slideCount
      *
      * @return the hero slide counter
      */
@@ -241,17 +266,17 @@ public abstract class AbstractHero extends Sprite implements Animatable {
 
     /**
      *
-     * @see AbstractHero#SLIDE_DURATION
+     * @see Hero#SLIDE_DURATION
      *
      * @return the hero slide duration
      */
-    public int getSlideDuration() {
+    public float getSlideDuration() {
         return SLIDE_DURATION;
     }
 
     /**
      *
-     * @see AbstractHero#facingState
+     * @see Hero#facingState
      *
      * @return the facing state in which the hero is:
      * LeftState if the hero is facing left;
@@ -259,15 +284,6 @@ public abstract class AbstractHero extends Sprite implements Animatable {
      */
     public HeroFacingState getFacingState() {
         return facingState;
-    }
-
-    /**
-     *
-     * @return the sprite implementation type
-     */
-    @Override
-    public SpriteImplType getSpriteImplType() {
-        return SpriteImplType.HERO;
     }
 
     /**
@@ -393,9 +409,10 @@ public abstract class AbstractHero extends Sprite implements Animatable {
 
     /* ------------------------------------- SETTERS ------------------------------------- */
 
+
     /**
      *
-     * @see AbstractHero#dx
+     * @see Hero#dx
      *
      * @param dx the horizontal velocity value to set
      */
@@ -405,7 +422,7 @@ public abstract class AbstractHero extends Sprite implements Animatable {
 
     /**
      *
-     * @see AbstractHero#moveState
+     * @see Hero#moveState
      *
      * @param moveState the new move state to set
      */
@@ -416,7 +433,7 @@ public abstract class AbstractHero extends Sprite implements Animatable {
 
     /**
      *
-     * @see AbstractHero#jumpCount
+     * @see Hero#jumpCount
      *
      * @param jumpCount the jump counter value to set
      */
@@ -426,7 +443,7 @@ public abstract class AbstractHero extends Sprite implements Animatable {
 
     /**
      *
-     * @see AbstractHero#slideCount
+     * @see Hero#slideCount
      *
      * @param slideCount the slide counter value to set
      */
@@ -436,7 +453,7 @@ public abstract class AbstractHero extends Sprite implements Animatable {
 
     /**
      *
-     * @see AbstractHero#facingState
+     * @see Hero#facingState
      *
      * @param facingState the new facing state to set
      */
@@ -446,7 +463,7 @@ public abstract class AbstractHero extends Sprite implements Animatable {
 
     /**
      *
-     * @see AbstractHero#shields
+     * @see Hero#shields
      *
      * @param shields the new number of shields
      */
@@ -456,7 +473,7 @@ public abstract class AbstractHero extends Sprite implements Animatable {
 
     /**
      *
-     * @see AbstractHero#swords
+     * @see Hero#swords
      *
      * @param swords the new number of swords
      */
@@ -517,7 +534,7 @@ public abstract class AbstractHero extends Sprite implements Animatable {
      * @return the maximum number of pixels the hero can travel when he slides while he's moving on the horizontal axis
      * with a horizontal velocity value of 1
      */
-    public double getMaxSlideRange() {
+    public float getMaxSlideRange() {
         return SLIDE_DURATION;
     }
 
@@ -563,9 +580,23 @@ public abstract class AbstractHero extends Sprite implements Animatable {
 
         if (frame == null) throw new NullPointerException("animation frame is null");
 
+        var texture = new TextureRegion(frame);
         if (isLeft())
-            frame.flip(true, false);
+            texture.flip(true, false);
 
-        setRegion(frame);
+        setRegion(texture);
+    }
+
+
+
+    /* ------------------------------------- VISITOR ------------------------------------- */
+
+
+    /**
+     * @param visitor the action to perform
+     */
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visitHero(this);
     }
 }

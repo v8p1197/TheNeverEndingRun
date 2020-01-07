@@ -1,92 +1,32 @@
 package it.unisa.theneverendingrun.models;
 
 
-import com.badlogic.gdx.graphics.Texture;
-
 import java.util.concurrent.ThreadLocalRandom;
 
 public class SlidableSprite extends Sprite {
 
+    /**
+     * The sprite that has to be resized so is jumpable
+     */
+    private Sprite sprite;
 
     /* ------------------------------------- CONSTRUCTORS ------------------------------------- */
 
     /**
+     * Resize a sprite so that is slidable
      *
-     * @see Sprite#Sprite()
-     *
-     * Create a {@link SlidableSprite}.
-     * At constructor time the sprite height is less than the maxHeight
-     *
+     * @param sprite   the sprite that has to be resized so is slidable
      * @param maxWidth the max width that the sprite can have
-     * @param resize   if the sprite has to be resized
-     *                 is false and getHeight() >= maxHeight return true or getHeight() == 0,
-     *                 then {@link SlidableSprite#resize(float)} is called
      */
-    public SlidableSprite(float maxWidth, boolean resize) {
-        this(1, maxWidth, resize);
+    public SlidableSprite(Sprite sprite, float maxWidth) {
+        this(sprite, maxWidth, true);
     }
 
     /**
      *
-     * @see Sprite#Sprite()
+     * Resize a sprite so that is slidable
      *
-     * Create a {@link SlidableSprite}.
-     * At constructor time the sprite height is less than the maxHeight
-     *
-     * @param maxWidth the max width that the sprite can have
-     * @param resize   if the sprite has to be resized
-     *                 is false and getHeight() >= maxHeight return true or getHeight() == 0,
-     *                 then {@link SlidableSprite#resize(float)} is called
-     */
-    public SlidableSprite(float scaleFactor, float maxWidth, boolean resize) {
-        super(scaleFactor);
-
-        if (resize || getWidth() >= maxWidth || getWidth() == 0)
-            resize(maxWidth);
-    }
-
-    /**
-     *
-     * @see Sprite#Sprite()
-     *
-     * Create a {@link SlidableSprite}.
-     * At constructor time the sprite height is less than the maxHeight
-     *
-     * @param maxWidth the max width that the sprite can have
-     * @param resize   if the sprite has to be resized
-     *                 is false and getHeight() >= maxHeight return true or getHeight() == 0,
-     *                 then {@link SlidableSprite#resize(float)} is called
-     */
-    public SlidableSprite(Texture texture, float maxWidth, boolean resize) {
-        this(texture, 1, maxWidth, resize);
-    }
-
-    /**
-     *
-     * @see Sprite#Sprite()
-     *
-     * Create a {@link SlidableSprite}.
-     * At constructor time the sprite height is less than the maxHeight
-     *
-     * @param maxWidth the max width that the sprite can have
-     * @param resize   if the sprite has to be resized
-     *                 is false and getHeight() >= maxHeight return true or getHeight() == 0,
-     *                 then {@link SlidableSprite#resize(float)} is called
-     */
-    public SlidableSprite(Texture texture, float scaleFactor, float maxWidth, boolean resize) {
-        super(texture, scaleFactor);
-
-        if (resize || getWidth() >= maxWidth || getWidth() == 0)
-            resize(maxWidth);
-    }
-
-
-    /**
-     *
-     * Create a {@link SlidableSprite} starting from another {@link Sprite}
-     * and resize it so that is jumpable
-     *
-     * @param sprite the sprite that has to be jumpable
+     * @param sprite   the sprite that has to be resized so is slidable
      * @param maxWidth the max width that the sprite can have
      * @param resize   if the sprite has to be resized
      *                 is false and getHeight() >= maxHeight return true or getHeight() == 0,
@@ -96,12 +36,11 @@ public class SlidableSprite extends Sprite {
         super(sprite.getScaleFactor());
 
         set(sprite);
+        this.sprite = sprite;
 
         if (resize || getWidth() >= maxWidth || getWidth() == 0)
             resize(maxWidth);
-
     }
-
 
 
     /* -------------------------------- SERVICE METHODS -------------------------------- */
@@ -118,10 +57,8 @@ public class SlidableSprite extends Sprite {
         setSize(newW, getHeight());
     }
 
-
-    // TODO delete this method
     @Override
-    public SpriteImplType getSpriteImplType() {
-        return null;
+    public void accept(Visitor visitor) {
+        sprite.accept(visitor);
     }
 }

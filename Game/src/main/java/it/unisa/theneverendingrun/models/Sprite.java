@@ -85,8 +85,8 @@ public abstract class Sprite extends org.mini2Dx.core.graphics.Sprite {
     public Sprite(float scaleFactor) {
         super();
         this.scaleFactor = scaleFactor;
-        this.collisionBox = new CollisionBox(0, 0, 0,0);
-        this.visible = false;
+        this.collisionBox = new CollisionBox(0, 0, 0, 0);
+        this.visible = true;
         this.standardWidth = 0;
         this.standardHeight = 0;
 
@@ -165,16 +165,14 @@ public abstract class Sprite extends org.mini2Dx.core.graphics.Sprite {
 
     /* ------------------------------------- GETTERS ------------------------------------- */
 
-    /**
-     *
-     * @return the sprite implementation type
-     */
-    public abstract SpriteImplType getSpriteImplType();
+    public abstract void accept(Visitor visitor);
+
+
+    /* ------------------------------------- GETTERS ------------------------------------- */
 
     /**
-     *
-     * @see Sprite#visible
      * @return true if the sprite is visible, false otherwise
+     * @see Sprite#visible
      */
     public boolean isVisible() {
         return visible;
@@ -273,6 +271,7 @@ public abstract class Sprite extends org.mini2Dx.core.graphics.Sprite {
     @Override
     public void setRegion(float u, float v, float u2, float v2) {
         super.setRegion(u, v, u2, v2);
+        setSize(getTexture().getWidth(), getTexture().getHeight());
         scale();
     }
 
@@ -284,7 +283,8 @@ public abstract class Sprite extends org.mini2Dx.core.graphics.Sprite {
     @Override
     public void setPosition(float x, float y) {
         super.setPosition(x, y);
-        collisionBox.set(x, y);
+        if (collisionBox != null)
+            collisionBox.set(x, y);
     }
 
     /**
@@ -295,7 +295,8 @@ public abstract class Sprite extends org.mini2Dx.core.graphics.Sprite {
     @Override
     public void setX(float x) {
         super.setX(x);
-        collisionBox.set(x, getY());
+        if (collisionBox != null)
+            collisionBox.set(x, getY());
     }
 
     /**
@@ -306,7 +307,8 @@ public abstract class Sprite extends org.mini2Dx.core.graphics.Sprite {
     @Override
     public void setY(float y) {
         super.setY(y);
-        collisionBox.set(getX(), y);
+        if (collisionBox != null)
+            collisionBox.set(getX(), y);
     }
 
     /**
@@ -317,7 +319,8 @@ public abstract class Sprite extends org.mini2Dx.core.graphics.Sprite {
     @Override
     public void setSize(float width, float height) {
         super.setSize(width, height);
-        collisionBox.setSize(width, height);
+        if (collisionBox != null)
+            collisionBox.setSize(width, height);
     }
 
     protected final void setStandardWidth(float standardWidth) {
@@ -334,7 +337,6 @@ public abstract class Sprite extends org.mini2Dx.core.graphics.Sprite {
      * @param animation the new animation for the sprite
      */
     public void setAnimation(Animation<TextureRegion> animation) {
-        if (animation == null) throw new NullPointerException("Animation is null");
         this.animation = animation;
     }
 

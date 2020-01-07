@@ -8,17 +8,18 @@ import it.unisa.theneverendingrun.models.SlidableSprite;
 import it.unisa.theneverendingrun.models.Sprite;
 import it.unisa.theneverendingrun.models.SpriteType;
 import it.unisa.theneverendingrun.models.background.AbstractScrollingBackground;
-import it.unisa.theneverendingrun.models.background.impls.ForestBackground;
+import it.unisa.theneverendingrun.models.background.Background;
+import it.unisa.theneverendingrun.models.background.impls.PlayStateBackgroundAbstract;
 import it.unisa.theneverendingrun.models.enemy.Enemy;
 import it.unisa.theneverendingrun.models.enemy.EnemyStateType;
-import it.unisa.theneverendingrun.models.hero.AbstractHero;
-import it.unisa.theneverendingrun.models.hero.impls.ForestHero;
+import it.unisa.theneverendingrun.models.hero.Hero;
+import it.unisa.theneverendingrun.models.hero.HeroStateType;
 import it.unisa.theneverendingrun.models.obstacle.Obstacle;
-import it.unisa.theneverendingrun.models.powerup.AbstractPowerUp;
+import it.unisa.theneverendingrun.models.powerup.PowerUpType;
+import it.unisa.theneverendingrun.models.powerup.impls.MultiplierPowerUp;
 import it.unisa.theneverendingrun.models.powerup.impls.Shield;
 import it.unisa.theneverendingrun.models.powerup.impls.Sword;
 import it.unisa.theneverendingrun.services.factories.GameFactory;
-import it.unisa.theneverendingrun.services.factories.SpriteFactory;
 import it.unisa.theneverendingrun.utilities.TextureUtils;
 
 import java.security.InvalidParameterException;
@@ -30,13 +31,118 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 public class ForestFactory implements GameFactory {
-    private static final Texture SWORD_TEXTURE = new Texture("images/forest/powerups/power_up_sword.png");
-    private static final Texture SHIELD_TEXTURE = new Texture("images/forest/powerups/power_up_shield.png");
-    private static final Texture MULTIPLIER_TEXTURE = new Texture("images/forest/powerups/power_up_x2.png");
 
-    private static final Texture SLIDABLE_TEXTURE = new Texture("images/forest/obstacles/slidable.png");
-    private static final Texture JUMPABLE_TEXTURE = new Texture("images/forest/obstacles/jumpable.png");
-    private static final Texture SLIDABLE_JUMPABLE_TEXTURE = new Texture("images/forest/obstacles/jumpable_slidable.png");
+
+    private int screenWidth;
+    private int screenHeight;
+
+
+    public ForestFactory(int screenWidth, int screenHeight) {
+        this.screenWidth = screenWidth;
+        this.screenHeight = screenHeight;
+    }
+
+
+
+    /* -------------------------------- BACKGROUND -------------------------------- */
+
+    private static final Texture BACKGROUND_TEXTURE = new Texture("images/forest/backgrounds/background_1.png");
+
+    // Experimental for this Background
+    private static final float SCROLLING_SPEED = 0.002F;
+    private static final float SCROLLING_WIDTH = 2.0F;
+
+    //calculated for this background (texture background_1)
+    /**
+     * The real x axis base.
+     * For this {@link Background} the x base isn't 0.
+     */
+    public static final float BASE_X = 0.3F;
+
+    /**
+     * The real y axis base.
+     * For this {@link Background} the y base isn't 0.
+     */
+    public static final float BASE_Y = 0.0625F;
+
+    @Override
+    public AbstractScrollingBackground createBackground() {
+        return new PlayStateBackgroundAbstract(BACKGROUND_TEXTURE, screenWidth, screenHeight, SCROLLING_SPEED, SCROLLING_WIDTH);
+    }
+
+
+
+
+    /* -------------------------------- HERO -------------------------------- */
+
+
+    //experimental for this implementation
+    private final static float SCALE_FACTOR = 3.0f;
+
+    private static final Map<HeroStateType, Animation<TextureRegion>> HERO_ANIMATIONS;
+
+    static {
+        final String HERO_FRAME_PATH = "images/forest/hero/";
+
+        final var DEATH_FRAME_COUNT = 13;
+        final var FALL_FRAME_COUNT = 1;
+        final var IDLE_FRAME_COUNT = 13;
+        final var JUMP_FRAME_COUNT = 13;
+        final var RUN_FRAME_COUNT = 8;
+        final var SLIDE_FRAME_COUNT = 16;
+
+        final var DEATH_FRAMES = TextureUtils.toVector(HERO_FRAME_PATH + "hero_death/hero_death_", "png", DEATH_FRAME_COUNT);
+        final var FALL_FRAMES = TextureUtils.toVector(HERO_FRAME_PATH + "hero_fall/hero_fall_", "png", FALL_FRAME_COUNT);
+        final var IDLE_FRAMES = TextureUtils.toVector(HERO_FRAME_PATH + "hero_stand/hero_idle_", "png", IDLE_FRAME_COUNT);
+        final var JUMP_FRAMES = TextureUtils.toVector(HERO_FRAME_PATH + "hero_jump/hero_jump_", "png", JUMP_FRAME_COUNT);
+        final var RUN_FRAMES = TextureUtils.toVector(HERO_FRAME_PATH + "hero_run/hero_run_", "png", RUN_FRAME_COUNT);
+        final var SLIDE_FRAMES = TextureUtils.toVector(HERO_FRAME_PATH + "hero_slide/hero_slide_", "png", SLIDE_FRAME_COUNT);
+
+        HERO_ANIMATIONS = new HashMap<>();
+        HERO_ANIMATIONS.put(HeroStateType.DEAD, new Animation<>(0.05F, DEATH_FRAMES));
+        HERO_ANIMATIONS.put(HeroStateType.FALL, new Animation<>(0.05F, FALL_FRAMES));
+        HERO_ANIMATIONS.put(HeroStateType.STAND, new Animation<>(0.05F, IDLE_FRAMES));
+        HERO_ANIMATIONS.put(HeroStateType.JUMP, new Animation<>(0.05F, JUMP_FRAMES));
+        HERO_ANIMATIONS.put(HeroStateType.RUN, new Animation<>(0.075F, RUN_FRAMES));
+        HERO_ANIMATIONS.put(HeroStateType.SLIDE, new Animation<>(0.05F, SLIDE_FRAMES));
+    }
+
+    @Override
+    public Hero createHero() {
+        var hero = new Hero(SCALE_FACTOR, BASE_X * screenWidth, BASE_Y * screenHeight, HERO_ANIMATIONS);
+        hero.flip(false, true);
+        return hero;
+    }
+
+
+
+    /* -------------------------------- OBSTACLE -------------------------------- */
+
+
+    private static final Texture OBSTACLE_SLIDABLE_TEXTURE = new Texture("images/forest/obstacles/slidable.png");
+    private static final Texture OBSTACLE_JUMPABLE_TEXTURE = new Texture("images/forest/obstacles/jumpable.png");
+    private static final Texture OBSTACLE_SLIDABLE_JUMPABLE_TEXTURE = new Texture("images/forest/obstacles/jumpable_slidable.png");
+
+
+    @Override
+    public Sprite createObstacle(SpriteType spriteType, float maxHeight, float maxWidth) {
+        switch (spriteType) {
+            case JUMPABLE:
+                return new JumpableSprite(new Obstacle(OBSTACLE_JUMPABLE_TEXTURE), maxHeight);
+            case SLIDABLE:
+                return new SlidableSprite(new Obstacle(OBSTACLE_SLIDABLE_TEXTURE), maxWidth);
+            case JUMPABLE_SLIDABLE:
+                return new JumpableSprite(new SlidableSprite(new Obstacle(OBSTACLE_SLIDABLE_JUMPABLE_TEXTURE), maxWidth), maxHeight);
+            default:
+                throw new IllegalArgumentException("Obstacle type is not valid");
+        }
+    }
+
+
+
+
+    /* -------------------------------- ENEMY -------------------------------- */
+
 
     private static final Map<EnemyStateType, Animation<TextureRegion>> GOLEM_ANIMATION;
     private static final Map<EnemyStateType, Animation<TextureRegion>> WOLF_ANIMATION;
@@ -67,84 +173,25 @@ public class ForestFactory implements GameFactory {
         final var WITCH_DEATH_FRAMES = TextureUtils.toVector(ENEMIES_FRAME_PATH + "witch/witch_death_", "png", WITCH_DEATH_FRAME_COUNT);
 
         GOLEM_ANIMATION = new HashMap<>();
-        GOLEM_ANIMATION.put(EnemyStateType.IDLE, new Animation<>(2F, GOLEM_IDLE_FRAMES));
-        GOLEM_ANIMATION.put(EnemyStateType.ATTACK, new Animation<>(2F, GOLEM_ATTACK_FRAMES));
-        GOLEM_ANIMATION.put(EnemyStateType.DEAD, new Animation<>(2F, GOLEM_DEATH_FRAMES));
+        GOLEM_ANIMATION.put(EnemyStateType.IDLE, new Animation<>(0.02F, GOLEM_IDLE_FRAMES));
+        GOLEM_ANIMATION.put(EnemyStateType.ATTACK, new Animation<>(0.02F, GOLEM_ATTACK_FRAMES));
+        GOLEM_ANIMATION.put(EnemyStateType.DEAD, new Animation<>(0.02F, GOLEM_DEATH_FRAMES));
 
         WOLF_ANIMATION = new HashMap<>();
-        WOLF_ANIMATION.put(EnemyStateType.IDLE, new Animation<>(2F, WOLF_IDLE_FRAMES));
-        WOLF_ANIMATION.put(EnemyStateType.ATTACK, new Animation<>(2F, WOLF_ATTACK_FRAMES));
-        WOLF_ANIMATION.put(EnemyStateType.DEAD, new Animation<>(2F, WOLF_DEATH_FRAMES));
+        WOLF_ANIMATION.put(EnemyStateType.IDLE, new Animation<>(0.02F, WOLF_IDLE_FRAMES));
+        WOLF_ANIMATION.put(EnemyStateType.ATTACK, new Animation<>(0.02F, WOLF_ATTACK_FRAMES));
+        WOLF_ANIMATION.put(EnemyStateType.DEAD, new Animation<>(0.02F, WOLF_DEATH_FRAMES));
 
         WITCH_ANIMATION = new HashMap<>();
-        WITCH_ANIMATION.put(EnemyStateType.IDLE, new Animation<>(2F, WITCH_IDLE_FRAMES));
-        WITCH_ANIMATION.put(EnemyStateType.ATTACK, new Animation<>(2F, WITCH_ATTACK_FRAMES));
-        WITCH_ANIMATION.put(EnemyStateType.DEAD, new Animation<>(2F, WITCH_DEATH_FRAMES));
-    }
-
-    private SpriteFactory obstacleFactory;
-    private SpriteFactory enemyFactory;
-    private int screenWidth;
-    private int screenHeight;
-
-
-    public ForestFactory(int screenWidth, int screenHeight) {
-        this.screenWidth = screenWidth;
-        this.screenHeight = screenHeight;
-        obstacleFactory = new ForestObstacleFactory();
-        enemyFactory = new ForestEnemyFactory();
-    }
-
-    @Override
-    public AbstractScrollingBackground createBackground() {
-        return new ForestBackground(screenWidth, screenHeight);
+        WITCH_ANIMATION.put(EnemyStateType.IDLE, new Animation<>(0.02F, WITCH_IDLE_FRAMES));
+        WITCH_ANIMATION.put(EnemyStateType.ATTACK, new Animation<>(0.02F, WITCH_ATTACK_FRAMES));
+        WITCH_ANIMATION.put(EnemyStateType.DEAD, new Animation<>(0.02F, WITCH_DEATH_FRAMES));
     }
 
 
     @Override
-    public AbstractHero createHero() {
-        var hero = new ForestHero(ForestBackground.BASE_X * screenWidth, ForestBackground.BASE_Y * screenHeight);
-        hero.flip(false, true);
-        return hero;
-    }
-
-    @Override
-    public Sprite createObstacle(SpriteType spriteType, float maxHeight, float maxWidth) {
-        return createSprite(obstacleFactory, spriteType, maxHeight, maxWidth);
-    }
-
-    @Override
-    public Sprite createEnemy(SpriteType spriteType, float maxHeight, float maxWidth) {
-        return createSprite(enemyFactory, spriteType, maxHeight, maxWidth);
-    }
-
-
-    private Sprite createSprite(SpriteFactory spriteFactory, SpriteType spriteType, float maxHeight, float maxWidth) {
-        switch (spriteType) {
-            case JUMPABLE:
-                return spriteFactory.createJumpableSprite(maxHeight);
-            case SLIDABLE:
-                return spriteFactory.createSlidableSprite(maxWidth);
-            case JUMPABLE_SLIDABLE:
-                return spriteFactory.createJumpableSlideableSprite(maxHeight, maxWidth);
-        }
-
-        throw new IllegalArgumentException("Sprite type is not valid");
-    }
-
-    public AbstractPowerUp createPowerUp(PowerUpType powerUpType, float maxHeight) {
-        switch (powerUpType) {
-            case SWORD:
-                return new Sword(new JumpableSprite(SWORD_TEXTURE, maxHeight, true));
-            case SHIELD:
-                return new Shield(new JumpableSprite(SHIELD_TEXTURE, maxHeight, true));
-            default:
-                throw new IllegalArgumentException("Power Up type is not valid!");
-        }
-    }
-
-    public Enemy createEnemy(float maxHeight) {
-        return new Enemy(new JumpableSprite(maxHeight, true), createAnimations());
+    public Sprite createEnemy(float maxHeight) {
+        return new JumpableSprite(new Enemy(createAnimations()), maxHeight);
     }
 
     private Map<EnemyStateType, Animation<TextureRegion>> createAnimations() {
@@ -172,17 +219,36 @@ public class ForestFactory implements GameFactory {
         }
     }
 
-    public Obstacle createObstacleType(SpriteType type, float maxHeight, float maxWidth) {
-        switch (type) {
-            case JUMPABLE:
-                return new Obstacle(new JumpableSprite(JUMPABLE_TEXTURE, maxHeight, true));
-            case SLIDABLE:
-                return new Obstacle(new SlidableSprite(SLIDABLE_TEXTURE, maxWidth, true));
-            case JUMPABLE_SLIDABLE:
-                return new Obstacle(new JumpableSprite(new SlidableSprite(SLIDABLE_JUMPABLE_TEXTURE, maxWidth, true), maxHeight, true));
+
+
+
+    /* -------------------------------- POWER UP -------------------------------- */
+
+    private static final Texture SWORD_TEXTURE = new Texture("images/forest/powerups/power_up_sword.png");
+    private static final Texture SHIELD_TEXTURE = new Texture("images/forest/powerups/power_up_shield.png");
+    private static final Texture MULTIPLIER_TEXTURE = new Texture("images/forest/powerups/power_up_x2.png");
+
+
+    @Override
+    public Sprite createPowerUp(float maxWidth, float maxHeight) {
+        switch (getPowerUpType()) {
+            case SWORD:
+                return new JumpableSprite(new SlidableSprite(new Sword(SWORD_TEXTURE), maxWidth), maxHeight);
+            case SHIELD:
+                return new JumpableSprite(new SlidableSprite(new Shield(SHIELD_TEXTURE), maxWidth), maxHeight);
+            case MULTIPLIER:
+                return new JumpableSprite(new SlidableSprite(new MultiplierPowerUp(MULTIPLIER_TEXTURE), maxWidth), maxHeight);
             default:
-                throw new IllegalArgumentException("Obstacle type is not valid");
+                throw new IllegalArgumentException("Power Up type is not valid!");
         }
     }
+
+    private PowerUpType getPowerUpType() {
+        var list = Arrays.asList(PowerUpType.values());
+        Collections.shuffle(list);
+        return list.get(ThreadLocalRandom.current().nextInt(list.size()));
+    }
+
+
 }
 

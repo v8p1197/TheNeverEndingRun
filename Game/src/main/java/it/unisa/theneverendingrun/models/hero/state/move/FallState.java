@@ -2,7 +2,7 @@ package it.unisa.theneverendingrun.models.hero.state.move;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import it.unisa.theneverendingrun.models.hero.AbstractHero;
+import it.unisa.theneverendingrun.models.hero.Hero;
 import it.unisa.theneverendingrun.models.hero.HeroStateType;
 import it.unisa.theneverendingrun.models.hero.state.HeroMoveState;
 
@@ -21,20 +21,18 @@ public class FallState extends HeroMoveState {
     private int gravity;
 
     /**
-     *
-     * @see HeroMoveState#HeroMoveState(AbstractHero, Map)
-     *
+     * @see HeroMoveState#HeroMoveState(Hero, Map)
      * @see FallState#gravity
-     *
+     * <p>
      * Set gravity to 1
      */
-    public FallState(AbstractHero hero, Map<HeroStateType, Animation<TextureRegion>> animations) {
+    public FallState(Hero hero, Map<HeroStateType, Animation<TextureRegion>> animations) {
         this(hero, animations, 1);
     }
 
     /**
      *
-     * @see HeroMoveState#HeroMoveState(AbstractHero, Map)
+     * @see HeroMoveState#HeroMoveState(Hero, Map)
      *
      * @see FallState#gravity
      *
@@ -42,7 +40,7 @@ public class FallState extends HeroMoveState {
      *
      * @param gravity the fall step the hero actually is in
      */
-    public FallState(AbstractHero hero, Map<HeroStateType, Animation<TextureRegion>> animations, int gravity) {
+    public FallState(Hero hero, Map<HeroStateType, Animation<TextureRegion>> animations, int gravity) {
         super(hero, animations);
         this.gravity = gravity;
     }

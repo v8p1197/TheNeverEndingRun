@@ -1,11 +1,11 @@
 package it.unisa.theneverendingrun.models.powerup.strategies.impls;
 
-import it.unisa.theneverendingrun.models.hero.AbstractHero;
+import it.unisa.theneverendingrun.models.hero.Hero;
 import it.unisa.theneverendingrun.models.powerup.strategies.PowerUpStrategy;
 
 public class SwordPowerUpStrategy extends PowerUpStrategy {
 
-    public SwordPowerUpStrategy(AbstractHero hero) {
+    public SwordPowerUpStrategy(Hero hero) {
         super(hero);
     }
 
