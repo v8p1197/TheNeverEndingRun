@@ -31,7 +31,7 @@ public class Assets {
 
         private Sounds() {
             musics = loadMusics();
-            effects = loadSounds();
+            effects = loadEffects();
         }
 
         private static Map<GameStateType, Music> loadMusics() {
@@ -40,7 +40,7 @@ public class Assets {
                     .collect(Collectors.toMap(k -> k, GameStateType::getMusic));
         }
 
-        private static Map<HeroStateType, Sound> loadSounds() {
+        private static Map<HeroStateType, Sound> loadEffects() {
             return Arrays.stream(HeroStateType.values())
                     .filter(stateType -> stateType.getSound() != null)
                     .collect(Collectors.toMap(k -> k, HeroStateType::getSound));
@@ -62,7 +62,6 @@ public class Assets {
         }
 
         private static BitmapFont loadEndScreenScoreFont() {
-            //Generate a font object for font.ttf at size 40px
             var parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
             parameter.size = 24;
             parameter.flip = false;
@@ -72,7 +71,6 @@ public class Assets {
         }
 
         private static BitmapFont loadEndScreenTitleFont() {
-            //Generate a font object for font.ttf at size 40px
             var parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
             parameter.size = 32;
             parameter.flip = false;
@@ -82,7 +80,6 @@ public class Assets {
         }
 
         private static BitmapFont loadScoreFont() {
-            //Generate a font object for font.ttf at size 40px
             var parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
             parameter.size = 24;
             parameter.flip = false;
@@ -97,7 +94,6 @@ public class Assets {
         }
 
         private static BitmapFont loadMeterFont() {
-            //Generate a font object for font.ttf at size 40px
             var parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
             parameter.size = 18;
             parameter.flip = false;

@@ -8,7 +8,8 @@ import java.util.Map;
 /**
  *
  * The handler for the events regarding {@link MeterEditor} events.
- * This class is delegated to subscribe and unsubscribe {@link MetersListener} observers to {@link MetersEventType} topics
+ * This class is delegated to subscribe and unsubscribe {@link MetersListener} observers to
+ * {@link MetersEventType} topics
  * and notify them that an observed variable changed.
  */
 public class MetersEventManager {
@@ -64,7 +65,8 @@ public class MetersEventManager {
 
     /**
      *
-     * Notify Observer method: notifies all the {@code listeners} subscribed to the {@code eventType} topic that the {@code meters}
+     * Notify Observer method: notifies all the {@code listeners} subscribed to the {@code eventType}
+     * topic that the {@code meters}
      * variable has changed, asking them to update
      *
      * @param eventType the topic whose subscribers will be notified
