@@ -8,7 +8,7 @@ import it.unisa.theneverendingrun.engine.GameEngine;
 import it.unisa.theneverendingrun.engine.state.GameStateType;
 import it.unisa.theneverendingrun.engine.state.InfoGameState;
 import it.unisa.theneverendingrun.engine.state.PlayState;
-import it.unisa.theneverendingrun.services.score.BestScores;
+import it.unisa.theneverendingrun.services.score.persistency.BestScores;
 import it.unisa.theneverendingrun.ui.builder.TableBuilder;
 import it.unisa.theneverendingrun.ui.controls.InteractiveTextButton;
 

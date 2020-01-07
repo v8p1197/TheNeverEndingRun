@@ -1,4 +1,4 @@
-package it.unisa.theneverendingrun.services.score;
+package it.unisa.theneverendingrun.services.score.persistency;
 
 import java.io.*;
 
