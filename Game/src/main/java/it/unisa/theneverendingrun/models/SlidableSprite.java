@@ -118,4 +118,10 @@ public class SlidableSprite extends Sprite {
         setSize(newW, getHeight());
     }
 
+
+    // TODO delete this method
+    @Override
+    public SpriteImplType getSpriteImplType() {
+        return null;
+    }
 }

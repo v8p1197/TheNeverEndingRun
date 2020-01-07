@@ -2,18 +2,17 @@ package it.unisa.theneverendingrun.services.factories.impls;
 
 import it.unisa.theneverendingrun.models.Sprite;
 import it.unisa.theneverendingrun.models.SpriteType;
-import it.unisa.theneverendingrun.models.background.AbstractBackground;
-import it.unisa.theneverendingrun.models.background.AbstractScrollingBackground;
-import it.unisa.theneverendingrun.models.background.impls.ForestBackground;
-import it.unisa.theneverendingrun.models.background.impls.PlayStateBackground;
-import it.unisa.theneverendingrun.models.hero.AbstractHero;
-import it.unisa.theneverendingrun.models.hero.impls.ForestHero;
 import it.unisa.theneverendingrun.services.factories.GameFactory;
-import it.unisa.theneverendingrun.services.factories.SpriteFactory;
 
 public class ForestFactory implements GameFactory {
 
-    private SpriteFactory obstacleFactory;
+    // TODO delete this method
+    @Override
+    public Sprite createEnemy(SpriteType spriteType, float maxHeight, float maxWidth) {
+        return null;
+    }
+
+    /*private SpriteFactory obstacleFactory;
     private SpriteFactory enemyFactory;
     private int screenWidth;
     private int screenHeight;
@@ -59,5 +58,5 @@ public class ForestFactory implements GameFactory {
         }
 
         throw new IllegalArgumentException("Sprite type is not valid");
-    }
+    }*/
 }

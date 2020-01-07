@@ -1,26 +1,27 @@
 package it.unisa.theneverendingrun.services.factories.impls;
 
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import it.unisa.theneverendingrun.models.JumpableSprite;
 import it.unisa.theneverendingrun.models.Sprite;
-import it.unisa.theneverendingrun.models.enemy.AbstractEnemy;
-import it.unisa.theneverendingrun.models.enemy.EnemyAnimationType;
-import it.unisa.theneverendingrun.models.enemy.impls.ForestEnemy;
 import it.unisa.theneverendingrun.services.factories.SpriteFactory;
-import it.unisa.theneverendingrun.utilities.TextureUtils;
-
-import java.security.InvalidParameterException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.Collectors;
 
 public class ForestEnemyFactory implements SpriteFactory {
 
-    private static final Map<EnemyAnimationType, Animation<TextureRegion>> GOLEM_ANIMATION;
+    // TODO delete these 3 method
+    @Override
+    public Sprite createSlidableSprite(float maxWidth) {
+        return null;
+    }
+
+    @Override
+    public Sprite createJumpableSprite(float maxHeight) {
+        return null;
+    }
+
+    @Override
+    public Sprite createJumpableSlideableSprite(float maxHeight, float maxWidth) {
+        return null;
+    }
+
+    /*private static final Map<EnemyAnimationType, Animation<TextureRegion>> GOLEM_ANIMATION;
     private static final Map<EnemyAnimationType, Animation<TextureRegion>> WOLF_ANIMATION;
     private static final Map<EnemyAnimationType, Animation<TextureRegion>> WITCH_ANIMATION;
 
@@ -106,5 +107,5 @@ public class ForestEnemyFactory implements SpriteFactory {
 
             default: throw new InvalidParameterException("No valid enemy");
         }
-    }
+    }*/
 }

@@ -54,10 +54,10 @@ public class ScoreMetersListener implements MetersListener {
      * Initializes the {@link ScoreMetersListener#score} field to {@link ScoreMetersListener#INITIAL_SCORE}
      */
     public ScoreMetersListener() {
+        eventManager = new ScoreEventManager(ScoreEventType.values());
+
         setScore(INITIAL_SCORE);
         multiplier = 1.0F;
-
-        eventManager = new ScoreEventManager(ScoreEventType.values());
     }
 
     /**
@@ -68,6 +68,15 @@ public class ScoreMetersListener implements MetersListener {
      */
     public int getScore() {
         return score;
+    }
+
+    /**
+     * @see ScoreMetersListener#multiplier
+     * <p>
+     * The {@link ScoreMetersListener#score} multiplier
+     */
+    public float getMultiplier() {
+        return multiplier;
     }
 
     /**
@@ -90,6 +99,14 @@ public class ScoreMetersListener implements MetersListener {
     private void setScore(int score) {
         this.score = score;
         getEventManager().notify(ScoreEventType.SCORE_CHANGED, getScore());
+    }
+
+    /**
+     * @param multiplier the new {@link ScoreMetersListener#score} multiplier value
+     * @see ScoreMetersListener#multiplier
+     */
+    public void setMultiplier(float multiplier) {
+        this.multiplier = multiplier;
     }
 
     /**

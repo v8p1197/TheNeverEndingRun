@@ -16,7 +16,7 @@ public final class TextureUtils {
         var regions = new TextureRegion[size];
 
         for(int i = 0; i < size; ++i)
-            regions[i] = new TextureRegion(new Texture(path + (i + 1) + extension));
+            regions[i] = new TextureRegion(new Texture(path + (i + 1) + "." + extension));
 
         return regions;
     }

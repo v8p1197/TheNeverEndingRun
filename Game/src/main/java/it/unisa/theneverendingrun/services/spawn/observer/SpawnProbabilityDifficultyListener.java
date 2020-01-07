@@ -3,21 +3,20 @@ package it.unisa.theneverendingrun.services.spawn.observer;
 import it.unisa.theneverendingrun.services.difficulty.DifficultyEventType;
 import it.unisa.theneverendingrun.services.difficulty.DifficultyListener;
 import it.unisa.theneverendingrun.services.difficulty.DifficultyMetersListener;
-import it.unisa.theneverendingrun.services.speed.Level;
 
 /**
  *
  * A concrete {@link DifficultyListener} that computes the spawn probability depending on the
  * {@link DifficultyMetersListener} difficultyLevel variable value
  */
-class SpawnProbabilityDifficultyListener implements DifficultyListener {
+public class SpawnProbabilityDifficultyListener implements DifficultyListener {
 
     /**
      *
      * {@link SpawnProbabilityDifficultyListener#spawnProbability} field increases by SPAWN_PROBABILITY_FACTOR each
      * {@link SpawnProbabilityDifficultyListener#DIFFICULTY_DELTA} difficulty levels
      */
-    public static final int SPAWN_PROBABILITY_FACTOR = 10;
+    public static final int SPAWN_PROBABILITY_FACTOR = -10;
 
     /**
      *
@@ -51,9 +50,9 @@ class SpawnProbabilityDifficultyListener implements DifficultyListener {
      * {@link SpawnProbabilityDifficultyListener#INITIAL_SPAWN_PROBABILITY}
      */
     public SpawnProbabilityDifficultyListener() {
-        setSpawnProbability(INITIAL_SPAWN_PROBABILITY);
-
         eventManager = new SpawnProbabilityEventManager(SpawnProbabilityEventType.values());
+
+        setSpawnProbability(INITIAL_SPAWN_PROBABILITY);
     }
 
     /**
@@ -101,9 +100,10 @@ class SpawnProbabilityDifficultyListener implements DifficultyListener {
     @Override
     public void update(DifficultyEventType eventType, int difficulty) {
         if (eventType == DifficultyEventType.LEVEL_CHANGED) {
-            if (difficulty < Level.LEVEL_MAX.getValue())
-                setSpawnProbability(
-                        SPAWN_PROBABILITY_FACTOR * (int)(difficulty / DIFFICULTY_DELTA) + INITIAL_SPAWN_PROBABILITY);
+            setSpawnProbability(
+                    SPAWN_PROBABILITY_FACTOR *
+                            (int) ((difficulty - DifficultyMetersListener.INITIAL_DIFFICULTY) / DIFFICULTY_DELTA) +
+                            INITIAL_SPAWN_PROBABILITY);
         }
     }
 }

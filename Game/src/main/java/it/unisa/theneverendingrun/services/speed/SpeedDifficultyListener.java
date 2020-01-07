@@ -50,9 +50,9 @@ public class SpeedDifficultyListener implements DifficultyListener {
      * {@link SpeedDifficultyListener#INITIAL_SPEED}
      */
     public SpeedDifficultyListener() {
-        setSpeed(INITIAL_SPEED);
-
         eventManager = new SpeedEventManager(SpeedEventType.values());
+
+        setSpeed(INITIAL_SPEED);
     }
 
     /**
@@ -99,8 +99,9 @@ public class SpeedDifficultyListener implements DifficultyListener {
     @Override
     public void update(DifficultyEventType eventType, int difficulty) {
         if (eventType == DifficultyEventType.LEVEL_CHANGED) {
-            if (difficulty < Level.LEVEL_MAX.getValue())
-                setSpeed(SPEED_FACTOR * (int)(difficulty / DIFFICULTY_DELTA) + INITIAL_SPEED);
+            setSpeed(SPEED_FACTOR *
+                    (int) ((difficulty - DifficultyMetersListener.INITIAL_DIFFICULTY) / DIFFICULTY_DELTA) +
+                    INITIAL_SPEED);
         }
     }
 

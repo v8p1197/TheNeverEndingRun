@@ -50,9 +50,9 @@ public class DifficultyMetersListener implements MetersListener {
      * {@link DifficultyMetersListener#INITIAL_DIFFICULTY}
      */
     public DifficultyMetersListener() {
-        setDifficultyLevel(INITIAL_DIFFICULTY);
-
         eventManager = new DifficultyEventManager(DifficultyEventType.values());
+
+        setDifficultyLevel(INITIAL_DIFFICULTY);
     }
 
     /**
@@ -82,7 +82,7 @@ public class DifficultyMetersListener implements MetersListener {
      * @param difficulty the new difficulty value
      */
     private void setDifficultyLevel(int difficulty) {
-        difficultyLevel = difficulty;
+        difficultyLevel = Math.min(difficulty, Level.LEVEL_MAX.getValue());
         getEventManager().notify(DifficultyEventType.LEVEL_CHANGED, getDifficultyLevel());
     }
 

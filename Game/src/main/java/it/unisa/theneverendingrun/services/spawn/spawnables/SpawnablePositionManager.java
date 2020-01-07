@@ -1,12 +1,10 @@
 package it.unisa.theneverendingrun.services.spawn.spawnables;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 public class SpawnablePositionManager {
 
   //  private Map<ObstacleType, List<Obstacle>> obstaclesToAdd;
 
-    private final float baseX;
+    /*private final float baseX;
     private final float baseY;
 
     private Spawnable lastSpawnable;
@@ -241,6 +239,6 @@ public class SpawnablePositionManager {
     private float getMaxDistance() {
         return Math.max(maxSlideDistance, maxJumpDistance);
     }
-
+*/
 
 }

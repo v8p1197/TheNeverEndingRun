@@ -119,4 +119,10 @@ public class JumpableSprite extends Sprite {
         setSize(getWidth(), newH);
     }
 
+
+    // TODO delete this method
+    @Override
+    public SpriteImplType getSpriteImplType() {
+        return null;
+    }
 }

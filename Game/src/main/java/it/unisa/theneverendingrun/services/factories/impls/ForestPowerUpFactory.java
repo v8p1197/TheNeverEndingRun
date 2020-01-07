@@ -1,19 +1,27 @@
 package it.unisa.theneverendingrun.services.factories.impls;
 
-import com.badlogic.gdx.graphics.Texture;
-import it.unisa.theneverendingrun.models.JumpableSprite;
 import it.unisa.theneverendingrun.models.Sprite;
-import it.unisa.theneverendingrun.models.powerup.impl.ForestPowerUp;
 import it.unisa.theneverendingrun.services.factories.SpriteFactory;
 
-import java.security.InvalidParameterException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.Collectors;
-
 public class ForestPowerUpFactory implements SpriteFactory {
-    private static final Texture SWORD_TEXTURE = new Texture("images/forest/powerups/power_up_sword.png");
+
+    // TODO delete these 3 methods
+    @Override
+    public Sprite createSlidableSprite(float maxWidth) {
+        return null;
+    }
+
+    @Override
+    public Sprite createJumpableSprite(float maxHeight) {
+        return null;
+    }
+
+    @Override
+    public Sprite createJumpableSlideableSprite(float maxHeight, float maxWidth) {
+        return null;
+    }
+
+    /*private static final Texture SWORD_TEXTURE = new Texture("images/forest/powerups/power_up_sword.png");
     private static final Texture SHIELD_TEXTURE = new Texture("images/forest/powerups/power_up_shield.png");
     private static final Texture MULTIPLIER_TEXTURE = new Texture("images/forest/powerups/power_up_x2.png");
 
@@ -53,5 +61,5 @@ public class ForestPowerUpFactory implements SpriteFactory {
             default:
                 throw new InvalidParameterException("No valid power up");
         }
-    }
+    }*/
 }

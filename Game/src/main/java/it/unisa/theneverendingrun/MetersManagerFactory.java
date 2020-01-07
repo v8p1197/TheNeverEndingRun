@@ -1,15 +1,8 @@
 package it.unisa.theneverendingrun;
 
-import it.unisa.theneverendingrun.services.difficulty.DifficultyEventManager;
-import it.unisa.theneverendingrun.services.difficulty.DifficultyEventType;
-import it.unisa.theneverendingrun.services.difficulty.DifficultyMeterListener;
-import it.unisa.theneverendingrun.services.meters.MetersEventManager;
-import it.unisa.theneverendingrun.services.meters.MetersEventType;
-import it.unisa.theneverendingrun.services.meters.MetersListener;
 import it.unisa.theneverendingrun.services.meters.MeterEditor;
+import it.unisa.theneverendingrun.services.meters.MetersListener;
 import it.unisa.theneverendingrun.services.score.ScoreMetersListener;
-import it.unisa.theneverendingrun.services.spawn.spawnables.ObstacleSpawnProbabilityListener;
-import it.unisa.theneverendingrun.services.speed.SpeedDifficultyListener;
 
 /**
  * A class that is delegated to initialise the {@link MeterEditor} and all its {@link MetersListener}
@@ -19,25 +12,25 @@ public class MetersManagerFactory {
 
     /**
      * The {@link ScoreMetersListener} observer for the {@link MeterEditor}
-     */
+     *//*
     private ScoreMetersListener scoreMetersListener;
 
-    private DifficultyMeterListener difficultyMeterListener;
+    private DifficultyMetersListener difficultyMeterListener;
 
     private SpeedDifficultyListener speedDifficultyListener;
-    private ObstacleSpawnProbabilityListener spawnProbabilityListener;
+    private SpawnProbabilityDifficultyListener spawnProbabilityListener;
 
-    /**
+    *//**
      * Initialises the {@link MeterEditor} and all its {@link MetersListener} observers subscriptions
-     */
+     *//*
     public MetersManagerFactory() {
         createSubscriptions();
         MeterEditor.initialise();
     }
 
-    /**
+    *//**
      * Creates all the {@link MetersListener} observers subscriptions for the {@link MeterEditor}
-     */
+     *//*
     private void createSubscriptions() {
         MeterEditor.events = new MetersEventManager(MetersEventType.METERS_CHANGED);
 
@@ -55,23 +48,23 @@ public class MetersManagerFactory {
         difficultyMeterListener.events.subscribe(DifficultyEventType.LEVEL_CHANGED, speedDifficultyListener);
     }
 
-    /**
+    *//**
      * Updates the meter counter
-     */
+     *//*
     public void computeMeters() {
         MeterEditor.compute();
     }
 
-    /**
+    *//**
      * @return the meter counter
-     */
+     *//*
     public int getMeters() {
         return MeterEditor.getMeters();
     }
 
-    /**
+    *//**
      * @return the score
-     */
+     *//*
     public int getScore() {
         return scoreMetersListener.getScore();
     }
@@ -115,5 +108,5 @@ public class MetersManagerFactory {
     public int getSpawnFactorProbability() {
         return spawnProbabilityListener.getSpawnFactorProbability();
     }
-
+*/
 }
