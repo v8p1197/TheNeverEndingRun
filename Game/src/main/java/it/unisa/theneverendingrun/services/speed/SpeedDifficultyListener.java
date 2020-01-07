@@ -6,10 +6,29 @@ import it.unisa.theneverendingrun.services.difficulty.DifficultyMetersListener;
 
 /**
  *
- * A {@link DifficultyListener} that computes the {@link SpeedDifficultyListener#speed} depending on the
- * {@link DifficultyMetersListener} difficulty variable value
+ * A concrete {@link DifficultyListener} that computes the game speed depending on the
+ * {@link DifficultyMetersListener} difficultyLevel variable value
  */
 public class SpeedDifficultyListener implements DifficultyListener {
+
+    /**
+     *
+     * {@link SpeedDifficultyListener#speed} field increases by DIFFICULTY_FACTOR each
+     * {@link SpeedDifficultyListener#DIFFICULTY_DELTA} difficulty levels
+     */
+    public static final float SPEED_FACTOR = 0.3f;
+
+    /**
+     *
+     * How many difficulty levels the {@link SpeedDifficultyListener#speed} variable changes
+     */
+    public static final float DIFFICULTY_DELTA = 1;
+
+    /**
+     * The speed when the game begins, i.e. with a difficulty level of
+     * {@link DifficultyMetersListener#INITIAL_DIFFICULTY}
+     */
+    public static final float INITIAL_SPEED = 1.2f;
 
     /**
      *
@@ -18,25 +37,8 @@ public class SpeedDifficultyListener implements DifficultyListener {
     private SpeedEventManager eventManager;
 
     /**
-     * The initial speed of the game
-     */
-    public static final float INITIAL_SPEED = 1.2f;
-
-    /**
      *
-     * Each {@link SpeedDifficultyListener#DIFFICULTY_DELTA} levels of difficulty the {@link SpeedDifficultyListener#speed}
-     * increases by SPEED_FACTOR
-     */
-    public static final float SPEED_FACTOR = 0.3f;
-
-    /**
-     *
-     * How many difficulty levels the speed changes
-     */
-    public static final float DIFFICULTY_DELTA = 1;
-
-    /**
-     * The current value of the game speed
+     * The observed variable that stores the current game speed
      */
     private float speed;
 
@@ -56,7 +58,7 @@ public class SpeedDifficultyListener implements DifficultyListener {
     /**
      * @see SpeedDifficultyListener#speed
      *
-     * @return the current speed
+     * @return the current game speed
      */
     public float getSpeed() {
         return speed;
@@ -74,8 +76,8 @@ public class SpeedDifficultyListener implements DifficultyListener {
 
     /**
      *
-     * {@link SpeedDifficultyListener#speed} setter: updates the {@code speed} variable and notifies
-     * all the {@link SpeedListener} observers
+     * {@link SpeedDifficultyListener#speed} setter: updates the {@link SpeedDifficultyListener#speed} variable and
+     * notifies all the {@link SpeedListener} observers
      *
      * @param speed the new speed value
      */
@@ -89,7 +91,7 @@ public class SpeedDifficultyListener implements DifficultyListener {
     /**
      *
      * The {@link SpeedDifficultyListener} listener reaction when the observed variable {@code difficulty} changes.
-     * It increases the speed as a step function of the travelled meters
+     * It increases the speed as a step function of the difficulty level
      *
      * @param eventType the updated topic related to {@link DifficultyMetersListener}
      * @param difficulty the new value for the observed variable

@@ -1,12 +1,16 @@
 package it.unisa.theneverendingrun.services.difficulty;
 
-import it.unisa.theneverendingrun.services.meters.MetersEventManager;
-
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ *
+ * The handler for the events regarding {@link DifficultyMetersListener} events.
+ * This class is delegated to subscribe and unsubscribe {@link DifficultyListener} observers to
+ * {@link DifficultyEventType} topics and notify them that an observed variable changed.
+ */
 public class DifficultyEventManager {
 
     /**
@@ -21,7 +25,7 @@ public class DifficultyEventManager {
      * Instantiates an empty list of {@link DifficultyListener} observers for each topic in {@code topics}.
      *
      * @param topics the {@link DifficultyEventType} topics related to the {@link DifficultyMetersListener} events
-     *               the {@link MetersEventManager} manages
+     *               the {@link DifficultyEventManager} manages
      */
     public DifficultyEventManager(DifficultyEventType... topics) {
         if (topics == null) throw new NullPointerException("topics is null");
@@ -59,8 +63,8 @@ public class DifficultyEventManager {
 
     /**
      *
-     * Notify Observer method: notifies all the {@code listeners} subscribed to the {@code eventType} topic that the {@code difficulty}
-     * variable has changed, asking them to update
+     * Notify Observer method: notifies all the {@link DifficultyEventManager#listeners} subscribed to the
+     * {@code eventType} topic that the {@code difficulty} variable has changed, asking them to update
      *
      * @param eventType  the topic whose subscribers will be notified
      * @param difficulty the observed parameter, containing its new value

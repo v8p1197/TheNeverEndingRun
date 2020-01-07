@@ -1,12 +1,16 @@
 package it.unisa.theneverendingrun.services.score;
 
-import it.unisa.theneverendingrun.services.meters.MetersListener;
-
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ *
+ * The handler for the events regarding {@link ScoreMetersListener} events.
+ * This class is delegated to subscribe and unsubscribe {@link ScoreListener} observers to
+ * {@link ScoreEventType} topics and notify them that an observed variable changed.
+ */
 public class ScoreEventManager {
 
     /**
@@ -18,7 +22,7 @@ public class ScoreEventManager {
 
     /**
      *
-     * Instantiates an empty list of {@link MetersListener} observers for each topic in {@code topics}.
+     * Instantiates an empty list of {@link ScoreListener} observers for each topic in {@code topics}.
      *
      * @param topics the {@link ScoreEventType} topics related to the {@link ScoreMetersListener} events
      *               the {@link ScoreEventManager} manages
@@ -60,11 +64,11 @@ public class ScoreEventManager {
 
     /**
      *
-     * Notify Observer method: notifies all the {@code listeners} subscribed to the {@code eventType}
+     * Notify Observer method: notifies all the {@link ScoreEventManager#listeners} subscribed to the {@code eventType}
      * topic that the {@code score} variable has changed, asking them to update
      *
      * @param eventType the topic whose subscribers will be notified
-     * @param score    the observed parameter, containing its new value
+     * @param score     the observed parameter, containing its new value
      */
     public void notify(ScoreEventType eventType, int score) {
         var users = listeners.get(eventType);

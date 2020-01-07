@@ -10,5 +10,6 @@ public enum MetersEventType {
      *
      * A topic that updates each time the {@link MeterEditor} meters variable changes
      */
-    METERS_CHANGED
+    METERS_CHANGED,
+    ;
 }

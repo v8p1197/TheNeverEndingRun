@@ -10,5 +10,6 @@ public enum DifficultyEventType {
      *
      * A topic that updates each time the {@link DifficultyMetersListener} difficulty variable changes
      */
-    LEVEL_CHANGED
+    LEVEL_CHANGED,
+    ;
 }

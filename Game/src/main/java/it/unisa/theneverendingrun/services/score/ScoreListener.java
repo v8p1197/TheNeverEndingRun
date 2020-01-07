@@ -2,7 +2,7 @@ package it.unisa.theneverendingrun.services.score;
 
 /**
  *
- * A common interface for all the subscribers interested in observing the {@link ScoreMetersListener} meters variable
+ * A common interface for all the subscribers interested in observing the {@link ScoreMetersListener} score variable
  */
 public interface ScoreListener {
 

@@ -1,11 +1,16 @@
 package it.unisa.theneverendingrun.services.speed;
 
-
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ *
+ * The handler for the events regarding {@link SpeedDifficultyListener} events.
+ * This class is delegated to subscribe and unsubscribe {@link SpeedListener} observers to
+ * {@link SpeedEventType} topics and notify them that an observed variable changed.
+ */
 public class SpeedEventManager {
 
     /**

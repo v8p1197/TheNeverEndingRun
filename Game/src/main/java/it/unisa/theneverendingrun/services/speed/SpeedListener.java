@@ -1,9 +1,9 @@
 package it.unisa.theneverendingrun.services.speed;
 
-
 /**
  *
- * A common interface for all the subscribers interested in observing the {@link SpeedDifficultyListener} speed variable
+ * A common interface for all the subscribers interested in observing the {@link SpeedDifficultyListener}
+ * speed variable
  */
 public interface SpeedListener {
 

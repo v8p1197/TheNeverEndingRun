@@ -5,12 +5,30 @@ import it.unisa.theneverendingrun.services.meters.MetersEventType;
 import it.unisa.theneverendingrun.services.meters.MetersListener;
 
 /**
- * The class that is delegated to properly updating the difficulty level. Moreover is also a {@link MetersListener} that computes
- * the difficulty level depending on the {@link MeterEditor} meters variable value.
- * At the end this class is a subscriber to the meters and a publisher about the difficulty level
+ *
+ * A concrete {@link MetersListener} that computes the difficulty level depending on the
+ * {@link MeterEditor} meters variable value
  */
-
 public class DifficultyMetersListener implements MetersListener {
+
+    /**
+     *
+     * {@link DifficultyMetersListener#difficultyLevel} field increases by DIFFICULTY_FACTOR each
+     * {@link DifficultyMetersListener#METERS_DELTA} meters
+     */
+    public final static int DIFFICULTY_FACTOR = 1;
+
+    /**
+     *
+     * How many meters the {@link DifficultyMetersListener#difficultyLevel} variable changes
+     */
+    public final static float METERS_DELTA = 200.0f;
+
+    /**
+     *
+     * The difficulty level when the game begins, i.e. when {@link MeterEditor#INITIAL_METERS} meters have been travelled
+     */
+    public final static int INITIAL_DIFFICULTY = 1;
 
     /**
      *
@@ -20,26 +38,7 @@ public class DifficultyMetersListener implements MetersListener {
 
     /**
      *
-     * The initial difficulty of the game
-     */
-    public final static int INITIAL_DIFFICULTY = 1;
-
-    /**
-     *
-     * Each {@link DifficultyMetersListener#METERS_DELTA} meters the {@link DifficultyMetersListener#difficultyLevel}
-     * increases by DIFFICULTY_FACTOR
-     */
-    public final static int DIFFICULTY_FACTOR = 1;
-
-    /**
-     *
-     * How many meters the difficulty changes
-     */
-    public final static float METERS_DELTA = 200.0f;
-
-    /**
-     *
-     * the current level of difficulty
+     * The observed variable that stores the current difficulty level
      */
     private int difficultyLevel;
 
@@ -90,7 +89,7 @@ public class DifficultyMetersListener implements MetersListener {
     /**
      *
      * The {@link DifficultyMetersListener} listener reaction when the observed variable {@code meters} changes.
-     * It increases the score as a step function of the travelled meters
+     * It increases the difficulty level as a step function of the travelled meters
      *
      * @param eventType the updated topic related to {@link MeterEditor}
      * @param meters the new value for the observed variable

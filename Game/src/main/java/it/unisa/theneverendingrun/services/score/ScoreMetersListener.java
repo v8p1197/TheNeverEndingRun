@@ -12,21 +12,32 @@ public class ScoreMetersListener implements MetersListener {
 
     /**
      *
-     * The factor the meters are multiplied with in order to compute the score
+     * {@link ScoreMetersListener#score} field increases by SCORE_FACTOR each {@link ScoreMetersListener#METERS_DELTA}
+     * meters
      */
     public static final int SCORE_FACTOR = 10;
 
+    /**
+     *
+     * How many meters the {@link ScoreMetersListener#score} variable changes
+     */
     public static final float METERS_DELTA = 1.0F;
 
     /**
      *
-     * The score when the game begins, i.e. when 0 meters have been travelled
+     * The score when the game begins, i.e. when{@link MeterEditor#INITIAL_METERS} meters have been travelled
      */
     public static final int INITIAL_SCORE = 0;
 
     /**
      *
-     * The game score
+     * The handler for all the {@link ScoreEventType} topics related to this class
+     */
+    private ScoreEventManager eventManager;
+
+    /**
+     *
+     * The observed variable that stores the game score
      */
     private int score;
 
@@ -35,12 +46,6 @@ public class ScoreMetersListener implements MetersListener {
      * The {@link ScoreMetersListener#score} multiplier
      */
     private float multiplier;
-
-    /**
-     *
-     * The handler for all the {@link ScoreEventType} topics related to this class
-     */
-    private ScoreEventManager eventManager;
 
     /**
      *
@@ -59,7 +64,7 @@ public class ScoreMetersListener implements MetersListener {
      *
      * @see ScoreMetersListener#score
      *
-     * @return the game score value
+     * @return the game score
      */
     public int getScore() {
         return score;

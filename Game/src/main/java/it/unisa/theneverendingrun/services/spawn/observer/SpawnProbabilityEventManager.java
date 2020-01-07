@@ -5,6 +5,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ *
+ * The handler for the events regarding {@link SpawnProbabilityDifficultyListener} events.
+ * This class is delegated to subscribe and unsubscribe {@link SpawnProbabilityListener} observers to
+ * {@link SpawnProbabilityEventType} topics and notify them that an observed variable changed.
+ */
 public class SpawnProbabilityEventManager {
 
     /**

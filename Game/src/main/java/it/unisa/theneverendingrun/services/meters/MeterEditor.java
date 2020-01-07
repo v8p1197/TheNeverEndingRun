@@ -10,7 +10,14 @@ public class MeterEditor {
 
     /**
      *
-     * {@link MeterEditor#meters} field increases by 1 each time {@link MeterEditor#counter} is equal to METERS_FACTOR
+     * {@link MeterEditor#meters} field increases by METER_FACTOR each time {@link MeterEditor#counter} is equal to
+     * {@link MeterEditor#UPDATE_DELTA}
+     */
+    public static final int METER_FACTOR = 1;
+
+    /**
+     *
+     * How many updates the {@link MeterEditor#meters} variable changes
      */
     public final static int UPDATE_DELTA = 5;
 
@@ -47,6 +54,7 @@ public class MeterEditor {
      */
     public MeterEditor() {
         eventManager = new MetersEventManager(MetersEventType.values());
+
         counter = 0;
         setMeters(INITIAL_METERS);
     }
@@ -61,10 +69,21 @@ public class MeterEditor {
         return meters;
     }
 
+
     /**
      *
-     * {@link MeterEditor#meters} setter: updates the {@code meters} field and notifies all the {@link MetersListener}
-     * observers
+     * @see MeterEditor#eventManager
+     *
+     * @return the handler for all the {@link MetersEventType} topics related to this class
+     */
+    public MetersEventManager getEventManager() {
+        return eventManager;
+    }
+
+    /**
+     *
+     * {@link MeterEditor#meters} setter: updates the {@link MeterEditor#meters} field and notifies all the
+     * {@link MetersListener} observers
      *
      * @param meters the new meters value
      */
@@ -73,7 +92,7 @@ public class MeterEditor {
             throw new IllegalArgumentException("The updated value of the meters cannot be less than the current value");
 
         this.meters = meters;
-        eventManager.notify(MetersEventType.METERS_CHANGED, getMeters());
+        getEventManager().notify(MetersEventType.METERS_CHANGED, getMeters());
     }
 
     /**
@@ -85,17 +104,7 @@ public class MeterEditor {
         counter++;
         if (counter == UPDATE_DELTA) {
             counter = 0;
-            setMeters(getMeters() + 1);
+            setMeters(getMeters() + METER_FACTOR);
         }
-    }
-
-    /**
-     *
-     * @see MeterEditor#eventManager
-     *
-     * @return the handler for all the {@link MetersEventType} topics related to this class
-     */
-    public MetersEventManager getEventManager() {
-        return eventManager;
     }
 }
