@@ -3,29 +3,28 @@ package it.unisa.theneverendingrun.services.factories.impls;
 import com.badlogic.gdx.graphics.Texture;
 import it.unisa.theneverendingrun.models.JumpableSprite;
 import it.unisa.theneverendingrun.models.SlidableSprite;
-import it.unisa.theneverendingrun.models.Sprite;
-import it.unisa.theneverendingrun.models.obstacle.AbstractObstacle;
-import it.unisa.theneverendingrun.models.obstacle.impls.ForestObstacle;
-import it.unisa.theneverendingrun.services.factories.SpriteFactory;
+import it.unisa.theneverendingrun.models.SpriteType;
+import it.unisa.theneverendingrun.models.obstacle.Obstacle;
 
-public class ForestObstacleFactory implements SpriteFactory {
+public class ForestObstacleFactory {
 
     private static final Texture SLIDABLE_TEXTURE = new Texture("images/forest/obstacles/slidable.png");
     private static final Texture JUMPABLE_TEXTURE = new Texture("images/forest/obstacles/jumpable.png");
     private static final Texture SLIDABLE_JUMPABLE_TEXTURE = new Texture("images/forest/obstacles/jumpable_slidable.png");
 
-    @Override
-    public Sprite createSlidableSprite(float maxWidth) {
-        return new SlidableSprite(new ForestObstacle(SLIDABLE_TEXTURE), maxWidth);
+    public ForestObstacleFactory() {
     }
 
-    @Override
-    public Sprite createJumpableSprite(float maxHeight) {
-        return new JumpableSprite(new ForestObstacle(JUMPABLE_TEXTURE), maxHeight);
-    }
-
-    @Override
-    public Sprite createJumpableSlideableSprite(float maxHeight, float maxWidth) {
-        return new JumpableSprite(new SlidableSprite(new ForestObstacle(SLIDABLE_JUMPABLE_TEXTURE), maxWidth), maxHeight);
+    public Obstacle createObstacle(SpriteType type, float maxHeight, float maxWidth) {
+        switch (type) {
+            case JUMPABLE:
+                return new Obstacle(new JumpableSprite(JUMPABLE_TEXTURE, maxHeight, true));
+            case SLIDABLE:
+                return new Obstacle(new SlidableSprite(SLIDABLE_TEXTURE, maxWidth, true));
+            case JUMPABLE_SLIDABLE:
+                return new Obstacle(new JumpableSprite(new SlidableSprite(SLIDABLE_JUMPABLE_TEXTURE, maxWidth, true), maxHeight, true));
+            default:
+                throw new IllegalArgumentException("Obstacle type is not valid");
+        }
     }
 }
