@@ -8,7 +8,7 @@ import org.junit.runner.RunWith;
 import java.util.Random;
 
 @RunWith(GdxTestRunner.class)
-public class ObstacleSpawnProbabilityListenerTest {
+public class SpawnProbabilityDifficultyListenerTest {
     private MetersManagerFactory factory = new MetersManagerFactory();
 
     @Test
