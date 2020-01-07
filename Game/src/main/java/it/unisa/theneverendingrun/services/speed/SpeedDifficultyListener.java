@@ -5,6 +5,7 @@ import it.unisa.theneverendingrun.services.difficulty.DifficultyListener;
 import it.unisa.theneverendingrun.services.difficulty.DifficultyMetersListener;
 
 /**
+ *
  * A {@link DifficultyListener} that computes the {@link SpeedDifficultyListener#speed} depending on the
  * {@link DifficultyMetersListener} difficulty variable value
  */
@@ -12,7 +13,7 @@ public class SpeedDifficultyListener implements DifficultyListener {
 
     /**
      *
-     * The handler for all the {@link SpeedEventManager} topics related to this class
+     * The handler for all the {@link SpeedEventType} topics related to this class
      */
     private SpeedEventManager eventManager;
 
@@ -99,7 +100,6 @@ public class SpeedDifficultyListener implements DifficultyListener {
             if (difficulty < Level.LEVEL_MAX.getValue())
                 setSpeed(SPEED_FACTOR * (int)(difficulty / DIFFICULTY_DELTA) + INITIAL_SPEED);
         }
-
     }
 
 }
