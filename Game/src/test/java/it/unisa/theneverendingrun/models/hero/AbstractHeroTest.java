@@ -11,20 +11,29 @@ import org.junit.runner.RunWith;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import static org.junit.Assert.*;
 
 @RunWith(GdxTestRunner.class)
 public class AbstractHeroTest {
 
-    private Hero hero = new TestHero(100, 100);
+    private Hero hero = new TestHero(ThreadLocalRandom.current().nextInt(100),
+                                        ThreadLocalRandom.current().nextInt(100));
 
     private static void assertEqualsDouble(double expected, double actual) {
         assertEquals(expected, actual, MathUtils.DELTA);
     }
 
+    private static void assertNotEqualsDouble(double expected, double actual) {
+        assertNotEquals(expected, actual, MathUtils.DELTA);
+    }
+
     @Test
     public void testInitialise() {
+        var initialX = hero.getX();
+        var initialY = hero.getY();
+
         assertTrue(hero.isRight());
         assertFalse(hero.isLeft());
 
@@ -34,12 +43,13 @@ public class AbstractHeroTest {
         assertFalse(hero.isJumping());
         assertFalse(hero.isSliding());
         assertFalse(hero.isFalling());
+
+        assertEqualsDouble(initialX, hero.getGroundX());
+        assertEqualsDouble(initialY, hero.getGroundY());
     }
 
     @Test
     public void testLeft() {
-        var initialX = hero.getX();
-        var initialY = hero.getY();
         var speed = new Random().nextInt(10);
 
         hero.getFacingState().onLeft();
@@ -51,14 +61,12 @@ public class AbstractHeroTest {
         hero.setDx(speed);
         hero.move();
 
-        assertEqualsDouble(initialX - hero.getDx(), hero.getX());
-        assertEqualsDouble(initialY, hero.getY());
+        assertEqualsDouble(hero.getGroundX() - hero.getDx(), hero.getX());
+        assertEqualsDouble(hero.getGroundY(), hero.getY());
     }
 
     @Test
     public void testRight() {
-        var initialX = hero.getX();
-        var initialY = hero.getY();
         var speed = new Random().nextInt(10);
 
         hero.getFacingState().onRight();
@@ -70,68 +78,67 @@ public class AbstractHeroTest {
         hero.setDx(speed);
         hero.move();
 
-        assertEqualsDouble(initialX + hero.getDx(), hero.getX());
-        assertEqualsDouble(initialY, hero.getY());
+        assertEqualsDouble(hero.getGroundX() + hero.getDx(), hero.getX());
+        assertEqualsDouble(hero.getGroundY(), hero.getY());
     }
 
     @Test
     public void testJump() {
-        var initialX = hero.getX();
-        var initialY = hero.getY();
-
         hero.getMoveState().onJump();
         assertTrue(hero.isJumping());
 
-        while (true) {
-            var previousY = hero.getY();
-            var i = hero.getJumpCount();
-
+        while (hero.isJumping()) {
             hero.move();
-            if (!hero.isJumping()) break;
+            assertTrue(hero.getGroundY() < hero.getY());
+        }
 
-            var up = i < 0 ? -1 : 1;
-            var expectedY = previousY + (i * i) * hero.getJumpCoefficient() * up;
+        var top = hero.getGroundY() + hero.getJumpMaxElevation();
+        assertEqualsDouble(top, hero.getY());
 
-            if (i == 0) assertEqualsDouble(hero.getJumpMaxElevation(), hero.getY() - initialY);
+        assertTrue(hero.isFalling());
 
-            assertEqualsDouble(expectedY, hero.getY());
+        while (hero.isFalling()) {
+            assertTrue(hero.getGroundY() < hero.getY());
+            hero.move();
+            System.out.println(hero.getY());
+            assertTrue(top > hero.getY());
         }
 
         assertTrue(hero.isIdle());
-        assertEqualsDouble(initialX, hero.getX());
-        assertEqualsDouble(initialY, hero.getY());
+        assertEqualsDouble(hero.getGroundX(), hero.getX());
+        assertEqualsDouble(hero.getGroundY(), hero.getY());
     }
 
     @Test
     public void testJumpLeft() {
-        var initialX = hero.getX();
-        var speed = new Random().nextInt(10);
+        var speed = ThreadLocalRandom.current().nextInt(10);
 
         hero.getFacingState().onLeft();
         hero.getMoveState().onJump();
 
         hero.setDx(speed);
 
-        while (hero.isJumping())
+        while (hero.isJumping() || hero.isFalling())
             hero.move();
 
-        assertEqualsDouble(initialX - hero.getMaxJumpRange() * speed - speed, hero.getX());
+        assertEqualsDouble(hero.getGroundX() - hero.getMaxJumpRange() * speed, hero.getX());
+        assertEqualsDouble(hero.getGroundY(), hero.getY());
     }
 
     @Test
     public void testJumpRight() {
-        var initialX = hero.getX();
-        var speed = new Random().nextInt(10);
+        var speed = ThreadLocalRandom.current().nextInt(10);
 
         hero.getFacingState().onRight();
         hero.getMoveState().onJump();
 
         hero.setDx(speed);
 
-        while (hero.isJumping())
+        while (hero.isJumping() || hero.isFalling())
             hero.move();
 
-        assertEqualsDouble(initialX + hero.getMaxJumpRange() * speed + speed, hero.getX());
+        assertEqualsDouble(hero.getGroundX() + hero.getMaxJumpRange() * speed, hero.getX());
+        assertEqualsDouble(hero.getGroundY(), hero.getY());
     }
 
     @Test
@@ -184,28 +191,6 @@ public class AbstractHeroTest {
     }
 
     @Test
-    public void testStopJump() {
-        var initialY = hero.getY();
-
-        // the hero can jump on an obstacle only on the descending branch of the parabola
-        var stop = -(new Random().nextInt(hero.getJumpDuration()));
-
-        hero.getMoveState().onJump();
-        assertTrue(hero.isJumping());
-
-        while (hero.isJumping()) {
-            // Simulating the hero jumps on an obstacle
-            if (hero.getJumpCount() == stop)
-                hero.getMoveState().onIdle();
-
-            hero.move();
-        }
-
-        assertTrue(hero.isIdle());
-        assertNotEquals(initialY, hero.getY());
-    }
-
-    @Test
     public void testFall() {
         var initialY = hero.getGroundY();
 
@@ -235,11 +220,11 @@ public class AbstractHeroTest {
             final String HERO_FRAME_PATH = "images/forest/hero/";
 
             final var DEATH_FRAME_COUNT = 13;
-            final var FALL_FRAME_COUNT = 13;
+            final var FALL_FRAME_COUNT = 1;
             final var IDLE_FRAME_COUNT = 13;
             final var JUMP_FRAME_COUNT = 13;
             final var RUN_FRAME_COUNT = 8;
-            final var SLIDE_FRAME_COUNT = 13;
+            final var SLIDE_FRAME_COUNT = 16;
 
             final var DEATH_FRAMES = TextureUtils.toVector(HERO_FRAME_PATH + "hero_death/hero_death_", "png", DEATH_FRAME_COUNT);
             final var FALL_FRAMES = TextureUtils.toVector(HERO_FRAME_PATH + "hero_fall/hero_fall_", "png", FALL_FRAME_COUNT);
@@ -250,11 +235,11 @@ public class AbstractHeroTest {
 
             HERO_ANIMATIONS = new HashMap<>();
             HERO_ANIMATIONS.put(HeroStateType.DEAD, new Animation<>(2F, DEATH_FRAMES));
-            HERO_ANIMATIONS.put(HeroStateType.FALL, new Animation<>(2F, FALL_FRAMES));
-            HERO_ANIMATIONS.put(HeroStateType.STAND, new Animation<>(2F, IDLE_FRAMES));
-            HERO_ANIMATIONS.put(HeroStateType.JUMP, new Animation<>(2F, JUMP_FRAMES));
-            HERO_ANIMATIONS.put(HeroStateType.RUN, new Animation<>(2F, RUN_FRAMES));
-            HERO_ANIMATIONS.put(HeroStateType.SLIDE, new Animation<>(2F, SLIDE_FRAMES));
+            HERO_ANIMATIONS.put(HeroStateType.FALL, new Animation<>(0.05F, FALL_FRAMES));
+            HERO_ANIMATIONS.put(HeroStateType.STAND, new Animation<>(0.05F, IDLE_FRAMES));
+            HERO_ANIMATIONS.put(HeroStateType.JUMP, new Animation<>(0.05F, JUMP_FRAMES));
+            HERO_ANIMATIONS.put(HeroStateType.RUN, new Animation<>(0.075F, RUN_FRAMES));
+            HERO_ANIMATIONS.put(HeroStateType.SLIDE, new Animation<>(0.05F, SLIDE_FRAMES));
         }
 
         public TestHero(float x, float y) {

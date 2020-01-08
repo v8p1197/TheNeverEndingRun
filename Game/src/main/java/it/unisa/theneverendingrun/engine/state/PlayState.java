@@ -40,7 +40,6 @@ import org.mini2Dx.core.graphics.Graphics;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 /**
  * In this state the game has started, so the user plays the run
@@ -67,7 +66,7 @@ public class PlayState extends GameState implements MetersListener, ScoreListene
 
     private List<Sprite> addedSprites;
 
-    private MeterEditor meterEditor;
+    public static MeterEditor meterEditor;
 
     private boolean paused;
 

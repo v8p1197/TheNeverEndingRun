@@ -16,8 +16,9 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
+ *
  * In this state the run is ended (the hero died) and the user can start a new run, go back to the main menu or quit
- */
+*/
 public abstract class EndedState extends InfoGameState {
 
     private Table table;

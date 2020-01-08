@@ -12,7 +12,6 @@ import it.unisa.theneverendingrun.models.enemy.Enemy;
 import it.unisa.theneverendingrun.models.enemy.EnemyStateType;
 import it.unisa.theneverendingrun.models.hero.Hero;
 import it.unisa.theneverendingrun.models.hero.HeroStateType;
-import it.unisa.theneverendingrun.models.obstacle.Obstacle;
 import it.unisa.theneverendingrun.models.powerup.PowerUpType;
 import it.unisa.theneverendingrun.models.powerup.impls.MultiplierPowerUp;
 import it.unisa.theneverendingrun.models.powerup.impls.Shield;
@@ -77,7 +76,7 @@ public class ForestFactory implements GameFactory {
     //experimental for this implementation
     private final static float SCALE_FACTOR = 3.0f;
 
-    private static final Map<HeroStateType, Animation<TextureRegion>> HERO_ANIMATIONS;
+    public static final Map<HeroStateType, Animation<TextureRegion>> HERO_ANIMATIONS;
 
     static {
         final String HERO_FRAME_PATH = "images/forest/hero/";
@@ -85,7 +84,7 @@ public class ForestFactory implements GameFactory {
         final var DEATH_FRAME_COUNT = 13;
         final var FALL_FRAME_COUNT = 1;
         final var IDLE_FRAME_COUNT = 13;
-        final var JUMP_FRAME_COUNT = 13;
+        final var JUMP_FRAME_COUNT = 1;
         final var RUN_FRAME_COUNT = 8;
         final var SLIDE_FRAME_COUNT = 16;
 

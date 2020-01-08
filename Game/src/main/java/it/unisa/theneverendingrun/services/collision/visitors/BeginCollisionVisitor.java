@@ -9,6 +9,7 @@ import it.unisa.theneverendingrun.models.obstacle.Obstacle;
 import it.unisa.theneverendingrun.models.powerup.AbstractPowerUp;
 import it.unisa.theneverendingrun.models.powerup.PowerUpType;
 import it.unisa.theneverendingrun.models.powerup.strategies.PowerUpStrategyFactory;
+import it.unisa.theneverendingrun.models.powerup.strategies.impls.MultiplierPowerUpStrategy;
 import it.unisa.theneverendingrun.services.collision.CollisionManager;
 import it.unisa.theneverendingrun.services.collision.CollisionSideType;
 import it.unisa.theneverendingrun.services.collision.strategies.ObstacleCollisionSideStrategyFactory;
@@ -35,7 +36,13 @@ public class BeginCollisionVisitor implements Visitor {
 
         if (killed) {
             enemy.getState().onDie();
-            PlayState.scoreMetersListener.setMultiplier(PlayState.scoreMetersListener.getMultiplier() + 0.1F);
+            final var increment = 0.1F;
+            if (MultiplierPowerUpStrategy.remainingMeters > 0) {
+                PlayState.scoreMetersListener.setMultiplier(PlayState.scoreMetersListener.getMultiplier() +
+                        MultiplierPowerUpStrategy.multiplierValue * increment);
+            } else {
+                PlayState.scoreMetersListener.setMultiplier(PlayState.scoreMetersListener.getMultiplier() + increment);
+            }
         } else {
             hero.die();
         }
@@ -60,7 +67,6 @@ public class BeginCollisionVisitor implements Visitor {
         var collected = strategy.collect();
         if (collected) {
             powerUp.setVisible(false);
-         //   powerUp.setSize(0,0);
         }
     }
 

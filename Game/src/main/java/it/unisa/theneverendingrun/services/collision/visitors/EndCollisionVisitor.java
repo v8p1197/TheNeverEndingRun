@@ -26,6 +26,8 @@ public class EndCollisionVisitor implements Visitor {
         if (CollisionManager.wasOnObstacle)
             hero.getMoveState().onFall();
         CollisionManager.wasOnObstacle = false;
+
+        System.out.println("collision with obstacle ended");
     }
 
     @Override
