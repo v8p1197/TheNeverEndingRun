@@ -329,6 +329,10 @@ public class PlayState extends GameState implements MetersListener, ScoreListene
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.P) || Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             paused = !paused;
+            if (paused)
+                game.getActiveMusic().pause();
+            else
+                game.getActiveMusic().play();
         }
     }
 
