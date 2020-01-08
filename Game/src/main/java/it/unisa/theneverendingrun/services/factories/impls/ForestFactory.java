@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import it.unisa.theneverendingrun.models.Sprite;
-import it.unisa.theneverendingrun.models.SpriteType;
 import it.unisa.theneverendingrun.models.background.AbstractScrollingBackground;
 import it.unisa.theneverendingrun.models.background.Background;
 import it.unisa.theneverendingrun.models.background.impls.PlayStateBackground;
@@ -12,11 +11,13 @@ import it.unisa.theneverendingrun.models.enemy.Enemy;
 import it.unisa.theneverendingrun.models.enemy.EnemyStateType;
 import it.unisa.theneverendingrun.models.hero.Hero;
 import it.unisa.theneverendingrun.models.hero.HeroStateType;
+import it.unisa.theneverendingrun.models.obstacle.Obstacle;
 import it.unisa.theneverendingrun.models.powerup.PowerUpType;
 import it.unisa.theneverendingrun.models.powerup.impls.MultiplierPowerUp;
 import it.unisa.theneverendingrun.models.powerup.impls.Shield;
 import it.unisa.theneverendingrun.models.powerup.impls.Sword;
 import it.unisa.theneverendingrun.services.factories.GameFactory;
+import it.unisa.theneverendingrun.services.spawn.SpriteType;
 import it.unisa.theneverendingrun.utilities.TextureUtils;
 
 import java.security.InvalidParameterException;
@@ -133,18 +134,17 @@ public class ForestFactory implements GameFactory {
 
 
     @Override
-    public Sprite createObstacle(SpriteType spriteType, float maxHeight, float maxWidth) {
-       /* switch (spriteType) {
+    public Sprite createObstacle(SpriteType spriteType) {
+        switch (spriteType) {
             case JUMPABLE:
-                return new JumpableSprite(new Obstacle(OBSTACLE_JUMPABLE_TEXTURE), maxHeight);
+                return new Obstacle(OBSTACLE_JUMPABLE_TEXTURE);
             case SLIDABLE:
-                return new SlidableSprite(new Obstacle(OBSTACLE_SLIDABLE_TEXTURE), maxWidth);
+                return new Obstacle(OBSTACLE_SLIDABLE_TEXTURE);
             case JUMPABLE_SLIDABLE:
-                return new JumpableSprite(new SlidableSprite(new Obstacle(OBSTACLE_SLIDABLE_JUMPABLE_TEXTURE), maxWidth), maxHeight);
+                return new Obstacle(OBSTACLE_SLIDABLE_JUMPABLE_TEXTURE);
             default:
                 throw new IllegalArgumentException("Obstacle type is not valid");
-        }*/
-        throw new IllegalArgumentException("Obstacle type is not valid");
+        }
     }
 
 
@@ -188,9 +188,10 @@ public class ForestFactory implements GameFactory {
 
 
     @Override
-    public Sprite createEnemy(float maxHeight) {
+    public Sprite createEnemy() {
         return new Enemy(SCALE_FACTOR, createAnimations());
     }
+
     private Map<EnemyStateType, Animation<TextureRegion>> createAnimations() {
 
         var enemies = Arrays.stream(ForestEnemyFrameType.values()).collect(Collectors.toList());
@@ -223,9 +224,9 @@ public class ForestFactory implements GameFactory {
 
 
     @Override
-    public Sprite createPowerUp(float maxWidth, float maxHeight) {
+    public Sprite createPowerUp() {
 
-        switch (getPowerUpType()) {
+        switch (getRandomPowerUpType()) {
             case SWORD:
                 return new Sword(SWORD_TEXTURE, SCALE_FACTOR);
             case SHIELD:
@@ -237,7 +238,7 @@ public class ForestFactory implements GameFactory {
         }
     }
 
-    private PowerUpType getPowerUpType() {
+    private PowerUpType getRandomPowerUpType() {
         var list = Arrays.asList(PowerUpType.values());
         Collections.shuffle(list);
         return list.get(ThreadLocalRandom.current().nextInt(list.size()));

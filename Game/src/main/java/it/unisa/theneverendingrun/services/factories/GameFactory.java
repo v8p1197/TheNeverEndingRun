@@ -1,9 +1,9 @@
 package it.unisa.theneverendingrun.services.factories;
 
 import it.unisa.theneverendingrun.models.Sprite;
-import it.unisa.theneverendingrun.models.SpriteType;
 import it.unisa.theneverendingrun.models.background.AbstractScrollingBackground;
 import it.unisa.theneverendingrun.models.hero.Hero;
+import it.unisa.theneverendingrun.services.spawn.SpriteType;
 
 public interface GameFactory {
 
@@ -11,10 +11,10 @@ public interface GameFactory {
 
     Hero createHero();
 
-    Sprite createObstacle(SpriteType spriteType, float maxHeight, float maxWidth);
+    Sprite createObstacle(SpriteType spriteType);
 
-    Sprite createEnemy(float maxHeight);
+    Sprite createEnemy();
 
-    Sprite createPowerUp(float maxWidth, float maxHeight);
+    Sprite createPowerUp();
 
 }
