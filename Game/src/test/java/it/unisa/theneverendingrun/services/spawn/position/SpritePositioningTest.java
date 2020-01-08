@@ -40,7 +40,6 @@ public class SpritePositioningTest {
         int i = 0;
         while (i < CYCLES) {
             Sprite sprite = spritePositioning.getSprite();
-
             if (sprite == null) {
                 continue;
             }

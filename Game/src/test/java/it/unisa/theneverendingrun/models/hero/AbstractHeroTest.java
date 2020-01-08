@@ -1,15 +1,12 @@
 package it.unisa.theneverendingrun.models.hero;
 
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.Gdx;
 import de.tomgrill.gdxtesting.GdxTestRunner;
+import it.unisa.theneverendingrun.services.factories.impls.ForestFactory;
 import it.unisa.theneverendingrun.utilities.MathUtils;
-import it.unisa.theneverendingrun.utilities.TextureUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -18,8 +15,7 @@ import static org.junit.Assert.*;
 @RunWith(GdxTestRunner.class)
 public class AbstractHeroTest {
 
-    private Hero hero = new TestHero(ThreadLocalRandom.current().nextInt(100),
-                                        ThreadLocalRandom.current().nextInt(100));
+    private Hero hero = new ForestFactory(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()).createHero();
 
     private static void assertEqualsDouble(double expected, double actual) {
         assertEquals(expected, actual, MathUtils.DELTA);
@@ -210,6 +206,7 @@ public class AbstractHeroTest {
         assertEqualsDouble(initialY, hero.getY());
     }
 
+    /*
     private static class TestHero extends Hero {
 
         private final static float SCALE_FACTOR = 3.0f;
@@ -246,4 +243,6 @@ public class AbstractHeroTest {
             super(SCALE_FACTOR, x, y, 100,100,100,100,HERO_ANIMATIONS);
         }
     }
+
+     */
 }
