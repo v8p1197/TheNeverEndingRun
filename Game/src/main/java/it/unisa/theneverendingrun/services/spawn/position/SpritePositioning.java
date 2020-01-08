@@ -7,6 +7,7 @@ import it.unisa.theneverendingrun.services.factories.GameFactory;
 import it.unisa.theneverendingrun.services.spawn.creation.commands.CreateJumpableCommand;
 import it.unisa.theneverendingrun.services.spawn.creation.commands.CreateSlidableCommand;
 import it.unisa.theneverendingrun.services.spawn.creation.commands.CreateSlidableJumpableCommand;
+import it.unisa.theneverendingrun.services.spawn.observer.SpawnProbabilityDifficultyListener;
 import it.unisa.theneverendingrun.services.spawn.observer.SpawnProbabilityEventType;
 import it.unisa.theneverendingrun.services.spawn.observer.SpawnProbabilityListener;
 
@@ -15,7 +16,6 @@ import java.util.concurrent.ThreadLocalRandom;
 public class SpritePositioning implements SpawnProbabilityListener{
 
     private final Hero hero;
-    private final GameFactory factory;
     private final CreateSlidableCommand commandSlide;
     private final CreateSlidableJumpableCommand commandSlideJump;
     private final CreateJumpableCommand commandJump;
@@ -28,10 +28,10 @@ public class SpritePositioning implements SpawnProbabilityListener{
     public SpritePositioning(Hero hero, float maxWidth, GameFactory factory) {
         this.hero = hero;
         this.maxWidth = maxWidth;
-        this.factory = factory;
         this.commandSlide = new CreateSlidableCommand(factory);
         this.commandSlideJump = new CreateSlidableJumpableCommand(factory);
         this.commandJump = new CreateJumpableCommand(factory);
+        this.spawnProbability = SpawnProbabilityDifficultyListener.INITIAL_SPAWN_PROBABILITY;
     }
 
 
@@ -122,7 +122,7 @@ public class SpritePositioning implements SpawnProbabilityListener{
                     return null;
                 if (r > 0)
                     return SpriteType.JUMPABLE;
-                if (r < 0)
+                else
                     return SpriteType.SLIDABLE;
             }
             if (lastSpriteType == SpriteType.JUMPABLE_SLIDABLE) {
@@ -135,7 +135,6 @@ public class SpritePositioning implements SpawnProbabilityListener{
 
         // If the obstacle is distant enough, it is possible to add every type of obstacle
         if (distance >= hero.getStandardWidth() * 3) {
-            System.out.println(spawnProbability);
             if (ThreadLocalRandom.current().nextInt() % spawnProbability == 0) {
                 int random = ThreadLocalRandom.current().nextInt(0, SpriteType.values().length);
                 return SpriteType.values()[random];
