@@ -14,6 +14,17 @@ import static com.badlogic.gdx.graphics.Texture.TextureWrap.Repeat;
  */
 public class PlayStateBackground extends AbstractScrollingBackground {
 
+
+    /**
+     *
+     * @see AbstractScrollingBackground#AbstractScrollingBackground(Texture, int, int, int, int, float, float, float)
+     *
+     * The forest background is small. We need the screen size for the width and height
+     */
+    public PlayStateBackground(Texture texture, float scrollingSpeed, float scrollingWidth) {
+        super(texture, scrollingSpeed, scrollingWidth);
+    }
+
     /**
      *
      * @see AbstractScrollingBackground#AbstractScrollingBackground(Texture, int, int, int, int, float, float, float)
