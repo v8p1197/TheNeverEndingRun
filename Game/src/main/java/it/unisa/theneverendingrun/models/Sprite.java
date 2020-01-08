@@ -257,6 +257,10 @@ public abstract class Sprite extends org.mini2Dx.core.graphics.Sprite {
         super.setRegion(u, v, u2, v2);
         setSize(getTexture().getWidth(), getTexture().getHeight());
         scale();
+        if (collisionBox != null) {
+            collisionBox.set(getX(), getY(), getWidth(), getHeight());
+        }
+
     }
 
     /**
@@ -268,7 +272,7 @@ public abstract class Sprite extends org.mini2Dx.core.graphics.Sprite {
     public void setPosition(float x, float y) {
         super.setPosition(x, y);
         if (collisionBox != null)
-            collisionBox.set(x, y);
+            collisionBox.set(x, y, getWidth(), getHeight());
     }
 
     /**
@@ -280,7 +284,7 @@ public abstract class Sprite extends org.mini2Dx.core.graphics.Sprite {
     public void setX(float x) {
         super.setX(x);
         if (collisionBox != null)
-            collisionBox.set(x, getY());
+            collisionBox.set(x, getY(), getWidth(), getHeight());
     }
 
     /**
@@ -292,7 +296,7 @@ public abstract class Sprite extends org.mini2Dx.core.graphics.Sprite {
     public void setY(float y) {
         super.setY(y);
         if (collisionBox != null)
-            collisionBox.set(getX(), y);
+            collisionBox.set(getX(), y, getWidth(), getHeight());
     }
 
     /**
@@ -304,7 +308,7 @@ public abstract class Sprite extends org.mini2Dx.core.graphics.Sprite {
     public void setSize(float width, float height) {
         super.setSize(width, height);
         if (collisionBox != null)
-            collisionBox.setSize(width, height);
+            collisionBox.set(getX(), getY(), getWidth(), getHeight());
     }
 
     /**
