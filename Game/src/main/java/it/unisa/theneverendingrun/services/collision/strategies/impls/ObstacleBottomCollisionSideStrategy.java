@@ -15,7 +15,7 @@ public class ObstacleBottomCollisionSideStrategy extends CollisionSideStrategy<O
     public void collide(Obstacle obstacle) {
         var intersection = CollisionUtils.computeIntersection(hero, obstacle);
         hero.setY(hero.getY() + intersection.getHeight());
-        if (hero.isJumping() && hero.getJumpCompletion() >= 0.5 || hero.isFalling())
+        if (hero.isFalling())
             hero.getMoveState().onIdle();
     }
 }
