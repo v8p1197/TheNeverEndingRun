@@ -112,6 +112,8 @@ public class PlayState extends GameState implements MetersListener, ScoreListene
 
         bestScores = streamManager.loadBestScores();
 
+        MultiplierPowerUpMetersListener.getInstance().setRemainingMeters(0);
+
         collisionManager = new CollisionManager(hero);
     }
 
