@@ -113,6 +113,7 @@ public class PlayState extends GameState implements MetersListener, ScoreListene
         bestScores = streamManager.loadBestScores();
 
         MultiplierPowerUpMetersListener.getInstance().setRemainingMeters(0);
+        MultiplierPowerUpMetersListener.getInstance().setMultiplier(1);
 
         collisionManager = new CollisionManager(hero);
     }
@@ -218,16 +219,15 @@ public class PlayState extends GameState implements MetersListener, ScoreListene
         var bestScoreOffset = Assets.fonts.meterFont.draw(spriteBatch, "HIGH SCORE: " + bestScores.getHighScore(),
                 xPosScore, yPosBestScore);
 
-        var xPosHUD = g.getWindowWidth() * 0.7f;
+        var xPosHUD = g.getWindowWidth() * 0.8f;
 
         var powerUpTextures = gameFactory.getPowerUpTextures();
         var powerUpSprites = new LinkedList<org.mini2Dx.core.graphics.Sprite>();
 
-        var dimension = bestScoreOffset.height;
+        var dimension = scoreOffset.height;
         for (int i = 0; i < powerUpTextures.size(); i++) {
             var texture = powerUpTextures.get(i);
-            powerUpSprites.add(new org.mini2Dx.core.graphics.Sprite(
-                    texture));
+            powerUpSprites.add(new org.mini2Dx.core.graphics.Sprite(texture));
             powerUpSprites.get(i).setX((int) xPosHUD);
             powerUpSprites.get(i).setY((int) (yPos - (2 * i + 1) * dimension));
             powerUpSprites.get(i).flip(false, true);
@@ -239,9 +239,9 @@ public class PlayState extends GameState implements MetersListener, ScoreListene
         Assets.fonts.meterFont.draw(spriteBatch, "x " + hero.getSwords(),
                 xPosPowerUps, yPos);
         Assets.fonts.meterFont.draw(spriteBatch, "x " + hero.getShields(),
-                xPosPowerUps, yPosBestScore);
+                xPosPowerUps, yPos - 2*dimension);
         Assets.fonts.meterFont.draw(spriteBatch, "x " + scoreMetersListener.getMultiplier(),
-                xPosHUD, yPosBestScore - (yPos - yPosBestScore));
+                xPosHUD, yPos - 4*dimension);
 
         if (paused) {
             spriteBatch.setColor(0.5f, 0.5f, 0.5f, 1f);

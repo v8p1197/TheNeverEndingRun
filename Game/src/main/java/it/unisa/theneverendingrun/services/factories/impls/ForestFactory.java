@@ -121,7 +121,10 @@ public class ForestFactory implements GameFactory {
                 HERO_ANIMATIONS);
     }
 
-
+    @Override
+    public Map<HeroStateType, Animation<TextureRegion>> getHeroAnimations() {
+        return HERO_ANIMATIONS;
+    }
 
     /* -------------------------------- OBSTACLE -------------------------------- */
 

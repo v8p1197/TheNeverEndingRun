@@ -2,6 +2,7 @@ package it.unisa.theneverendingrun.models.hero;
 
 import com.badlogic.gdx.Gdx;
 import de.tomgrill.gdxtesting.GdxTestRunner;
+import it.unisa.theneverendingrun.services.factories.GameFactory;
 import it.unisa.theneverendingrun.services.factories.impls.ForestFactory;
 import it.unisa.theneverendingrun.utilities.MathUtils;
 import org.junit.Test;
@@ -15,7 +16,8 @@ import static org.junit.Assert.*;
 @RunWith(GdxTestRunner.class)
 public class AbstractHeroTest {
 
-    private Hero hero = new ForestFactory(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()).createHero();
+    private GameFactory factory = new ForestFactory(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+    private Hero hero = factory.createHero();
 
     private static void assertEqualsDouble(double expected, double actual) {
         assertEquals(expected, actual, MathUtils.DELTA);
@@ -54,6 +56,8 @@ public class AbstractHeroTest {
         assertTrue(hero.isLeft());
         assertTrue(hero.isRunning());
 
+        assertEquals(hero.getAnimation(), factory.getHeroAnimations().get(HeroStateType.RUN));
+
         hero.setDx(speed);
         hero.move();
 
@@ -71,6 +75,8 @@ public class AbstractHeroTest {
         assertTrue(hero.isRight());
         assertTrue(hero.isRunning());
 
+        assertEquals(hero.getAnimation(), factory.getHeroAnimations().get(HeroStateType.RUN));
+
         hero.setDx(speed);
         hero.move();
 
@@ -84,6 +90,7 @@ public class AbstractHeroTest {
         assertTrue(hero.isJumping());
 
         while (hero.isJumping()) {
+            assertEquals(hero.getAnimation(), factory.getHeroAnimations().get(HeroStateType.JUMP));
             hero.move();
             assertTrue(hero.getGroundY() < hero.getY());
         }
@@ -94,13 +101,15 @@ public class AbstractHeroTest {
         assertTrue(hero.isFalling());
 
         while (hero.isFalling()) {
+            assertEquals(hero.getAnimation(), factory.getHeroAnimations().get(HeroStateType.FALL));
             assertTrue(hero.getGroundY() < hero.getY());
             hero.move();
-            System.out.println(hero.getY());
             assertTrue(top > hero.getY());
         }
 
-        assertTrue(hero.isIdle());
+        assertTrue(hero.isStanding());
+        assertEquals(hero.getAnimation(), factory.getHeroAnimations().get(HeroStateType.STAND));
+
         assertEqualsDouble(hero.getGroundX(), hero.getX());
         assertEqualsDouble(hero.getGroundY(), hero.getY());
     }
@@ -119,6 +128,7 @@ public class AbstractHeroTest {
 
         assertEqualsDouble(hero.getGroundX() - hero.getMaxJumpRange() * speed, hero.getX());
         assertEqualsDouble(hero.getGroundY(), hero.getY());
+        assertEquals(hero.getAnimation(), factory.getHeroAnimations().get(HeroStateType.RUN));
     }
 
     @Test
@@ -135,30 +145,32 @@ public class AbstractHeroTest {
 
         assertEqualsDouble(hero.getGroundX() + hero.getMaxJumpRange() * speed, hero.getX());
         assertEqualsDouble(hero.getGroundY(), hero.getY());
+        assertEquals(hero.getAnimation(), factory.getHeroAnimations().get(HeroStateType.RUN));
     }
 
     @Test
     public void testSlide() {
-        var initialX = hero.getX();
-        var initialY = hero.getY();
-
         hero.getMoveState().onSlide();
         assertTrue(hero.isSliding());
 
         while (hero.isSliding()) {
+            assertEquals(hero.getAnimation(), factory.getHeroAnimations().get(HeroStateType.SLIDE));
+
             hero.move();
 
-            assertEqualsDouble(initialX, hero.getX());
-            assertEqualsDouble(initialY, hero.getY());
+            assertEqualsDouble(hero.getGroundX(), hero.getX());
+            assertEqualsDouble(hero.getGroundY(), hero.getY());
         }
 
-        assertEqualsDouble(initialX, hero.getX());
-        assertEqualsDouble(initialY, hero.getY());
+        assertTrue(hero.isStanding());
+        assertEquals(hero.getAnimation(), factory.getHeroAnimations().get(HeroStateType.STAND));
+
+        assertEqualsDouble(hero.getGroundX(), hero.getX());
+        assertEqualsDouble(hero.getGroundY(), hero.getY());
     }
 
     @Test
     public void testSlideLeft() {
-        var initialX = hero.getX();
         var speed = new Random().nextInt(10);
 
         hero.getFacingState().onLeft();
@@ -168,12 +180,12 @@ public class AbstractHeroTest {
         while (hero.isSliding())
             hero.move();
 
-        assertEqualsDouble(initialX - hero.getMaxSlideRange() * speed - speed, hero.getX());
+        assertEqualsDouble(hero.getGroundX() - hero.getMaxSlideRange() * speed - speed, hero.getX());
+        assertEquals(hero.getAnimation(), factory.getHeroAnimations().get(HeroStateType.RUN));
     }
 
     @Test
     public void testSlideRight() {
-        var initialX = hero.getX();
         var speed = new Random().nextInt(10);
 
         hero.getFacingState().onRight();
@@ -183,7 +195,8 @@ public class AbstractHeroTest {
         while (hero.isSliding())
             hero.move();
 
-        assertEqualsDouble(initialX + hero.getMaxSlideRange() * speed + speed, hero.getX());
+        assertEqualsDouble(hero.getGroundX() + hero.getMaxSlideRange() * speed + speed, hero.getX());
+        assertEquals(hero.getAnimation(), factory.getHeroAnimations().get(HeroStateType.RUN));
     }
 
     @Test
@@ -198,12 +211,13 @@ public class AbstractHeroTest {
         assertTrue(hero.isFalling());
 
         while (hero.isFalling()) {
+            assertEquals(hero.getAnimation(), factory.getHeroAnimations().get(HeroStateType.FALL));
             assertNotEquals(initialY, hero.getY());
             hero.move();
         }
 
         assertTrue(hero.isIdle());
-        assertEqualsDouble(initialY, hero.getY());
+        assertEqualsDouble(hero.getGroundY(), hero.getY());
     }
 
     /*
