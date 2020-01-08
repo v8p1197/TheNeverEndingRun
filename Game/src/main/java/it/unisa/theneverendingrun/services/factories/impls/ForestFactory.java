@@ -27,17 +27,13 @@ import java.util.stream.Collectors;
 
 public class ForestFactory implements GameFactory {
 
-
     private int screenWidth;
     private int screenHeight;
-
 
     public ForestFactory(int screenWidth, int screenHeight) {
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
     }
-
-
 
     /* -------------------------------- BACKGROUND -------------------------------- */
 
@@ -58,11 +54,11 @@ public class ForestFactory implements GameFactory {
      * The real y axis base.
      * For this {@link Background} the y base isn't 0.
      */
-    public static final float BASE_Y = 0.0625F;
+    public static final float BASE_Y = 0.08125f;
 
     @Override
     public AbstractScrollingBackground createBackground() {
-        return new PlayStateBackground(BACKGROUND_TEXTURE, screenWidth, screenHeight, SCROLLING_SPEED, SCROLLING_WIDTH);
+        return new PlayStateBackground(BACKGROUND_TEXTURE, SCROLLING_SPEED, SCROLLING_WIDTH);
     }
 
 
@@ -84,7 +80,7 @@ public class ForestFactory implements GameFactory {
         final var IDLE_FRAME_COUNT = 13;
         final var JUMP_FRAME_COUNT = 1;
         final var RUN_FRAME_COUNT = 8;
-        final var SLIDE_FRAME_COUNT = 16;
+        final var SLIDE_FRAME_COUNT = 1;
 
         final var DEATH_FRAMES = TextureUtils.toVector(HERO_FRAME_PATH + "hero_death/hero_death_", "png", DEATH_FRAME_COUNT);
         final var FALL_FRAMES = TextureUtils.toVector(HERO_FRAME_PATH + "hero_fall/hero_fall_", "png", FALL_FRAME_COUNT);
@@ -104,9 +100,12 @@ public class ForestFactory implements GameFactory {
 
     @Override
     public Hero createHero() {
-        var textureStand = HERO_ANIMATIONS.get(HeroStateType.STAND).getKeyFrames()[0].getTexture();
-        var standardWidth = textureStand.getWidth();
-        var standardHeight = textureStand.getHeight();
+        var standardWidth = Arrays.stream(HERO_ANIMATIONS.get(HeroStateType.RUN).getKeyFrames())
+                .map(textureRegion -> (float) textureRegion.getRegionWidth())
+                .max(Float::compareTo).orElse(1f);
+        var standardHeight = Arrays.stream(HERO_ANIMATIONS.get(HeroStateType.RUN).getKeyFrames())
+                .map(textureRegion -> (float) textureRegion.getRegionHeight())
+                .min(Float::compareTo).orElse(1f);
 
         var slideStandardWidth = Arrays.stream(HERO_ANIMATIONS.get(HeroStateType.SLIDE).getKeyFrames())
                 .map(textureRegion -> (float) textureRegion.getRegionWidth())
@@ -117,7 +116,7 @@ public class ForestFactory implements GameFactory {
                 .min(Float::compareTo).orElse(1f);
 
         return new Hero(SCALE_FACTOR,
-                BASE_X * screenWidth, BASE_Y * screenHeight,
+                BASE_X * BACKGROUND_TEXTURE.getWidth(), BASE_Y * BACKGROUND_TEXTURE.getHeight(),
                 standardWidth, standardHeight, slideStandardWidth, slideStandardHeight,
                 HERO_ANIMATIONS);
     }
