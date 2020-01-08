@@ -21,10 +21,7 @@ import it.unisa.theneverendingrun.services.factories.GameFactory;
 import it.unisa.theneverendingrun.utilities.TextureUtils;
 
 import java.security.InvalidParameterException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
@@ -224,6 +221,10 @@ public class ForestFactory implements GameFactory {
     private static final Texture SHIELD_TEXTURE = new Texture("images/forest/powerups/power_up_shield.png");
     private static final Texture MULTIPLIER_TEXTURE = new Texture("images/forest/powerups/power_up_x2.png");
 
+    @Override
+    public List<Texture> getPowerUpTextures() {
+        return Arrays.asList(SWORD_TEXTURE, SHIELD_TEXTURE);
+    }
 
     @Override
     public Sprite createPowerUp() {

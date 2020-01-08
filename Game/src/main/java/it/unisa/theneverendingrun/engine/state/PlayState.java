@@ -2,6 +2,7 @@ package it.unisa.theneverendingrun.engine.state;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Texture;
 import it.unisa.theneverendingrun.Assets;
 import it.unisa.theneverendingrun.engine.GameEngine;
 import it.unisa.theneverendingrun.engine.GameState;
@@ -34,6 +35,7 @@ import org.mini2Dx.core.graphics.Graphics;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * In this state the game has started, so the user plays the run
@@ -41,6 +43,8 @@ import java.util.List;
 public class PlayState extends GameState implements MetersListener, ScoreListener, SpeedListener {
 
     private final static int MAX_CAPACITY_OF_CREATION = 5;
+
+    private GameFactory gameFactory;
 
     private AbstractScrollingBackground background;
     private Hero hero;
@@ -76,7 +80,7 @@ public class PlayState extends GameState implements MetersListener, ScoreListene
 
         addedSprites = new LinkedList<>();
 
-        GameFactory gameFactory = new ForestFactory(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        gameFactory = new ForestFactory(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         background = gameFactory.createBackground();
         hero = gameFactory.createHero();
 
@@ -198,19 +202,42 @@ public class PlayState extends GameState implements MetersListener, ScoreListene
         var xPosMeter = g.getWindowWidth() * 0.03f;
         var yPos = g.getWindowHeight() * 0.95f;
 
-        var meter_offset = Assets.fonts.meterFont.draw(spriteBatch, "METERS: " + meters, xPosMeter, yPos);
+        var meterOffset = Assets.fonts.meterFont.draw(spriteBatch, "METERS: " + meters, xPosMeter, yPos);
         var longestRunOffset = Assets.fonts.meterFont.draw(spriteBatch, "LONGEST RUN: " + bestScores.getLongestRun(),
-                xPosMeter, yPos - (meter_offset.height * 1.5f));
+                xPosMeter, yPos - (meterOffset.height * 1.5f));
 
         var xPosScore = Math.max(hero.getGroundX(), xPosMeter + longestRunOffset.width + 50);
-
-        var score_offset = Assets.fonts.scoreFont.draw(spriteBatch, "SCORE: " + score,
+        var scoreOffset = Assets.fonts.scoreFont.draw(spriteBatch, "SCORE: " + score,
                 xPosScore, yPos);
-        var bestScoreOffset = Assets.fonts.scoreFont.draw(spriteBatch, "HIGH SCORE: " + bestScores.getHighScore(),
-                xPosScore, yPos - (score_offset.height * 1.5f));
 
-        var mult = Assets.fonts.scoreFont.draw(spriteBatch, "X" + scoreMetersListener.getMultiplier(), bestScoreOffset.width *2, yPos);
-        Assets.fonts.scoreFont.draw(spriteBatch, "AWORDS X" + hero.getSwords(), mult.width, yPos - (mult.height * 1.5f));
+        var yPosBestScore = yPos - (scoreOffset.height * 1.5f);
+        var bestScoreOffset = Assets.fonts.meterFont.draw(spriteBatch, "HIGH SCORE: " + bestScores.getHighScore(),
+                xPosScore, yPosBestScore);
+
+        var xPosHUD = g.getWindowWidth() * 0.7f;
+
+        var powerUpTextures = gameFactory.getPowerUpTextures();
+        var powerUpSprites = new LinkedList<org.mini2Dx.core.graphics.Sprite>();
+
+        var dimension = bestScoreOffset.height;
+        for (int i = 0; i < powerUpTextures.size(); i++) {
+            var texture = powerUpTextures.get(i);
+            powerUpSprites.add(new org.mini2Dx.core.graphics.Sprite(
+                    texture));
+            powerUpSprites.get(i).setX((int) xPosHUD);
+            powerUpSprites.get(i).setY((int) (yPos - (2 * i + 1) * dimension));
+            powerUpSprites.get(i).flip(false, true);
+        }
+
+        powerUpSprites.forEach(s -> s.draw(spriteBatch));
+
+        var xPosPowerUps = powerUpSprites.get(0).getX() + 5;
+        Assets.fonts.meterFont.draw(spriteBatch, "  x " + hero.getShields(),
+                xPosPowerUps, yPos);
+        Assets.fonts.meterFont.draw(spriteBatch, "  x " + hero.getSwords(),
+                xPosPowerUps, yPosBestScore);
+        Assets.fonts.meterFont.draw(spriteBatch, "x " + scoreMetersListener.getMultiplier(),
+                xPosHUD, yPosBestScore - (yPos - yPosBestScore));
 
         if (paused) {
             spriteBatch.setColor(0.5f, 0.5f, 0.5f, 1f);
