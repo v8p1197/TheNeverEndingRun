@@ -7,6 +7,7 @@ import it.unisa.theneverendingrun.models.Animatable;
 import it.unisa.theneverendingrun.models.Sprite;
 import it.unisa.theneverendingrun.models.Visitor;
 import it.unisa.theneverendingrun.models.enemy.state.EnemyAttackState;
+import it.unisa.theneverendingrun.models.enemy.state.EnemyDeadState;
 import it.unisa.theneverendingrun.models.enemy.state.EnemyIdleState;
 
 import java.util.Map;
@@ -56,6 +57,12 @@ public class Enemy extends Sprite implements Animatable {
      */
     public Enemy(float scaleFactor, Map<EnemyStateType, Animation<TextureRegion>> animations) {
         super(scaleFactor);
+
+        if (animations.containsKey(null)) throw new NullPointerException("animations contains null key");
+        if (animations.containsValue(null)) throw new NullPointerException("animations contains null value");
+        if (animations.entrySet().stream().anyMatch(f -> f.getValue().getKeyFrames() == null))
+            throw new NullPointerException("animations frame is null");
+
         changeEnemyState(new EnemyIdleState(this, animations));
         animate();
     }
@@ -133,6 +140,14 @@ public class Enemy extends Sprite implements Animatable {
 
     /**
      *
+     * @return true if the enemy is dead
+     */
+    public boolean isDead() {
+        return getState() instanceof EnemyDeadState;
+    }
+
+    /**
+     *
      * @return true if the enemy was attacking
      */
     public boolean wasAttacking() {
@@ -150,17 +165,11 @@ public class Enemy extends Sprite implements Animatable {
      */
     @Override
     public void animate() {
-
         var animation = getAnimation();
-        if (animation == null) throw new NullPointerException("animation is null");
+        if (animation == null) return;
 
-        TextureRegion frame;
-        if (isAttacking())
-            frame = animation.getKeyFrame(getStateTime(), false);
-        else
-            frame = animation.getKeyFrame(getStateTime(), true);
-
-        if (frame == null) throw new NullPointerException("animation frame is null");
+        var loop = !(isAttacking() || isDead());
+        var frame = animation.getKeyFrame(getStateTime(), loop);
 
         setRegion(frame);
     }

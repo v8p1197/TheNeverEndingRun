@@ -54,13 +54,21 @@ public abstract class EnemyState {
      */
     private void setAnimation() {
         var type = getEnemyType();
-        if (type == null) return;
+        if (type == null) {
+            enemy.setAnimation(null);
+            return;
+        }
 
         var animation = animations.get(type);
-        if (animation == null) return;
+        if (animation == null) {
+            enemy.setAnimation(null);
+            return;
+        }
 
+        //TODO: Check
         /*
          * The dead is to fast
+         * so change animation
          */
         /*if (enemy.wasAttacking() && !enemy.getAnimation().isAnimationFinished(enemy.getStateTime())) {
             CompletableFuture.runAsync(() -> {
