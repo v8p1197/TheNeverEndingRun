@@ -49,15 +49,15 @@ public class SpritePositioningTest {
             assertNull(spritePositioning.getSprite());
             sprite.setX((float) ThreadLocalRandom.current()
                     .nextDouble(
-                            SCREEN_WIDTH - sprite.getWidth(),
-                            SCREEN_WIDTH + sprite.getWidth()
+                            SCREEN_WIDTH - sprite.getWidth() + 1,
+                            SCREEN_WIDTH + sprite.getWidth() - 1
                     ));
             i++;
         }
 
 
         // check that a new obstacle is generated and is always avoidable
-        i= 0;
+        i = 0;
         sprite.setX(0);
         while (i < CYCLES) {
             sprite = spritePositioning.getSprite();
