@@ -25,6 +25,9 @@ public class MultiplierPowerUpStrategy extends PowerUpStrategy {
 
     @Override
     public boolean collect() {
+        if (abstractPowerUp == null)
+            return false;
+
         var previousGameMultiplier = PlayState.scoreMetersListener.getMultiplier();
         var powerUpMultiplierValue = ((MultiplierPowerUp) abstractPowerUp).getValue();
 
