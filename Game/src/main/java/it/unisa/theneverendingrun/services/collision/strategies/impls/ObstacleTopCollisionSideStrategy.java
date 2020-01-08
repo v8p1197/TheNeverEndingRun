@@ -17,24 +17,27 @@ public class ObstacleTopCollisionSideStrategy extends CollisionSideStrategy<Obst
     public void collide(Obstacle obstacle) {
         var intersection = CollisionUtils.computeIntersection(hero, obstacle);
 
-        if (hero.isJumping()) {
-            hero.setY(hero.getY() - intersection.getHeight());
-            hero.getMoveState().onFall();
-            return;
-        }
-
-        if (hero.isIdle()) {
+        if (hero.isIdle() && !hero.wasSliding()) {
             // if the hero is left with respect to the spawnable
             if (hero.getX() < intersection.getX())
                 new ObstacleCollisionSideStrategyFactory(hero).createCollisionSideStrategy(CollisionSideType.RIGHT).collide(obstacle);
 
-            // if the hero is right with respect to the spawnable
-            else if (hero.getX() > intersection.getX() + intersection.getWidth())
+                // if the hero is right with respect to the spawnable
+            else if (hero.getX() + hero.getWidth() > intersection.getX() + intersection.getWidth())
                 new ObstacleCollisionSideStrategyFactory(hero).createCollisionSideStrategy(CollisionSideType.LEFT).collide(obstacle);
+
+            return;
         }
 
         // if the hero is under the spawnable and was sliding, but there is not enough space to stand
-        if (hero.wasSliding())
+        if (hero.wasSliding()) {
             hero.getMoveState().onSlide();
+            return;
+        }
+
+        if (hero.isJumping()) {
+            hero.setY(hero.getY() - intersection.getHeight());
+            hero.getMoveState().onFall();
+        }
     }
 }

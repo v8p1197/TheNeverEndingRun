@@ -36,6 +36,7 @@ public class BeginCollisionVisitor implements Visitor {
 
         if (killed) {
             enemy.getState().onDie();
+            enemy.setVisible(false);
             final var increment = 0.1F;
             if (MultiplierPowerUpMetersListener.getInstance().getRemainingMeters() > 0) {
                 PlayState.scoreMetersListener.setMultiplier(PlayState.scoreMetersListener.getMultiplier() +
