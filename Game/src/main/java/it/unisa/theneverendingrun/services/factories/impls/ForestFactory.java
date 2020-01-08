@@ -111,16 +111,18 @@ public class ForestFactory implements GameFactory {
         var standardWidth = textureStand.getWidth();
         var standardHeight = textureStand.getHeight();
 
-        var slideTexture = HERO_ANIMATIONS.get(HeroStateType.SLIDE).getKeyFrames()[0].getTexture();
-        var slideStandardWidth = slideTexture.getWidth();
-        var slideStandardHeight = slideTexture.getHeight();
+        var slideStandardWidth = Arrays.stream(HERO_ANIMATIONS.get(HeroStateType.SLIDE).getKeyFrames())
+                .map(textureRegion -> (float) textureRegion.getRegionWidth())
+                .max(Float::compareTo).orElse(1f);;
 
-        var hero = new Hero(SCALE_FACTOR,
+        var slideStandardHeight = Arrays.stream(HERO_ANIMATIONS.get(HeroStateType.SLIDE).getKeyFrames())
+                .map(textureRegion -> (float) textureRegion.getRegionHeight())
+                .min(Float::compareTo).orElse(1f);
+
+        return new Hero(SCALE_FACTOR,
                 BASE_X * screenWidth, BASE_Y * screenHeight,
                 standardWidth, standardHeight, slideStandardWidth, slideStandardHeight,
                 HERO_ANIMATIONS);
-
-        return hero;
     }
 
 

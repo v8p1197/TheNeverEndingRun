@@ -11,7 +11,6 @@ import it.unisa.theneverendingrun.models.Animatable;
 import it.unisa.theneverendingrun.models.Sprite;
 import it.unisa.theneverendingrun.models.background.AbstractScrollingBackground;
 import it.unisa.theneverendingrun.models.hero.Hero;
-import it.unisa.theneverendingrun.models.powerup.strategies.impls.MultiplierPowerUpMetersListener;
 import it.unisa.theneverendingrun.services.collision.CollisionManager;
 import it.unisa.theneverendingrun.services.difficulty.DifficultyEventType;
 import it.unisa.theneverendingrun.services.difficulty.DifficultyMetersListener;
@@ -27,18 +26,12 @@ import it.unisa.theneverendingrun.services.score.persistency.BestScores;
 import it.unisa.theneverendingrun.services.score.persistency.FileStreamFactory;
 import it.unisa.theneverendingrun.services.score.persistency.StreamFactory;
 import it.unisa.theneverendingrun.services.score.persistency.StreamManager;
-import it.unisa.theneverendingrun.services.spawn.SpawnEventType;
-import it.unisa.theneverendingrun.services.spawn.SpawnHolder;
-import it.unisa.theneverendingrun.services.spawn.creation.EnemyCreationTemplate;
-import it.unisa.theneverendingrun.services.spawn.creation.PowerUpCreationTemplate;
-import it.unisa.theneverendingrun.services.spawn.creation.SpawnCreationManager;
 import it.unisa.theneverendingrun.services.spawn.position.SpritePositioning;
 import it.unisa.theneverendingrun.services.speed.SpeedDifficultyListener;
 import it.unisa.theneverendingrun.services.speed.SpeedEventType;
 import it.unisa.theneverendingrun.services.speed.SpeedListener;
 import org.mini2Dx.core.graphics.Graphics;
 
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -55,7 +48,6 @@ public class PlayState extends GameState implements MetersListener, ScoreListene
     public static ScoreMetersListener scoreMetersListener;
 
     private SpritePositioning positioning;
-    private SpawnCreationManager spawnCreationManager;
     private StreamManager streamManager;
 
     private CollisionManager collisionManager;
@@ -98,25 +90,9 @@ public class PlayState extends GameState implements MetersListener, ScoreListene
         var speedDifficultyListener = new SpeedDifficultyListener();
         difficultyMetersListener.getEventManager().subscribe(DifficultyEventType.LEVEL_CHANGED, speedDifficultyListener);
         speedDifficultyListener.getEventManager().subscribe(SpeedEventType.SPEED_CHANGED, this);
-        MultiplierPowerUpMetersListener.getInstance().setRemainingMeters(0);
-        MultiplierPowerUpMetersListener.getInstance().setMultiplier(1);
 
-        /* CREAZIONE   */
-        var creationHolder = new SpawnHolder();
-        //var obstacleCreateTemplate = new ObstacleCreationTemplate(gameFactory);
-        var enemyCreateTemplate = new EnemyCreationTemplate(gameFactory);
-        var powerUpCreateTemplate = new PowerUpCreationTemplate(gameFactory);
 
-        spawnCreationManager = new SpawnCreationManager(
-                creationHolder,
-                Arrays.asList(/*obstacleCreateTemplate, enemyCreateTemplate*/powerUpCreateTemplate, enemyCreateTemplate),
-                MAX_CAPACITY_OF_CREATION,
-                hero.getJumpMaxElevation(),
-                hero.getMaxSlideRange());
-        creationHolder.getEventManager().subscribe(SpawnEventType.REMOVED, spawnCreationManager);
-
-        /* POSIZIONAMENTO */
-        positioning = new SpritePositioning(creationHolder, hero);
+        positioning = new SpritePositioning(hero, Gdx.graphics.getWidth());
 
         /* SCORE */
         StreamFactory streamFactory = new FileStreamFactory("best.dat");
@@ -141,7 +117,17 @@ public class PlayState extends GameState implements MetersListener, ScoreListene
 
         if (paused) return;
 
-        spawnCreationManager.create();
+        if (hero.isDead()) {
+            var stateTime = Gdx.graphics.getDeltaTime();
+            hero.setStateTime(stateTime);
+            hero.animate();
+            addedSprites.stream().filter(f -> f instanceof Animatable).forEach(s -> {
+                var animatable = ((Animatable) s);
+                s.setStateTime(stateTime);
+                animatable.animate();
+            });
+            return;
+        }
 
         background.scroll();
 
@@ -155,10 +141,8 @@ public class PlayState extends GameState implements MetersListener, ScoreListene
 
         addedSprites.removeIf(addedSprite -> !addedSprite.isXAxisVisible() || !addedSprite.isVisible());
 
-        var newSprite = positioning.getSprite(Gdx.graphics.getWidth());
+        var newSprite = positioning.getSprite();
         if (newSprite != null) {
-            newSprite.setY(hero.getGroundY() + newSprite.getY());
-            newSprite.setX(hero.getGroundX() + newSprite.getX());
             addedSprites.add(newSprite);
         }
 
@@ -248,6 +232,23 @@ public class PlayState extends GameState implements MetersListener, ScoreListene
 
     @Override
     public void onEnded() {
+        while (!hero.getAnimation().isAnimationFinished(hero.getStateTime())) {
+            hero.setStateTime(Gdx.graphics.getDeltaTime());
+            hero.animate();
+        }
+
+       /* if (!hero.getAnimation().isAnimationFinished(hero.getStateTime())) {
+            CompletableFuture.runAsync(() -> {
+                while (!hero.getAnimation().isAnimationFinished(hero.getStateTime()));
+
+                end();
+            });
+        } else {*/
+            end();
+       // }
+    }
+
+    private void end() {
         streamManager.saveBestScores(bestScores);
 
         var finalScore = score;
