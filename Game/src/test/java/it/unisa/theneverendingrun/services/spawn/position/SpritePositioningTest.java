@@ -44,12 +44,13 @@ public class SpritePositioningTest {
 
         // check that no new obstacle is generated if the previous one is not completely visible
         int i = 0;
+        sprite = spritePositioning.getSprite();
         while (i < CYCLES) {
             assertNull(spritePositioning.getSprite());
             sprite.setX((float) ThreadLocalRandom.current()
                     .nextDouble(
-                            SCREEN_WIDTH - sprite.getWidth() + 1 ,
-                            SCREEN_WIDTH + sprite.getWidth() - 1
+                            SCREEN_WIDTH - sprite.getWidth(),
+                            SCREEN_WIDTH + sprite.getWidth()
                     ));
             i++;
         }
