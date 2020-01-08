@@ -6,10 +6,7 @@ import org.mini2Dx.core.engine.geom.CollisionBox;
 import org.mini2Dx.core.geom.Rectangle;
 
 import java.util.AbstractMap;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 public final class CollisionUtils {
 
