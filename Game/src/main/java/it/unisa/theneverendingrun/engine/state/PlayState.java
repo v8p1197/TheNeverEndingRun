@@ -231,10 +231,10 @@ public class PlayState extends GameState implements MetersListener, ScoreListene
 
         powerUpSprites.forEach(s -> s.draw(spriteBatch));
 
-        var xPosPowerUps = powerUpSprites.get(0).getX() + 5;
-        Assets.fonts.meterFont.draw(spriteBatch, "  x " + hero.getShields(),
+        var xPosPowerUps = powerUpSprites.getFirst().getX() + 2 * powerUpSprites.getFirst().getWidth();
+        Assets.fonts.meterFont.draw(spriteBatch, "x " + hero.getShields(),
                 xPosPowerUps, yPos);
-        Assets.fonts.meterFont.draw(spriteBatch, "  x " + hero.getSwords(),
+        Assets.fonts.meterFont.draw(spriteBatch, "x " + hero.getSwords(),
                 xPosPowerUps, yPosBestScore);
         Assets.fonts.meterFont.draw(spriteBatch, "x " + scoreMetersListener.getMultiplier(),
                 xPosHUD, yPosBestScore - (yPos - yPosBestScore));
