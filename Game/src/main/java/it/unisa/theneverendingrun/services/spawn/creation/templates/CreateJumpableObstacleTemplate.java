@@ -1,8 +1,8 @@
 package it.unisa.theneverendingrun.services.spawn.creation.templates;
 
 import it.unisa.theneverendingrun.models.Sprite;
+import it.unisa.theneverendingrun.models.SpriteType;
 import it.unisa.theneverendingrun.services.factories.GameFactory;
-import it.unisa.theneverendingrun.services.spawn.SpriteType;
 
 public class CreateJumpableObstacleTemplate extends AbstractCreateSpriteTemplate {
 

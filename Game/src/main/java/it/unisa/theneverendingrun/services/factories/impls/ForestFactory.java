@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import it.unisa.theneverendingrun.models.Sprite;
+import it.unisa.theneverendingrun.models.SpriteType;
 import it.unisa.theneverendingrun.models.background.AbstractScrollingBackground;
 import it.unisa.theneverendingrun.models.background.Background;
 import it.unisa.theneverendingrun.models.background.impls.PlayStateBackground;
@@ -17,7 +18,6 @@ import it.unisa.theneverendingrun.models.powerup.impls.MultiplierPowerUp;
 import it.unisa.theneverendingrun.models.powerup.impls.Shield;
 import it.unisa.theneverendingrun.models.powerup.impls.Sword;
 import it.unisa.theneverendingrun.services.factories.GameFactory;
-import it.unisa.theneverendingrun.services.spawn.SpriteType;
 import it.unisa.theneverendingrun.utilities.TextureUtils;
 
 import java.security.InvalidParameterException;
