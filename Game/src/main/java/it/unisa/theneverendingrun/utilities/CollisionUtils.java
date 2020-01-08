@@ -46,28 +46,5 @@ public final class CollisionUtils {
                 .map(AbstractMap.SimpleEntry::getKey)
                 .orElse(null)
                 ;
-
-        /*CollisionBox[] boxes = new CollisionBox[4];
-        boxes[CollisionSideType.RIGHT.ordinal()] = new CollisionBox(heroCollisionBox.getX() - 1, heroCollisionBox.getY(), 1, heroCollisionBox.getHeight());
-        boxes[CollisionSideType.BOTTOM.ordinal()] = new CollisionBox(heroCollisionBox.getX(), heroCollisionBox.getY() - 1, heroCollisionBox.getWidth(), 1);
-        boxes[CollisionSideType.LEFT.ordinal()] = new CollisionBox(heroCollisionBox.getX() + heroCollisionBox.getWidth(), heroCollisionBox.getY(), 1, heroCollisionBox.getHeight());
-        boxes[CollisionSideType.TOP.ordinal()] = new CollisionBox(heroCollisionBox.getX(), heroCollisionBox.getY() + heroCollisionBox.getHeight(), heroCollisionBox.getWidth(), 1);
-
-        double greatestArea = 0;
-        int greatest = -1;
-
-        for (int i = 0; i < boxes.length; i++) {
-            var intersection = spriteCollisionBox.intersection(boxes[i]);
-
-            var rectangle = new Rectangle(intersection.getX(), intersection.getY(), intersection.getWidth(), intersection.getHeight());
-
-            var area = rectangle.area();
-            if (area > greatestArea) {
-                greatestArea = area;
-                greatest = i;
-            }
-        }
-
-        return greatest;*/
     }
 }
