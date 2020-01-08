@@ -3,6 +3,9 @@ package it.unisa.theneverendingrun.models.hero;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import de.tomgrill.gdxtesting.GdxTestRunner;
+import it.unisa.theneverendingrun.models.enemy.AbstractEnemyTest;
+import it.unisa.theneverendingrun.models.enemy.EnemyStateType;
+import it.unisa.theneverendingrun.models.enemy.state.EnemyDeadState;
 import it.unisa.theneverendingrun.utilities.MathUtils;
 import it.unisa.theneverendingrun.utilities.TextureUtils;
 import org.junit.Test;
@@ -58,11 +61,15 @@ public class AbstractHeroTest {
         assertTrue(hero.isLeft());
         assertTrue(hero.isRunning());
 
+        assertTrue(hero.getAnimation().equals(TestHero.HERO_ANIMATIONS.get(HeroStateType.RUN)));
+
         hero.setDx(speed);
         hero.move();
 
         assertEqualsDouble(hero.getGroundX() - hero.getDx(), hero.getX());
         assertEqualsDouble(hero.getGroundY(), hero.getY());
+
+
     }
 
     @Test
@@ -75,17 +82,61 @@ public class AbstractHeroTest {
         assertTrue(hero.isRight());
         assertTrue(hero.isRunning());
 
+        assertTrue(hero.getAnimation().equals(TestHero.HERO_ANIMATIONS.get(HeroStateType.RUN)));
+
         hero.setDx(speed);
         hero.move();
 
         assertEqualsDouble(hero.getGroundX() + hero.getDx(), hero.getX());
         assertEqualsDouble(hero.getGroundY(), hero.getY());
+
+
     }
 
     @Test
     public void testJump() {
         hero.getMoveState().onJump();
         assertTrue(hero.isJumping());
+        assertTrue(hero.getAnimation().equals(TestHero.HERO_ANIMATIONS.get(HeroStateType.JUMP)));
+
+        while (hero.isJumping()) {
+            hero.move();
+            assertTrue(hero.getGroundY() < hero.getY());
+        }
+
+        var top = hero.getGroundY() + hero.getJumpMaxElevation();
+        assertEqualsDouble(top, hero.getY());
+
+        assertTrue(hero.isFalling());
+        assertTrue(hero.getAnimation().equals(TestHero.HERO_ANIMATIONS.get(HeroStateType.FALL)));
+
+        while (hero.isFalling()) {
+            assertTrue(hero.getGroundY() < hero.getY());
+            hero.move();
+            System.out.println(hero.getY());
+            assertTrue(top > hero.getY());
+
+
+        }
+
+        assertTrue(hero.isIdle());
+        assertEqualsDouble(hero.getGroundX(), hero.getX());
+        assertEqualsDouble(hero.getGroundY(), hero.getY());
+
+        assertTrue(hero.getAnimation().equals(TestHero.HERO_ANIMATIONS.get(HeroStateType.STAND)));
+
+    }
+
+    @Test
+    public void testJumpLeft() {
+        var speed = ThreadLocalRandom.current().nextInt(10);
+
+        hero.getFacingState().onLeft();
+        hero.getMoveState().onJump();
+
+        assertTrue(hero.getAnimation().equals(TestHero.HERO_ANIMATIONS.get(HeroStateType.JUMP)));
+
+        hero.setDx(speed);
 
         while (hero.isJumping()) {
             hero.move();
@@ -97,29 +148,16 @@ public class AbstractHeroTest {
 
         assertTrue(hero.isFalling());
 
+        assertTrue(hero.getAnimation().equals(TestHero.HERO_ANIMATIONS.get(HeroStateType.FALL)));
+
+
         while (hero.isFalling()) {
             assertTrue(hero.getGroundY() < hero.getY());
             hero.move();
             System.out.println(hero.getY());
             assertTrue(top > hero.getY());
+
         }
-
-        assertTrue(hero.isIdle());
-        assertEqualsDouble(hero.getGroundX(), hero.getX());
-        assertEqualsDouble(hero.getGroundY(), hero.getY());
-    }
-
-    @Test
-    public void testJumpLeft() {
-        var speed = ThreadLocalRandom.current().nextInt(10);
-
-        hero.getFacingState().onLeft();
-        hero.getMoveState().onJump();
-
-        hero.setDx(speed);
-
-        while (hero.isJumping() || hero.isFalling())
-            hero.move();
 
         assertEqualsDouble(hero.getGroundX() - hero.getMaxJumpRange() * speed, hero.getX());
         assertEqualsDouble(hero.getGroundY(), hero.getY());
@@ -132,11 +170,32 @@ public class AbstractHeroTest {
         hero.getFacingState().onRight();
         hero.getMoveState().onJump();
 
+        assertTrue(hero.getAnimation().equals(TestHero.HERO_ANIMATIONS.get(HeroStateType.JUMP)));
+
+
         hero.setDx(speed);
 
-        while (hero.isJumping() || hero.isFalling())
+        while (hero.isJumping()) {
             hero.move();
+            assertTrue(hero.getGroundY() < hero.getY());
 
+        }
+
+        var top = hero.getGroundY() + hero.getJumpMaxElevation();
+        assertEqualsDouble(top, hero.getY());
+
+        assertTrue(hero.isFalling());
+
+        assertTrue(hero.getAnimation().equals(TestHero.HERO_ANIMATIONS.get(HeroStateType.FALL)));
+
+
+        while (hero.isFalling()) {
+            assertTrue(hero.getGroundY() < hero.getY());
+            hero.move();
+            System.out.println(hero.getY());
+            assertTrue(top > hero.getY());
+
+        }
         assertEqualsDouble(hero.getGroundX() + hero.getMaxJumpRange() * speed, hero.getX());
         assertEqualsDouble(hero.getGroundY(), hero.getY());
     }
@@ -154,10 +213,13 @@ public class AbstractHeroTest {
 
             assertEqualsDouble(initialX, hero.getX());
             assertEqualsDouble(initialY, hero.getY());
+
         }
 
         assertEqualsDouble(initialX, hero.getX());
         assertEqualsDouble(initialY, hero.getY());
+
+
     }
 
     @Test
@@ -169,10 +231,14 @@ public class AbstractHeroTest {
         hero.setDx(speed);
         hero.getMoveState().onSlide();
 
-        while (hero.isSliding())
+        while (hero.isSliding()) {
             hero.move();
 
+        }
+
         assertEqualsDouble(initialX - hero.getMaxSlideRange() * speed - speed, hero.getX());
+
+
     }
 
     @Test
@@ -184,10 +250,14 @@ public class AbstractHeroTest {
         hero.setDx(speed);
         hero.getMoveState().onSlide();
 
-        while (hero.isSliding())
+        while (hero.isSliding()) {
             hero.move();
 
+        }
+
         assertEqualsDouble(initialX + hero.getMaxSlideRange() * speed + speed, hero.getX());
+
+
     }
 
     @Test
@@ -201,9 +271,13 @@ public class AbstractHeroTest {
         hero.getMoveState().onFall();
         assertTrue(hero.isFalling());
 
+        assertTrue(hero.getAnimation().equals(TestHero.HERO_ANIMATIONS.get(HeroStateType.FALL)));
+
+
         while (hero.isFalling()) {
             assertNotEquals(initialY, hero.getY());
             hero.move();
+
         }
 
         assertTrue(hero.isIdle());
