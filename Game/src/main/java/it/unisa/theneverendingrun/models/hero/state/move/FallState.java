@@ -136,7 +136,9 @@ public class FallState extends HeroMoveState {
      * Actually, the hero does run.
      */
     @Override
-    public void onRun() { hero.changeMoveState(new RunningState(hero, animations)); }
+    public void onRun() {
+        // hero.changeMoveState(new RunningState(hero, animations));
+    }
 
     /**
      *

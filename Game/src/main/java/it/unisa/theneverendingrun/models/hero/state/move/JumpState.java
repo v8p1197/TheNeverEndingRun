@@ -48,17 +48,12 @@ public class JumpState extends HeroMoveState {
     private void jump() {
         var jumpCount = hero.getJumpCount();
 
-        if (jumpCount >= -hero.getJumpDuration()) {
-            int up = jumpCount < 0 ? -1 : 1;
-            var newY = (float) (hero.getY() + (jumpCount * jumpCount) * hero.getJumpCoefficient() * up);
+        if (jumpCount > 0) {
+            var newY = (float) (hero.getY() + (jumpCount * jumpCount) * hero.getJumpCoefficient());
             hero.setY(newY);
             hero.setJumpCount(jumpCount - 1);
         } else {
-            if (hero.isAboveGround()) {
-                hero.changeMoveState(new FallState(hero, animations, Math.abs(jumpCount)));
-            } else {
-                onIdle();
-            }
+            onFall();
         }
     }
 
@@ -71,7 +66,7 @@ public class JumpState extends HeroMoveState {
      */
     @Override
     public void onStand() {
-        hero.changeMoveState(new StandState(hero, animations));
+        //hero.changeMoveState(new StandState(hero, animations));
     }
 
     /**

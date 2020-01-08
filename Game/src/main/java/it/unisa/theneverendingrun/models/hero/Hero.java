@@ -569,21 +569,6 @@ public class Hero extends Sprite implements Animatable {
 
     /**
      *
-     * Computes how much of the jump parabola (in percentage) is completed.
-     *
-     * @return A value of type double in range [0, 1] depending on how much of the jump parabola is completed:
-     * 0 when the jump has just started or has not started yet
-     * 0.5 when the hero is on the top of the jump parabola
-     * 1 when the jump has finished
-     */
-    public double getJumpCompletion() {
-        if (!isJumping())
-            return 0;
-        return 0.5 - 1.0 * getJumpCount() / 2 / getJumpDuration();
-    }
-
-    /**
-     *
      * Asks the hero to die
      */
     public void die() {
