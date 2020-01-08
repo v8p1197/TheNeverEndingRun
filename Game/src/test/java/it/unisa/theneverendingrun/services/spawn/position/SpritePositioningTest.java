@@ -9,6 +9,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.concurrent.ThreadLocalRandom;
+
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(GdxTestRunner.class)
@@ -37,15 +40,31 @@ public class SpritePositioningTest {
     @Test
     public void getSpriteTest() {
 
+        Sprite sprite;
+
+        // check that no new obstacle is generated if the previous one is not completely visible
         int i = 0;
         while (i < CYCLES) {
-            Sprite sprite = spritePositioning.getSprite();
+            assertNull(spritePositioning.getSprite());
+            sprite.setX((float) ThreadLocalRandom.current()
+                    .nextDouble(
+                            SCREEN_WIDTH - sprite.getWidth() + 1 ,
+                            SCREEN_WIDTH + sprite.getWidth() - 1
+                    ));
+            i++;
+        }
+
+
+        // check that a new obstacle is generated and is always avoidable
+        i= 0;
+        sprite.setX(0);
+        while (i < CYCLES) {
+            sprite = spritePositioning.getSprite();
             if (sprite == null) {
                 continue;
             }
             boolean isJumpable = sprite.getY() + sprite.getHeight() <= hero.getGroundY() + hero.getJumpMaxElevation();
             boolean isSlidable = sprite.getY() >= hero.getGroundY() + hero.getSlideStandardHeight();
-
             assertTrue(isJumpable || isSlidable);
             sprite.setX(0);
             i++;
