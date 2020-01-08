@@ -11,6 +11,7 @@ import it.unisa.theneverendingrun.models.Animatable;
 import it.unisa.theneverendingrun.models.Sprite;
 import it.unisa.theneverendingrun.models.background.AbstractScrollingBackground;
 import it.unisa.theneverendingrun.models.hero.Hero;
+import it.unisa.theneverendingrun.models.powerup.strategies.impls.MultiplierPowerUpMetersListener;
 import it.unisa.theneverendingrun.services.collision.CollisionManager;
 import it.unisa.theneverendingrun.services.difficulty.DifficultyEventType;
 import it.unisa.theneverendingrun.services.difficulty.DifficultyMetersListener;
@@ -126,9 +127,7 @@ public class PlayState extends GameState implements MetersListener, ScoreListene
     public void update(float delta) {
         super.update(delta);
 
-        if (paused) return;
-
-        if (hero.isDead()) {
+        /*if (hero.isDead()) {
             var stateTime = Gdx.graphics.getDeltaTime();
             hero.setStateTime(stateTime);
             hero.animate();
@@ -138,7 +137,10 @@ public class PlayState extends GameState implements MetersListener, ScoreListene
                 animatable.animate();
             });
             return;
-        }
+        }*/
+
+
+        if (paused) return;
 
         background.scroll();
 
@@ -150,8 +152,13 @@ public class PlayState extends GameState implements MetersListener, ScoreListene
 
         computeBestScores();
 
-        addedSprites.removeIf(addedSprite -> !addedSprite.isXAxisVisible() || !addedSprite.isVisible());
+        var stateTime = Gdx.graphics.getDeltaTime();
+        hero.setStateTime(stateTime);
+        addedSprites.forEach(s -> s.setStateTime(stateTime));
 
+        hero.move();
+
+        addedSprites.removeIf(addedSprite -> !addedSprite.isXAxisVisible() || !addedSprite.isVisible());
         var newSprite = positioning.getSprite();
         if (newSprite != null) {
             addedSprites.add(newSprite);
@@ -160,26 +167,14 @@ public class PlayState extends GameState implements MetersListener, ScoreListene
         hero.setX(hero.getX() - speed);
         addedSprites.forEach(l -> l.setX(l.getX() - 3 * speed));
 
-        var stateTime = Gdx.graphics.getDeltaTime();
-        hero.setStateTime(stateTime);
-        hero.animate();
-        addedSprites.stream().filter(f -> f instanceof Animatable).forEach(s -> {
-            var animatable = ((Animatable) s);
-            s.setStateTime(stateTime);
-            animatable.animate();
-        });
-
-        hero.move();
-
-
-        // TODO delete
-        // spawnableManager.setSpawnProbability(metersManagerFactory.getSpawnProbability());
-
+        addedSprites.forEach(f -> f.getCollisionBox().preUpdate());
         hero.getCollisionBox().preUpdate();
-        addedSprites.forEach(l -> l.getCollisionBox().preUpdate());
 
+        //addedSprites.forEach(s -> collisionManager.checkCollision(s));
+        collisionManager.checkCollision(addedSprites);
 
-        addedSprites.forEach(l -> collisionManager.checkCollision(addedSprites));
+        hero.animate();
+        addedSprites.stream().filter(f -> f instanceof Animatable).forEach(s -> ((Animatable) s).animate());
 
         if (hero.isDead()) {
             onEnded();
