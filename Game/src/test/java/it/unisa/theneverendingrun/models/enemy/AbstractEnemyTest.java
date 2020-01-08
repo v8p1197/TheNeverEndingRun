@@ -206,4 +206,5 @@ public class AbstractEnemyTest {
             super(SCALE_FACTOR, ENEMY_ANIMATIONS);
         }
     }
+
 }
