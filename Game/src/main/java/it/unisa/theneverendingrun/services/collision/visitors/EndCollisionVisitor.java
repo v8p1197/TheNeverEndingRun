@@ -23,7 +23,7 @@ public class EndCollisionVisitor implements Visitor {
 
     @Override
     public void visitObstacle(Obstacle sprite) {
-        if (CollisionManager.wasOnObstacle)
+        if (CollisionManager.wasOnObstacle && !hero.isJumping())
             hero.getMoveState().onFall();
         CollisionManager.wasOnObstacle = false;
 
