@@ -60,7 +60,6 @@ public class Background extends Sprite {
      */
     public Background(Texture texture, int srcX, int srcY, int backgroundWidth, int backgroundHeight, float scaleFactor) {
         super(texture, srcX, srcY, backgroundWidth, backgroundHeight, scaleFactor);
-        flip(false, true);
     }
 
 

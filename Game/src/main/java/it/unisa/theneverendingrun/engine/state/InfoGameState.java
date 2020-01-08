@@ -57,7 +57,7 @@ public abstract class InfoGameState extends GameState {
     @Override
     public final void render(Graphics g) {
         spriteBatch.begin();
-        background.draw(spriteBatch);
+        spriteBatch.draw(background, 0, 0, g.getWindowWidth(), g.getWindowHeight());
         draw();
         spriteBatch.end();
     }

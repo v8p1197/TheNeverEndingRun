@@ -1,5 +1,6 @@
 package it.unisa.theneverendingrun.engine;
 
+import com.badlogic.gdx.audio.Music;
 import it.unisa.theneverendingrun.engine.state.info.MenuState;
 import org.mini2Dx.core.game.BasicGame;
 import org.mini2Dx.core.graphics.Graphics;
@@ -12,8 +13,22 @@ public class GameEngine extends BasicGame {
 
     private GameState state;
 
+    private Music activeMusic;
+
     public GameState getState() {
         return state;
+    }
+
+    public GameEngine() {
+        activeMusic = null;
+    }
+
+    public Music getActiveMusic() {
+        return activeMusic;
+    }
+
+    public void setActiveMusic(Music activeMusic) {
+        this.activeMusic = activeMusic;
     }
 
     public void changeState(GameState state) {

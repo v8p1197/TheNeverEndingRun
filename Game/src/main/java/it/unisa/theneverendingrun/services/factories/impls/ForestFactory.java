@@ -3,13 +3,11 @@ package it.unisa.theneverendingrun.services.factories.impls;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import it.unisa.theneverendingrun.models.JumpableSprite;
-import it.unisa.theneverendingrun.models.SlidableSprite;
 import it.unisa.theneverendingrun.models.Sprite;
 import it.unisa.theneverendingrun.models.SpriteType;
 import it.unisa.theneverendingrun.models.background.AbstractScrollingBackground;
 import it.unisa.theneverendingrun.models.background.Background;
-import it.unisa.theneverendingrun.models.background.impls.PlayStateBackgroundAbstract;
+import it.unisa.theneverendingrun.models.background.impls.PlayStateBackground;
 import it.unisa.theneverendingrun.models.enemy.Enemy;
 import it.unisa.theneverendingrun.models.enemy.EnemyStateType;
 import it.unisa.theneverendingrun.models.hero.Hero;
@@ -67,7 +65,7 @@ public class ForestFactory implements GameFactory {
 
     @Override
     public AbstractScrollingBackground createBackground() {
-        return new PlayStateBackgroundAbstract(BACKGROUND_TEXTURE, screenWidth, screenHeight, SCROLLING_SPEED, SCROLLING_WIDTH);
+        return new PlayStateBackground(BACKGROUND_TEXTURE, screenWidth, screenHeight, SCROLLING_SPEED, SCROLLING_WIDTH);
     }
 
 
@@ -99,7 +97,7 @@ public class ForestFactory implements GameFactory {
         final var SLIDE_FRAMES = TextureUtils.toVector(HERO_FRAME_PATH + "hero_slide/hero_slide_", "png", SLIDE_FRAME_COUNT);
 
         HERO_ANIMATIONS = new HashMap<>();
-        HERO_ANIMATIONS.put(HeroStateType.DEAD, new Animation<>(0.05F, DEATH_FRAMES));
+        HERO_ANIMATIONS.put(HeroStateType.DEAD, new Animation<>(2F, DEATH_FRAMES));
         HERO_ANIMATIONS.put(HeroStateType.FALL, new Animation<>(0.05F, FALL_FRAMES));
         HERO_ANIMATIONS.put(HeroStateType.STAND, new Animation<>(0.05F, IDLE_FRAMES));
         HERO_ANIMATIONS.put(HeroStateType.JUMP, new Animation<>(0.05F, JUMP_FRAMES));
@@ -109,8 +107,19 @@ public class ForestFactory implements GameFactory {
 
     @Override
     public Hero createHero() {
-        var hero = new Hero(SCALE_FACTOR, BASE_X * screenWidth, BASE_Y * screenHeight, HERO_ANIMATIONS);
-        hero.flip(false, true);
+        var textureStand = HERO_ANIMATIONS.get(HeroStateType.STAND).getKeyFrames()[0].getTexture();
+        var standardWidth = textureStand.getWidth();
+        var standardHeight = textureStand.getHeight();
+
+        var slideTexture = HERO_ANIMATIONS.get(HeroStateType.SLIDE).getKeyFrames()[0].getTexture();
+        var slideStandardWidth = slideTexture.getWidth();
+        var slideStandardHeight = slideTexture.getHeight();
+
+        var hero = new Hero(SCALE_FACTOR,
+                BASE_X * screenWidth, BASE_Y * screenHeight,
+                standardWidth, standardHeight, slideStandardWidth, slideStandardHeight,
+                HERO_ANIMATIONS);
+
         return hero;
     }
 
@@ -126,7 +135,7 @@ public class ForestFactory implements GameFactory {
 
     @Override
     public Sprite createObstacle(SpriteType spriteType, float maxHeight, float maxWidth) {
-        switch (spriteType) {
+       /* switch (spriteType) {
             case JUMPABLE:
                 return new JumpableSprite(new Obstacle(OBSTACLE_JUMPABLE_TEXTURE), maxHeight);
             case SLIDABLE:
@@ -135,7 +144,8 @@ public class ForestFactory implements GameFactory {
                 return new JumpableSprite(new SlidableSprite(new Obstacle(OBSTACLE_SLIDABLE_JUMPABLE_TEXTURE), maxWidth), maxHeight);
             default:
                 throw new IllegalArgumentException("Obstacle type is not valid");
-        }
+        }*/
+        throw new IllegalArgumentException("Obstacle type is not valid");
     }
 
 
@@ -146,7 +156,6 @@ public class ForestFactory implements GameFactory {
 
     private static final Map<EnemyStateType, Animation<TextureRegion>> GOLEM_ANIMATION;
     private static final Map<EnemyStateType, Animation<TextureRegion>> WOLF_ANIMATION;
-    private static final Map<EnemyStateType, Animation<TextureRegion>> WITCH_ANIMATION;
 
     static {
 
@@ -158,19 +167,13 @@ public class ForestFactory implements GameFactory {
         final int WOLF_IDLE_FRAME_COUNT = 13;
         final int WOLF_ATTACK_FRAME_COUNT = 13;
         final int WOLF_DEATH_FRAME_COUNT = 13;
-        final int WITCH_IDLE_FRAME_COUNT = 13;
-        final int WITCH_ATTACK_FRAME_COUNT = 13;
-        final int WITCH_DEATH_FRAME_COUNT = 13;
 
         final var GOLEM_IDLE_FRAMES = TextureUtils.toVector(ENEMIES_FRAME_PATH + "golem/golem_idle_", "png", GOLEM_IDLE_FRAME_COUNT);
         final var GOLEM_ATTACK_FRAMES = TextureUtils.toVector(ENEMIES_FRAME_PATH + "golem/golem_attack_", "png", GOLEM_ATTACK_FRAME_COUNT);
         final var GOLEM_DEATH_FRAMES = TextureUtils.toVector(ENEMIES_FRAME_PATH + "golem/golem_death_", "png", GOLEM_DEATH_FRAME_COUNT);
         final var WOLF_IDLE_FRAMES = TextureUtils.toVector(ENEMIES_FRAME_PATH + "wolf/wolf_idle_", "png", WOLF_IDLE_FRAME_COUNT);
-        final var WOLF_ATTACK_FRAMES = TextureUtils.toVector(ENEMIES_FRAME_PATH + "wolf/wolf_idle_", "png", WOLF_ATTACK_FRAME_COUNT);
+        final var WOLF_ATTACK_FRAMES = TextureUtils.toVector(ENEMIES_FRAME_PATH + "wolf/wolf_attack_", "png", WOLF_ATTACK_FRAME_COUNT);
         final var WOLF_DEATH_FRAMES = TextureUtils.toVector(ENEMIES_FRAME_PATH + "wolf/wolf_death_", "png", WOLF_DEATH_FRAME_COUNT);
-        final var WITCH_IDLE_FRAMES = TextureUtils.toVector(ENEMIES_FRAME_PATH + "witch/witch_idle_", "png", WITCH_IDLE_FRAME_COUNT);
-        final var WITCH_ATTACK_FRAMES = TextureUtils.toVector(ENEMIES_FRAME_PATH + "witch/witch_attack_", "png", WITCH_ATTACK_FRAME_COUNT);
-        final var WITCH_DEATH_FRAMES = TextureUtils.toVector(ENEMIES_FRAME_PATH + "witch/witch_death_", "png", WITCH_DEATH_FRAME_COUNT);
 
         GOLEM_ANIMATION = new HashMap<>();
         GOLEM_ANIMATION.put(EnemyStateType.IDLE, new Animation<>(0.02F, GOLEM_IDLE_FRAMES));
@@ -182,22 +185,16 @@ public class ForestFactory implements GameFactory {
         WOLF_ANIMATION.put(EnemyStateType.ATTACK, new Animation<>(0.02F, WOLF_ATTACK_FRAMES));
         WOLF_ANIMATION.put(EnemyStateType.DEAD, new Animation<>(0.02F, WOLF_DEATH_FRAMES));
 
-        WITCH_ANIMATION = new HashMap<>();
-        WITCH_ANIMATION.put(EnemyStateType.IDLE, new Animation<>(0.02F, WITCH_IDLE_FRAMES));
-        WITCH_ANIMATION.put(EnemyStateType.ATTACK, new Animation<>(0.02F, WITCH_ATTACK_FRAMES));
-        WITCH_ANIMATION.put(EnemyStateType.DEAD, new Animation<>(0.02F, WITCH_DEATH_FRAMES));
     }
 
 
     @Override
     public Sprite createEnemy(float maxHeight) {
-        return new JumpableSprite(new Enemy(createAnimations()), maxHeight);
+        return new Enemy(SCALE_FACTOR, createAnimations());
     }
-
     private Map<EnemyStateType, Animation<TextureRegion>> createAnimations() {
 
-        //For now only Jumpable exist
-        var enemies = Arrays.stream(ForestEnemyFrameType.values()).filter(ForestEnemyFrameType::isJumpable).collect(Collectors.toList());
+        var enemies = Arrays.stream(ForestEnemyFrameType.values()).collect(Collectors.toList());
 
         if (enemies.size() == 0) throw new ArrayIndexOutOfBoundsException("Enemies is empty");
 
@@ -210,9 +207,6 @@ public class ForestFactory implements GameFactory {
 
             case GOLEM:
                 return GOLEM_ANIMATION;
-
-            case WITCH:
-                return WITCH_ANIMATION;
 
             default:
                 throw new InvalidParameterException("No valid enemy");
@@ -231,13 +225,14 @@ public class ForestFactory implements GameFactory {
 
     @Override
     public Sprite createPowerUp(float maxWidth, float maxHeight) {
+
         switch (getPowerUpType()) {
             case SWORD:
-                return new JumpableSprite(new SlidableSprite(new Sword(SWORD_TEXTURE), maxWidth), maxHeight);
+                return new Sword(SWORD_TEXTURE, SCALE_FACTOR);
             case SHIELD:
-                return new JumpableSprite(new SlidableSprite(new Shield(SHIELD_TEXTURE), maxWidth), maxHeight);
+                return new Shield(SHIELD_TEXTURE, SCALE_FACTOR);
             case MULTIPLIER:
-                return new JumpableSprite(new SlidableSprite(new MultiplierPowerUp(MULTIPLIER_TEXTURE), maxWidth), maxHeight);
+                return new MultiplierPowerUp(MULTIPLIER_TEXTURE, SCALE_FACTOR, 2);
             default:
                 throw new IllegalArgumentException("Power Up type is not valid!");
         }

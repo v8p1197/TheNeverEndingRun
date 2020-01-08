@@ -9,21 +9,30 @@ import it.unisa.theneverendingrun.models.powerup.PowerUpType;
 public class MultiplierPowerUp extends AbstractPowerUp {
 
     /**
-     * @see AbstractPowerUp#AbstractPowerUp(Texture, float)
-     * <p>
-     * Create an {@link Obstacle}
+     *
+     * The multiplier value
      */
-    public MultiplierPowerUp(Texture texture) {
-        this(texture, 1);
+    private final int value;
+
+    /**
+     *
+     * @see AbstractPowerUp#AbstractPowerUp(Texture, float)
+     *
+     * @param value the value of the multiplier
+     */
+    public MultiplierPowerUp(Texture texture, int value) {
+        this(texture, 1, value);
     }
 
     /**
+     *
      * @see AbstractPowerUp#AbstractPowerUp(Texture, float)
-     * <p>
-     * Create an {@link Obstacle}
+
+     * @param value the value of the multiplier
      */
-    public MultiplierPowerUp(Texture texture, float scaleFactor) {
+    public MultiplierPowerUp(Texture texture, float scaleFactor, int value) {
         super(texture, scaleFactor);
+        this.value = value;
     }
 
     /**
@@ -35,8 +44,17 @@ public class MultiplierPowerUp extends AbstractPowerUp {
         return PowerUpType.MULTIPLIER;
     }
 
+    /**
+     *
+     * @return the multiplier value
+     */
+    public int getValue() {
+        return value;
+    }
+
     @Override
     public void accept(Visitor visitor) {
         visitor.visitPowerUp(this);
     }
+
 }

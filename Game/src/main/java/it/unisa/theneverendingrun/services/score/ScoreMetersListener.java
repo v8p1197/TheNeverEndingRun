@@ -1,5 +1,6 @@
 package it.unisa.theneverendingrun.services.score;
 
+import com.google.common.util.concurrent.AtomicDouble;
 import it.unisa.theneverendingrun.services.meters.MeterEditor;
 import it.unisa.theneverendingrun.services.meters.MetersEventType;
 import it.unisa.theneverendingrun.services.meters.MetersListener;
@@ -21,7 +22,7 @@ public class ScoreMetersListener implements MetersListener {
      *
      * How many meters the {@link ScoreMetersListener#score} variable changes
      */
-    public static final float METERS_DELTA = 1.0F;
+    public static final int METERS_DELTA = 20;
 
     /**
      *
@@ -45,7 +46,7 @@ public class ScoreMetersListener implements MetersListener {
      *
      * The {@link ScoreMetersListener#score} multiplier
      */
-    private float multiplier;
+    private AtomicDouble multiplier;
 
     /**
      *
@@ -57,7 +58,7 @@ public class ScoreMetersListener implements MetersListener {
         eventManager = new ScoreEventManager(ScoreEventType.values());
 
         setScore(INITIAL_SCORE);
-        multiplier = 1.0F;
+        multiplier = new AtomicDouble(1);
     }
 
     /**
@@ -76,7 +77,7 @@ public class ScoreMetersListener implements MetersListener {
      * The {@link ScoreMetersListener#score} multiplier
      */
     public float getMultiplier() {
-        return multiplier;
+        return (float)multiplier.get();
     }
 
     /**
@@ -106,7 +107,7 @@ public class ScoreMetersListener implements MetersListener {
      * @see ScoreMetersListener#multiplier
      */
     public void setMultiplier(float multiplier) {
-        this.multiplier = multiplier;
+        this.multiplier.set(multiplier);
     }
 
     /**
@@ -121,10 +122,14 @@ public class ScoreMetersListener implements MetersListener {
     public void update(MetersEventType eventType, int meters) {
         if (eventType == MetersEventType.METERS_CHANGED) {
             var currentScore = getScore();
-            var newScore = SCORE_FACTOR * (int)(meters / METERS_DELTA) + INITIAL_SCORE;
+            if (meters % METERS_DELTA == 0) {
+                var newScore = (int)(SCORE_FACTOR * multiplier.get());
+                setScore(currentScore + newScore);
+            }
+          /*  var newScore = SCORE_FACTOR * (int)(meters / METERS_DELTA) + INITIAL_SCORE;
             var delta = newScore - currentScore;
             delta *= multiplier;
-            setScore(currentScore + delta);
+            setScore(currentScore + delta);*/
         }
     }
 }

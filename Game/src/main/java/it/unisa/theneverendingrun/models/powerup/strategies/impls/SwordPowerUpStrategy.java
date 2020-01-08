@@ -1,12 +1,13 @@
 package it.unisa.theneverendingrun.models.powerup.strategies.impls;
 
 import it.unisa.theneverendingrun.models.hero.Hero;
+import it.unisa.theneverendingrun.models.powerup.AbstractPowerUp;
 import it.unisa.theneverendingrun.models.powerup.strategies.PowerUpStrategy;
 
 public class SwordPowerUpStrategy extends PowerUpStrategy {
 
-    public SwordPowerUpStrategy(Hero hero) {
-        super(hero);
+    public SwordPowerUpStrategy(Hero hero, AbstractPowerUp abstractPowerUp) {
+        super(hero, abstractPowerUp);
     }
 
     @Override
@@ -19,7 +20,7 @@ public class SwordPowerUpStrategy extends PowerUpStrategy {
         var swords = hero.getSwords();
 
         if (swords < 3) {
-            hero.setShields(swords + 1);
+            hero.setSwords(swords + 1);
             return true;
         }
 

@@ -18,7 +18,7 @@ public class ObstacleRightCollisionSideStrategy extends CollisionSideStrategy<Ob
     public void collide(Obstacle obstacle) {
         var intersection = CollisionUtils.computeIntersection(hero, obstacle);
 
-        var consumed = new PowerUpStrategyFactory(hero).createPowerUpStrategy(PowerUpType.SHIELD).consume();
+        var consumed = new PowerUpStrategyFactory(hero).createPowerUpStrategy(PowerUpType.SHIELD, null).consume();
 
         if (consumed) {
             obstacle.setVisible(false);

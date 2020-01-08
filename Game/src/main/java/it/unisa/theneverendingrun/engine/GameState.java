@@ -17,8 +17,6 @@ public abstract class GameState implements InputHandler {
 
     protected SpriteBatch spriteBatch;
 
-    private Music activeMusic;
-
     public GameState(GameEngine game) {
         this.game = game;
         playMusic();
@@ -54,9 +52,9 @@ public abstract class GameState implements InputHandler {
         var music = Assets.sounds.musics.get(type);
         if (music == null) return;
 
-        if (activeMusic != null && activeMusic.isPlaying()) activeMusic.stop();
-        activeMusic = music;
-        activeMusic.play();
+        if (game.getActiveMusic() != null && (game.getActiveMusic().isPlaying())) game.getActiveMusic().stop();
+        game.setActiveMusic(music);
+        game.getActiveMusic().play();
     }
 
 }

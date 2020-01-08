@@ -79,6 +79,8 @@ public class Enemy extends Sprite implements Animatable {
     public Enemy(Texture texture, float scaleFactor, Map<EnemyStateType, Animation<TextureRegion>> animations) {
         super(texture, scaleFactor);
         changeEnemyState(new EnemyIdleState(this, animations));
+
+        //called for set first texture region
         animate();
     }
 
@@ -117,9 +119,6 @@ public class Enemy extends Sprite implements Animatable {
         this.prevState = this.state;
         this.state = state;
     }
-
-
-
 
 
     /* ------------------------------------- CHECK ------------------------------------- */

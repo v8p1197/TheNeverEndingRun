@@ -16,6 +16,7 @@ public class EnemyDeadState extends EnemyState {
      */
     public EnemyDeadState(Enemy enemy, Map<EnemyStateType, Animation<TextureRegion>> animations) {
         super(enemy, animations);
+        enemy.setVisible(false);
     }
 
     /**
@@ -38,7 +39,8 @@ public class EnemyDeadState extends EnemyState {
      * From dead state to dead state do nothing
      */
     @Override
-    public void onDie() {}
+    public void onDie() {
+    }
 
     /**
      *

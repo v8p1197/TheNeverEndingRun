@@ -36,17 +36,6 @@ public abstract class Sprite extends org.mini2Dx.core.graphics.Sprite {
      */
     private Animation<TextureRegion> animation;
 
-    /**
-     *
-     * Contains the original sprite width
-     */
-    private float standardWidth;
-
-    /**
-     *
-     * Contains the original sprite height
-     */
-    private float standardHeight;
 
     /**
      *
@@ -83,12 +72,18 @@ public abstract class Sprite extends org.mini2Dx.core.graphics.Sprite {
      * @param scaleFactor Scale factor for the sprite
      */
     public Sprite(float scaleFactor) {
+        this(scaleFactor, 0, 0);
+
+    }
+
+    public Sprite(float scaleFactor, float srcX, float srcY) {
         super();
+        this.setX(srcX);
+        this.setY(srcY);
+
         this.scaleFactor = scaleFactor;
         this.collisionBox = new CollisionBox(0, 0, 0, 0);
         this.visible = true;
-        this.standardWidth = 0;
-        this.standardHeight = 0;
 
         resetStateTime();
     }
@@ -156,11 +151,9 @@ public abstract class Sprite extends org.mini2Dx.core.graphics.Sprite {
         this.visible = true;
 
         scale();
-
-        this.standardWidth = getWidth();
-        this.standardHeight = getHeight();
-
         resetStateTime();
+
+        flip(false, true);
     }
 
     /* ------------------------------------- GETTERS ------------------------------------- */
@@ -203,13 +196,6 @@ public abstract class Sprite extends org.mini2Dx.core.graphics.Sprite {
         return getHeight() / getScaleFactor();
     }
 
-    public final float getStandardWidth() {
-        return standardWidth;
-    }
-
-    public final float getStandardHeight() {
-        return standardHeight;
-    }
 
     /**
      *
@@ -264,8 +250,6 @@ public abstract class Sprite extends org.mini2Dx.core.graphics.Sprite {
         this.animation = sprite.animation;
         this.scaleFactor = sprite.scaleFactor;
         this.stateTime = sprite.getStateTime();
-        this.standardHeight = sprite.getStandardHeight();
-        this.standardWidth = sprite.getStandardWidth();
     }
 
     @Override
@@ -321,14 +305,6 @@ public abstract class Sprite extends org.mini2Dx.core.graphics.Sprite {
         super.setSize(width, height);
         if (collisionBox != null)
             collisionBox.setSize(width, height);
-    }
-
-    protected final void setStandardWidth(float standardWidth) {
-        this.standardWidth = standardWidth;
-    }
-
-    protected final void setStandardHeight(float standardHeight) {
-        this.standardHeight = standardHeight;
     }
 
     /**

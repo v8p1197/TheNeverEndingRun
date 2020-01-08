@@ -12,7 +12,7 @@ import static com.badlogic.gdx.graphics.Texture.TextureWrap.Repeat;
  * An implementation of the {@link Background} class that uses predefined parameters for
  * background creation and scrolling.
  */
-public class PlayStateBackgroundAbstract extends AbstractScrollingBackground {
+public class PlayStateBackground extends AbstractScrollingBackground {
 
     /**
      *
@@ -23,8 +23,8 @@ public class PlayStateBackgroundAbstract extends AbstractScrollingBackground {
      * @param screenWidth the width of the background. Different form original width.
      * @param screenHeight the height of the background. Different form original height.
      */
-    public PlayStateBackgroundAbstract(Texture texture,
-                                       int screenWidth, int screenHeight, float scrollingSpeed, float scrollingWidth) {
+    public PlayStateBackground(Texture texture,
+                               int screenWidth, int screenHeight, float scrollingSpeed, float scrollingWidth) {
         super(texture, 0, 0, screenWidth, screenHeight, scrollingSpeed, scrollingWidth);
     }
 

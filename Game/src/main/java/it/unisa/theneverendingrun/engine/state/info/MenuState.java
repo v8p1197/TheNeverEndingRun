@@ -30,7 +30,7 @@ public class MenuState extends InfoGameState {
 
     @Override
     protected Background createBackground() {
-        return new Background(TEXTURE, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        return new Background(TEXTURE);
     }
 
     @Override

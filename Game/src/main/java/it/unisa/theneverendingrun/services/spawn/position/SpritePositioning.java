@@ -2,10 +2,14 @@ package it.unisa.theneverendingrun.services.spawn.position;
 
 import it.unisa.theneverendingrun.models.Sprite;
 import it.unisa.theneverendingrun.models.SpriteType;
+import it.unisa.theneverendingrun.models.enemy.Enemy;
 import it.unisa.theneverendingrun.models.hero.Hero;
+import it.unisa.theneverendingrun.models.obstacle.Obstacle;
+import it.unisa.theneverendingrun.models.powerup.AbstractPowerUp;
 import it.unisa.theneverendingrun.services.spawn.SpawnHolder;
 
 import java.util.AbstractMap;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class SpritePositioning {
 
@@ -37,11 +41,14 @@ public class SpritePositioning {
         if (last != null && (maxWidth - last.getValue().getX() - last.getValue().getWidth()) < 0)
             return null;
 
+
         var entry = holder.get();
         if (entry == null) return null;
 
         var sprite = entry.getValue();
-
+        last = entry;
+        sprite.accept(new PositioningVisitor(maxWidth));
+/*
         var y = generateY(entry);
         sprite.setY(y);
 
@@ -49,9 +56,9 @@ public class SpritePositioning {
             sprite.setX(maxWidth);
             last = entry;
             return sprite;
-        }
+        }*/
 
-        return null;
+        return sprite;
     }
 
     private boolean isXValid(AbstractMap.SimpleEntry<SpriteType, Sprite> entry, float maxWidth) {
@@ -65,25 +72,27 @@ public class SpritePositioning {
 
 
         if (lastType == SpriteType.JUMPABLE) {
-            if (entryType == SpriteType.SLIDABLE) {
+           /* if (entryType == SpriteType.SLIDABLE) {
                 entrySprite.setY(entrySprite.getY() + lastSprite.getHeight());
                 return true;
-            }
+            }*/
             if (entryType == SpriteType.JUMPABLE)
                 return true;
-            if (entryType == SpriteType.JUMPABLE_SLIDABLE)
-                return true;
+            /*if (entryType == SpriteType.JUMPABLE_SLIDABLE)
+                return true;*/
             return false;
         }
 
         if (lastType == SpriteType.SLIDABLE) {
-            return entryType == SpriteType.SLIDABLE && lastSprite.getWidth() + entrySprite.getWidth() < slideDistance;
+            return false;
+            //return entryType == SpriteType.SLIDABLE && lastSprite.getWidth() + entrySprite.getWidth() < slideDistance;
         }
 
         if (lastType == SpriteType.JUMPABLE_SLIDABLE) {
+            return false;/*
             if (entryType == SpriteType.SLIDABLE)
                 entrySprite.setY(entrySprite.getY() + lastSprite.getHeight() + lastSprite.getY());
-            return true;
+            return true;*/
         }
 
         return false;
@@ -118,8 +127,7 @@ public class SpritePositioning {
                 return min;
             }
 
-            return 0;
-            //return (float)ThreadLocalRandom.current().nextDouble(min, max);
+            return (float) ThreadLocalRandom.current().nextDouble(min, max);
         }
 
         if (isJumpable(type))
@@ -135,8 +143,7 @@ public class SpritePositioning {
             if (standardHeight - slideStandardHeight == 1)
                 return standardHeight;
 
-            return 0;
-            //return (float)ThreadLocalRandom.current().nextDouble(min, max);
+            return (float)ThreadLocalRandom.current().nextDouble(min, max);
         }
 
         throw new IllegalArgumentException("Sprite non valid");

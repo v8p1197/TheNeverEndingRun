@@ -29,7 +29,6 @@ import it.unisa.theneverendingrun.services.score.persistency.StreamManager;
 import it.unisa.theneverendingrun.services.spawn.SpawnEventType;
 import it.unisa.theneverendingrun.services.spawn.SpawnHolder;
 import it.unisa.theneverendingrun.services.spawn.creation.EnemyCreationTemplate;
-import it.unisa.theneverendingrun.services.spawn.creation.ObstacleCreationTemplate;
 import it.unisa.theneverendingrun.services.spawn.creation.PowerUpCreationTemplate;
 import it.unisa.theneverendingrun.services.spawn.creation.SpawnCreationManager;
 import it.unisa.theneverendingrun.services.spawn.position.SpritePositioning;
@@ -41,6 +40,7 @@ import org.mini2Dx.core.graphics.Graphics;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * In this state the game has started, so the user plays the run
@@ -49,7 +49,6 @@ public class PlayState extends GameState implements MetersListener, ScoreListene
 
     private final static int MAX_CAPACITY_OF_CREATION = 5;
 
-    private GameFactory gameFactory;
     private AbstractScrollingBackground background;
     private Hero hero;
 
@@ -72,7 +71,6 @@ public class PlayState extends GameState implements MetersListener, ScoreListene
 
     private boolean paused;
 
-    //TODO delete these
     public PlayState(GameEngine game) {
         super(game);
         meters = MeterEditor.INITIAL_METERS;
@@ -86,7 +84,7 @@ public class PlayState extends GameState implements MetersListener, ScoreListene
 
         addedSprites = new LinkedList<>();
 
-        this.gameFactory = new ForestFactory(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        GameFactory gameFactory = new ForestFactory(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         background = gameFactory.createBackground();
         hero = gameFactory.createHero();
 
@@ -103,20 +101,17 @@ public class PlayState extends GameState implements MetersListener, ScoreListene
 
         /* CREAZIONE   */
         var creationHolder = new SpawnHolder();
-        var obstacleCreateTemplate = new ObstacleCreationTemplate(gameFactory);
+        //var obstacleCreateTemplate = new ObstacleCreationTemplate(gameFactory);
         var enemyCreateTemplate = new EnemyCreationTemplate(gameFactory);
         var powerUpCreateTemplate = new PowerUpCreationTemplate(gameFactory);
 
         spawnCreationManager = new SpawnCreationManager(
                 creationHolder,
-                Arrays.asList(obstacleCreateTemplate, enemyCreateTemplate, powerUpCreateTemplate),
+                Arrays.asList(/*obstacleCreateTemplate, enemyCreateTemplate*/powerUpCreateTemplate, enemyCreateTemplate),
                 MAX_CAPACITY_OF_CREATION,
                 hero.getJumpMaxElevation(),
                 hero.getMaxSlideRange());
         creationHolder.getEventManager().subscribe(SpawnEventType.REMOVED, spawnCreationManager);
-
-        // var creationThread = new Thread(creationManager::create);
-        //creationThread.start();
 
         /* POSIZIONAMENTO */
         positioning = new SpritePositioning(creationHolder, hero);
@@ -144,6 +139,18 @@ public class PlayState extends GameState implements MetersListener, ScoreListene
 
         if (paused) return;
 
+        if (hero.isDead()) {
+            var stateTime = Gdx.graphics.getDeltaTime();
+            hero.setStateTime(stateTime);
+            hero.animate();
+            addedSprites.stream().filter(f -> f instanceof Animatable).forEach(s -> {
+                var animatable = ((Animatable) s);
+                s.setStateTime(stateTime);
+                animatable.animate();
+            });
+            return;
+        }
+
         spawnCreationManager.create();
 
         background.scroll();
@@ -156,12 +163,14 @@ public class PlayState extends GameState implements MetersListener, ScoreListene
 
         computeBestScores();
 
-        //TODO: controlla
         addedSprites.removeIf(addedSprite -> !addedSprite.isXAxisVisible() || !addedSprite.isVisible());
 
         var newSprite = positioning.getSprite(Gdx.graphics.getWidth());
-        if (newSprite != null)
+        if (newSprite != null) {
+            newSprite.setY(hero.getGroundY() + newSprite.getY());
+            newSprite.setX(hero.getGroundX() + newSprite.getX());
             addedSprites.add(newSprite);
+        }
 
         hero.setX(hero.getX() - speed);
         addedSprites.forEach(l -> l.setX(l.getX() - 3 * speed));
@@ -209,11 +218,16 @@ public class PlayState extends GameState implements MetersListener, ScoreListene
         hero.draw(spriteBatch);
 
         for (var sprite : addedSprites)
-            if (sprite != null && sprite.isXAxisVisible())
+            if (sprite != null && sprite.isXAxisVisible() && sprite.isVisible())
                 sprite.draw(spriteBatch);
 
-        var xPosMeter = Gdx.graphics.getWidth() * 0.03f;
-        var yPos = Gdx.graphics.getHeight() * 0.95f;
+
+
+
+
+
+        var xPosMeter = g.getWindowWidth() * 0.03f;
+        var yPos = g.getWindowHeight() * 0.95f;
 
         var meter_offset = Assets.fonts.meterFont.draw(spriteBatch, "METERS: " + meters, xPosMeter, yPos);
         var longestRunOffset = Assets.fonts.meterFont.draw(spriteBatch, "LONGEST RUN: " + bestScores.getLongestRun(),
@@ -223,12 +237,17 @@ public class PlayState extends GameState implements MetersListener, ScoreListene
 
         var score_offset = Assets.fonts.scoreFont.draw(spriteBatch, "SCORE: " + score,
                 xPosScore, yPos);
-        Assets.fonts.scoreFont.draw(spriteBatch, "HIGH SCORE: " + bestScores.getHighScore(),
+        var bestScoreOffset = Assets.fonts.scoreFont.draw(spriteBatch, "HIGH SCORE: " + bestScores.getHighScore(),
                 xPosScore, yPos - (score_offset.height * 1.5f));
+
+        var mult = Assets.fonts.scoreFont.draw(spriteBatch, "X" + scoreMetersListener.getMultiplier(), bestScoreOffset.width *2, yPos);
+        Assets.fonts.scoreFont.draw(spriteBatch, "AWORDS X" + hero.getSwords(), mult.width, yPos - (mult.height * 1.5f));
+
 
         if (paused) {
             spriteBatch.setColor(0.5f, 0.5f, 0.5f, 1f);
-        } else spriteBatch.setColor(1f, 1f, 1f, 1f);
+        } else
+            spriteBatch.setColor(1f, 1f, 1f, 1f);
 
         spriteBatch.end();
     }
@@ -245,6 +264,23 @@ public class PlayState extends GameState implements MetersListener, ScoreListene
 
     @Override
     public void onEnded() {
+        while (!hero.getAnimation().isAnimationFinished(hero.getStateTime())) {
+            hero.setStateTime(Gdx.graphics.getDeltaTime());
+            hero.animate();
+        }
+
+       /* if (!hero.getAnimation().isAnimationFinished(hero.getStateTime())) {
+            CompletableFuture.runAsync(() -> {
+                while (!hero.getAnimation().isAnimationFinished(hero.getStateTime()));
+
+                end();
+            });
+        } else {*/
+            end();
+       // }
+    }
+
+    private void end() {
         streamManager.saveBestScores(bestScores);
 
         var finalScore = score;
@@ -290,11 +326,11 @@ public class PlayState extends GameState implements MetersListener, ScoreListene
             hero.setDx(speed);
         }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.S) || Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.S) || Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
             hero.getMoveState().onSlide();
         }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.P) || Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.P) || Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             paused = !paused;
         }
     }

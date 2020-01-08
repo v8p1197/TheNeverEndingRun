@@ -1,5 +1,6 @@
 package it.unisa.theneverendingrun.services.collision.visitors;
 
+import it.unisa.theneverendingrun.engine.state.PlayState;
 import it.unisa.theneverendingrun.models.Visitor;
 import it.unisa.theneverendingrun.models.background.Background;
 import it.unisa.theneverendingrun.models.enemy.Enemy;
@@ -29,11 +30,12 @@ public class BeginCollisionVisitor implements Visitor {
     @Override
     public void visitEnemy(Enemy enemy) {
         enemy.getState().onAttack();
-        var swordStrategy = powerUpStrategyFactory.createPowerUpStrategy(PowerUpType.SWORD);
+        var swordStrategy = powerUpStrategyFactory.createPowerUpStrategy(PowerUpType.SWORD, null);
         var killed = swordStrategy.consume();
 
         if (killed) {
             enemy.getState().onDie();
+            PlayState.scoreMetersListener.setMultiplier(PlayState.scoreMetersListener.getMultiplier() + 0.1F);
         } else {
             hero.die();
         }
@@ -54,9 +56,12 @@ public class BeginCollisionVisitor implements Visitor {
     @Override
     public void visitPowerUp(AbstractPowerUp powerUp) {
         var powerUpType = powerUp.getPowerUpType();
-        var strategy = powerUpStrategyFactory.createPowerUpStrategy(powerUpType);
+        var strategy = powerUpStrategyFactory.createPowerUpStrategy(powerUpType, powerUp);
         var collected = strategy.collect();
-        if (collected) powerUp.setVisible(false);
+        if (collected) {
+            powerUp.setVisible(false);
+         //   powerUp.setSize(0,0);
+        }
     }
 
     @Override

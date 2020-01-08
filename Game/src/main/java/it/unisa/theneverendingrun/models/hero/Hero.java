@@ -98,6 +98,18 @@ public class Hero extends Sprite implements Animatable {
     private int shields;
 
     /**
+     *
+     * Contains the first visible sprite width
+     */
+    private float standardWidth;
+
+    /**
+     *
+     * Contains the first visible sprite height
+     */
+    private float standardHeight;
+
+    /**
      * The original height of the slide
      */
     private float slideStandardHeight;
@@ -121,8 +133,10 @@ public class Hero extends Sprite implements Animatable {
      * Abstract Hero constructor.
      * Sets its bottom-left coordinates and speed, while its horizontal velocity is set to 0
      */
-    public Hero(float x, float y, Map<HeroStateType, Animation<TextureRegion>> animations) {
-        this(1, x, y, animations);
+    public Hero(float x, float y,
+            float standardWidth, float standardHeight, float slideStandardWidth, float slideStandardHeight,
+                Map<HeroStateType, Animation<TextureRegion>> animations) {
+        this(1, x, y, standardWidth, standardHeight, slideStandardWidth, slideStandardHeight, animations);
     }
 
 
@@ -137,47 +151,58 @@ public class Hero extends Sprite implements Animatable {
      * @param y     bottom-left y coordinate
      * @param animations the animations of the hero
      */
-    public Hero(float scaleFactor, float x, float y, Map<HeroStateType, Animation<TextureRegion>> animations) {
-        super(scaleFactor);
+    public Hero(float scaleFactor, float x, float y,
+                float standardWidth, float standardHeight, float slideStandardWidth, float slideStandardHeight,
+                Map<HeroStateType, Animation<TextureRegion>> animations) {
+        super(scaleFactor, x, y);
+
+        this.dx = 0;
 
         this.groundX = x;
         this.groundY = y;
 
-        setX(x);
-        setY(y);
-        setDx(0);
+        this.standardWidth = standardWidth * scaleFactor;
+        this.standardHeight = standardHeight * scaleFactor;
+        this.slideStandardWidth = slideStandardWidth * scaleFactor;
+        this.slideStandardHeight = slideStandardHeight * scaleFactor;
+
         changeMoveState(new StandState(this, animations));
         changeFacingState(new RightState(this));
 
-
-        var standAnimation = animations.get(HeroStateType.STAND);
-        if (standAnimation == null) throw new IllegalArgumentException("No stand animation");
-
-        var standTexture = standAnimation.getKeyFrames()[0].getTexture();
-        setStandardWidth(standTexture.getWidth() * scaleFactor);
-        setStandardHeight(standTexture.getHeight() * scaleFactor);
-
-        var slideAnimation = animations.get(HeroStateType.SLIDE);
-        if (slideAnimation == null) throw new IllegalArgumentException("No stand animation");
-
-        var slideTexture = standAnimation.getKeyFrames()[0].getTexture();
-        this.slideStandardWidth = slideTexture.getWidth() * scaleFactor;
-        this.slideStandardHeight = slideTexture.getHeight() * scaleFactor;
-
+        //called for set first texture region
         animate();
     }
 
     /* ------------------------------------- GETTERS ------------------------------------- */
 
     /**
-     * @return the slide standard height
+     *
+     *
+     * @return the first width of the hero
+     */
+    public final float getStandardWidth() {
+        return standardWidth;
+    }
+
+    /**
+     *
+     *
+     * @return the first width of the hero
+     */
+    public final float getStandardHeight() {
+        return standardHeight;
+    }
+
+
+    /**
+     * @return the slide original height
      */
     public final float getSlideStandardHeight() {
         return slideStandardHeight;
     }
 
     /**
-     * @return the slide standard width
+     * @return the slide original width
      */
     public final float getSlideStandardWidth() {
         return slideStandardWidth;
@@ -390,6 +415,10 @@ public class Hero extends Sprite implements Animatable {
         return this.getMoveState() instanceof StandState;
     }
 
+    /**
+     *
+     * @return true if the hero is standing or running
+     */
     public boolean isIdle() {
         return isStanding() || isRunning();
     }
@@ -576,7 +605,12 @@ public class Hero extends Sprite implements Animatable {
         var animation = getAnimation();
         if (animation == null) throw new NullPointerException("animation is null");
 
-        var frame = animation.getKeyFrame(getStateTime(), true);
+        TextureRegion frame;
+        if (isDead()) {
+            frame = animation.getKeyFrame(getStateTime(), false);
+        } else {
+            frame = animation.getKeyFrame(getStateTime(), true);
+        }
 
         if (frame == null) throw new NullPointerException("animation frame is null");
 

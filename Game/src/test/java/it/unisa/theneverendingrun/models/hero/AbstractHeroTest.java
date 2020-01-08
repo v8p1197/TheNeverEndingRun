@@ -258,7 +258,7 @@ public class AbstractHeroTest {
         }
 
         public TestHero(float x, float y) {
-            super(SCALE_FACTOR, x, y, HERO_ANIMATIONS);
+            super(SCALE_FACTOR, x, y, 100,100,100,100,HERO_ANIMATIONS);
         }
     }
 }
