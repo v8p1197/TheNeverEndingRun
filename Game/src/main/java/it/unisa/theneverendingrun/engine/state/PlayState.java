@@ -138,18 +138,6 @@ public class PlayState extends GameState implements MetersListener, ScoreListene
 
         if (paused) return;
 
-        if (hero.isDead()) {
-            var stateTime = Gdx.graphics.getDeltaTime();
-            hero.setStateTime(stateTime);
-            hero.animate();
-            addedSprites.stream().filter(f -> f instanceof Animatable).forEach(s -> {
-                var animatable = ((Animatable) s);
-                s.setStateTime(stateTime);
-                animatable.animate();
-            });
-            return;
-        }
-
         spawnCreationManager.create();
 
         background.scroll();
@@ -220,11 +208,6 @@ public class PlayState extends GameState implements MetersListener, ScoreListene
             if (sprite != null && sprite.isXAxisVisible() && sprite.isVisible())
                 sprite.draw(spriteBatch);
 
-
-
-
-
-
         var xPosMeter = g.getWindowWidth() * 0.03f;
         var yPos = g.getWindowHeight() * 0.95f;
 
@@ -241,7 +224,6 @@ public class PlayState extends GameState implements MetersListener, ScoreListene
 
         var mult = Assets.fonts.scoreFont.draw(spriteBatch, "X" + scoreMetersListener.getMultiplier(), bestScoreOffset.width *2, yPos);
         Assets.fonts.scoreFont.draw(spriteBatch, "AWORDS X" + hero.getSwords(), mult.width, yPos - (mult.height * 1.5f));
-
 
         if (paused) {
             spriteBatch.setColor(0.5f, 0.5f, 0.5f, 1f);
@@ -263,23 +245,6 @@ public class PlayState extends GameState implements MetersListener, ScoreListene
 
     @Override
     public void onEnded() {
-        while (!hero.getAnimation().isAnimationFinished(hero.getStateTime())) {
-            hero.setStateTime(Gdx.graphics.getDeltaTime());
-            hero.animate();
-        }
-
-       /* if (!hero.getAnimation().isAnimationFinished(hero.getStateTime())) {
-            CompletableFuture.runAsync(() -> {
-                while (!hero.getAnimation().isAnimationFinished(hero.getStateTime()));
-
-                end();
-            });
-        } else {*/
-            end();
-       // }
-    }
-
-    private void end() {
         streamManager.saveBestScores(bestScores);
 
         var finalScore = score;

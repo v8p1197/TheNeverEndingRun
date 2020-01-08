@@ -175,14 +175,14 @@ public class ForestFactory implements GameFactory {
         final var WOLF_DEATH_FRAMES = TextureUtils.toVector(ENEMIES_FRAME_PATH + "wolf/wolf_death_", "png", WOLF_DEATH_FRAME_COUNT);
 
         GOLEM_ANIMATION = new HashMap<>();
-        GOLEM_ANIMATION.put(EnemyStateType.IDLE, new Animation<>(0.02F, GOLEM_IDLE_FRAMES));
-        GOLEM_ANIMATION.put(EnemyStateType.ATTACK, new Animation<>(0.02F, GOLEM_ATTACK_FRAMES));
-        GOLEM_ANIMATION.put(EnemyStateType.DEAD, new Animation<>(0.02F, GOLEM_DEATH_FRAMES));
+        GOLEM_ANIMATION.put(EnemyStateType.IDLE, new Animation<>(0.075F, GOLEM_IDLE_FRAMES));
+        GOLEM_ANIMATION.put(EnemyStateType.ATTACK, new Animation<>(0.075F, GOLEM_ATTACK_FRAMES));
+        GOLEM_ANIMATION.put(EnemyStateType.DEAD, new Animation<>(0.075F, GOLEM_DEATH_FRAMES));
 
         WOLF_ANIMATION = new HashMap<>();
-        WOLF_ANIMATION.put(EnemyStateType.IDLE, new Animation<>(0.02F, WOLF_IDLE_FRAMES));
-        WOLF_ANIMATION.put(EnemyStateType.ATTACK, new Animation<>(0.02F, WOLF_ATTACK_FRAMES));
-        WOLF_ANIMATION.put(EnemyStateType.DEAD, new Animation<>(0.02F, WOLF_DEATH_FRAMES));
+        WOLF_ANIMATION.put(EnemyStateType.IDLE, new Animation<>(0.075F, WOLF_IDLE_FRAMES));
+        WOLF_ANIMATION.put(EnemyStateType.ATTACK, new Animation<>(0.075F, WOLF_ATTACK_FRAMES));
+        WOLF_ANIMATION.put(EnemyStateType.DEAD, new Animation<>(0.075F, WOLF_DEATH_FRAMES));
 
     }
 

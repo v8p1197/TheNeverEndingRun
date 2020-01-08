@@ -6,33 +6,35 @@ import it.unisa.theneverendingrun.models.powerup.AbstractPowerUp;
 import it.unisa.theneverendingrun.models.powerup.impls.MultiplierPowerUp;
 import it.unisa.theneverendingrun.models.powerup.strategies.PowerUpStrategy;
 import it.unisa.theneverendingrun.services.meters.MetersEventType;
-import it.unisa.theneverendingrun.services.meters.MetersListener;
 
-public class MultiplierPowerUpStrategy extends PowerUpStrategy implements MetersListener {
+public class MultiplierPowerUpStrategy extends PowerUpStrategy {
 
-    private final static int MAXIMUM_METERS = 50;
-
-    public static int remainingMeters;
-
-    public static float multiplierValue;
+    public static int MAXIMUM_METERS = 100;
 
     public MultiplierPowerUpStrategy(Hero hero, AbstractPowerUp abstractPowerUp) {
         super(hero, abstractPowerUp);
-        remainingMeters = MAXIMUM_METERS;
-        multiplierValue = ((MultiplierPowerUp) abstractPowerUp).getValue();
 
-        PlayState.meterEditor.getEventManager().subscribe(MetersEventType.METERS_CHANGED, this);
+        PlayState.meterEditor.getEventManager().subscribe(MetersEventType.METERS_CHANGED,
+                MultiplierPowerUpMetersListener.getInstance());
     }
 
     @Override
     public boolean has() {
-        return remainingMeters > 0;
+        return MultiplierPowerUpMetersListener.getInstance().getRemainingMeters() > 0;
     }
 
     @Override
     public boolean collect() {
-        var previousMultiplier = PlayState.scoreMetersListener.getMultiplier();
-        PlayState.scoreMetersListener.setMultiplier(previousMultiplier * multiplierValue);
+        var previousGameMultiplier = PlayState.scoreMetersListener.getMultiplier();
+        var powerUpMultiplierValue = ((MultiplierPowerUp) abstractPowerUp).getValue();
+
+        var oldMultiplier = MultiplierPowerUpMetersListener.getInstance().getMultiplier();
+        var newMultiplier = Math.max(MultiplierPowerUpMetersListener.getInstance().getMultiplier(), powerUpMultiplierValue);
+        MultiplierPowerUpMetersListener.getInstance().setMultiplier(newMultiplier);
+
+        PlayState.scoreMetersListener.setMultiplier(previousGameMultiplier / oldMultiplier * newMultiplier);
+
+        MultiplierPowerUpMetersListener.getInstance().setRemainingMeters(MAXIMUM_METERS);
 
         return true;
     }
@@ -40,17 +42,5 @@ public class MultiplierPowerUpStrategy extends PowerUpStrategy implements Meters
     @Override
     public boolean consume() {
         return false;
-    }
-
-    @Override
-    public void update(MetersEventType eventType, int meters) {
-        if (eventType == MetersEventType.METERS_CHANGED) {
-            remainingMeters = Math.max(remainingMeters - 1, 0);
-            if (remainingMeters == 0) {
-                PlayState.meterEditor.getEventManager().unsubscribe(MetersEventType.METERS_CHANGED, this);
-                var multiplier = PlayState.scoreMetersListener.getMultiplier();
-                PlayState.scoreMetersListener.setMultiplier(multiplier / multiplierValue);
-            }
-        }
     }
 }

@@ -5,7 +5,7 @@ import it.unisa.theneverendingrun.models.hero.Hero;
 import it.unisa.theneverendingrun.models.obstacle.Obstacle;
 import it.unisa.theneverendingrun.models.powerup.PowerUpType;
 import it.unisa.theneverendingrun.models.powerup.strategies.PowerUpStrategyFactory;
-import it.unisa.theneverendingrun.models.powerup.strategies.impls.MultiplierPowerUpStrategy;
+import it.unisa.theneverendingrun.models.powerup.strategies.impls.MultiplierPowerUpMetersListener;
 import it.unisa.theneverendingrun.services.collision.strategies.CollisionSideStrategy;
 import it.unisa.theneverendingrun.utilities.CollisionUtils;
 
@@ -24,9 +24,9 @@ public class ObstacleRightCollisionSideStrategy extends CollisionSideStrategy<Ob
         if (consumed) {
             obstacle.setVisible(false);
             final var increment = 0.1F;
-            if (MultiplierPowerUpStrategy.remainingMeters > 0) {
+            if (MultiplierPowerUpMetersListener.getInstance().getRemainingMeters() > 0) {
                 PlayState.scoreMetersListener.setMultiplier(PlayState.scoreMetersListener.getMultiplier() +
-                        MultiplierPowerUpStrategy.multiplierValue * increment);
+                        MultiplierPowerUpMetersListener.getInstance().getMultiplier() * increment);
             } else {
                 PlayState.scoreMetersListener.setMultiplier(PlayState.scoreMetersListener.getMultiplier() + increment);
             }

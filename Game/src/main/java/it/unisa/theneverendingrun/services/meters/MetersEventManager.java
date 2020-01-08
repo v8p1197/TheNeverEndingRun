@@ -45,7 +45,7 @@ public class MetersEventManager {
      */
     public void subscribe(MetersEventType eventType, MetersListener listener) {
         var users = listeners.get(eventType);
-        if (users != null)
+        if (users != null && !users.contains(listener))
             users.add(listener);
     }
 
