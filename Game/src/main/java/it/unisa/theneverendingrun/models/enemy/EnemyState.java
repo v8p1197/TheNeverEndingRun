@@ -2,11 +2,8 @@ package it.unisa.theneverendingrun.models.enemy;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import it.unisa.theneverendingrun.models.enemy.EnemyStateType;
-import it.unisa.theneverendingrun.models.enemy.Enemy;
 
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 
 public abstract class EnemyState {
 
@@ -62,14 +59,17 @@ public abstract class EnemyState {
         var animation = animations.get(type);
         if (animation == null) return;
 
-        if (enemy.wasAttacking() && !enemy.getAnimation().isAnimationFinished(enemy.getStateTime())) {
+        /*
+         * The dead is to fast
+         */
+        /*if (enemy.wasAttacking() && !enemy.getAnimation().isAnimationFinished(enemy.getStateTime())) {
             CompletableFuture.runAsync(() -> {
                 while (!enemy.getAnimation().isAnimationFinished(enemy.getStateTime())) ;
                 enemy.setAnimation(animation);
             });
 
             return;
-        }
+        }*/
 
         enemy.setAnimation(animation);
     }
