@@ -108,4 +108,9 @@ public class DeadState extends HeroMoveState {
     protected HeroStateType getStateType() {
         return HeroStateType.DEAD;
     }
+
+    @Override
+    public String toString() {
+        return "Dead";
+    }
 }

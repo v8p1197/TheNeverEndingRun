@@ -110,4 +110,9 @@ public class StandState extends HeroMoveState {
     protected HeroStateType getStateType() {
         return HeroStateType.STAND;
     }
+
+    @Override
+    public String toString() {
+        return "STAND";
+    }
 }

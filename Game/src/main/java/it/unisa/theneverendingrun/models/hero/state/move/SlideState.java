@@ -76,7 +76,7 @@ public class SlideState extends HeroMoveState {
      */
     @Override
     public void onJump() {
-        hero.changeMoveState(new JumpState(hero, animations));
+        // hero.changeMoveState(new JumpState(hero, animations));
     }
 
     /**
@@ -134,5 +134,10 @@ public class SlideState extends HeroMoveState {
     @Override
     protected HeroStateType getStateType() {
         return HeroStateType.SLIDE;
+    }
+
+    @Override
+    public String toString() {
+        return "SLIDE";
     }
 }

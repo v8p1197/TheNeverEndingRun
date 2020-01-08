@@ -149,4 +149,9 @@ public class FallState extends HeroMoveState {
     protected HeroStateType getStateType() {
         return HeroStateType.FALL;
     }
+
+    @Override
+    public String toString() {
+        return "Fall";
+    }
 }

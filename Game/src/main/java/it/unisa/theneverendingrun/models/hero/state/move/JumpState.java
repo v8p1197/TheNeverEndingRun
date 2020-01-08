@@ -136,4 +136,9 @@ public class JumpState extends HeroMoveState {
     protected HeroStateType getStateType() {
         return HeroStateType.JUMP;
     }
+
+    @Override
+    public String toString() {
+        return "Jump";
+    }
 }

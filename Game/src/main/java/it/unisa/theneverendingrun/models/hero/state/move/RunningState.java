@@ -119,4 +119,9 @@ public class RunningState extends HeroMoveState {
         return HeroStateType.RUN;
     }
 
+    @Override
+    public String toString() {
+        return "RUN";
+    }
+
 }
