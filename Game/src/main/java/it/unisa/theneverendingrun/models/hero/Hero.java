@@ -166,8 +166,9 @@ public class Hero extends Sprite implements Animatable {
         this.slideStandardWidth = slideStandardWidth * scaleFactor;
         this.slideStandardHeight = slideStandardHeight * scaleFactor;
 
-        changeMoveState(new StandState(this, animations));
+        this.moveState = new StandState(this, animations);
         changeFacingState(new RightState(this));
+        this.previousMoveState = null;
 
         //called for set first texture region
         animate();
@@ -456,8 +457,13 @@ public class Hero extends Sprite implements Animatable {
      * @param moveState the new move state to set
      */
     public void changeMoveState(HeroMoveState moveState) {
-        this.previousMoveState = getMoveState();
-        this.moveState = moveState;
+        try {
+            if (this.moveState != null)
+                this.previousMoveState = this.moveState.clone();
+            this.moveState = moveState;
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -588,16 +594,10 @@ public class Hero extends Sprite implements Animatable {
     public void animate() {
 
         var animation = getAnimation();
-        if (animation == null) throw new NullPointerException("animation is null");
+        if (animation == null) return;
 
-        TextureRegion frame;
-        if (isDead() || isSliding() || isFalling()) {
-            frame = animation.getKeyFrame(getStateTime(), false);
-        } else {
-            frame = animation.getKeyFrame(getStateTime(), true);
-        }
-
-        if (frame == null) throw new NullPointerException("animation frame is null");
+        var loop = isIdle() || isSliding();
+        var frame = animation.getKeyFrame(getStateTime(), loop);
 
         var texture = new TextureRegion(frame);
         if (isLeft())

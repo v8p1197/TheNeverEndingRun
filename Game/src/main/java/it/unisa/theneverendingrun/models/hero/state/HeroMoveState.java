@@ -16,7 +16,7 @@ import java.util.Map;
  * the states are called Idle, Jump, Slide, Fall and Dead.
  * Also is delegated to compute the sprite image
  */
-public abstract class HeroMoveState {
+public abstract class HeroMoveState implements Cloneable {
 
     /**
      * The hero which move state is held
@@ -39,9 +39,6 @@ public abstract class HeroMoveState {
     public HeroMoveState(Hero hero, Map<HeroStateType, Animation<TextureRegion>> animations) {
         this.hero = hero;
         this.animations = animations;
-
-        if (animations.size() != HeroStateType.values().length)
-            throw new IllegalArgumentException("The set of the animations is not complete");
 
         setAnimation();
         playSound();
@@ -166,5 +163,12 @@ public abstract class HeroMoveState {
      */
     protected abstract HeroStateType getStateType();
 
+    @Override
+    public HeroMoveState clone() throws CloneNotSupportedException {
+        return (HeroMoveState)super.clone();
+    }
+
+    @Override
+    public abstract String toString();
 }
 
