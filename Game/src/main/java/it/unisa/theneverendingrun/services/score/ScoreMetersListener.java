@@ -76,8 +76,8 @@ public class ScoreMetersListener implements MetersListener {
      * <p>
      * The {@link ScoreMetersListener#score} multiplier
      */
-    public float getMultiplier() {
-        return (float)multiplier.get();
+    public double getMultiplier() {
+        return multiplier.get();
     }
 
     /**
@@ -106,8 +106,8 @@ public class ScoreMetersListener implements MetersListener {
      * @param multiplier the new {@link ScoreMetersListener#score} multiplier value
      * @see ScoreMetersListener#multiplier
      */
-    public void setMultiplier(float multiplier) {
-        this.multiplier.set(multiplier);
+    public void setMultiplier(double multiplier) {
+        this.multiplier.set(Math.round(multiplier * 10) / 10.0);
     }
 
     /**

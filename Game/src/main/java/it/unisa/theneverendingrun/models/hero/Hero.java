@@ -591,7 +591,7 @@ public class Hero extends Sprite implements Animatable {
         if (animation == null) throw new NullPointerException("animation is null");
 
         TextureRegion frame;
-        if (isDead()) {
+        if (isDead() || isSliding() || isFalling()) {
             frame = animation.getKeyFrame(getStateTime(), false);
         } else {
             frame = animation.getKeyFrame(getStateTime(), true);

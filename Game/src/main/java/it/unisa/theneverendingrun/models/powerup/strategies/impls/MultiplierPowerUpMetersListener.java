@@ -8,7 +8,7 @@ public class MultiplierPowerUpMetersListener implements MetersListener {
 
     private int remainingMeters;
 
-    public float multiplier;
+    public double multiplier;
 
     private MultiplierPowerUpMetersListener() {
         remainingMeters = 0;
@@ -28,7 +28,7 @@ public class MultiplierPowerUpMetersListener implements MetersListener {
         return remainingMeters;
     }
 
-    public float getMultiplier() {
+    public double getMultiplier() {
         return multiplier;
     }
 
@@ -36,7 +36,7 @@ public class MultiplierPowerUpMetersListener implements MetersListener {
         this.remainingMeters = remainingMeters;
     }
 
-    public void setMultiplier(float multiplier) {
+    public void setMultiplier(double multiplier) {
         this.multiplier = multiplier;
     }
 

@@ -11,6 +11,7 @@ import it.unisa.theneverendingrun.models.Animatable;
 import it.unisa.theneverendingrun.models.Sprite;
 import it.unisa.theneverendingrun.models.background.AbstractScrollingBackground;
 import it.unisa.theneverendingrun.models.hero.Hero;
+import it.unisa.theneverendingrun.models.powerup.strategies.impls.MultiplierPowerUpMetersListener;
 import it.unisa.theneverendingrun.services.collision.CollisionManager;
 import it.unisa.theneverendingrun.services.difficulty.DifficultyEventType;
 import it.unisa.theneverendingrun.services.difficulty.DifficultyMetersListener;
@@ -97,6 +98,8 @@ public class PlayState extends GameState implements MetersListener, ScoreListene
         var speedDifficultyListener = new SpeedDifficultyListener();
         difficultyMetersListener.getEventManager().subscribe(DifficultyEventType.LEVEL_CHANGED, speedDifficultyListener);
         speedDifficultyListener.getEventManager().subscribe(SpeedEventType.SPEED_CHANGED, this);
+        MultiplierPowerUpMetersListener.getInstance().setRemainingMeters(0);
+        MultiplierPowerUpMetersListener.getInstance().setMultiplier(1);
 
         /* CREAZIONE   */
         var creationHolder = new SpawnHolder();
