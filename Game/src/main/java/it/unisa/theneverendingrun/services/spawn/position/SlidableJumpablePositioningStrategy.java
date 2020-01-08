@@ -9,8 +9,13 @@ import java.util.concurrent.ThreadLocalRandom;
 public class SlidableJumpablePositioningStrategy implements PositioningStrategy {
     @Override
     public float getYCoordinate(Sprite newSprite, Sprite previousSprite, SpriteType previousSpriteType, Hero hero, float maxWidth) {
-        return hero.getGroundY() + (float) ThreadLocalRandom.current().nextDouble(hero.getSlideStandardHeight() + 1,
-                hero.getJumpMaxElevation() - newSprite.getHeight()); //todo fixme
+        float y = hero.getGroundY() +
+                (float) ThreadLocalRandom.current().nextDouble(hero.getSlideStandardHeight() + 1,
+                        hero.getStandardHeight() - 1);
+        if(previousSpriteType == SpriteType.JUMPABLE && previousSprite.getX() + previousSprite.getWidth() >= maxWidth - 1){
+            y += previousSprite.getHeight();
+        }
+        return y;
     }
 
     @Override
