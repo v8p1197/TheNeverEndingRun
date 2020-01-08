@@ -22,7 +22,7 @@ public class ScoreMetersListener implements MetersListener {
      *
      * How many meters the {@link ScoreMetersListener#score} variable changes
      */
-    public static final int METERS_DELTA = 20;
+    public static final int METERS_DELTA = 1;
 
     /**
      *
@@ -126,10 +126,6 @@ public class ScoreMetersListener implements MetersListener {
                 var newScore = (int)(SCORE_FACTOR * multiplier.get());
                 setScore(currentScore + newScore);
             }
-          /*  var newScore = SCORE_FACTOR * (int)(meters / METERS_DELTA) + INITIAL_SCORE;
-            var delta = newScore - currentScore;
-            delta *= multiplier;
-            setScore(currentScore + delta);*/
         }
     }
 }
