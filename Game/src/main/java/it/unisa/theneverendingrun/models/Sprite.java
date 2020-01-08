@@ -371,7 +371,7 @@ public abstract class Sprite extends org.mini2Dx.core.graphics.Sprite {
      */
     public boolean isXAxisVisible(double maxXAxisValue) {
         if (maxXAxisValue < 0) throw new InvalidParameterException("maxXAxisValue cannot be less than 0");
-        return (getX() + getWidth()) > 0 && (getX() - getWidth()) < maxXAxisValue;
+        return (getX() + getWidth()) > 0 && (getX() + getWidth()) < maxXAxisValue;
     }
 
     /**
@@ -380,7 +380,7 @@ public abstract class Sprite extends org.mini2Dx.core.graphics.Sprite {
      */
     public boolean isYAxisVisible(double maxYAxisValue) {
         if (maxYAxisValue < 0) throw new InvalidParameterException("maxYAxisValue cannot be less than 0");
-        return (getY() + getHeight()) > 0 && (getY() - getHeight()) < maxYAxisValue;
+        return (getY() + getHeight()) > 0 && (getY() + getHeight()) < maxYAxisValue;
     }
 
 }

@@ -1,24 +1,37 @@
 package it.unisa.theneverendingrun.services.spawn.position;
 
-import com.badlogic.gdx.graphics.Texture;
 import it.unisa.theneverendingrun.models.Sprite;
 import it.unisa.theneverendingrun.models.SpriteType;
 import it.unisa.theneverendingrun.models.hero.Hero;
-import it.unisa.theneverendingrun.models.obstacle.Obstacle;
+import it.unisa.theneverendingrun.services.factories.GameFactory;
+import it.unisa.theneverendingrun.services.spawn.creation.commands.CreateJumpableCommand;
+import it.unisa.theneverendingrun.services.spawn.creation.commands.CreateSlidableCommand;
+import it.unisa.theneverendingrun.services.spawn.creation.commands.CreateSlidableJumpableCommand;
+import it.unisa.theneverendingrun.services.spawn.observer.SpawnProbabilityEventType;
+import it.unisa.theneverendingrun.services.spawn.observer.SpawnProbabilityListener;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-public class SpritePositioning {
+public class SpritePositioning implements SpawnProbabilityListener{
 
     private final Hero hero;
+    private final GameFactory factory;
+    private final CreateSlidableCommand commandSlide;
+    private final CreateSlidableJumpableCommand commandSlideJump;
+    private final CreateJumpableCommand commandJump;
     private float maxWidth;
 
     private Sprite lastSprite = null;
     private SpriteType lastSpriteType = null;
+    private int spawnProbability;
 
-    public SpritePositioning(Hero hero, float maxWidth) {
+    public SpritePositioning(Hero hero, float maxWidth, GameFactory factory) {
         this.hero = hero;
         this.maxWidth = maxWidth;
+        this.factory = factory;
+        this.commandSlide = new CreateSlidableCommand(factory);
+        this.commandSlideJump = new CreateSlidableJumpableCommand(factory);
+        this.commandJump = new CreateJumpableCommand(factory);
     }
 
 
@@ -33,30 +46,23 @@ public class SpritePositioning {
     public Sprite getSprite() {
         SpriteType newSpriteType = getAppropriateSpawnableType();
         if(newSpriteType == null){
-            System.out.println("null");
             return null;
         }
 
-        //SpawnCreationManager spawnCreationManager = new SpawnCreationManager(hero.getJumpMaxElevation(), hero.getMaxSlideRange());
-
-        Sprite newSprite = null;
+        Sprite newSprite;
         switch (newSpriteType){
             case JUMPABLE:
+                newSprite = commandJump.create();
                 break;
             case SLIDABLE:
-                System.out.println("slidable");
-                newSprite = create(newSpriteType);
+                newSprite = commandSlide.create();
                 break;
             case JUMPABLE_SLIDABLE:
-                System.out.println("jump_slid");
+                newSprite = commandSlideJump.create();
                 break;
             default:
                 return null;
         }
-
-        //fixme delete
-        if(newSprite == null)
-            return null;
 
         setPosition(newSprite, newSpriteType);
         lastSprite = newSprite;
@@ -64,9 +70,6 @@ public class SpritePositioning {
         return newSprite;
     }
 
-    private Sprite create(SpriteType newSpriteType) {
-        return new Obstacle(new Texture("images/forest/obstacles/jumpable.png"));
-    }
 
     private void setPosition(Sprite newSprite, SpriteType newType){
         PositioningStrategy positioningStrategy;
@@ -84,9 +87,10 @@ public class SpritePositioning {
                 return;
         }
 
-        float y = positioningStrategy.getYCoordinate(newSprite, lastSpriteType, hero);
+        float y = positioningStrategy.getYCoordinate(newSprite, lastSprite, lastSpriteType, hero, maxWidth);
+        float x = positioningStrategy.getXCoordinate(newSprite, lastSprite, lastSpriteType, hero, maxWidth);
         newSprite.setY(y);
-        newSprite.setX(maxWidth);
+        newSprite.setX(x);
     }
 
     /**
@@ -131,7 +135,8 @@ public class SpritePositioning {
 
         // If the obstacle is distant enough, it is possible to add every type of obstacle
         if (distance >= hero.getStandardWidth() * 3) {
-            if (ThreadLocalRandom.current().nextInt() % 50 == 0) {
+            System.out.println(spawnProbability);
+            if (ThreadLocalRandom.current().nextInt() % spawnProbability == 0) {
                 int random = ThreadLocalRandom.current().nextInt(0, SpriteType.values().length);
                 return SpriteType.values()[random];
             }
@@ -139,5 +144,12 @@ public class SpritePositioning {
 
         // else it will return null, since nothing can be added
         return null;
+    }
+
+    @Override
+    public void update(SpawnProbabilityEventType eventType, int spawnProbability) {
+        if(eventType == SpawnProbabilityEventType.SPAWN_PROBABILITY_CHANGED){
+            this.spawnProbability = spawnProbability;
+        }
     }
 }

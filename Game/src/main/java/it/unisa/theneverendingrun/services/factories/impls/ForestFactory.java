@@ -138,7 +138,9 @@ public class ForestFactory implements GameFactory {
             case JUMPABLE:
                 return new Obstacle(OBSTACLE_JUMPABLE_TEXTURE);
             case SLIDABLE:
-                return new Obstacle(OBSTACLE_SLIDABLE_TEXTURE);
+                Obstacle obs = new Obstacle(OBSTACLE_SLIDABLE_TEXTURE);
+                obs.setSize(obs.getWidth(), screenHeight);
+                return obs;
             case JUMPABLE_SLIDABLE:
                 return new Obstacle(OBSTACLE_SLIDABLE_JUMPABLE_TEXTURE);
             default:

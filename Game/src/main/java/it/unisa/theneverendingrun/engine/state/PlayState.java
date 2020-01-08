@@ -2,7 +2,6 @@ package it.unisa.theneverendingrun.engine.state;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Texture;
 import it.unisa.theneverendingrun.Assets;
 import it.unisa.theneverendingrun.engine.GameEngine;
 import it.unisa.theneverendingrun.engine.GameState;
@@ -27,6 +26,8 @@ import it.unisa.theneverendingrun.services.score.persistency.BestScores;
 import it.unisa.theneverendingrun.services.score.persistency.FileStreamFactory;
 import it.unisa.theneverendingrun.services.score.persistency.StreamFactory;
 import it.unisa.theneverendingrun.services.score.persistency.StreamManager;
+import it.unisa.theneverendingrun.services.spawn.observer.SpawnProbabilityDifficultyListener;
+import it.unisa.theneverendingrun.services.spawn.observer.SpawnProbabilityEventType;
 import it.unisa.theneverendingrun.services.spawn.position.SpritePositioning;
 import it.unisa.theneverendingrun.services.speed.SpeedDifficultyListener;
 import it.unisa.theneverendingrun.services.speed.SpeedEventType;
@@ -35,7 +36,6 @@ import org.mini2Dx.core.graphics.Graphics;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.function.Consumer;
 
 /**
  * In this state the game has started, so the user plays the run
@@ -67,9 +67,13 @@ public class PlayState extends GameState implements MetersListener, ScoreListene
 
     private boolean paused;
 
+    private int screenWidth;
+
+
     public PlayState(GameEngine game) {
         super(game);
         meters = MeterEditor.INITIAL_METERS;
+        screenWidth = Gdx.graphics.getWidth();
     }
 
     @Override
@@ -94,9 +98,12 @@ public class PlayState extends GameState implements MetersListener, ScoreListene
         var speedDifficultyListener = new SpeedDifficultyListener();
         difficultyMetersListener.getEventManager().subscribe(DifficultyEventType.LEVEL_CHANGED, speedDifficultyListener);
         speedDifficultyListener.getEventManager().subscribe(SpeedEventType.SPEED_CHANGED, this);
+        var spawnProbabilityDifficultyListener = new SpawnProbabilityDifficultyListener();
+        difficultyMetersListener.getEventManager().subscribe(DifficultyEventType.LEVEL_CHANGED, spawnProbabilityDifficultyListener);
 
-
-        positioning = new SpritePositioning(hero, Gdx.graphics.getWidth());
+        positioning = new SpritePositioning(hero, screenWidth, gameFactory);
+        spawnProbabilityDifficultyListener.getEventManager()
+                .subscribe(SpawnProbabilityEventType.SPAWN_PROBABILITY_CHANGED, positioning);
 
         /* SCORE */
         StreamFactory streamFactory = new FileStreamFactory("best.dat");
@@ -135,7 +142,7 @@ public class PlayState extends GameState implements MetersListener, ScoreListene
 
         background.scroll();
 
-        if (!hero.isXAxisVisible(Gdx.graphics.getWidth())) {
+        if (!hero.isXAxisVisible(screenWidth)) {
             hero.die();
         }
 
@@ -232,9 +239,9 @@ public class PlayState extends GameState implements MetersListener, ScoreListene
         powerUpSprites.forEach(s -> s.draw(spriteBatch));
 
         var xPosPowerUps = powerUpSprites.getFirst().getX() + 2 * powerUpSprites.getFirst().getWidth();
-        Assets.fonts.meterFont.draw(spriteBatch, "x " + hero.getShields(),
-                xPosPowerUps, yPos);
         Assets.fonts.meterFont.draw(spriteBatch, "x " + hero.getSwords(),
+                xPosPowerUps, yPos);
+        Assets.fonts.meterFont.draw(spriteBatch, "x " + hero.getShields(),
                 xPosPowerUps, yPosBestScore);
         Assets.fonts.meterFont.draw(spriteBatch, "x " + scoreMetersListener.getMultiplier(),
                 xPosHUD, yPosBestScore - (yPos - yPosBestScore));

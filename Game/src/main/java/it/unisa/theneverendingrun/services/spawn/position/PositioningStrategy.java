@@ -6,6 +6,6 @@ import it.unisa.theneverendingrun.models.hero.Hero;
 
 public interface PositioningStrategy {
 
-    float getYCoordinate(Sprite newSprite, SpriteType previousSprite, Hero hero);
-
+    float getYCoordinate(Sprite newSprite, Sprite previousSprite, SpriteType previousSpriteType, Hero hero, float maxWidth);
+    float getXCoordinate(Sprite newSprite, Sprite previousSprite, SpriteType previousSpriteType, Hero hero, float maxWidth);
 }

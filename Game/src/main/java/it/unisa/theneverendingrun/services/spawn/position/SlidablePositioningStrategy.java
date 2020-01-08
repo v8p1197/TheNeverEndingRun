@@ -8,8 +8,22 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class SlidablePositioningStrategy implements PositioningStrategy {
     @Override
-    public float getYCoordinate(Sprite newSprite, SpriteType previousSprite, Hero hero) {
-        return hero.getGroundY() + (float) ThreadLocalRandom.current().nextDouble(hero.getSlideStandardHeight() + 1,
+    public float getYCoordinate(Sprite newSprite, Sprite previousSprite, SpriteType previousSpriteType, Hero hero, float maxWidth) {
+        float y = hero.getGroundY() +
+                (float) ThreadLocalRandom.current().nextDouble(hero.getSlideStandardHeight() + 1,
                 hero.getStandardHeight() - 1);
+        if(previousSpriteType == SpriteType.JUMPABLE && previousSprite.getX() + previousSprite.getWidth() >= maxWidth - 1){
+            y += previousSprite.getHeight();
+        }
+        return y;
+    }
+
+    @Override
+    public float getXCoordinate(Sprite newSprite, Sprite previousSprite, SpriteType previousSpriteType, Hero hero, float maxWidth) {
+        float x = maxWidth;
+        if(previousSpriteType == SpriteType.JUMPABLE && previousSprite.getX() + previousSprite.getWidth() >= maxWidth - 1){
+            x += hero.getStandardWidth();
+        }
+        return x;
     }
 }

@@ -16,19 +16,31 @@ public class CreateJumpableCommand extends CreateSpriteCommand {
 
     private List<AbstractCreateTemplate> createTemplates;
 
+    private CreateJumpableEnemyTemplate enemyJumpTemplate;
+    private CreateJumpablePowerUpTemplate powerJumpTemplate;
+    private CreateJumpableObstacleTemplate obstacleJumpTemplate;
+
     public CreateJumpableCommand(GameFactory gameFactory) {
         super(gameFactory);
-
-        var enemyJumpTemplate = new CreateJumpableEnemyTemplate(gameFactory);
-        var powerJumpTemplate = new CreateJumpablePowerUpTemplate(gameFactory);
-        var obstaJumpTemplate = new CreateJumpableObstacleTemplate(gameFactory);
-
-        createTemplates = Arrays.asList(enemyJumpTemplate, powerJumpTemplate, obstaJumpTemplate);
+        enemyJumpTemplate = new CreateJumpableEnemyTemplate(gameFactory);
+        powerJumpTemplate = new CreateJumpablePowerUpTemplate(gameFactory);
+        obstacleJumpTemplate = new CreateJumpableObstacleTemplate(gameFactory);
+        createTemplates = Arrays.asList(enemyJumpTemplate, powerJumpTemplate, obstacleJumpTemplate);
     }
 
     @Override
     public Sprite create() {
         Collections.shuffle(createTemplates);
-        return createTemplates.get(ThreadLocalRandom.current().nextInt(createTemplates.size())).create();
+        double random = ThreadLocalRandom.current().nextDouble(0, 1);
+        if (random <= 0.2){
+            return powerJumpTemplate.create();
+        }
+        if (random <= 0.7){
+            return obstacleJumpTemplate.create();
+        }
+        if(random <= 1){
+            return enemyJumpTemplate.create();
+        }
+        return null;
     }
 }
