@@ -3,6 +3,7 @@ package it.unisa.theneverendingrun.models;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import it.unisa.theneverendingrun.services.Visitor;
 import org.mini2Dx.core.engine.geom.CollisionBox;
 
 import java.security.InvalidParameterException;

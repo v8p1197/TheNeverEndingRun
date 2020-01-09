@@ -1,7 +1,7 @@
 package it.unisa.theneverendingrun.services.collision;
 
 import it.unisa.theneverendingrun.models.Sprite;
-import it.unisa.theneverendingrun.models.Visitor;
+import it.unisa.theneverendingrun.services.Visitor;
 import it.unisa.theneverendingrun.models.hero.Hero;
 import it.unisa.theneverendingrun.services.collision.visitors.BeginCollisionVisitor;
 import it.unisa.theneverendingrun.services.collision.visitors.EndCollisionVisitor;

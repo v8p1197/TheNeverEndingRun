@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import it.unisa.theneverendingrun.models.Animatable;
 import it.unisa.theneverendingrun.models.Sprite;
-import it.unisa.theneverendingrun.models.Visitor;
+import it.unisa.theneverendingrun.services.Visitor;
 import it.unisa.theneverendingrun.models.hero.state.HeroFacingState;
 import it.unisa.theneverendingrun.models.hero.state.HeroMoveState;
 import it.unisa.theneverendingrun.models.hero.state.face.LeftState;

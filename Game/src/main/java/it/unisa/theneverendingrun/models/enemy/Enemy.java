@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import it.unisa.theneverendingrun.models.Animatable;
 import it.unisa.theneverendingrun.models.Sprite;
-import it.unisa.theneverendingrun.models.Visitor;
+import it.unisa.theneverendingrun.services.Visitor;
 import it.unisa.theneverendingrun.models.enemy.state.EnemyAttackState;
 import it.unisa.theneverendingrun.models.enemy.state.EnemyDeadState;
 import it.unisa.theneverendingrun.models.enemy.state.EnemyIdleState;

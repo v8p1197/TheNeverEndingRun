@@ -1,4 +1,4 @@
-package it.unisa.theneverendingrun.models;
+package it.unisa.theneverendingrun.services;
 
 import it.unisa.theneverendingrun.models.background.Background;
 import it.unisa.theneverendingrun.models.enemy.Enemy;

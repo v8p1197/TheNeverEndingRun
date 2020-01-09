@@ -1,4 +1,4 @@
-package it.unisa.theneverendingrun.services.spawn;
+package it.unisa.theneverendingrun.services;
 
 public interface Command<S> {
 

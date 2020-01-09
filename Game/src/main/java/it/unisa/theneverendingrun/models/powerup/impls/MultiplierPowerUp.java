@@ -1,8 +1,7 @@
 package it.unisa.theneverendingrun.models.powerup.impls;
 
 import com.badlogic.gdx.graphics.Texture;
-import it.unisa.theneverendingrun.models.Visitor;
-import it.unisa.theneverendingrun.models.obstacle.Obstacle;
+import it.unisa.theneverendingrun.services.Visitor;
 import it.unisa.theneverendingrun.models.powerup.AbstractPowerUp;
 import it.unisa.theneverendingrun.models.powerup.PowerUpType;
 

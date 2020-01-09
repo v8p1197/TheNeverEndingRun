@@ -2,7 +2,7 @@ package it.unisa.theneverendingrun.models.obstacle;
 
 import com.badlogic.gdx.graphics.Texture;
 import it.unisa.theneverendingrun.models.Sprite;
-import it.unisa.theneverendingrun.models.Visitor;
+import it.unisa.theneverendingrun.services.Visitor;
 
 /**
  *

@@ -1,6 +1,6 @@
 package it.unisa.theneverendingrun.services.collision.visitors;
 
-import it.unisa.theneverendingrun.models.Visitor;
+import it.unisa.theneverendingrun.services.Visitor;
 import it.unisa.theneverendingrun.models.background.Background;
 import it.unisa.theneverendingrun.models.enemy.Enemy;
 import it.unisa.theneverendingrun.models.hero.Hero;
