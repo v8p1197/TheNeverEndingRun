@@ -1,6 +1,5 @@
 package it.unisa.theneverendingrun.engine;
 
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import it.unisa.theneverendingrun.Assets;
 import it.unisa.theneverendingrun.engine.state.GameStateType;
@@ -33,7 +32,6 @@ public abstract class GameState implements InputHandler {
     public abstract void interpolate(float alpha);
 
     public abstract void render(Graphics g);
-
 
     public abstract void onMenu();
 

@@ -24,12 +24,8 @@ public class ObstacleRightCollisionSideStrategy extends CollisionSideStrategy<Ob
         if (consumed) {
             obstacle.setVisible(false);
             final var increment = 0.1F;
-            if (MultiplierPowerUpMetersListener.getInstance().getRemainingMeters() > 0) {
-                PlayState.scoreMetersListener.setMultiplier(PlayState.scoreMetersListener.getMultiplier() +
-                        MultiplierPowerUpMetersListener.getInstance().getMultiplier() * increment);
-            } else {
-                PlayState.scoreMetersListener.setMultiplier(PlayState.scoreMetersListener.getMultiplier() + increment);
-            }
+            PlayState.scoreMetersListener.setMultiplier(PlayState.scoreMetersListener.getMultiplier() +
+                    MultiplierPowerUpMetersListener.getInstance().getMultiplier() * increment);
         } else
             hero.setX(hero.getX() - intersection.getWidth());
     }
