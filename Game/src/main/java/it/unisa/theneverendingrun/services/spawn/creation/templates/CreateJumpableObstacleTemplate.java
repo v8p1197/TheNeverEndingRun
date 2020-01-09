@@ -16,7 +16,7 @@ public class CreateJumpableObstacleTemplate extends AbstractCreateSpriteTemplate
 
     @Override
     protected void resize(Sprite sprite) {
-        resize(sprite, maxValue, new HeightResizeStrategy());
+        alwaysResize(sprite, maxValue, new HeightResizeStrategy());
     }
 
     @Override
