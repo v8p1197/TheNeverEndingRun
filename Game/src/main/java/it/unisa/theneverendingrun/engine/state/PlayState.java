@@ -218,7 +218,7 @@ public class PlayState extends GameState implements MetersListener, ScoreListene
                 xPosScore, yPos);
 
         var yPosBestScore = yPos - (scoreOffset.height * 1.5f);
-        var bestScoreOffset = Assets.fonts.meterFont.draw(spriteBatch, "HIGH SCORE: " + bestScores.getHighScore(),
+        Assets.fonts.meterFont.draw(spriteBatch, "HIGH SCORE: " + bestScores.getHighScore(),
                 xPosScore, yPosBestScore);
 
         var xPosHUD = g.getWindowWidth() * 0.8f;
