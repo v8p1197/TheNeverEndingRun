@@ -25,12 +25,12 @@ public class SpritePositioning implements SpawnProbabilityListener{
     private SpriteType lastSpriteType = null;
     private int spawnProbability;
 
-    public SpritePositioning(Hero hero, float maxWidth, GameFactory factory) {
+    public SpritePositioning(Hero hero, float maxWidth, float maxHeight, GameFactory factory) {
         this.hero = hero;
         this.maxWidth = maxWidth;
-        this.commandSlide = new CreateSlidableCommand(factory);
-        this.commandSlideJump = new CreateSlidableJumpableCommand(factory);
-        this.commandJump = new CreateJumpableCommand(factory);
+        this.commandSlide = new CreateSlidableCommand(factory, maxWidth, maxHeight);
+        this.commandSlideJump = new CreateSlidableJumpableCommand(factory, maxWidth, maxHeight);
+        this.commandJump = new CreateJumpableCommand(factory, maxHeight);
         this.spawnProbability = SpawnProbabilityDifficultyListener.INITIAL_SPAWN_PROBABILITY;
     }
 
@@ -52,13 +52,13 @@ public class SpritePositioning implements SpawnProbabilityListener{
         Sprite newSprite;
         switch (newSpriteType){
             case JUMPABLE:
-                newSprite = commandJump.create();
+                newSprite = commandJump.execute();
                 break;
             case SLIDABLE:
-                newSprite = commandSlide.create();
+                newSprite = commandSlide.execute();
                 break;
             case JUMPABLE_SLIDABLE:
-                newSprite = commandSlideJump.create();
+                newSprite = commandSlideJump.execute();
                 break;
             default:
                 return null;
