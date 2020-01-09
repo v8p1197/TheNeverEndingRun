@@ -11,7 +11,7 @@ public class SlidablePositioningStrategy implements PositioningStrategy {
     public float getYCoordinate(Sprite newSprite, Sprite previousSprite, SpriteType previousSpriteType, Hero hero, float maxWidth) {
         float y = hero.getGroundY() +
                 (float) ThreadLocalRandom.current().nextDouble(hero.getSlideStandardHeight() + 1,
-                hero.getStandardHeight() - 1);
+                        hero.getStandardHeight() - (hero.getStandardHeight() - hero.getSlideStandardHeight()) * 0.15);
         if(previousSpriteType == SpriteType.JUMPABLE && previousSprite.getX() + previousSprite.getWidth() >= maxWidth - 1){
             y += previousSprite.getHeight();
         }

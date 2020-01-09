@@ -7,7 +7,6 @@ import it.unisa.theneverendingrun.services.factories.GameFactory;
 import it.unisa.theneverendingrun.services.spawn.creation.commands.CreateJumpableCommand;
 import it.unisa.theneverendingrun.services.spawn.creation.commands.CreateSlidableCommand;
 import it.unisa.theneverendingrun.services.spawn.creation.commands.CreateSlidableJumpableCommand;
-import it.unisa.theneverendingrun.services.spawn.creation.commands.CreateSpriteCommand;
 import it.unisa.theneverendingrun.services.spawn.observer.SpawnProbabilityDifficultyListener;
 import it.unisa.theneverendingrun.services.spawn.observer.SpawnProbabilityEventType;
 import it.unisa.theneverendingrun.services.spawn.observer.SpawnProbabilityListener;
@@ -143,13 +142,12 @@ public class SpritePositioning implements SpawnProbabilityListener, SpeedListene
         }
 
         // If the obstacle is distant enough, it is possible to add every type of obstacle
-        if (distance >= hero.getStandardWidth() * 3) {
+        if (distance >= hero.getStandardWidth() + hero.getMaxSlideRange() * speed) {
             if (ThreadLocalRandom.current().nextInt() % spawnProbability == 0) {
                 int random = ThreadLocalRandom.current().nextInt(0, SpriteType.values().length);
                 return SpriteType.values()[random];
             }
         }
-
         // else it will return null, since nothing can be added
         return null;
     }
