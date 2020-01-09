@@ -37,8 +37,6 @@ import org.mini2Dx.core.graphics.Graphics;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * In this state the game has started, so the user plays the run
@@ -178,7 +176,6 @@ public class PlayState extends GameState implements MetersListener, ScoreListene
         addedSprites.forEach(f -> f.getCollisionBox().preUpdate());
         hero.getCollisionBox().preUpdate();
 
-        //addedSprites.forEach(s -> collisionManager.checkCollision(s));
         collisionManager.checkCollision(addedSprites);
 
         hero.animate();
@@ -269,10 +266,10 @@ public class PlayState extends GameState implements MetersListener, ScoreListene
 
     @Override
     public void onEnded() {
-        while (!hero.getAnimation().isAnimationFinished(hero.getStateTime())) {
+       /* while (!hero.getAnimation().isAnimationFinished(hero.getStateTime())) {
             hero.setStateTime(Gdx.graphics.getDeltaTime());
             hero.animate();
-        }
+        }*/
 
        /* if (!hero.getAnimation().isAnimationFinished(hero.getStateTime())) {
             CompletableFuture.runAsync(() -> {
