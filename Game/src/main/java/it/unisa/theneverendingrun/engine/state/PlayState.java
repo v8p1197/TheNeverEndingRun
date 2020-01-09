@@ -233,17 +233,18 @@ public class PlayState extends GameState implements MetersListener, ScoreListene
             powerUpSprites.add(new org.mini2Dx.core.graphics.Sprite(texture));
             powerUpSprites.get(i).setX((int) xPosHUD);
             powerUpSprites.get(i).setY((int) (yPos - (2 * i + 1) * dimension));
+            powerUpSprites.get(i).setSize(dimension, dimension);
             powerUpSprites.get(i).flip(false, true);
         }
 
         powerUpSprites.forEach(s -> s.draw(spriteBatch));
 
         var xPosPowerUps = powerUpSprites.getFirst().getX() + 2 * powerUpSprites.getFirst().getWidth();
-        Assets.fonts.meterFont.draw(spriteBatch, "x " + hero.getSwords(),
+        Assets.fonts.scoreFont.draw(spriteBatch, "x " + hero.getSwords(),
                 xPosPowerUps, yPos);
-        Assets.fonts.meterFont.draw(spriteBatch, "x " + hero.getShields(),
+        Assets.fonts.scoreFont.draw(spriteBatch, "x " + hero.getShields(),
                 xPosPowerUps, yPos - 2*dimension);
-        Assets.fonts.meterFont.draw(spriteBatch, "x " + scoreMetersListener.getMultiplier(),
+        Assets.fonts.scoreFont.draw(spriteBatch, "x " + scoreMetersListener.getMultiplier(),
                 xPosHUD, yPos - 4*dimension);
 
         if (paused) {

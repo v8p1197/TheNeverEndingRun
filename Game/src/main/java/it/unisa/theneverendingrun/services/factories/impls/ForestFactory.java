@@ -44,7 +44,7 @@ public class ForestFactory implements GameFactory {
      * The real x axis base.
      * For this {@link Background} the x base isn't 0.
      */
-    public static final float BASE_X = 0.3F;
+    public static final float BASE_X = 0.5F;
 
     /**
      * The real y axis base.
