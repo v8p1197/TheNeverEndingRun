@@ -27,12 +27,8 @@ import java.util.stream.Collectors;
 
 public class ForestFactory implements GameFactory {
 
-    private int screenWidth;
-    private int screenHeight;
 
-    public ForestFactory(int screenWidth, int screenHeight) {
-        this.screenWidth = screenWidth;
-        this.screenHeight = screenHeight;
+    public ForestFactory() {
     }
 
     /* -------------------------------- BACKGROUND -------------------------------- */
@@ -140,9 +136,7 @@ public class ForestFactory implements GameFactory {
             case JUMPABLE:
                 return new Obstacle(OBSTACLE_JUMPABLE_TEXTURE);
             case SLIDABLE:
-                Obstacle obs = new Obstacle(OBSTACLE_SLIDABLE_TEXTURE);
-                obs.setSize(obs.getWidth(), screenHeight);
-                return obs;
+                return new Obstacle(OBSTACLE_SLIDABLE_TEXTURE);
             case JUMPABLE_SLIDABLE:
                 return new Obstacle(OBSTACLE_SLIDABLE_JUMPABLE_TEXTURE);
             default:
