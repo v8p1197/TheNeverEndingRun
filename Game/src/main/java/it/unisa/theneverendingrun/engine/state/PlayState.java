@@ -69,12 +69,14 @@ public class PlayState extends GameState implements MetersListener, ScoreListene
     private boolean paused;
 
     private int screenWidth;
+    private int screenHeight;
 
 
     public PlayState(GameEngine game) {
         super(game);
         meters = MeterEditor.INITIAL_METERS;
         screenWidth = Gdx.graphics.getWidth();
+        screenHeight = Gdx.graphics.getHeight();
     }
 
     @Override
@@ -85,7 +87,7 @@ public class PlayState extends GameState implements MetersListener, ScoreListene
 
         addedSprites = new LinkedList<>();
 
-        gameFactory = new ForestFactory(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        gameFactory = new ForestFactory();
         background = gameFactory.createBackground();
         hero = gameFactory.createHero();
 
@@ -102,7 +104,7 @@ public class PlayState extends GameState implements MetersListener, ScoreListene
         var spawnProbabilityDifficultyListener = new SpawnProbabilityDifficultyListener();
         difficultyMetersListener.getEventManager().subscribe(DifficultyEventType.LEVEL_CHANGED, spawnProbabilityDifficultyListener);
 
-        positioning = new SpritePositioning(hero, screenWidth, gameFactory);
+        positioning = new SpritePositioning(hero, screenWidth, screenHeight, gameFactory);
         spawnProbabilityDifficultyListener.getEventManager()
                 .subscribe(SpawnProbabilityEventType.SPAWN_PROBABILITY_CHANGED, positioning);
 
