@@ -15,7 +15,6 @@ public class MultiplierPowerUpMetersListener implements MetersListener {
         multiplier = 1;
     }
 
-
     private static class MultiplierPowerUpMetersListenerHolder {
         public static MultiplierPowerUpMetersListener instance = new MultiplierPowerUpMetersListener();
     }
