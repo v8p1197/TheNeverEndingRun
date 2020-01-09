@@ -13,12 +13,15 @@ import it.unisa.theneverendingrun.models.hero.state.move.*;
 import it.unisa.theneverendingrun.utilities.MathUtils;
 
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Hero extends Sprite implements Animatable {
 
 
     /* ------------------------------------- PARAMS ------------------------------------- */
 
+    private static final Logger logger = Logger.getLogger(Hero.class.getName());
 
     /**
      * The number of steps the hero takes to jump
@@ -462,7 +465,8 @@ public class Hero extends Sprite implements Animatable {
                 this.previousMoveState = this.moveState.clone();
             this.moveState = moveState;
         } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Impossible to clone state", e);
+            System.exit(3);
         }
     }
 
