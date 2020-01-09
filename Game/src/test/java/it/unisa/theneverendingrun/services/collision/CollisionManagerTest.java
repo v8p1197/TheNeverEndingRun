@@ -19,7 +19,7 @@ public class CollisionManagerTest {
     @Before
     public void setUp() throws Exception {
 
-        forestFactory = new ForestFactory(width, height);
+        forestFactory = new ForestFactory();
         hero = forestFactory.createHero();
 
     }

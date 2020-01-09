@@ -16,7 +16,7 @@ import static org.junit.Assert.*;
 @RunWith(GdxTestRunner.class)
 public class AbstractHeroTest {
 
-    private GameFactory factory = new ForestFactory(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+    private GameFactory factory = new ForestFactory();
     private Hero hero = factory.createHero();
 
     private static void assertEqualsDouble(double expected, double actual) {

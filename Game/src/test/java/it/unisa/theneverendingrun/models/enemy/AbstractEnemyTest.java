@@ -17,7 +17,7 @@ import static org.junit.Assert.assertTrue;
 @RunWith(GdxTestRunner.class)
 public class AbstractEnemyTest {
 
-    private GameFactory factory = new ForestFactory(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+    private GameFactory factory = new ForestFactory();
     private Enemy enemy;
 
     @Before

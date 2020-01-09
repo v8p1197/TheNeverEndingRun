@@ -28,9 +28,9 @@ public class SpritePositioningTest {
 
     @Before
     public void init() {
-        factory = new ForestFactory(SCREEN_WIDTH, SCREEN_HEIGHT);
+        factory = new ForestFactory();
         hero = factory.createHero();
-        spritePositioning = new SpritePositioning(hero, SCREEN_WIDTH, factory);
+        spritePositioning = new SpritePositioning(hero, SCREEN_WIDTH, SCREEN_HEIGHT, factory);
     }
 
 
