@@ -8,9 +8,9 @@ public class CreateJumpablePowerUpTemplate extends AbstractCreateSpriteTemplate 
 
     private float maxValue;
 
-    public CreateJumpablePowerUpTemplate(GameFactory factory, float maxValue) {
+    public CreateJumpablePowerUpTemplate(GameFactory factory, float maxHeight) {
         super(factory);
-        this.maxValue = maxValue;
+        this.maxValue = maxHeight;
     }
 
     @Override

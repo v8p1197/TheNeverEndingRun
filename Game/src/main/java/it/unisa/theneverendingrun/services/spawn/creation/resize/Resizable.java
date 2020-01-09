@@ -13,7 +13,10 @@ public interface Resizable {
             var min = maxValue * 0.65 - 1;
             var max = maxValue * 0.95 - 1;
 
-            var newValue = (float) ThreadLocalRandom.current().nextDouble(min, max);
+            var newValue = maxValue - 1;
+            if (min < max)
+                newValue = (float) ThreadLocalRandom.current().nextDouble(min, max);
+
             strategy.setResizedValue(sprite, newValue);
         }
     }
@@ -24,7 +27,10 @@ public interface Resizable {
         var min = maxValue * 0.65 - 1;
         var max = maxValue * 0.95 - 1;
 
-        var newValue = (float) ThreadLocalRandom.current().nextDouble(min, max);
+        var newValue = spriteValue;
+        if (min < max)
+            newValue = (float) ThreadLocalRandom.current().nextDouble(min, max);
+
         strategy.setResizedValue(sprite, newValue);
     }
 

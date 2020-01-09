@@ -8,9 +8,9 @@ public class CreateJumpableEnemyTemplate extends AbstractCreateSpriteTemplate {
 
     private float maxValue;
 
-    public CreateJumpableEnemyTemplate(GameFactory factory, float maxValue) {
+    public CreateJumpableEnemyTemplate(GameFactory factory, float maxHeight) {
         super(factory);
-        this.maxValue = maxValue;
+        this.maxValue = maxHeight;
     }
 
     @Override

@@ -11,28 +11,33 @@ import it.unisa.theneverendingrun.services.spawn.creation.commands.CreateSpriteC
 import it.unisa.theneverendingrun.services.spawn.observer.SpawnProbabilityDifficultyListener;
 import it.unisa.theneverendingrun.services.spawn.observer.SpawnProbabilityEventType;
 import it.unisa.theneverendingrun.services.spawn.observer.SpawnProbabilityListener;
+import it.unisa.theneverendingrun.services.speed.SpeedDifficultyListener;
+import it.unisa.theneverendingrun.services.speed.SpeedEventType;
+import it.unisa.theneverendingrun.services.speed.SpeedListener;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-public class SpritePositioning implements SpawnProbabilityListener{
+public class SpritePositioning implements SpawnProbabilityListener, SpeedListener {
 
+    private GameFactory gameFactory;
     private final Hero hero;
-    private final CreateSpriteCommand commandSlide;
-    private final CreateSpriteCommand commandSlideJump;
-    private final CreateSpriteCommand commandJump;
+
     private float maxWidth;
+    private float maxHeight;
+
+    private float speed;
 
     private Sprite lastSprite = null;
     private SpriteType lastSpriteType = null;
     private int spawnProbability;
 
     public SpritePositioning(Hero hero, float maxWidth, float maxHeight, GameFactory factory) {
+        this.gameFactory = factory;
         this.hero = hero;
         this.maxWidth = maxWidth;
-        this.commandSlide = new CreateSlidableCommand(factory, hero.getMaxSlideRange(), maxHeight);
-        this.commandSlideJump = new CreateSlidableJumpableCommand(factory, hero.getMaxSlideRange(), hero.getJumpMaxElevation());
-        this.commandJump = new CreateJumpableCommand(factory, hero.getJumpMaxElevation());
+        this.maxHeight = maxHeight;
         this.spawnProbability = SpawnProbabilityDifficultyListener.INITIAL_SPAWN_PROBABILITY;
+        this.speed = SpeedDifficultyListener.INITIAL_SPEED;
     }
 
 
@@ -55,13 +60,13 @@ public class SpritePositioning implements SpawnProbabilityListener{
         Sprite newSprite;
         switch (newSpriteType){
             case JUMPABLE:
-                newSprite = commandJump.execute();
+                newSprite = new CreateJumpableCommand(gameFactory, speed, hero.getJumpMaxElevation()).execute();
                 break;
             case SLIDABLE:
-                newSprite = commandSlide.execute();
+                newSprite = new CreateSlidableCommand(gameFactory, hero.getMaxSlideRange()*speed, maxHeight).execute();
                 break;
             case JUMPABLE_SLIDABLE:
-                newSprite = commandSlideJump.execute();
+                newSprite = new CreateSlidableJumpableCommand(gameFactory, hero.getMaxSlideRange()*speed, hero.getJumpMaxElevation()).execute();
                 break;
             default:
                 return null;
@@ -154,5 +159,17 @@ public class SpritePositioning implements SpawnProbabilityListener{
         if(eventType == SpawnProbabilityEventType.SPAWN_PROBABILITY_CHANGED){
             this.spawnProbability = spawnProbability;
         }
+    }
+
+    /**
+     * The {@link SpeedListener} listener reaction when the observed variable {@code speed} changes
+     *
+     * @param eventType the updated topic related
+     * @param speed     the new value for the observed variable
+     */
+    @Override
+    public void update(SpeedEventType eventType, float speed) {
+        if (eventType == SpeedEventType.SPEED_CHANGED)
+            this.speed = speed;
     }
 }

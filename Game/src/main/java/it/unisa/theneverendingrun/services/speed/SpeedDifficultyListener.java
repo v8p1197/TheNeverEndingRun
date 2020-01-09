@@ -13,7 +13,7 @@ public class SpeedDifficultyListener implements DifficultyListener {
 
     /**
      *
-     * {@link SpeedDifficultyListener#speed} field increases by DIFFICULTY_FACTOR each
+     * {@link SpeedDifficultyListener#speed} field increases by SPEED_FACTOR each
      * {@link SpeedDifficultyListener#DIFFICULTY_DELTA} difficulty levels
      */
     public static final float SPEED_FACTOR = 0.3f;

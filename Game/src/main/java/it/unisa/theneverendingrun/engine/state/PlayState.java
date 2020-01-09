@@ -107,6 +107,7 @@ public class PlayState extends GameState implements MetersListener, ScoreListene
         positioning = new SpritePositioning(hero, screenWidth, screenHeight, gameFactory);
         spawnProbabilityDifficultyListener.getEventManager()
                 .subscribe(SpawnProbabilityEventType.SPAWN_PROBABILITY_CHANGED, positioning);
+        speedDifficultyListener.getEventManager().subscribe(SpeedEventType.SPEED_CHANGED, positioning);
 
         /* SCORE */
         StreamFactory streamFactory = new FileStreamFactory("best.dat");

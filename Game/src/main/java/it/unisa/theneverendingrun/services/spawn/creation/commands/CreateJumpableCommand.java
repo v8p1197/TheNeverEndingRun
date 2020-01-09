@@ -20,11 +20,11 @@ public class CreateJumpableCommand extends CreateSpriteCommand {
     private AbstractCreateSpriteTemplate powerJumpTemplate;
     private AbstractCreateSpriteTemplate obstacleJumpTemplate;
 
-    public CreateJumpableCommand(GameFactory gameFactory, float maxHeight) {
+    public CreateJumpableCommand(GameFactory gameFactory, float maxWidth, float maxHeight) {
         super(gameFactory);
         enemyJumpTemplate = new CreateJumpableEnemyTemplate(gameFactory, maxHeight);
         powerJumpTemplate = new CreateJumpablePowerUpTemplate(gameFactory, maxHeight);
-        obstacleJumpTemplate = new CreateJumpableObstacleTemplate(gameFactory, maxHeight);
+        obstacleJumpTemplate = new CreateJumpableObstacleTemplate(gameFactory, maxWidth, maxHeight);
         createTemplates = Arrays.asList(enemyJumpTemplate, powerJumpTemplate, obstacleJumpTemplate);
     }
 
