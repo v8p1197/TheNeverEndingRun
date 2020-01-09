@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import java.util.Map;
 
-public abstract class EnemyState {
+public abstract class EnemyState implements Cloneable {
 
     /**
      *
@@ -89,4 +89,8 @@ public abstract class EnemyState {
      */
     protected abstract EnemyStateType getEnemyType();
 
+    @Override
+    public EnemyState clone() throws CloneNotSupportedException {
+        return (EnemyState)super.clone();
+    }
 }

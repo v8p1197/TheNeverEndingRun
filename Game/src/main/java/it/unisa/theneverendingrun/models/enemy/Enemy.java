@@ -11,6 +11,8 @@ import it.unisa.theneverendingrun.models.enemy.state.EnemyDeadState;
 import it.unisa.theneverendingrun.models.enemy.state.EnemyIdleState;
 
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -20,6 +22,9 @@ public class Enemy extends Sprite implements Animatable {
 
 
     /* ------------------------------------- PARAMS ------------------------------------- */
+
+    private static final Logger logger = Logger.getLogger(Sprite.class.getName());
+
 
     /**
      *
@@ -123,8 +128,17 @@ public class Enemy extends Sprite implements Animatable {
      * @param state the enemy state
      */
     public void changeEnemyState(EnemyState state) {
-        this.prevState = this.state;
-        this.state = state;
+        try {
+            if (this.state != null)
+                this.prevState = this.state.clone();
+            this.state = state;
+        } catch (CloneNotSupportedException e) {
+            logger.log(Level.SEVERE, "Impossible to clone prevState", e);
+            //TODO: exit
+
+            /* System.exit(4) */
+            /* For now not exist because prevState is not used  */
+        }
     }
 
 
