@@ -1,6 +1,6 @@
-package it.unisa.theneverendingrun.services.strategies.impls;
+package it.unisa.theneverendingrun.engine.state.info.strategies.impls;
 
-import it.unisa.theneverendingrun.services.strategies.KeyStrategy;
+import it.unisa.theneverendingrun.engine.state.info.strategies.KeyStrategy;
 
 /**
  * This Strategy defines how to visit a collection of items when the (ex. UP (or W)) is pressed

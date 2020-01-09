@@ -1,4 +1,4 @@
-package it.unisa.theneverendingrun.services.strategies;
+package it.unisa.theneverendingrun.engine.state.info.strategies;
 
 /**
  * This Strategy defines how to visit a collection of items when a key (ex. UP or DOWN) is pressed

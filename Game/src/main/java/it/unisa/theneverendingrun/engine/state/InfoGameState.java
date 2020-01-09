@@ -7,9 +7,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import it.unisa.theneverendingrun.engine.GameEngine;
 import it.unisa.theneverendingrun.engine.GameState;
 import it.unisa.theneverendingrun.models.background.Background;
-import it.unisa.theneverendingrun.services.strategies.KeyStrategy;
-import it.unisa.theneverendingrun.services.strategies.impls.NextKeyStrategy;
-import it.unisa.theneverendingrun.services.strategies.impls.PreviousKeyStrategy;
+import it.unisa.theneverendingrun.engine.state.info.strategies.KeyStrategy;
+import it.unisa.theneverendingrun.engine.state.info.strategies.impls.NextKeyStrategy;
+import it.unisa.theneverendingrun.engine.state.info.strategies.impls.PreviousKeyStrategy;
 import it.unisa.theneverendingrun.ui.controls.InteractiveTextButton;
 import org.mini2Dx.core.graphics.Graphics;
 

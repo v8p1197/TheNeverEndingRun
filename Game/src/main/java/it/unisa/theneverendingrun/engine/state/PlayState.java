@@ -37,6 +37,8 @@ import org.mini2Dx.core.graphics.Graphics;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * In this state the game has started, so the user plays the run
