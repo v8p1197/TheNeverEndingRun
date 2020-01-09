@@ -19,8 +19,8 @@ public class CreateJumpableSlidableObstacleTemplate extends AbstractCreateSprite
 
     @Override
     protected void resize(Sprite sprite) {
-        alwaysResize(sprite, maxHeight, new HeightResizeStrategy());
-        alwaysResize(sprite, maxWidth, new WidthResizeStrategy());
+        resize(sprite, maxHeight, new HeightResizeStrategy());
+        resize(sprite, maxWidth, new WidthResizeStrategy());
     }
 
     @Override

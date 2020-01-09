@@ -10,8 +10,8 @@ public interface Resizable {
         var spriteValue = strategy.getCurrentValue(sprite);
 
         if (spriteValue <= 0 || spriteValue >= maxValue) {
-            var min = spriteValue * 0.5 - 1;
-            var max = spriteValue - 1;
+            var min = maxValue * 0.65 - 1;
+            var max = maxValue * 0.95 - 1;
 
             var newValue = (float) ThreadLocalRandom.current().nextDouble(min, max);
             strategy.setResizedValue(sprite, newValue);
@@ -21,8 +21,8 @@ public interface Resizable {
     default void alwaysResize(Sprite sprite, float maxValue, ResizeStrategy strategy) {
         var spriteValue = strategy.getCurrentValue(sprite);
 
-        var min = spriteValue * 0.5 - 1;
-        var max = spriteValue - 1;
+        var min = maxValue * 0.65 - 1;
+        var max = maxValue * 0.95 - 1;
 
         var newValue = (float) ThreadLocalRandom.current().nextDouble(min, max);
         strategy.setResizedValue(sprite, newValue);
