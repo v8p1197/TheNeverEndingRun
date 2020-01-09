@@ -19,7 +19,7 @@ public class CreateSlidableObstacleTemplate extends AbstractCreateSpriteTemplate
 
     @Override
     protected void resize(Sprite sprite) {
-        resize(sprite, maxValue, new WidthResizeStrategy());
+        alwaysResize(sprite, maxValue, new WidthResizeStrategy());
         resizeTo(sprite, maxHeight, new HeightResizeStrategy());
     }
 

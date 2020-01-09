@@ -18,8 +18,19 @@ public interface Resizable {
         }
     }
 
+    default void alwaysResize(Sprite sprite, float maxValue, ResizeStrategy strategy) {
+        var spriteValue = strategy.getCurrentValue(sprite);
+
+        var min = spriteValue * 0.5 - 1;
+        var max = spriteValue - 1;
+
+        var newValue = (float) ThreadLocalRandom.current().nextDouble(min, max);
+        strategy.setResizedValue(sprite, newValue);
+    }
+
     default void resizeTo(Sprite sprite, float toSize, ResizeStrategy strategy) {
         if (strategy.getCurrentValue(sprite) != toSize)
             strategy.setResizedValue(sprite, toSize);
     }
+
 }
