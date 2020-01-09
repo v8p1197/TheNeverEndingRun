@@ -2,9 +2,9 @@ package it.unisa.theneverendingrun.services.spawn.creation.commands;
 
 import it.unisa.theneverendingrun.models.Sprite;
 import it.unisa.theneverendingrun.services.factories.GameFactory;
-import it.unisa.theneverendingrun.services.spawn.creation.CreateCommand;
+import it.unisa.theneverendingrun.services.spawn.Command;
 
-public abstract class CreateSpriteCommand implements CreateCommand<Sprite> {
+public abstract class CreateSpriteCommand implements Command<Sprite> {
 
     protected GameFactory gameFactory;
 

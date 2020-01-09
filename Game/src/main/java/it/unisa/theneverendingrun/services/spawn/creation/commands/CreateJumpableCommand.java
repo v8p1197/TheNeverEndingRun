@@ -2,7 +2,7 @@ package it.unisa.theneverendingrun.services.spawn.creation.commands;
 
 import it.unisa.theneverendingrun.models.Sprite;
 import it.unisa.theneverendingrun.services.factories.GameFactory;
-import it.unisa.theneverendingrun.services.spawn.creation.AbstractCreateTemplate;
+import it.unisa.theneverendingrun.services.spawn.creation.templates.AbstractCreateSpriteTemplate;
 import it.unisa.theneverendingrun.services.spawn.creation.templates.CreateJumpableEnemyTemplate;
 import it.unisa.theneverendingrun.services.spawn.creation.templates.CreateJumpableObstacleTemplate;
 import it.unisa.theneverendingrun.services.spawn.creation.templates.CreateJumpablePowerUpTemplate;
@@ -14,24 +14,24 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class CreateJumpableCommand extends CreateSpriteCommand {
 
-    private List<AbstractCreateTemplate> createTemplates;
+    private List<AbstractCreateSpriteTemplate> createTemplates;
 
-    private CreateJumpableEnemyTemplate enemyJumpTemplate;
-    private CreateJumpablePowerUpTemplate powerJumpTemplate;
-    private CreateJumpableObstacleTemplate obstacleJumpTemplate;
+    private AbstractCreateSpriteTemplate enemyJumpTemplate;
+    private AbstractCreateSpriteTemplate powerJumpTemplate;
+    private AbstractCreateSpriteTemplate obstacleJumpTemplate;
 
-    public CreateJumpableCommand(GameFactory gameFactory) {
+    public CreateJumpableCommand(GameFactory gameFactory, float maxHeight) {
         super(gameFactory);
-        enemyJumpTemplate = new CreateJumpableEnemyTemplate(gameFactory);
-        powerJumpTemplate = new CreateJumpablePowerUpTemplate(gameFactory);
-        obstacleJumpTemplate = new CreateJumpableObstacleTemplate(gameFactory);
+        enemyJumpTemplate = new CreateJumpableEnemyTemplate(gameFactory, maxHeight);
+        powerJumpTemplate = new CreateJumpablePowerUpTemplate(gameFactory, maxHeight);
+        obstacleJumpTemplate = new CreateJumpableObstacleTemplate(gameFactory, maxHeight);
         createTemplates = Arrays.asList(enemyJumpTemplate, powerJumpTemplate, obstacleJumpTemplate);
     }
 
     @Override
-    public Sprite create() {
+    public Sprite execute() {
         Collections.shuffle(createTemplates);
-        double random = ThreadLocalRandom.current().nextDouble(0, 1);
+        var random = ThreadLocalRandom.current().nextDouble(0, 1);
         if (random <= 0.2){
             return powerJumpTemplate.create();
         }
