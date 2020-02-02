@@ -142,7 +142,7 @@ public class SpritePositioning implements SpawnProbabilityListener, SpeedListene
         }
 
         // If the obstacle is distant enough, it is possible to add every type of obstacle
-        if (distance >= hero.getStandardWidth() + hero.getMaxSlideRange() * speed) {
+        if (distance >= (hero.getStandardWidth() + hero.getMaxSlideRange()) * speed) {
             if (ThreadLocalRandom.current().nextInt() % spawnProbability == 0) {
                 int random = ThreadLocalRandom.current().nextInt(0, SpriteType.values().length);
                 return SpriteType.values()[random];

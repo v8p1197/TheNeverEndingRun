@@ -69,7 +69,7 @@ public class DifficultyEventManager {
      * @param eventType  the topic whose subscribers will be notified
      * @param difficulty the observed parameter, containing its new value
      */
-    public void notify(DifficultyEventType eventType, int difficulty) {
+    protected void notify(DifficultyEventType eventType, int difficulty) {
         var users = listeners.get(eventType);
         if (users != null)
             for (var listener : users)

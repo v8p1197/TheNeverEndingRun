@@ -70,7 +70,7 @@ public class MetersEventManager {
      * @param eventType the topic whose subscribers will be notified
      * @param meters    the observed parameter, containing its new value
      */
-    public void notify(MetersEventType eventType, int meters) {
+    protected void notify(MetersEventType eventType, int meters) {
         var users = listeners.get(eventType);
         if (users != null)
             for (var listener : users) {
